@@ -5,7 +5,7 @@ parts:
   - caption: Night Time Lights
     chapters:
       - file: ch1_lights
-      - file: notebooks/Cloud_Analysis
+      # - file: notebooks/Cloud_Analysis
     #   - file: notebooks/map_test.html
   - caption: Additional Resources
     chapters:
