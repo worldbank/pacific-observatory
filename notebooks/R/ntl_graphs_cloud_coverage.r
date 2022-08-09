@@ -41,7 +41,7 @@ for (country in unique(df$WB_ADM0_NA)) {
                                               paste(month(x, label = TRUE), "\n", year(x)), 
                                               paste(month(x, label = TRUE)))
     ) +
-    theme_minimal()
+    theme_ipsum_rc()
   plt
   country <- gsub(" ", "-", country)
   ggsave(paste0("../../docs/images/ntl_cloud_coverage/", country, ".jpeg"), width = 10, height = 6)
@@ -68,5 +68,5 @@ plt <- ggplot(data=df.filt, aes(x=date, y=pct_inv)) +
                                             paste(month(x, label = TRUE), "\n", year(x)), 
                                             paste(month(x, label = TRUE)))
   ) +
-  theme_minimal()
+  theme_ipsum()
 plt

@@ -89,3 +89,4 @@ target/
 *.Rhistory
 notebooks/R/.Rproj.user/
 notebooks/R/.Rhistory
+.Rproj.user
