@@ -1,10 +1,10 @@
 # Book settings
-title:
+title: Pacific Observatory
 author: World Bank
 logo: images/logo.png
 
 repository:
-    url: https://github.com/datapartnership/template
+    url: https://github.com/andresfchamorro/pacific-observatory
     branch: main
 
 html:
@@ -12,4 +12,7 @@ html:
     use_edit_page_button: true
     use_repository_button: true
     use_issues_button: true
-    baseurl: https://github.com/datapartnership/template
+    baseurl: https://github.com/andresfchamorro/pacific-observatory
+
+execute:
+  execute_notebooks: 'off'

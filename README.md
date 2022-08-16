@@ -1,41 +1,30 @@
-# Project Template
+# Pacific Observatory
 
-The `template` creates a [project structure](#what-s-inside) with an out-of-the-box documentation with [Jupyter Book](https://jupyterbook.org/intro.html) that can be published automatically on [GitHub Pages](https://pages.github.com). In addition, the `template` configures [issue templates](https://github.com/datapartnership/template/issues/new/choose) (e.g., **Bug report** and **Feature request**) on your new repository to encourage collaboration.
+The Pacific Observatory is the World Bank analytical program to explore and develop new information sources to mitigate the impact of data gaps in official statistics for Papua New Guinea (PNG) and the Pacific Island Countries (PICs).
 
-> **See a [live demo](https://datapartnership.github.io/template/).**
+This repository hosts the team's efforts to investigate how alternative data sources can be used to generate economic and sector statistics through cost-effective methods. The goal is to assess whether new data sources can produce indicators that are timely, have higher frequency and granularity.
 
-## Getting Started
+The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and technical notes.
 
-This repository is a [GitHub template](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template). Thus, [use this template](https://github.com/worldbank/template/generate) to recreate the same directory structure and files for your project.
+## Research Topics
 
-### What's Inside
+🔖 **Night Time Lights Applications**
+> This sections explores socio-economic applications with Night Time Lights data.  
+Are lights at night a good proxy for economic activity?  
+Can lights be used to aid poverty mapping, estimate access to electrification, or examine recovery from disasters or pandemic impacts?
 
-Following is a suggested project structure inspired by a simplified [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/).
+🔖 **Market Prices Imputation**
+> This section introduces a machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
 
-```markdown
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data               <  Placehodlder. IMPORTANT: Data must not be commited to GitHub
-    ├── docs               <- Jupyter Book
-        ├── __config.yml   <- Jupyter Book configuration
-    │   └── _toc.yml       <- Jupyter Book table of contents
-    ├── notebooks          <- Jupyter notebooks
-        ├── 00-data.ipynb  <- Jupyter notebook example
-        ├── 01-eda.ipynb   <- Jupyter notebook example
-        └── 02-train.ipynb <- Jupyter notebook example
-    ├── Makefile           <- Makefile with commands like `make docs` or `make data`
-    ├── requirements.txt   <- Python requirements
-    └── LICENSE
-```
+🔖 **Automatic Identification System (AIS)**
+> This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
 
-### Setting up the documentation with Jupyter Book
+🔖 **Crop Mapping**
+> Creating new crop masks with limited training data and satellite imagery.  
+> Developing a sub-national database of climate indicators.
 
-The `template` offers a boilerplate of a [Jupyter Book](https://jupyterbook.org/intro.html). When ready to publish, all you need to do is edit the `docs/_toc.yml` that controls the table of contents for your book. Make sure to [configure the publishing source](https://docs.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) as `gh-pages`.
-
-Voilà! On every commit to the `main` branch, your book will be automatically published to [GitHub Pages](https://pages.github.com). Please consult the [Jupyter Book documentation](https://jupyterbook.org/customize/toc.html) for more options and parameters.
-
-```{important}
-Your project's Jupyter Book will be publicly available **DO NOT** include any portion and remember to comply to your organization's data privacy policy.
-```
+🔖 **Aviation Statistics**
+> Developing a sub-national database of climate indicators.
 
 ## Additional Resources
 
@@ -50,4 +39,4 @@ Your project's Jupyter Book will be publicly available **DO NOT** include any po
 
 ## License
 
-Remember to include a [license](LICENSE). If open source, [choose an open source license](https://choosealicense.com).
+Materials under this repository are open-source under an [MIT license](LICENSE). The community is invited to test, adapt, and re-purpose materials as needed.
