@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Project Template</title>
+    <title>Data Quality Assessment &#8212; Pacific Observatory</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -21,7 +21,7 @@
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -37,7 +37,7 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -50,7 +50,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://github.com/datapartnership/template/README.html" />
+    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch1_data_quality.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -96,6 +96,8 @@ const thebe_selector_output = ".output, .cell_output"
       <img src="_static/logo.png" class="logo" alt="logo">
       
       
+      <h1 class="site-logo" id="site-title">Pacific Observatory</h1>
+      
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
@@ -104,13 +106,30 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
-                    Project Template
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Pacific Observatory
                 </a>
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Night Time Lights
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch1_lights.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks/Cloud_Analysis.html">
+   Cloud Coverage Analysis
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Additional Resources
  </span>
@@ -199,7 +218,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://github.com/datapartnership/template"
+        <a href="https://github.com/andresfchamorro/pacific-observatory"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -216,7 +235,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/datapartnership/template/issues/new?title=Issue%20on%20page%20%2FREADME.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch1_data_quality.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -233,7 +252,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/datapartnership/template/edit/main/README.md"
+        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch1_data_quality.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -261,7 +280,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/README.md"
+        <a href="_sources/ch1_data_quality.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -321,30 +340,13 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#getting-started">
-   Getting Started
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-s-inside">
-     What’s Inside
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setting-up-the-documentation-with-jupyter-book">
-     Setting up the documentation with Jupyter Book
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#additional-resources">
-   Additional Resources
+  <a class="reference internal nav-link" href="#luminosity-values">
+   Luminosity Values
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#license">
-   License
+  <a class="reference internal nav-link" href="#cloud-coverage-by-country">
+   Cloud Coverage by Country
   </a>
  </li>
 </ul>
@@ -356,7 +358,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Project Template</h1>
+                <h1>Data Quality Assessment</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -367,30 +369,13 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#getting-started">
-   Getting Started
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-s-inside">
-     What’s Inside
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setting-up-the-documentation-with-jupyter-book">
-     Setting up the documentation with Jupyter Book
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#additional-resources">
-   Additional Resources
+  <a class="reference internal nav-link" href="#luminosity-values">
+   Luminosity Values
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#license">
-   License
+  <a class="reference internal nav-link" href="#cloud-coverage-by-country">
+   Cloud Coverage by Country
   </a>
  </li>
 </ul>
@@ -403,69 +388,140 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="project-template">
-<h1>Project Template<a class="headerlink" href="#project-template" title="Permalink to this headline">#</a></h1>
-<p>The <code class="docutils literal notranslate"><span class="pre">template</span></code> creates a <a class="reference external" href="#what-s-inside">project structure</a> with an out-of-the-box documentation with <a class="reference external" href="https://jupyterbook.org/intro.html">Jupyter Book</a> that can be published automatically on <a class="reference external" href="https://pages.github.com">GitHub Pages</a>. In addition, the <code class="docutils literal notranslate"><span class="pre">template</span></code> configures <a class="reference external" href="https://github.com/datapartnership/template/issues/new/choose">issue templates</a> (e.g., <strong>Bug report</strong> and <strong>Feature request</strong>) on your new repository to encourage collaboration.</p>
-<blockquote>
-<div><p><strong>See a <a class="reference external" href="https://datapartnership.github.io/template/">live demo</a>.</strong></p>
-</div></blockquote>
-<section id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">#</a></h2>
-<p>This repository is a <a class="reference external" href="https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template">GitHub template</a>. Thus, <a class="reference external" href="https://github.com/worldbank/template/generate">use this template</a> to recreate the same directory structure and files for your project.</p>
-<section id="what-s-inside">
-<h3>What’s Inside<a class="headerlink" href="#what-s-inside" title="Permalink to this headline">#</a></h3>
-<p>Following is a suggested project structure inspired by a simplified <a class="reference external" href="https://drivendata.github.io/cookiecutter-data-science/">Cookiecutter Data Science</a>.</p>
-<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>    ├── README.md          &lt;- The top-level README for developers using this project.
-    ├── data               &lt;  Placehodlder. IMPORTANT: Data must not be commited to GitHub
-    ├── docs               &lt;- Jupyter Book
-        ├── __config.yml   &lt;- Jupyter Book configuration
-    │   └── _toc.yml       &lt;- Jupyter Book table of contents
-    ├── notebooks          &lt;- Jupyter notebooks
-        ├── 00-data.ipynb  &lt;- Jupyter notebook example
-        ├── 01-eda.ipynb   &lt;- Jupyter notebook example
-        └── 02-train.ipynb &lt;- Jupyter notebook example
-    ├── Makefile           &lt;- Makefile with commands like <span class="sb">`make docs`</span> or <span class="sb">`make data`</span>
-    ├── requirements.txt   &lt;- Python requirements
-    └── LICENSE
-</pre></div>
+  <section class="tex2jax_ignore mathjax_ignore" id="data-quality-assessment">
+<h1>Data Quality Assessment<a class="headerlink" href="#data-quality-assessment" title="Permalink to this headline">#</a></h1>
+<section id="luminosity-values">
+<h2>Luminosity Values<a class="headerlink" href="#luminosity-values" title="Permalink to this headline">#</a></h2>
+<p>This first set of figures presents nighttime lights composites from 2021 for the Pacific Islands, generated through Google Earth Engine by averaging non-cloudy observations.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="ef64437f-10f5-44bb-bebd-4c72347fb9aa" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="ef64437f-10f5-44bb-bebd-4c72347fb9aa">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/PNG.jpg" /></p>
+</div>
+<input id="9db5a0c5-db96-43a9-96f7-39d904556326" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="9db5a0c5-db96-43a9-96f7-39d904556326">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/FSM.jpg" /></p>
+</div>
+<input id="d3a00a92-6c24-4de8-97a2-38eb37fa4c74" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="d3a00a92-6c24-4de8-97a2-38eb37fa4c74">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/FJI.jpg" /></p>
+</div>
+<input id="6e362e6a-2c81-4b76-bf17-5640c2ff78e3" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="6e362e6a-2c81-4b76-bf17-5640c2ff78e3">
+Kiribati</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/KIR.jpg" /></p>
+</div>
+<input id="22fa607d-62a0-4939-abff-9cbd4ee0f119" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="22fa607d-62a0-4939-abff-9cbd4ee0f119">
+Marshall Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/MHL.jpg" /></p>
+</div>
+<input id="fb2f7972-cd2c-4e87-889a-93b27d88f75a" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="fb2f7972-cd2c-4e87-889a-93b27d88f75a">
+Nauru</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/NRU.jpg" /></p>
+</div>
+<input id="6f0050b6-a117-4c65-8b7d-5a12d1656cdc" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="6f0050b6-a117-4c65-8b7d-5a12d1656cdc">
+Palau</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Palau.jpg" /></p>
+</div>
+<input id="753c9f7f-a5cf-4c66-b2e2-d94f6b711368" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="753c9f7f-a5cf-4c66-b2e2-d94f6b711368">
+Samoa</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Samoa.jpg" /></p>
+</div>
+<input id="e118804a-277b-4024-80b2-1b629596b772" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="e118804a-277b-4024-80b2-1b629596b772">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Solomon.jpg" /></p>
+</div>
+<input id="ae7b5f08-4796-4d45-9ef4-abad2734a4d8" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="ae7b5f08-4796-4d45-9ef4-abad2734a4d8">
+Tonga</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tonga.jpg" /></p>
+</div>
+<input id="86525e66-4db8-4f8d-ad64-c08c7966102b" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="86525e66-4db8-4f8d-ad64-c08c7966102b">
+Tuvalu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tuvalu.jpg" /></p>
+</div>
+<input id="04e22800-6f80-4f3a-b6ba-7b1ef2e9a6ee" name="9d5a83a1-7f40-4644-856f-c32608481595" type="radio">
+</input><label class="sd-tab-label" for="04e22800-6f80-4f3a-b6ba-7b1ef2e9a6ee">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Vanuatu.jpg" /></p>
+</div>
 </div>
 </section>
-<section id="setting-up-the-documentation-with-jupyter-book">
-<h3>Setting up the documentation with Jupyter Book<a class="headerlink" href="#setting-up-the-documentation-with-jupyter-book" title="Permalink to this headline">#</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">template</span></code> offers a boilerplate of a <a class="reference external" href="https://jupyterbook.org/intro.html">Jupyter Book</a>. When ready to publish, all you need to do is edit the <code class="docutils literal notranslate"><span class="pre">docs/_toc.yml</span></code> that controls the table of contents for your book. Make sure to <a class="reference external" href="https://docs.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">configure the publishing source</a> as <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>.</p>
-<p>Voilà! On every commit to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch, your book will be automatically published to <a class="reference external" href="https://pages.github.com">GitHub Pages</a>. Please consult the <a class="reference external" href="https://jupyterbook.org/customize/toc.html">Jupyter Book documentation</a> for more options and parameters.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>Your project’s Jupyter Book will be publicly available <strong>DO NOT</strong> include any portion and remember to comply to your organization’s data privacy policy.</p>
+<section id="cloud-coverage-by-country">
+<h2>Cloud Coverage by Country<a class="headerlink" href="#cloud-coverage-by-country" title="Permalink to this headline">#</a></h2>
+<p>This second set of figures examines the number of pixels that contain invalid light measurements due to clouds.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="0286969a-d5ab-4dbe-9e9d-a0959361f1d3" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="0286969a-d5ab-4dbe-9e9d-a0959361f1d3">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Papua-New-Guinea.jpeg" /></p>
+</div>
+<input id="ef09c5fe-1df0-4fc4-a9e0-106e30991b82" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="ef09c5fe-1df0-4fc4-a9e0-106e30991b82">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Federated-States-of-Micronesia.jpeg" /></p>
+</div>
+<input id="399b94c4-c351-4c58-94df-d66252fcfb30" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="399b94c4-c351-4c58-94df-d66252fcfb30">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Fiji.jpeg" /></p>
+</div>
+<input id="00872dab-9b4b-43ec-b649-08158d73c9d0" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="00872dab-9b4b-43ec-b649-08158d73c9d0">
+Kiribati</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Kiribati.jpeg" /></p>
+</div>
+<input id="cf3f9f2f-61c5-4b51-8904-33438823c2c4" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="cf3f9f2f-61c5-4b51-8904-33438823c2c4">
+Marshall Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Marshall-Islands.jpeg" /></p>
+</div>
+<input id="fe61a1d2-baa0-4aab-8730-5a055f1a35d7" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="fe61a1d2-baa0-4aab-8730-5a055f1a35d7">
+Nauru</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Nauru.jpeg" /></p>
+</div>
+<input id="61baf7aa-9580-48c6-b0ed-f9ee8cdda3f6" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="61baf7aa-9580-48c6-b0ed-f9ee8cdda3f6">
+Palau</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Palau.jpeg" /></p>
+</div>
+<input id="a99a3282-d9b0-48aa-80bd-d6b617c6caf8" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="a99a3282-d9b0-48aa-80bd-d6b617c6caf8">
+Samoa</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Samoa.jpeg" /></p>
+</div>
+<input id="ed6e89c1-5ebb-48db-a404-fa2e27168f1b" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="ed6e89c1-5ebb-48db-a404-fa2e27168f1b">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Solomon-Islands.jpeg" /></p>
+</div>
+<input id="5c2426b0-9caf-469e-b9c7-7bab39ddb957" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="5c2426b0-9caf-469e-b9c7-7bab39ddb957">
+Tonga</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tonga.jpeg" /></p>
+</div>
+<input id="91198d84-b58e-4fb5-80df-c784b2a1c578" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="91198d84-b58e-4fb5-80df-c784b2a1c578">
+Tuvalu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tuvalu.jpeg" /></p>
+</div>
+<input id="61b69a6a-14cf-455d-85c3-ba0dd1c28e2a" name="b320bd56-592b-4b0b-a3f7-86d514a506b0" type="radio">
+</input><label class="sd-tab-label" for="61b69a6a-14cf-455d-85c3-ba0dd1c28e2a">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Vanuatu.jpeg" /></p>
+</div>
 </div>
 </section>
-</section>
-<section id="additional-resources">
-<h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">#</a></h2>
-<ul>
-<li><p><a class="reference external" href="https://worldbank.github.io/dime-data-handbook/">DIME Analytics Data Handbook</a></p>
-<blockquote>
-<div><p>This book is intended to serve as an introduction to the primary tasks required in development research, from experimental design to data collection to data analysis to publication. It serves as a companion to the DIME Wiki and is produced by DIME Analytics.</p>
-</div></blockquote>
-</li>
-<li><p><a class="reference external" href="https://guides.github.com/features/pages/">GitHub Pages</a></p>
-<blockquote>
-<div><p>GitHub Pages are public webpages hosted and easily published through GitHub.</p>
-</div></blockquote>
-</li>
-<li><p><a class="reference external" href="https://jupyterbook.org/intro.html">Jupyter Book</a></p>
-<blockquote>
-<div><p>Jupyter Book is an open source project for building beautiful, publication-quality books and documents from computational material.</p>
-</div></blockquote>
-</li>
-</ul>
-</section>
-<section id="license">
-<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">#</a></h2>
-<p>Remember to include a <span class="xref myst">license</span>. If open source, <a class="reference external" href="https://choosealicense.com">choose an open source license</a>.</p>
-</section>
-<div class="toctree-wrapper compound">
-</div>
 </section>
 
     <script type="text/x-thebe-config">
