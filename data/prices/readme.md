@@ -5,7 +5,11 @@ This is the original excel file with raw survey prices obtained from IFPRI https
 
 This is the CSV version of the required excel file tab.
 
-In R code:
+### PNG_july2022_prices_wc.csv
+
+This is the version of the data with coordinates attached, reformatted so that the Machine Learning Model code here https://github.com/worldbank/Food-Price-Estimation can process the data.
+
+The following R code can convert the csv version of the original data into the reformatted csv. 
 
 ```splus
 library(data.table)
