@@ -85,6 +85,29 @@ fwrite(df, "PNG_july2022_prices_wc.csv")
 
 ```
 
+After preparing the raw data, the following section in the ```main.R``` file of the price imputation code should be changed to read the data:
+
+### Original code
+```splus
+  if("Papua New Guinea" %in% selected_country_list){
+    cat("adding PNG from file")
+    PNG <- read.csv("PNG_dec_prices_wc.csv")
+    PNG$time_id <- NA 
+      rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
+      rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
+  }
+```
+### New code
+```splus
+  if("Papua New Guinea" %in% selected_country_list){
+    cat("adding PNG from file")
+    PNG <- read.csv("PNG_july2022_prices_wc.csv") ##### <---------- Change the name of the file. 
+    PNG$time_id <- NA 
+      rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
+      rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
+  }
+```
+Also make sure that ```splus selected_country_list = "Papua New Guinea"```
 
 🔖 **Automatic Identification System (AIS)**
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
