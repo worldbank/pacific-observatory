@@ -35,7 +35,7 @@ After preparing the raw data, the following section in the ```main.R``` file of 
 ```splus
   if("Papua New Guinea" %in% selected_country_list){
     cat("adding PNG from file")
-    PNG <- read.csv("PNG_dec_prices_wc.csv")
+    PNG <- read.csv("PNG_dec_prices_wc.csv") ##### <---------- Original PNG price data file name. 
     PNG$time_id <- NA 
       rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
@@ -45,7 +45,7 @@ After preparing the raw data, the following section in the ```main.R``` file of 
 ```splus
   if("Papua New Guinea" %in% selected_country_list){
     cat("adding PNG from file")
-    PNG <- read.csv("PNG_july2022_prices_wc.csv") ##### <---------- Change the name of the file. 
+    PNG <- read.csv("PNG_july2022_prices_wc.csv") ##### <---------- Point the code to the new file name. 
     PNG$time_id <- NA 
       rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
