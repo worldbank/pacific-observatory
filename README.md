@@ -107,7 +107,8 @@ After preparing the raw data, the following section in the ```main.R``` file of 
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
   }
 ```
-Also make sure that ```splus
+Also make sure that 
+```splus
 selected_country_list = "Papua New Guinea"
 ```
 
