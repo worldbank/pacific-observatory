@@ -107,7 +107,9 @@ After preparing the raw data, the following section in the ```main.R``` file of 
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
   }
 ```
-Also make sure that ```splus selected_country_list = "Papua New Guinea"```
+Also make sure that ```splus
+selected_country_list = "Papua New Guinea"
+```
 
 🔖 **Automatic Identification System (AIS)**
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
