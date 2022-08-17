@@ -6,6 +6,8 @@ This repository hosts the team's efforts to investigate how alternative data sou
 
 The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and technical notes.
 
+![Logo](https://github.com/worldbank/pacific-observatory/blob/main/docs/images/logo.png)
+
 ## Research Topics
 
 🔖 **Night Time Lights Applications**
