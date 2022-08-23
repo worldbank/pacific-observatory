@@ -57,6 +57,10 @@ Also make sure that
 ```splus
 selected_country_list = "Papua New Guinea"
 ```
+To produce results for different time periods, change
+```splus
+data_startyear = 2009
+```
 
 🔖 **Automatic Identification System (AIS)**
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
