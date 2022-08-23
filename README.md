@@ -53,9 +53,9 @@ After preparing the raw data, the following section in the ```main.R``` file of 
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
   }
 ```
-Also make sure that 
+Also make sure that Papua New Guinea is included in the country list:
 ```splus
-selected_country_list = "Papua New Guinea"
+selected_country_list = c("Afghanistan", "Papua New Guinea") 
 ```
 To produce results for different time periods, change
 ```splus
