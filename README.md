@@ -6,6 +6,8 @@ This repository hosts the team's efforts to investigate how alternative data sou
 
 The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and technical notes.
 
+![Logo](https://github.com/worldbank/pacific-observatory/blob/main/docs/images/logo.png)
+
 ## Research Topics
 
 🔖 **Night Time Lights Applications**
@@ -15,6 +17,50 @@ Can lights be used to aid poverty mapping, estimate access to electrification, o
 
 🔖 **Market Prices Imputation**
 > This section introduces a machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
+
+
+This follows the estimation proposed by
+
+Andree, Bo Pieter Johannes. 2021. Estimating Food Price Inflation from Partial Surveys. Policy Research Working Paper;No. 9886. World Bank, Washington, DC. © World Bank. https://openknowledge.worldbank.org/handle/10986/36778 License: CC BY 3.0 IGO.
+
+URI: http://hdl.handle.net/10986/36778 
+
+The machine learning imputation code is avilable here https://github.com/worldbank/Food-Price-Estimation 
+
+The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available here https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea
+
+This requires a few additional pre-processing steps to add coordinates and turn the IFPRI data into the required format. See pacific-observatory/data/prices/
+
+After preparing the raw data, the following section in the ```main.R``` file of the price imputation code should be changed to read the data:
+
+### Original code
+```splus
+  if("Papua New Guinea" %in% selected_country_list){
+    cat("adding PNG from file")
+    PNG <- read.csv("PNG_dec_prices_wc.csv") ##### <---------- Original PNG price data file name. 
+    PNG$time_id <- NA 
+      rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
+      rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
+  }
+```
+### New code
+```splus
+  if("Papua New Guinea" %in% selected_country_list){
+    cat("adding PNG from file")
+    PNG <- read.csv("PNG_july2022_prices_wc.csv") ##### <---------- Point the code to the new file name. 
+    PNG$time_id <- NA 
+      rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
+      rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
+  }
+```
+Also make sure that Papua New Guinea is included in the country list:
+```splus
+selected_country_list = c("Afghanistan", "Papua New Guinea") 
+```
+To produce results for different time periods, change
+```splus
+data_startyear = 2009
+```
 
 🔖 **Automatic Identification System (AIS)**
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
