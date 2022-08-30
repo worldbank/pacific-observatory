@@ -1,0 +1,740 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Data Quality Assessment &#8212; Pacific Observatory</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch3_dq.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Literature Review" href="ch2_lit.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pacific Observatory</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Pacific Observatory
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Night Time Lights
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch2_lit.html">
+   Literature Review
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Data Quality Assessment
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Additional Resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://datapartnership.org/updates">
+   Projects &amp; News
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://worldbank.org">
+   World Bank
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/andresfchamorro/pacific-observatory"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch3_dq.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch3_dq.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/ch3_dq.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annual-maps-of-lights">
+   Annual Maps of Lights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cloud-coverage">
+   Cloud Coverage
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Data Quality Assessment</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annual-maps-of-lights">
+   Annual Maps of Lights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cloud-coverage">
+   Cloud Coverage
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="data-quality-assessment">
+<h1>Data Quality Assessment<a class="headerlink" href="#data-quality-assessment" title="Permalink to this headline">#</a></h1>
+<p>In this section we examine the distribution and temporal quality of nighttime lights data from the VIIRS satellite for selected Pacific Islands. All analytical steps were implemented in python leveraging the Google Earth Engine API. Annotated notebooks to replicate the analysis can be found in the Pacific Observatory github repository. Maps and graphs for all islands are available on the online version of this technical note.</p>
+<section id="annual-maps-of-lights">
+<h2>Annual Maps of Lights<a class="headerlink" href="#annual-maps-of-lights" title="Permalink to this headline">#</a></h2>
+<p>The first set of maps in figure 3-1 presents maps of nighttime lights for the year 2021. We generated raw annual composites for each island by averaging the radiance value from monthly images after removing non-cloudy observations. Lights are visualized on a scale from dark purple (0) to bright yellow (radiance value greater than or equal to 1 nanoWatts/cm2/sr).</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="bec5c16e-d1ce-4862-a85f-f8eee4575ea4" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="bec5c16e-d1ce-4862-a85f-f8eee4575ea4">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/PNG.jpg" /></p>
+</div>
+<input id="189cd987-f8c8-4c08-a5d2-1278b139ecee" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="189cd987-f8c8-4c08-a5d2-1278b139ecee">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/FSM.jpg" /></p>
+</div>
+<input id="c60c17c1-30f8-4a77-acf2-ef4ba6eebe10" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="c60c17c1-30f8-4a77-acf2-ef4ba6eebe10">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/FJI.jpg" /></p>
+</div>
+<input id="2271d742-8682-4387-b58c-c462cba32c88" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="2271d742-8682-4387-b58c-c462cba32c88">
+Kiribati</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/KIR.jpg" /></p>
+</div>
+<input id="3c4bab14-3d1a-4e87-af73-48736781be09" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="3c4bab14-3d1a-4e87-af73-48736781be09">
+Marshall Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/MHL.jpg" /></p>
+</div>
+<input id="4bc534de-df73-41ed-a2df-a08f01c4544f" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="4bc534de-df73-41ed-a2df-a08f01c4544f">
+Nauru</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/NRU.jpg" /></p>
+</div>
+<input id="2ed047c6-2c68-41d7-8b6f-4ff213994782" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="2ed047c6-2c68-41d7-8b6f-4ff213994782">
+Palau</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Palau.jpg" /></p>
+</div>
+<input id="37035bbb-7d8c-404a-849a-a4c69fb8260c" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="37035bbb-7d8c-404a-849a-a4c69fb8260c">
+Samoa</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Samoa.jpg" /></p>
+</div>
+<input id="a307e8b1-daa7-49fa-9e15-f503b50ef47c" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="a307e8b1-daa7-49fa-9e15-f503b50ef47c">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Solomon.jpg" /></p>
+</div>
+<input id="c5f1d2db-13e0-41ac-82eb-1aac9e495e19" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="c5f1d2db-13e0-41ac-82eb-1aac9e495e19">
+Tonga</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tonga.jpg" /></p>
+</div>
+<input id="f576dde6-1952-495c-b8d0-532adff88a9b" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="f576dde6-1952-495c-b8d0-532adff88a9b">
+Tuvalu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tuvalu.jpg" /></p>
+</div>
+<input id="03093db9-7e6e-407e-8491-e4b17ba0023c" name="9a2d45b5-db9e-4892-ab82-e7696fc91876" type="radio">
+</input><label class="sd-tab-label" for="03093db9-7e6e-407e-8491-e4b17ba0023c">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Vanuatu.jpg" /></p>
+</div>
+</div>
+<p>NTL values for most areas are low, with higher values clustered around human settlements. Beyond cities and towns, in some islands it is possible to identify infrastructure features, such as roads along coastal areas. Low radiance values are hard to interpret as the satellite is very sensitive to various sources of light. For reference, previous studies have noted radiance values for specific features: 3.28 for a bridge, and 3.65 for a vessel (Cao and Bai 2014).</p>
+<p>One would expect radiance values for populated areas to be higher, though previous studies have warned that rural areas may not be detected. This assumption can be investigated further by matching the NTL composite with a population grid. In this case, we use Facebook’s High Resolution Settlement Layer, which mapped the distribution of human population at a resolution of 30m. This population layer was generated by combining census data with computer vision techniques and is available for all islands.</p>
+<p>After matching the population data to the VIIRS annual composites, we created histograms of VIIRS values for different population density thresholds. Figure 3-2 presents histograms for Fiji and Samoa, where the left panel shows the distribution of light values for unpopulated areas, the center is for rural areas, and the right is for urban areas, defined as cells with population density higher than 300 people per square kilometer. Although the distribution for all graphs is heavily skewed towards 0, populated areas show a longer tail of pixels with slightly higher luminosity values.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="0735cc7c-d4ef-49aa-bc72-c9f4ebdadd5c" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="0735cc7c-d4ef-49aa-bc72-c9f4ebdadd5c">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/PNG.png" /></p>
+</div>
+<input id="44533033-61db-4f8f-91d0-cdb7304801f0" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="44533033-61db-4f8f-91d0-cdb7304801f0">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/FSM.png" /></p>
+</div>
+<input id="9ee68363-e3e1-4e96-92c7-b2fc41b31252" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="9ee68363-e3e1-4e96-92c7-b2fc41b31252">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/FJI.png" /></p>
+</div>
+<input id="2c72c609-7340-4dc0-b177-fec9e5c47154" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="2c72c609-7340-4dc0-b177-fec9e5c47154">
+Kiribati</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/KIR.png" /></p>
+</div>
+<input id="dacc4dfa-75b1-462d-9616-ae550616b350" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="dacc4dfa-75b1-462d-9616-ae550616b350">
+Marshall Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/MHL.png" /></p>
+</div>
+<input id="7826a407-7397-4de4-8a38-da6a5a70bf11" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="7826a407-7397-4de4-8a38-da6a5a70bf11">
+Nauru</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/NRU.png" /></p>
+</div>
+<input id="e874bc32-b916-43a3-81ca-8de8b0d4b499" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="e874bc32-b916-43a3-81ca-8de8b0d4b499">
+Palau</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/PLW.png" /></p>
+</div>
+<input id="f2c36492-381e-41d1-9231-ff095f93421c" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="f2c36492-381e-41d1-9231-ff095f93421c">
+Samoa</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/WSM.png" /></p>
+</div>
+<input id="a483419b-16b6-4e02-a6bb-d672d745aac0" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="a483419b-16b6-4e02-a6bb-d672d745aac0">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/SLB.png" /></p>
+</div>
+<input id="171f3f00-deff-4059-a1ba-a8634b9b852d" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="171f3f00-deff-4059-a1ba-a8634b9b852d">
+Tonga</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/TON.png" /></p>
+</div>
+<input id="e3163143-36ca-4e2f-89b8-d12805afd33d" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="e3163143-36ca-4e2f-89b8-d12805afd33d">
+Tuvalu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/TUV.png" /></p>
+</div>
+<input id="26cdb0d9-2234-452b-a3ae-cd686ce50e47" name="8dfa4024-1c47-48cd-90c6-77218fd601fd" type="radio">
+</input><label class="sd-tab-label" for="26cdb0d9-2234-452b-a3ae-cd686ce50e47">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/VUT.png" /></p>
+</div>
+</div>
+<p>We ran a similar test with a better annual composite. Elvidge et al. developed a methodology to remove background noise, solar and lunar contamination, and features unrelated to electric lighting (aurora, fires, flares, volcanoes) (2021). We retrieve the latest “clean” annual composite from the Earth Observation Group at the Payne Institute for Public Policy. With this cleaned data, values of 0 are defined as non-lit background, and any value above 0 can be attributed to anthropogenic lights. Table 1 presents the share of pixels with lights, by unsettled, rural, and urban areas. Urban areas are relatively well captured in NTL, and a very small share of rural pixels seem to be emitting light. Tonga and Nauru have high shares for rural pixels, but they are also locations with high mining and volcanic activity.</p>
+<p><strong>Table 1: % Pixels with lights in the cleaned VIIRS 2021</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Country</p></th>
+<th class="head"><p>No population</p></th>
+<th class="head"><p>Rural</p></th>
+<th class="head"><p>Urban (&gt; 300 ppl. /sq. km.)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Federated States of Micronesia</p></td>
+<td><p>6.2%</p></td>
+<td><p>31.0%</p></td>
+<td><p>53.1%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fiji</p></td>
+<td><p>1.6%</p></td>
+<td><p>22.0%</p></td>
+<td><p>69.6%</p></td>
+</tr>
+<tr class="row-even"><td><p>Kiribati</p></td>
+<td><p>1.5%</p></td>
+<td><p>9.8%</p></td>
+<td><p>30.6%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Marshall Islands</p></td>
+<td><p>5.1%</p></td>
+<td><p>24.8%</p></td>
+<td><p>73.6%</p></td>
+</tr>
+<tr class="row-even"><td><p>Nauru</p></td>
+<td><p>88.2%</p></td>
+<td><p>100.0%</p></td>
+<td><p>100.0%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Palau</p></td>
+<td><p>8.3%</p></td>
+<td><p>59.4%</p></td>
+<td><p>100.0%</p></td>
+</tr>
+<tr class="row-even"><td><p>Papua New Guinea</p></td>
+<td><p>0.2%</p></td>
+<td><p>3.4%</p></td>
+<td><p>15.1%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Samoa</p></td>
+<td><p>3.5%</p></td>
+<td><p>26.8%</p></td>
+<td><p>78.7%</p></td>
+</tr>
+<tr class="row-even"><td><p>Solomon Islands</p></td>
+<td><p>0.1%</p></td>
+<td><p>2.0%</p></td>
+<td><p>12.5%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tonga</p></td>
+<td><p>18.5%</p></td>
+<td><p>72.6%</p></td>
+<td><p>96.9%</p></td>
+</tr>
+<tr class="row-even"><td><p>Tuvalu</p></td>
+<td><p>5.5%</p></td>
+<td><p>4.9%</p></td>
+<td><p>NA</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vanuatu</p></td>
+<td><p>0.4%</p></td>
+<td><p>5.3%</p></td>
+<td><p>31.3%</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cloud-coverage">
+<h2>Cloud Coverage<a class="headerlink" href="#cloud-coverage" title="Permalink to this headline">#</a></h2>
+<p>Many of the applications discussed in section 2 take advantage of the temporal cadence of nighttime lights to derive trends. Researchers should be cautious in assessing the consistency of time-series observations before drawing economic interpretations from the trends. The following analysis examines what percentage of area for each island had data that was affected by clouds.</p>
+<p>The monthly VIIRS composites are based on the average value from daily scenes. The authors of the dataset also provide a quality-control image specifying how many valid observations were available to calculate the monthly value. In some areas, there is not one day from the entire month with a cloud-free observation available. Figure 3-3 shows the percentage of pixels without any valid data for each month from 2019 to 2022 in Papua New Guinea and Marshall Islands. Clouds are particularly disruptive in the wet season (December to March), with no coverage available for more than 50% of the area in PNG for 2021 and 2022. The disruption is less drastic in smaller islands but can still be significant when computing an average value.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="c47bccb2-c180-44cd-b417-0be8681a05ab" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="c47bccb2-c180-44cd-b417-0be8681a05ab">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Papua-New-Guinea.jpeg" /></p>
+</div>
+<input id="51537e10-871b-4016-9c37-d8af063c7453" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="51537e10-871b-4016-9c37-d8af063c7453">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Federated-States-of-Micronesia.jpeg" /></p>
+</div>
+<input id="8d0baa74-b4f7-4864-a2ba-7fd2d7e966dd" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="8d0baa74-b4f7-4864-a2ba-7fd2d7e966dd">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Fiji.jpeg" /></p>
+</div>
+<input id="febac98e-cc10-4661-a475-6b4b754db884" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="febac98e-cc10-4661-a475-6b4b754db884">
+Kiribati</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Kiribati.jpeg" /></p>
+</div>
+<input id="8bd8a70a-fa71-433e-a11c-f05fe8386ffb" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="8bd8a70a-fa71-433e-a11c-f05fe8386ffb">
+Marshall Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Marshall-Islands.jpeg" /></p>
+</div>
+<input id="ab6ad6e6-a43f-49f0-a497-f044ce5f711d" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="ab6ad6e6-a43f-49f0-a497-f044ce5f711d">
+Nauru</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Nauru.jpeg" /></p>
+</div>
+<input id="9672da7a-d91d-44a7-9581-edb5c721863c" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="9672da7a-d91d-44a7-9581-edb5c721863c">
+Palau</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Palau.jpeg" /></p>
+</div>
+<input id="f3079388-b562-4e74-a68f-ee2a53ee9053" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="f3079388-b562-4e74-a68f-ee2a53ee9053">
+Samoa</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Samoa.jpeg" /></p>
+</div>
+<input id="f2d14d25-3780-4cb6-8504-b179468a313c" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="f2d14d25-3780-4cb6-8504-b179468a313c">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Solomon-Islands.jpeg" /></p>
+</div>
+<input id="3e7aa1b7-217b-4d08-868e-6087d80ec5d7" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="3e7aa1b7-217b-4d08-868e-6087d80ec5d7">
+Tonga</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tonga.jpeg" /></p>
+</div>
+<input id="469dc4fc-a2e1-4175-9255-e8707bc9091b" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="469dc4fc-a2e1-4175-9255-e8707bc9091b">
+Tuvalu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tuvalu.jpeg" /></p>
+</div>
+<input id="da8b2250-2933-478f-8a74-19492b3531c2" name="5289ce3d-5032-46b5-a88a-84b1acc91704" type="radio">
+</input><label class="sd-tab-label" for="da8b2250-2933-478f-8a74-19492b3531c2">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Vanuatu.jpeg" /></p>
+</div>
+</div>
+<p>A light-weight approach to mitigate issues with cloud coverage is to interpolate missing timesteps with valid observations from nearby months. To test this approach, we implemented a pixel-level moving window linear regression that uses values from 3 months before and after each observation. Figure 3-4 displays an example of this approach for Lae. The raw data shows drastic drops in NTL which can be attributed to months with high cloud coverage. The interpolated trend is more stable and shows much more continuity despite slight increases/decreases.</p>
+<figure class="align-default" id="lae-interpolation">
+<img alt="_images/Lae_VIIRS_Interpolation.png" src="_images/Lae_VIIRS_Interpolation.png" />
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Figure 3.4: Interpolation of NTL time-series</span><a class="headerlink" href="#lae-interpolation" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="ch2_lit.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Literature Review</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By World Bank<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
