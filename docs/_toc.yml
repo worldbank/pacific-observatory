@@ -4,8 +4,11 @@ root: index
 parts:
   - caption: Night Time Lights
     chapters:
-      - file: ch1_lights
-      - file: notebooks/Cloud_Analysis
+      - file: ch1_intro
+      - file: ch2_lit
+      - file: ch3_dq
+      - file: ch4_econ
+      - file: ch5_other
     #   - file: notebooks/map_test.html
   - caption: Additional Resources
     chapters:
