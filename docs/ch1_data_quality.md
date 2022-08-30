@@ -5,40 +5,40 @@ This first set of figures presents nighttime lights composites from 2021 for the
 
 ````{tab-set}
 ``` {tab-item} Papua New Guinea
-![Overview](./images/ntl_graphs/PNG.jpg)
+![Overview](./images/ntl_maps/PNG.jpg)
 ```
 ``` {tab-item} Federated States of Micronesia
-![Overview](./images/ntl_graphs/FSM.jpg)
+![Overview](./images/ntl_maps/FSM.jpg)
 ```
 ``` {tab-item} Fiji
-![Overview](./images/ntl_graphs/FJI.jpg)
+![Overview](./images/ntl_maps/FJI.jpg)
 ```
 ``` {tab-item} Kiribati
-![Overview](./images/ntl_graphs/KIR.jpg)
+![Overview](./images/ntl_maps/KIR.jpg)
 ```
 ``` {tab-item} Marshall Islands
-![Overview](./images/ntl_graphs/MHL.jpg)
+![Overview](./images/ntl_maps/MHL.jpg)
 ```
 ``` {tab-item} Nauru
-![Overview](./images/ntl_graphs/NRU.jpg)
+![Overview](./images/ntl_maps/NRU.jpg)
 ```
 ``` {tab-item} Palau
-![Overview](./images/ntl_graphs/Palau.jpg)
+![Overview](./images/ntl_maps/Palau.jpg)
 ```
 ``` {tab-item} Samoa
-![Overview](./images/ntl_graphs/Samoa.jpg)
+![Overview](./images/ntl_maps/Samoa.jpg)
 ```
 ``` {tab-item} Solomon Islands
-![Overview](./images/ntl_graphs/Solomon.jpg)
+![Overview](./images/ntl_maps/Solomon.jpg)
 ```
 ``` {tab-item} Tonga
-![Overview](./images/ntl_graphs/Tonga.jpg)
+![Overview](./images/ntl_maps/Tonga.jpg)
 ```
 ``` {tab-item} Tuvalu
-![Overview](./images/ntl_graphs/Tuvalu.jpg)
+![Overview](./images/ntl_maps/Tuvalu.jpg)
 ```
 ``` {tab-item} Vanuatu
-![Overview](./images/ntl_graphs/Vanuatu.jpg)
+![Overview](./images/ntl_maps/Vanuatu.jpg)
 ```
 ````
 

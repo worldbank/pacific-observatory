@@ -1,0 +1,27 @@
+# Literature Review
+
+## 1. Socio-Economic Applications of NTL
+
+Although DMSP and VIIRS were originally designed for meteorological purposes, a growing literature has documented their capability to detect human activity. NTL have been used extensively in the remote sensing discipline to map urban areas and the distribution of human settlements (Zhao et al. 2019). The economic literature has examined the use of luminosity data to proxy economic variables. This body of work can be broadly categorized into three groups. While this is not a comprehensive review of all papers, our objective here is to highlight general findings and notable applications which may be tested in the Pacific context.
+
+### A. Cross-section: Disaggregating economic measures to finer spatial scales
+A recurring objective has been to disaggregate socioeconomic indicators from the national level into sub-national units, or into a spatial grid (Sutton, Elvidge, and Ghosh 2007; Ghosh et al. 2010; Doll, Muller, and Morley 2006). These studies typically use a cross-section of GDP, nighttime lights, and gridded population to “spread” GDP data into smaller units. To give a simplified example, the proportion of brightness per pixel to sum of lights can be multiplied to national GDP to obtain pixel-level GDP. Additional information about the composition of labor per district can be used to create different spatial weights for agricultural vs. non-agricultural GDP.
+
+These methods have yielded disaggregated results that are well correlated with official GDP measures. However, some studies have flagged small islands as outliers because they are generally much dimmer than would be expected given the estimated relationship between GDP and sum of lights (Ghosh et al. 2010).  This poses the risk that gridded products based on lights might underestimate the economic output of small islands.
+
+### B.	Time-series: Predicting growth in GDP
+A second and more challenging use case associates the increase in lights to economic growth. Economists have investigated how to weigh NTL and official data when constructing true GDP measures and estimated the elasticity between the two data series (Henderson, Storeygard, and Weil 2012; Hu and Yao 2019; Chen and Nordhaus 2011). There are contrasting views as to how useful lights are to proxy economic growth. Henderson concluded that lights could augment GDP measurements. Chen and Nordhaus provided a more cautious view, arguing that lights added limited value except in countries with the poorest statistical systems. The IMF study by Hu and Yao builds upon this framework and shows how the information content from NTL differs for each country (2019).
+
+Addison and Stewart (2015) revised this correlation and found the growth elasticities to be too small or unstable, while Beyer (2018) found that the elasticities hold true in South Asia , particularly for the manufacturing and services sectors. Studies have shifted to using the much-improved VIIRS data, yet a general trend has been that lights are more useful for cross-sectional work than for time series analysis (Gibson, Susan, and Boe-Gibson 2020).
+
+### C.	Proxying electricity consumption
+Another economic variable that has been strongly linked to NTL data is energy use (Min and Gaba 2014; Doll and Pachauri 2010; Falchetta et al. 2019; Mensan Gaba et al., n.d.). Out of all the economic variables considered in Addison’s study, nightlights only provided a strong fit to proxy growth rates in electricity consumption (Addison and Stewart 2015).
+Building upon this well-established correlation, Brian Min and Zachary O’Keeffee developed a new method that leverages daily NTL scenes and high-resolution settlement maps to generate nuanced electrification statistics. Their method separates anthropogenic lights from background brightness, and then calculates the probability that a settlement pixel is electrified, as well as the proportion of nights that it was lit throughout a given year. Aggregating their results to the district-level showed strong correlations with electrification rates derived from DHS surveys.
+
+## Previous Use of NTL in the Pacific
+Despite the vast economic literature, the use of NTL data for research in the Pacific has been limited. Edmonds et al. (2018) observe correlations between lights and population density in Papua New Guinea and calculate a measure of economic intensity (million kina/ light unit). However, NTL does not provide any additional value in their analysis of household welfare.
+
+More attention has been given to the use of lights to analyze economic recovery from natural disasters. In this branch of work, damage modeling is used to identify affected vs. non-affected pixels, setting up a comparison for change in lights before and after a disaster occurs. Such analyses depend on monthly or daily lights data, which can be subject to noise from measurement errors, interruptions due to cloud coverage, and seasonal trends (Skoufias, Strobl, and Tveit 2021).
+
+Mohan and Strobl follow a similar methodology in their study of cyclone Pam in the South Pacific islands (2017). The authors calculate damage indices for wind spend and storm surge and disentangle the effects of these indices on nightlight intensity. The findings suggest that the data is good enough to assess short-term shocks to the economy by tropical storms, though it is hard to understand what is driving the patterns in recovery.
+
