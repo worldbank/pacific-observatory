@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Literature Review &#8212; Pacific Observatory</title>
+    <title>Economic Applications &#8212; Pacific Observatory</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -50,11 +50,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch2_lit.html" />
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch4_econ.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data Quality Assessment" href="ch3_dq.html" />
-    <link rel="prev" title="Introduction" href="ch1_intro.html" />
+    <link rel="next" title="Other Use Cases" href="ch5_other.html" />
+    <link rel="prev" title="Data Quality Assessment" href="ch3_dq.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -125,8 +127,8 @@ const thebe_selector_output = ".output, .cell_output"
    Introduction
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch2_lit.html">
    Literature Review
   </a>
  </li>
@@ -135,8 +137,8 @@ const thebe_selector_output = ".output, .cell_output"
    Data Quality Assessment
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ch4_econ.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Economic Applications
   </a>
  </li>
@@ -252,7 +254,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch2_lit.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch4_econ.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -269,7 +271,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch2_lit.md"
+        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch4_econ.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -297,7 +299,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/ch2_lit.md"
+        <a href="_sources/ch4_econ.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -357,30 +359,29 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#socio-economic-applications-of-ntl">
-   1. Socio-Economic Applications of NTL
+  <a class="reference internal nav-link" href="#extractives">
+   Extractives
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales">
-     A. Cross-section: Disaggregating economic measures to finer spatial scales
+    <a class="reference internal nav-link" href="#methodology">
+     <em>
+      Methodology
+     </em>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b-time-series-predicting-growth-in-gdp">
-     B.	Time-series: Predicting growth in GDP
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-proxying-electricity-consumption">
-     C.	Proxying electricity consumption
+    <a class="reference internal nav-link" href="#results">
+     <em>
+      Results
+     </em>
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#previous-use-of-ntl-in-the-pacific">
-   Previous Use of NTL in the Pacific
+  <a class="reference internal nav-link" href="#poverty-mapping">
+   Poverty Mapping
   </a>
  </li>
 </ul>
@@ -392,7 +393,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Literature Review</h1>
+                <h1>Economic Applications</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -403,30 +404,29 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#socio-economic-applications-of-ntl">
-   1. Socio-Economic Applications of NTL
+  <a class="reference internal nav-link" href="#extractives">
+   Extractives
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales">
-     A. Cross-section: Disaggregating economic measures to finer spatial scales
+    <a class="reference internal nav-link" href="#methodology">
+     <em>
+      Methodology
+     </em>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b-time-series-predicting-growth-in-gdp">
-     B.	Time-series: Predicting growth in GDP
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-proxying-electricity-consumption">
-     C.	Proxying electricity consumption
+    <a class="reference internal nav-link" href="#results">
+     <em>
+      Results
+     </em>
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#previous-use-of-ntl-in-the-pacific">
-   Previous Use of NTL in the Pacific
+  <a class="reference internal nav-link" href="#poverty-mapping">
+   Poverty Mapping
   </a>
  </li>
 </ul>
@@ -439,32 +439,132 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="literature-review">
-<h1>Literature Review<a class="headerlink" href="#literature-review" title="Permalink to this headline">#</a></h1>
-<section id="socio-economic-applications-of-ntl">
-<h2>1. Socio-Economic Applications of NTL<a class="headerlink" href="#socio-economic-applications-of-ntl" title="Permalink to this headline">#</a></h2>
-<p>Although DMSP and VIIRS were originally designed for meteorological purposes, a growing literature has documented their capability to detect human activity. NTL have been used extensively in the remote sensing discipline to map urban areas and the distribution of human settlements (Zhao et al. 2019). The economic literature has examined the use of luminosity data to proxy economic variables. This body of work can be broadly categorized into three groups. While this is not a comprehensive review of all papers, our objective here is to highlight general findings and notable applications which may be tested in the Pacific context.</p>
-<section id="a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales">
-<h3>A. Cross-section: Disaggregating economic measures to finer spatial scales<a class="headerlink" href="#a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales" title="Permalink to this headline">#</a></h3>
-<p>A recurring objective has been to disaggregate socioeconomic indicators from the national level into sub-national units, or into a spatial grid (Sutton, Elvidge, and Ghosh 2007; Ghosh et al. 2010; Doll, Muller, and Morley 2006). These studies typically use a cross-section of GDP, nighttime lights, and gridded population to “spread” GDP data into smaller units. To give a simplified example, the proportion of brightness per pixel to sum of lights can be multiplied to national GDP to obtain pixel-level GDP. Additional information about the composition of labor per district can be used to create different spatial weights for agricultural vs. non-agricultural GDP.</p>
-<p>These methods have yielded disaggregated results that are well correlated with official GDP measures. However, some studies have flagged small islands as outliers because they are generally much dimmer than would be expected given the estimated relationship between GDP and sum of lights (Ghosh et al. 2010).  This poses the risk that gridded products based on lights might underestimate the economic output of small islands.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="economic-applications">
+<h1>Economic Applications<a class="headerlink" href="#economic-applications" title="Permalink to this headline">#</a></h1>
+<p>In this section we investigate how well signals from nighttime lights can approximate economic measures in Papua New Guinea. We test the suitability of NTL data to proxy economic statistics in this country as a significant portion of its economy is composed by industrial production and extractives, which are more likely to be captured by NTL. Additionally, there is significant variance in terms of poverty levels, and we are interested in knowing whether lights can capture any of that variance. While PNG is exceptional in the region due to its size, we examine other applications that may extend better to smaller islands in section 5.</p>
+<section id="extractives">
+<h2>Extractives<a class="headerlink" href="#extractives" title="Permalink to this headline">#</a></h2>
+<p>From our earlier inspection of annual composites, it was evident that mining sites produced high levels of lights in PNG. In a country that is predominantly rural, sites of extractive operations (Ok Tedi, Porgera, Hides, Agogo, and Iagifu) produce radiance measures higher than what is captured in major cities. Some of these sites are mining operations where the infrastructure built might have their lights on overnight, and they might have caused spillover settlement growth. Others are processing facilities connected to the Liquified Natural Gas pipeline, where NTL may be detecting episodes of flaring. Our hypothesis is that changes in the radiance levels detected in these locations may be related to changes in mining production or economic output.</p>
+<section id="methodology">
+<h3><em>Methodology</em><a class="headerlink" href="#methodology" title="Permalink to this headline">#</a></h3>
+<p>We built a database of mining sites and gas facilities by reviewing an official map and confirming their geo-location through crowd-sourced data . We drew 4-kilometer buffers around each site and calculated the sum of lights (SoL) for each site at the monthly and annual frequency. For the monthly time series, we rely on the VIIRS monthly images (2014-2022) and follow the moving-window linear interpolation described in section 3.3.</p>
+<p>For the annual time series, we rely on two sets of NTL data: the VIIRS annual composites generated by the Earth Observation Group (2013-2021), and the DMPS-OLS annual composites provided by NOAA (1992-2013). Multiple differences between satellites make it challenging to combine statistics from both datasets. To address this, we follow the harmonizing technique developed by Daynan Crull. This method uses the overlap between both platforms for a locally defined region of interest (in this case, PNG), applies various transformations and fits the DMSP composites to VIIRS using a Gradient Boosting decision-tree based algorithm (forthcoming ). We calculated sum of lights from the harmonized annual images and summarized national aggregates of lights per type of operation (mining or gas).</p>
+<p>To compare this with economic measures, we curated national sector-level GDP from the latest published national accounts - 2006 to 2019 (PNG National Statistics Office), and facility-level production reported through the Extractives Industry Transparency Initiative 2019 Report (EITI). Only selected facilities have reported the amount of gold or copper mines in the last few years (typically 2014 to 2019).</p>
+<!-- ```{figure}
+A | B
+- | - 
+![output-mining-gas](./images/Output_Mining_Gas.png) | ![lights-mining-gas](./images/Lights_Mining_Gas.png)
+
+Figure 4.1: National Aggregates. Left: output (PNG NSO), right: sum of lights (DMSP/VIIRS)
+``` -->
+<!-- ````{panels}
+:container: container-fluid 
+:column: col-lg-6 col-md-6 col-sm-6 col-xs-12 
+:card: shadow-none border-0
+
+```{figure} ./images/Output_Mining_Gas.png
+:width: 100%
+:name: output-mining-gas
+
+Figure 4.1.a: National Aggregates. Output (PNG NSO)
+```
+
+---
+
+```{figure} ./images/Lights_Mining_Gas.png
+:width: 100%
+:name: lights-mining-gas
+
+Figure 4.1.b: National Aggregates. Sum of lights (DMSP/VIIRS)
+```
+
+```` -->
+<table class="table" id="id1">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Figure 4.1: National Aggregates</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Output (PNG NSO)</p></th>
+<th class="head"><p>Sum of lights (DMSP/VIIRS)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="" src="_images/Output_Mining_Gas.png" /></p></td>
+<td><p><img alt="" src="_images/Lights_Mining_Gas.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>Figure 4-1 shows the national account output for the extractive industries, and the sum of lights after aggregating data from all locations in PNG. We investigated the degree of correlation by applying a natural logarithmic transformation to both series and comparing the difference in logged values year-to-year. To test their degree of correlation we specified the following linear regression, where the coefficient c1 can be interpreted as a growth elasticity index.</p>
+<div class="math notranslate nohighlight">
+\[
+Δ ln⁡(output) = c0 + c1 * Δ ln(sum \ of \ lights)
+\]</div>
 </section>
-<section id="b-time-series-predicting-growth-in-gdp">
-<h3>B.	Time-series: Predicting growth in GDP<a class="headerlink" href="#b-time-series-predicting-growth-in-gdp" title="Permalink to this headline">#</a></h3>
-<p>A second and more challenging use case associates the increase in lights to economic growth. Economists have investigated how to weigh NTL and official data when constructing true GDP measures and estimated the elasticity between the two data series (Henderson, Storeygard, and Weil 2012; Hu and Yao 2019; Chen and Nordhaus 2011). There are contrasting views as to how useful lights are to proxy economic growth. Henderson concluded that lights could augment GDP measurements. Chen and Nordhaus provided a more cautious view, arguing that lights added limited value except in countries with the poorest statistical systems. The IMF study by Hu and Yao builds upon this framework and shows how the information content from NTL differs for each country (2019).</p>
-<p>Addison and Stewart (2015) revised this correlation and found the growth elasticities to be too small or unstable, while Beyer (2018) found that the elasticities hold true in South Asia , particularly for the manufacturing and services sectors. Studies have shifted to using the much-improved VIIRS data, yet a general trend has been that lights are more useful for cross-sectional work than for time series analysis (Gibson, Susan, and Boe-Gibson 2020).</p>
+<section id="results">
+<h3><em>Results</em><a class="headerlink" href="#results" title="Permalink to this headline">#</a></h3>
+<p>Although both time series show an upward trend in figure 4-1, aligning the data by type of industry with log differences highlights varying levels of agreement for mining and gas (see figure 4-2). Changes between lights and output do not correlate for mining but seem to have a stronger agreement for gas. Lights captured the strong increase in gas production in 2014, and changes in years prior (2007 to 2010) align well. This is further confirmed by our regression results. The elasticity found between lights and output for gas is significant at 0.98, while the coefficient for mining is -0.07 and not significant.</p>
+<!-- ```{figure}
+A | B
+- | - 
+![mining-log-diff](./images/Lights_Mining_LogDiff.png) | ![gas-log-diff](./images/Lights_Gas_LogDiff.png)
+
+Figure 4.2: Log Difference Output and Lights. Left: Mining, right: Petroleum and natural gas
+``` -->
+<!-- ````{panels}
+:container: container-fluid 
+:column: col-lg-6 col-md-6 col-sm-6 col-xs-12 
+:card: shadow-none border-0
+
+```{figure} ./images/Lights_Mining_LogDiff.png
+:width: 100%
+:name: mining-log-diff
+
+Figure 4.2.a: Log Difference Mining Output and Lights
+```
+
+---
+
+```{figure} ./images/Lights_Gas_LogDiff.png
+:width: 100%
+:name: gas-log-diff
+
+Figure 4.2.a: Log Difference Gas Output and Lights
+```
+
+```` -->
+<table class="table" id="id2">
+<caption><span class="caption-number">Table 2 </span><span class="caption-text">Figure 4.2: Log Difference Output and Lights</span><a class="headerlink" href="#id2" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Mining Output and Lights</p></th>
+<th class="head"><p>Gas Output and Lights</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="" src="_images/Lights_Mining_LogDiff.png" /></p></td>
+<td><p><img alt="" src="_images/Lights_Gas_LogDiff.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>The static trend in lights for recent years (2019 to 2021) signals that gas production has remained constant. Despite the strong correlation found for gas, the possibility to extend this use case to a predictive framework is limited. With no production values available at the site-level, there are not enough observations to properly test a predictive model.</p>
+<p>Production values are available for mining sites. However, we found that changes in total luminosity do not correlate to changes in the amount of copper or gold that is mined at the site-level. For example, in Porgera we see a slight increase in annual lights which is not reflected in their production values. We observe more movement in the monthly VIIRS time series for mining sites. Monthly lights can be a useful indicator to examine whether a given mine is active or inactive. An interactive application to examine these trends is publicly available at: <a class="reference external" href="https://afche18.users.earthengine.app/view/png-mining">https://afche18.users.earthengine.app/view/png-mining</a>.</p>
 </section>
-<section id="c-proxying-electricity-consumption">
-<h3>C.	Proxying electricity consumption<a class="headerlink" href="#c-proxying-electricity-consumption" title="Permalink to this headline">#</a></h3>
-<p>Another economic variable that has been strongly linked to NTL data is energy use (Min and Gaba 2014; Doll and Pachauri 2010; Falchetta et al. 2019; Mensan Gaba et al., n.d.). Out of all the economic variables considered in Addison’s study, nightlights only provided a strong fit to proxy growth rates in electricity consumption (Addison and Stewart 2015).
-Building upon this well-established correlation, Brian Min and Zachary O’Keeffee developed a new method that leverages daily NTL scenes and high-resolution settlement maps to generate nuanced electrification statistics. Their method separates anthropogenic lights from background brightness, and then calculates the probability that a settlement pixel is electrified, as well as the proportion of nights that it was lit throughout a given year. Aggregating their results to the district-level showed strong correlations with electrification rates derived from DHS surveys.</p>
 </section>
-</section>
-<section id="previous-use-of-ntl-in-the-pacific">
-<h2>Previous Use of NTL in the Pacific<a class="headerlink" href="#previous-use-of-ntl-in-the-pacific" title="Permalink to this headline">#</a></h2>
-<p>Despite the vast economic literature, the use of NTL data for research in the Pacific has been limited. Edmonds et al. (2018) observe correlations between lights and population density in Papua New Guinea and calculate a measure of economic intensity (million kina/ light unit). However, NTL does not provide any additional value in their analysis of household welfare.</p>
-<p>More attention has been given to the use of lights to analyze economic recovery from natural disasters. In this branch of work, damage modeling is used to identify affected vs. non-affected pixels, setting up a comparison for change in lights before and after a disaster occurs. Such analyses depend on monthly or daily lights data, which can be subject to noise from measurement errors, interruptions due to cloud coverage, and seasonal trends (Skoufias, Strobl, and Tveit 2021).</p>
-<p>Mohan and Strobl follow a similar methodology in their study of cyclone Pam in the South Pacific islands (2017). The authors calculate damage indices for wind spend and storm surge and disentangle the effects of these indices on nightlight intensity. The findings suggest that the data is good enough to assess short-term shocks to the economy by tropical storms, though it is hard to understand what is driving the patterns in recovery.</p>
+<section id="poverty-mapping">
+<h2>Poverty Mapping<a class="headerlink" href="#poverty-mapping" title="Permalink to this headline">#</a></h2>
+<p>Even though light output is extremely low in rural areas in Papua New Guinea (as seen in table 1), we tested the correlation between NTL metrics and a cross-section of province-level poverty rates. For this exercise we used a relative wealth index constructed from the latest DHS survey available (2016 to 2018). This index follows the methodology developed by DHS to summarize wealth based on household assets and amenities.</p>
+<p>The clean NTL annual composite for 2019 contains valuable information about the distribution of wealth across provinces. The statistic with the highest correlation to relative wealth is the share of settled area with lights (r = 0.705). Sum of lights was also correlated but with a lower coefficient (0.58). This suggests that the extent of lights is more indicative of poverty than the intensity of lights. Overall, the correlations identified hint that NTL statistics can be used as supplementary features to map the distribution of poverty at more local levels.</p>
+<figure class="align-default" id="wealth-lights">
+<img alt="_images/wealth-and-lights.jpeg" src="_images/wealth-and-lights.jpeg" />
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Figure 4.3: Correlation between relative wealth and area of lights</span><a class="headerlink" href="#wealth-lights" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 </section>
 </section>
 
@@ -495,17 +595,17 @@ Building upon this well-established correlation, Brian Min and Zachary O’Keeff
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="ch1_intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="ch3_dq.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Introduction</p>
+            <p class="prev-next-title">Data Quality Assessment</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="ch3_dq.html" title="next page">
+    <a class='right-next' id="next-link" href="ch5_other.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data Quality Assessment</p>
+        <p class="prev-next-title">Other Use Cases</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
