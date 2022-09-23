@@ -8,7 +8,7 @@ The content is structured by topic of investigation, each thematic folder contai
 
 ## Research Topics
 
-🔖 [**Night Time Lights Applications**](./ch1_lights.md)
+🔖 [**Night Time Lights Applications**](./ch1_intro.md)
 > This sections explores socio-economic applications with Night Time Lights data.  
 Are lights at night a good proxy for economic activity?  
 Can lights be used to aid poverty mapping, estimate access to electrification, or examine recovery from disasters or pandemic impacts?
