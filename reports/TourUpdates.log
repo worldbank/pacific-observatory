@@ -17,15 +17,15 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from IPython.display import Image
-Image(filename='Viz/NumFlsIn7Days.png', height=800, width=600)
+Image(filename='Viz/NumberFlsIn7Days_freescale.png', 
+      height=800, width=600) 
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mFileNotFoundError[0m                         Traceback (most recent call last)
-Cell [0;32mIn [1], line 2[0m
-[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mIPython[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdisplay[39;00m [38;5;28;01mimport[39;00m Image
-[0;32m----> 2[0m Image(filename[38;5;241m=[39m[38;5;124m'[39m[38;5;124mViz/NumFlsIn7Days.png[39m[38;5;124m'[39m, height[38;5;241m=[39m[38;5;241m800[39m, width[38;5;241m=[39m[38;5;241m600[39m)
+Cell [0;32mIn [2], line 1[0m
+[0;32m----> 1[0m Image(filename[38;5;241m=[39m[38;5;124m'[39m[38;5;124mViz/NumberFlsIn7Days_freescale.png[39m[38;5;124m'[39m, 
+[1;32m      2[0m       height[38;5;241m=[39m[38;5;241m800[39m, width[38;5;241m=[39m[38;5;241m600[39m)
 
 File [0;32m/opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/IPython/core/display.py:957[0m, in [0;36mImage.__init__[0;34m(self, data, url, filename, format, embed, width, height, retina, unconfined, metadata, alt)[0m
 [1;32m    955[0m [38;5;28mself[39m[38;5;241m.[39munconfined [38;5;241m=[39m unconfined
@@ -56,6 +56,6 @@ File [0;32m/opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/I
 [1;32m    355[0m [38;5;28;01melif[39;00m [38;5;28mself[39m[38;5;241m.[39murl [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
 [1;32m    356[0m     [38;5;66;03m# Deferred import[39;00m
 
-[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: 'Viz/NumFlsIn7Days.png'
-FileNotFoundError: [Errno 2] No such file or directory: 'Viz/NumFlsIn7Days.png'
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: 'Viz/NumberFlsIn7Days_freescale.png'
+FileNotFoundError: [Errno 2] No such file or directory: 'Viz/NumberFlsIn7Days_freescale.png'
 
