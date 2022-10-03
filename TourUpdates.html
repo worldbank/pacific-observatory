@@ -622,50 +622,13 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Viz/NumberFlsIn7Days_freescale.png&#39;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/tourism/NumberFlsIn7Days_freescale.png&#39;</span><span class="p">,</span> 
       <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span> 
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;Viz/NumberFlsIn7Days_freescale.png&#39;</span><span class="p">,</span> 
-<span class="g g-Whitespace">      </span><span class="mi">2</span>       <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/IPython/core/display.py:957,</span> in <span class="ni">Image.__init__</span><span class="nt">(self, data, url, filename, format, embed, width, height, retina, unconfined, metadata, alt)</span>
-<span class="g g-Whitespace">    </span><span class="mi">955</span> <span class="bp">self</span><span class="o">.</span><span class="n">unconfined</span> <span class="o">=</span> <span class="n">unconfined</span>
-<span class="g g-Whitespace">    </span><span class="mi">956</span> <span class="bp">self</span><span class="o">.</span><span class="n">alt</span> <span class="o">=</span> <span class="n">alt</span>
-<span class="ne">--&gt; </span><span class="mi">957</span> <span class="nb">super</span><span class="p">(</span><span class="n">Image</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">958</span>         <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">960</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="p">{}):</span>
-<span class="g g-Whitespace">    </span><span class="mi">961</span>     <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/IPython/core/display.py:327,</span> in <span class="ni">DisplayObject.__init__</span><span class="nt">(self, data, url, filename, metadata)</span>
-<span class="g g-Whitespace">    </span><span class="mi">324</span> <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">325</span>     <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="ne">--&gt; </span><span class="mi">327</span> <span class="bp">self</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">328</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_data</span><span class="p">()</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/IPython/core/display.py:992,</span> in <span class="ni">Image.reload</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">990</span> <span class="sd">&quot;&quot;&quot;Reload the raw data from file or URL.&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">991</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">embed</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">992</span>     <span class="nb">super</span><span class="p">(</span><span class="n">Image</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">993</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">retina</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">994</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_retina_shape</span><span class="p">()</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.14/x64/lib/python3.9/site-packages/IPython/core/display.py:353,</span> in <span class="ni">DisplayObject.reload</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">351</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">352</span>     <span class="n">encoding</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_flags</span> <span class="k">else</span> <span class="s2">&quot;utf-8&quot;</span>
-<span class="ne">--&gt; </span><span class="mi">353</span>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_flags</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">354</span>         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">355</span> <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">356</span>     <span class="c1"># Deferred import</span>
-
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;Viz/NumberFlsIn7Days_freescale.png&#39;
-</pre></div>
-</div>
+<img alt="_images/TourUpdates_4_0.png" src="_images/TourUpdates_4_0.png" />
 </div>
 </div>
 <div class="cell tag_hide-input docutils container">
@@ -801,7 +764,7 @@ title="Print to PDF"
 <h2>Missing Data<a class="headerlink" href="#missing-data" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/tourism/ms_heatmap.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;images/tourism/ms_heatmap.png&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -820,132 +783,23 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">missing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Output/missing_count.csv&quot;</span><span class="p">)</span>
+<span class="n">missing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/tourism/missing_count.csv&quot;</span><span class="p">)</span>
 <span class="n">missing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;ratio&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">missing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/tourism/missing_count.csv&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">missing</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;ratio&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>destination_country</th>
-      <th>missing</th>
-      <th>df_length</th>
-      <th>date_range</th>
-      <th>available</th>
-      <th>ratio</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>6</th>
-      <td>Solomon Islands</td>
-      <td>20</td>
-      <td>843</td>
-      <td>865</td>
-      <td>823</td>
-      <td>95.144509</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Samoa</td>
-      <td>32</td>
-      <td>829</td>
-      <td>865</td>
-      <td>797</td>
-      <td>92.138728</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>Tonga</td>
-      <td>41</td>
-      <td>822</td>
-      <td>865</td>
-      <td>781</td>
-      <td>90.289017</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>Vanuatu</td>
-      <td>19</td>
-      <td>756</td>
-      <td>836</td>
-      <td>737</td>
-      <td>88.157895</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Micronesia (Federated States of)</td>
-      <td>105</td>
-      <td>736</td>
-      <td>865</td>
-      <td>631</td>
-      <td>72.947977</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Palau</td>
-      <td>101</td>
-      <td>625</td>
-      <td>865</td>
-      <td>524</td>
-      <td>60.578035</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Nauru</td>
-      <td>166</td>
-      <td>668</td>
-      <td>865</td>
-      <td>502</td>
-      <td>58.034682</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Marshall Islands (the)</td>
-      <td>126</td>
-      <td>586</td>
-      <td>865</td>
-      <td>460</td>
-      <td>53.179191</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>Kiribati</td>
-      <td>150</td>
-      <td>294</td>
-      <td>864</td>
-      <td>144</td>
-      <td>16.666667</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>Tuvalu</td>
-      <td>51</td>
-      <td>144</td>
-      <td>817</td>
-      <td>93</td>
-      <td>11.383109</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
+</pre></div>
+</div>
+</div>
 </div>
 <p>In line with missing data from the <a class="reference external" href="https://github.com/OxCGRT/covid-policy-tracker">Covid Stringency Index</a>, <strong>Fiji</strong>, <strong>Papua New Guinea</strong>, <strong>Tonga</strong>, and <strong>Solomon Islands</strong> are the countries with least missing data. A detailed count are displayed below:</p>
 <ul class="simple">
@@ -969,7 +823,8 @@ title="Print to PDF"
 <h3><code class="docutils literal notranslate"><span class="pre">Covid-Cutoff</span></code><a class="headerlink" href="#covid-cutoff" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">covid_compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Output/covid_cutoff_stats.csv&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">covid_compare</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s2">&quot;data/tourism/covid_cutoff_stats.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">covid_compare</span>
 </pre></div>
 </div>
@@ -993,7 +848,6 @@ title="Print to PDF"
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Unnamed: 0</th>
       <th>flights_number_7days_before</th>
       <th>flights_number_7days_after</th>
       <th>flights_7days_change (in %)</th>
@@ -1004,8 +858,7 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>0</th>
-      <td>Vanuatu</td>
+      <th>Vanuatu</th>
       <td>26.792373</td>
       <td>29.347409</td>
       <td>9.536430</td>
@@ -1014,8 +867,7 @@ title="Print to PDF"
       <td>-15.665673</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>Solomon Islands</td>
+      <th>Solomon Islands</th>
       <td>7.199248</td>
       <td>2.636678</td>
       <td>-63.375645</td>
@@ -1024,8 +876,7 @@ title="Print to PDF"
       <td>-58.718845</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>Papua New Guinea</td>
+      <th>Papua New Guinea</th>
       <td>454.928571</td>
       <td>465.118774</td>
       <td>2.239957</td>
@@ -1034,8 +885,7 @@ title="Print to PDF"
       <td>-3.895481</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>Fiji</td>
+      <th>Fiji</th>
       <td>287.924051</td>
       <td>67.417513</td>
       <td>-76.584967</td>
@@ -1055,7 +905,7 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">zscore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Output/z-score.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">zscore</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/tourism/z-score.csv&quot;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">zscore</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;destination_country&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1200,17 +1050,17 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 
-<span class="n">fiji</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;Data/Fiji.csv&quot;</span><span class="p">)[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;flights_number_7days&quot;</span><span class="p">]]</span>
-<span class="n">its_df</span> <span class="o">=</span> <span class="n">fiji</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="p">(</span><span class="n">fiji</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="s2">&quot;2020-03-24&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
-<span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+<span class="n">fiji</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;data/tourism/Fiji.csv&quot;</span><span class="p">)[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;flights_number_7days&quot;</span><span class="p">]]</span>
+<span class="n">rdd_df</span> <span class="o">=</span> <span class="n">fiji</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="p">(</span><span class="n">fiji</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="s2">&quot;2020-03-24&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+<span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
 
 <span class="n">week_number</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">its_df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">days</span> <span class="o">//</span> <span class="mi">7</span>
+<span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">rdd_df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">days</span> <span class="o">//</span> <span class="mi">7</span>
     <span class="n">week_number</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
 
-<span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">week_number</span>
-<span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;week_t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;week&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">11</span>
+<span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;week&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">week_number</span>
+<span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;week_t&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;week&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">11</span>
 </pre></div>
 </div>
 </div>
@@ -1220,31 +1070,37 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">wls</span><span class="p">(</span><span class="s2">&quot;flights_number_7days ~ threshold + week + week * threshold&quot;</span><span class="p">,</span> <span class="n">its_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-<span class="n">its_df</span><span class="p">[</span><span class="s2">&quot;fitted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fittedvalues</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">wls</span><span class="p">(</span><span class="s2">&quot;flights_number_7days ~ threshold + week + week * threshold&quot;</span><span class="p">,</span> <span class="n">rdd_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">rdd_df</span><span class="p">[</span><span class="s2">&quot;fitted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fittedvalues</span>
 <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span><span class="o">.</span><span class="n">tables</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">model</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">wls</span><span class="p">(</span><span class="s2">&quot;flights_number_7days ~ threshold + week + week * threshold&quot;</span><span class="p">,</span> <span class="n">its_df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;statsmodels&#39;
-</pre></div>
-</div>
-</div>
+<div class="output text_html"><table class="simpletable">
+<tr>
+         <td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>      <td>  354.3645</td> <td>    8.290</td> <td>   42.745</td> <td> 0.000</td> <td>  338.093</td> <td>  370.636</td>
+</tr>
+<tr>
+  <th>threshold</th>      <td> -347.8326</td> <td>    8.940</td> <td>  -38.909</td> <td> 0.000</td> <td> -365.379</td> <td> -330.287</td>
+</tr>
+<tr>
+  <th>week</th>           <td>  -13.0165</td> <td>    1.277</td> <td>  -10.196</td> <td> 0.000</td> <td>  -15.522</td> <td>  -10.511</td>
+</tr>
+<tr>
+  <th>week:threshold</th> <td>   13.9039</td> <td>    1.277</td> <td>   10.884</td> <td> 0.000</td> <td>   11.397</td> <td>   16.411</td>
+</tr>
+</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">)})</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;flights_number_7days&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">its_df</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;fitted&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">its_df</span><span class="p">,</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;flights_number_7days&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rdd_df</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;fitted&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rdd_df</span><span class="p">,</span>
              <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;prediction&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Flights Number in 7 Days&quot;</span><span class="p">)</span>
