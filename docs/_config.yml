@@ -15,4 +15,4 @@ html:
     baseurl: https://github.com/andresfchamorro/pacific-observatory
 
 execute:
-  execute_notebooks: 'off'
+  execute_notebooks: auto
