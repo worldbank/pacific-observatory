@@ -78,6 +78,45 @@ The map below compares the SPEI monthly indicator in two different periods: Dece
 Long-term historical information is a key for us to understand what happened in the past and see climate variabilities in the areas.
 60-years SPEI data is available to better understand and captures the main impact of increased temperatures on water demand.
 
+````{tab-set}
+``` {tab-item} Papua New Guinea
+![Overview](./images/climate/spei12/Papua-New-Guinea.jpeg)
+```
+``` {tab-item} Federated States of Micronesia
+![Overview](./images/climate/spei12/Federated-States-of-Micronesia.jpeg)
+```
+``` {tab-item} Fiji
+![Overview](./images/climate/spei12/Fiji.jpeg)
+```
+``` {tab-item} Kiribati
+![Overview](./images/climate/spei12/Kiribati.jpeg)
+```
+``` {tab-item} Marshall Islands
+![Overview](./images/climate/spei12/Marshall-Islands.jpeg)
+```
+``` {tab-item} Nauru
+![Overview](./images/climate/spei12/Nauru.jpeg)
+```
+``` {tab-item} Palau
+![Overview](./images/climate/spei12/Palau.jpeg)
+```
+``` {tab-item} Samoa
+![Overview](./images/climate/spei12/Samoa.jpeg)
+```
+``` {tab-item} Solomon Islands
+![Overview](./images/climate/spei12/Solomon-Islands.jpeg)
+```
+``` {tab-item} Tonga
+![Overview](./images/climate/spei12/Kingdom-of-Tonga.jpeg)
+```
+``` {tab-item} Tuvalu
+![Overview](./images/climate/spei12/Tuvalu.jpeg)
+```
+``` {tab-item} Vanuatu
+![Overview](./images/climate/spei12/Vanuatu.jpeg)
+```
+````
+
 
 ### Daily
 
