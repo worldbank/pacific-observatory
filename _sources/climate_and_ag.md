@@ -23,7 +23,7 @@ The level of climate risk is measured based on the strength of ENSO signal on ra
 * Niño 3 (90°-150°W and 5°N-5°S)
 * Niño 4 (150°-160°E and 5°N-5°S)
 
-![nino](../img/climag-ninoregion.jpeg)
+![nino](./images/climag/climag-ninoregion.jpeg)
 
 **Figure 1.** NINO regions. Source: https://www.weather.gov/jetstream/enso
 
@@ -33,7 +33,7 @@ Simple regression applied to indicate the correlation between rainfall anomaly i
 
 `Y = aX + b`, where: `Y` = Rainfall anomaly, `b` = `Y` intercept, `a` = Slope and `X` = SST anomaly
 
-![nino34](../img/climag-pci-precip-sst.png)
+![nino34](./images/climag/climag-pci-precip-sst.png)
 
 **Figure 2.** General sensitivity of rainfall to SST changes in NINO3.4 region
 
@@ -55,7 +55,7 @@ Now let’s talk about how we can utilize EO data to do climate monitoring for d
 
 The Standardized Precipitation-Evapotranspiration Index (SPEI) is an established indicator to detect, monitor, and analyze droughts. The SPEI considers how various climate indicators (precipitation, evapotranspiration, temperature) relate to normal conditions and can be calculated according to different temporal scales. The multi-scalar character of this indicator makes it a suitable proxy to identify dry and wet conditions related to soil moisture, which can have significant impacts on agriculture. 
 
-![spei-wet](../img/climag-png-spei-wet.png)
+![spei-wet](./images/climag/climag-png-spei-wet.png)
 
 **Figure 3.** Wet condition
 
@@ -63,7 +63,7 @@ Figure 3 and Figure 4 indicate total area (in percentage) of a country or admin 
 
 When considering country averages, Papua New Guinea has been considered wet in the last 20 years, but ENSO signal strikes a significant dry period during 2015-2016.
 
-![spei-dry](../img/climag-png-spei-dry.png)
+![spei-dry](./images/climag/climag-png-spei-dry.png)
 
 **Figure 4.** Dry condition
 
@@ -71,7 +71,7 @@ Showing the inverse of Figure 3, Figure 4 indicates months with dryer than usual
 
 The map below compares the SPEI monthly indicator in two different periods: December 2015 for Strong El Nino and December 2020 for Moderate La Nina.
 
-![spei-wet](../img/climag-png-spei-maps.png)
+![spei-wet](./images/climag/climag-png-spei-maps.png)
 
 **Figure 5.** SPEI 12-months
 
@@ -83,7 +83,7 @@ Long-term historical information is a key for us to understand what happened in 
 
 This section explores daily extreme rainfall based on satellite precipitation estimates. Our objective here is to showcase how we can utilize daily weather data to inform early warning systems and disaster response policies.
 
-![extreme-rain](../img/climag-png-extreme-rain.png)
+![extreme-rain](./images/climag/climag-png-extreme-rain.png)
 
 **Figure 6.** Extreme rainfall
 
@@ -96,7 +96,7 @@ There are at least five questions that can be explored with this type of data:
 
 Another high-frequency indicator of meteorological is maximum consecutive dry days (CDD). In its simplest form, this index can be described by a lack of precipitation (number of consecutive days with < 1 mm of rain). CDD is updated on daily basis and can serve as an effective measure of extreme events and seasonal droughts.
 
-![max-cdd](../img/climag-fiji-max-cdd.png)
+![max-cdd](./images/climag/climag-fiji-max-cdd.png)
 
 **Figure 7.** Maximum consecutive dry days in 2021
 
@@ -112,13 +112,13 @@ Color scales are colors indicating that the distribution of the forecast tends t
 
 	Sub-seasonal forecasts are known to focus on prediction of key variables such as temperature or precipitation at weekly up to 1 month interval.
 
-	![subx-precip](../img/climag-subx-precip.png)
+	![subx-precip](./images/climag/climag-subx-precip.png)
 
 	**Figure 8.** Sub-seasonal Forecast Precipitation. Source: IRI
 
 	Historical records of planting in combination with temperature and rainfall forecasts are helpful to draw a recommendation on optimum planting/harvest potential. Weather forecasts released during the 2nd or 3rd planting season allow us to plan optimum yield, meaning that we can identify what type of crops (main or secondary crops) grow optimally for the forecasted precipitation level, which area can and cannot grow secondary crops, distribution of seeds, and other relevant planning.
 
-	![subx-temp](../img/climag-subx-temp.png)
+	![subx-temp](./images/climag/climag-subx-temp.png)
 
 	**Figure 9.** Sub-seasonal Forecast Temperature. Source: IRI
 
@@ -126,13 +126,13 @@ Color scales are colors indicating that the distribution of the forecast tends t
 
 	Seasonal forecasts provides longer interval compared to sub-seasonal forecasts, it usually available up to 7 months. Accuracy of sub-seasonal forecast is slightly higher than seasonal as is is predicting less far into the future. It is scientifically challenging to maintain accuracy level at longer timeframe.
 
-	![seasonal-precip](../img/climag-seasonal-precip.png)
+	![seasonal-precip](./images/climag/climag-seasonal-precip.png)
 
 	**Figure 10.** Seasonal Forecast Precipitation. Source: IRI
 
 	Seasonal forecast provides prediction of weather (rainfall) throughout the season. In combination with sub-seasonal forecasts, such information is necessary for improving the Planting Index and optimising harvested areas. As an example, if a certain planted area is damaged by flood/drought, we are able to better plan replantation programs by taking into account the information from long-term forecasts. If the rainfall in the longer term allows, replantation programs can be initiated.
 	
-	![seasonal-temp](../img/climag-seasonal-temp.png)
+	![seasonal-temp](./images/climag/climag-seasonal-temp.png)
 
 	**Figure 11.** Seasonal Forecast Temperature. Source: IRI
 
@@ -143,7 +143,7 @@ Currently we only have historical cyclones track. Yet, this informed us if certa
 
 Traditionally, areas of tropical cyclone formation are divided into seven basins. These include the north Atlantic Ocean, the eastern and western parts of the northern Pacific Ocean, the southwestern Pacific, the southwestern and southeastern Indian Oceans, and the northern Indian Ocean (Arabian Sea and the Bay of Bengal). 
 
-![tc-regions](../img/climag-tc-regions.png)
+![tc-regions](./images/climag/climag-tc-regions.png)
 
 **Figure 12.** Tropical cyclone centers and regions. Source: https://en.wikipedia.org/wiki/File:Tropical_Cyclone_Centers_and_Regions.png 
 
@@ -151,7 +151,7 @@ Traditionally, areas of tropical cyclone formation are divided into seven basins
 
 	The West Pacific Ocean is the most active basin on the planet, accounting for one-third of all tropical cyclone activity. Annually, an average of 25.7 tropical cyclones in the basin acquire tropical storm strength or greater; also, an average of 16 typhoons occurred each year during the 1968–1989 period. The basin sees activity year-round; however, tropical activity is at its minimum in February and March.
 
-	![tc-north](../img/climag-pci-tc-north.jpeg)
+	![tc-north](./images/climag/climag-pci-tc-north.jpeg)
 
 	**Figure 13.** Tracks of all tropical cyclones in the northwestern Pacific Ocean between 1980 and 2005. The vertical line to the right is the International Date Line. Source: https://en.wikipedia.org/wiki/Tropical_cyclone_basins
 
@@ -159,13 +159,13 @@ Traditionally, areas of tropical cyclone formation are divided into seven basins
 
 	Tropical Cyclones that develop within this basin generally affect countries to the west of the dateline, though during years of the warm phase of El Niño–Southern Oscillation cyclones have been known to develop to the east of the dateline near French Polynesia. On average the basin sees nine tropical cyclones annually with about half of them becoming severe tropical cyclones.
 
-	![tc-south](../img/climag-pci-tc-south.jpeg)
+	![tc-south](./images/climag/climag-pci-tc-south.jpeg)
 
 	**Figure 14.** Tracks of all tropical cyclones in the southwestern Pacific Ocean between 1980 and 2005. Source: https://en.wikipedia.org/wiki/Tropical_cyclone_basins
 
 The below picture indicates that during December to May cyclone events occur mostly in South Pacific Ocean, and from June to December most cyclone events happen in West Pacific Ocean.
 
-![tc-2019](../img/climag-tc-2019.png)
+![tc-2019](./images/climag/climag-tc-2019.png)
 
 **Figure 15.** Tropical cyclone happen in 2019. Source: https://upload.wikimedia.org/wikipedia/en/timeline/4dea2f730b024e57a1db72e8dc62f515.png 
 
@@ -208,13 +208,13 @@ Data easily accessible and in multiple formats
 
 The Enhanced Vegetation Index (EVI) is an 'optimized' index designed to enhance the vegetation signal with improved sensitivity in high biomass regions and improved vegetation monitoring through a de-coupling of the canopy background signal and a reduction in atmosphere influences. 
 
-![EVI](../img/climag-evi-2021.png)
+![EVI](./images/climag/climag-evi-2021.png)
 
 **Figure 16.** MODIS EVI, 2021
 
 Whereas the Normalized Difference Vegetation Index (NDVI) is chlorophyll sensitive, the EVI is more responsive to canopy structural variations, including leaf area index (LAI), canopy type, plant physiognomy, and canopy architecture.
 
-![NDVI](../img/climag-ndvi-2021.png)
+![NDVI](./images/climag/climag-ndvi-2021.png)
 
 **Figure 17.** MODIS NDVI, 2021
 
@@ -225,13 +225,13 @@ This is how remote sensing data could be used to monitor the crop growing season
 
 For this example, we use MODIS MOD13Q1 data, available at 250m spatial resolution and 16-days of temporal resolution.
 
-![TIMESAT-gs](../img/climag-growing-season.png)
+![TIMESAT-gs](./images/climag/climag-growing-season.png)
 
 **Figure 18.** Growing season
 
 State of planting and harvesting estimates were determined by importing Vegetation Indices (VI) data into [TIMESAT](http://web.nateko.lu.se/timesat/timesat.asp) – a program for analyzing time-series satellite sensor data. TIMESAT conducts pixel-by-pixel classification of satellite images to determine whether planting has started or not. This process was followed for all of areas over multiple years in order to evaluate current planting vis-à-vis historical years from 2003 - 2021 (case using MODIS VI).
 
-![TIMESAT](../img/climag-timesat-parameters.png)
+![TIMESAT](./images/climag/climag-timesat-parameters.png)
 
 **Figure 19.** TIMESAT Parameters
 
@@ -247,7 +247,7 @@ These phenological parameters are related to the seasonal vegetation productivit
 
 Information on the onset of planting seasons (and harvest time) are relevant for decision makers like to see.
 
-![TIMESAT-sos](../img/climag-timesat-sos.png)
+![TIMESAT-sos](./images/climag/climag-timesat-sos.png)
 
 **Figure 20.** Beginning of Season.
 
@@ -290,7 +290,7 @@ The WBG Climate Change Knowledge Portal [CCKP](https://climateknowledgeportal.wo
 
 This can be a basis for the projection of crop yield changes. Elisabeth Vogel et al. ([2019](https://iopscience.iop.org/article/10.1088/1748-9326/ab154b)) identified sensitivity of maize, soybeans, spring wheat, and rice to warm day frequency and cold night frequency. Easterling, W. E. et al. ([2007](https://pubs.giss.nasa.gov/docs/2007/2007_Easterling_ea01000b.pdf)) studied cereals, wheat, and rice sensitivity to 1°C increase of temperature in different latitude. Changes in short-term temperature extremes can also be critical, if they coincide with key stages of development. Wheeler et al. ([2000](https://www.sciencedirect.com/science/article/abs/pii/S0167880900002243?via%3Dihub)) identified only a few days of extreme temperature (greater that 32°C) at the flowering stage of many crops can drastically reduce yield
 
-![future-projection](../img/climag-futureprojection.png)
+![future-projection](./images/climag/climag-futureprojection.png)
 
 **Figure 21.** PNG Projections: Annual number of days with heat index > 35oC, Anomaly of precipitation, and Anomaly of Tmax in 2040 – 2059.[^1]
 
