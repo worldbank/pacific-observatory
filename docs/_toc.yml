@@ -15,7 +15,20 @@ parts:
       - file: climate_and_ag
   - caption: Tourism 
     chapters:
-      - file: TourUpdates
+      - file: notebooks/TourUpdates
+  - caption: AIS
+    chapters:
+      - file: ais_intro
+      - file: notebooks/Kiribati2019.html
+      - file: notebooks/Marshall-Islands2019.html
+      - file: notebooks/Micronesia2019.html
+      - file: notebooks/Nauru2019.html
+      - file: notebooks/Palau2019.html
+      - file: notebooks/Samoa2019.html
+      - file: notebooks/SolomonIslands2019.html
+      - file: notebooks/Tonga2019.html
+      - file: notebooks/Tuvalu2019.html
+      - file: notebooks/Vanuatu2019.html
   - caption: Additional Resources
     chapters:
       - url: https://datapartnership.org/updates

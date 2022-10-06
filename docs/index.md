@@ -20,29 +20,29 @@ The content is structured by topic of investigation, each thematic folder contai
 
 This follows the estimation proposed by
 
-Andree, Bo Pieter Johannes. 2021. Estimating Food Price Inflation from Partial Surveys. Policy Research Working Paper;No. 9886. World Bank, Washington, DC. © World Bank. https://openknowledge.worldbank.org/handle/10986/36778 License: CC BY 3.0 IGO.
+[Andree, Bo Pieter Johannes. 2021. Estimating Food Price Inflation from Partial Surveys. Policy Research Working Paper;No. 9886. World Bank, Washington, DC. © World Bank.](https://openknowledge.worldbank.org/handle/10986/36778) License: CC BY 3.0 IGO.
 
-URI: http://hdl.handle.net/10986/36778 
+[URI](http://hdl.handle.net/10986/36778)
 
-The machine learning imputation code is avilable here https://github.com/worldbank/Food-Price-Estimation 
+The machine learning imputation code is available [here](https://github.com/worldbank/Food-Price-Estimation)
 
-The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available here https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea
+The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available [here](https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea)
 
 🔖 [**Aviation Statistics**](./TourUpdates)
-> Estimating tourism flows through aviation data.
+> Monitor tourism recovery through aviation statistics.
 
-🔖 **Crop Mapping / Climate Indices**
+🔖 **Climate and Agriculture Monitoring**
 > Monitor crop productivity and seasonality through vegetation indices.  
-> Create new crop masks with limited training data and satellite imagery.  
 > Sub-national database of climate indicators.
+> Update crop masks with limited training data and satellite imagery.  
 
 ### Future work
 
-🔖 **Automatic Identification System (AIS)**
+🔖 [**Automatic Identification System (AIS)**](./ais_intro.md)
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on trade and fishing intensity.
 
-🔖 **Text Mining**
-
+🔖 **Text Analytics**
+> Study social dynamics (conflict risk, cohesion, perceptions of the economy, climate change) through mining from text sources (ACLED, GDELT). 
 
 ## Additional Resources
 
