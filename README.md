@@ -11,12 +11,13 @@ The content is structured by topic of investigation, each thematic folder contai
 ## Research Topics
 
 🔖 **Night Time Lights Applications**
-> This sections explores socio-economic applications with Night Time Lights data.  
-Are lights at night a good proxy for economic activity?  
-Can lights be used to aid poverty mapping, estimate access to electrification, or examine recovery from disasters or pandemic impacts?
+> This chapter explores socio-economic applications with Night Time Lights data.  
+Are lights at night a good proxy for economic activity or extractives?  
+
+> Can lights be used to aid poverty mapping, estimate access to electrification, or examine recovery from disasters or pandemic impacts?
 
 🔖 **Market Prices Imputation**
-> This section introduces a machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
+> A machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
 
 
 This follows the estimation proposed by
@@ -65,12 +66,21 @@ data_startyear = 2009
 🔖 **Automatic Identification System (AIS)**
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
 
-🔖 **Crop Mapping**
-> Creating new crop masks with limited training data and satellite imagery.  
-> Developing a sub-national database of climate indicators.
+🔖 **Crop Mapping / Climate Indices**
+> Monitor crop productivity and seasonality through vegetation indices.  
+> Create new crop masks with limited training data and satellite imagery.  
+> Sub-national database of climate indicators.
 
 🔖 **Aviation Statistics**
-> Developing a sub-national database of climate indicators.
+> Estimating tourism flows through aviation data.
+
+### Future work
+
+🔖 **Automatic Identification System (AIS)**
+> This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on trade and fishing intensity.
+
+🔖 **Text Mining**
+
 
 ## Additional Resources
 
