@@ -4,17 +4,18 @@ The Pacific Observatory is the World Bank analytical program to explore and deve
 
 This repository hosts the team's efforts to investigate how alternative data sources can be used to generate economic and sector statistics through cost-effective methods. The goal is to assess whether new data sources can produce indicators that are timely, have higher frequency and granularity.
 
-The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and technical notes.
+The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and feasibility notes.
 
 ![Logo](https://github.com/worldbank/pacific-observatory/blob/main/docs/images/logo.png)
 
 ## Research Topics
 
 🔖 **Night Time Lights Applications**
-> This chapter explores socio-economic applications with Night Time Lights data.  
-Are lights at night a good proxy for economic activity or extractives?  
+> This note explores socio-economic applications with Night Time Lights data.  
 
-> Can lights be used to aid poverty mapping, estimate access to electrification, or examine recovery from disasters or pandemic impacts?
+> Are lights at night a good proxy for economic activity or extractives?  
+
+> Can lights be used to aid poverty mapping, estimate access to electrification, or estimate damages/recovery from natural disasters?
 
 🔖 **Market Prices Imputation**
 > A machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
@@ -62,17 +63,13 @@ To produce results for different time periods, change
 ```splus
 data_startyear = 2009
 ```
-
-🔖 **Automatic Identification System (AIS)**
-> This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
+🔖 **Aviation Statistics**
+> Estimating tourism flows through aviation data.
 
 🔖 **Crop Mapping / Climate Indices**
 > Monitor crop productivity and seasonality through vegetation indices.  
 > Create new crop masks with limited training data and satellite imagery.  
 > Sub-national database of climate indicators.
-
-🔖 **Aviation Statistics**
-> Estimating tourism flows through aviation data.
 
 ### Future work
 
