@@ -7,6 +7,10 @@ repository:
     url: https://github.com/andresfchamorro/pacific-observatory
     branch: main
 
+sphinx:
+  config:
+    html_extra_path: ['images']
+
 html:
     home_page_in_navbar: true
     use_edit_page_button: true
