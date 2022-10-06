@@ -4,14 +4,14 @@ The Pacific Observatory is the World Bank analytical program to explore and deve
 
 This repository hosts the team's efforts to investigate how alternative data sources can be used to generate economic and sector statistics through cost-effective methods. The goal is to assess whether new data sources can produce indicators that are timely, have higher frequency and granularity.
 
-The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and technical notes.
+The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and feasibility notes.
 
 ## Research Topics
 
 🔖 [**Night Time Lights Applications**](./ch1_intro.md)
 > This note explores socio-economic applications with Night Time Lights data.  
 
->Are lights at night a good proxy for economic activity or extractives?  
+> Are lights at night a good proxy for economic activity or extractives?  
 
 > Can lights be used to aid poverty mapping, estimate access to electrification, or estimate damages/recovery from natural disasters?
 
