@@ -9,21 +9,37 @@ The content is structured by topic of investigation, each thematic folder contai
 ## Research Topics
 
 🔖 [**Night Time Lights Applications**](./ch1_intro.md)
-> This sections explores socio-economic applications with Night Time Lights data.  
-Are lights at night a good proxy for economic activity?  
-Can lights be used to aid poverty mapping, estimate access to electrification, or examine recovery from disasters or pandemic impacts?
+> This note explores socio-economic applications with Night Time Lights data.  
+
+>Are lights at night a good proxy for economic activity or extractives?  
+
+> Can lights be used to aid poverty mapping, estimate access to electrification, or estimate damages/recovery from natural disasters?
 
 🔖 **Market Prices Imputation**
-> This section introduces a machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
+> A machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
 
-🔖 **Automatic Identification System (AIS)**
-> This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on fisheries and trade.
+This follows the estimation proposed by
+
+Andree, Bo Pieter Johannes. 2021. Estimating Food Price Inflation from Partial Surveys. Policy Research Working Paper;No. 9886. World Bank, Washington, DC. © World Bank. https://openknowledge.worldbank.org/handle/10986/36778 License: CC BY 3.0 IGO.
+
+URI: http://hdl.handle.net/10986/36778 
+
+The machine learning imputation code is avilable here https://github.com/worldbank/Food-Price-Estimation 
+
+The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available here https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea
+
+🔖 [**Aviation Statistics**](./TourUpdates)
+> Estimating tourism flows through aviation data.
 
 🔖 **Crop Mapping / Climate Indices**
-> Creating new crop masks with limited training data and satellite imagery.  
-> Developing a sub-national database of climate indicators.
+> Monitor crop productivity and seasonality through vegetation indices.  
+> Create new crop masks with limited training data and satellite imagery.  
+> Sub-national database of climate indicators.
 
-🔖 **Aviation Statistics**
+### Future work
+
+🔖 **Automatic Identification System (AIS)**
+> This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on trade and fishing intensity.
 
 🔖 **Text Mining**
 
