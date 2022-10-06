@@ -15,6 +15,7 @@ parts:
   - caption: Tourism 
     chapters:
       - file: TourUpdates
+      - file: tourism
   - caption: AIS
     chapters:
       - file: AIS
