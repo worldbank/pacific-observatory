@@ -20,7 +20,7 @@ Set-up
 - UNGP Platform: Data Mechanics / cherryl kernel
 
 Pacific Island Countries
-- [FEDERATED STATES OF MICRONESIA​](./notebooks/Micronesia2019.html)
+- [FEDERATED STATES OF MICRONESIA​](notebooks/Micronesia2019.html)
 - FIJI - no data prep yet
 - [KIRIBATI​](./notebooks/Kiribati2019.html)
 - [MARSHALL ISLANDS​](./notebooks/Marshall-Islands2019.html)
