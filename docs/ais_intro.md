@@ -20,18 +20,41 @@ Set-up
 - UNGP Platform: Data Mechanics / cherryl kernel
 
 Pacific Island Countries
-- [FEDERATED STATES OF MICRONESIA​](notebooks/Micronesia2019.html)
+
+- FEDERATED STATES OF MICRONESIA​
+<iframe src="ais/Micronesia2019.html" height="600" width="800"></iframe>
+
 - FIJI - no data prep yet
-- [KIRIBATI​](./notebooks/Kiribati2019.html)
-- [MARSHALL ISLANDS​](./notebooks/Marshall-Islands2019.html)
-- [NAURU​](./notebooks/Nauru2019.html)
-- [PALAU​](./notebooks/Palau2019.html)
+
+- KIRIBATI
+<iframe src="ais/Kiribati2019.html" height="600" width="800"></iframe>
+
+- MARSHALL ISLANDS
+<iframe src="ais/Marshall-Islands2019.html" height="600" width="800"></iframe>
+
+- NAURU​
+<iframe src="ais/Nauru2019.html" height="600" width="800"></iframe>
+
+- PALAU
+<iframe src="ais/Palau2019.html" height="600" width="800"></iframe>
+
 - PAPUA NEW GUINEA - no data prep yet​
-- [SAMOA​](./notebooks/Samoa2019.html)
-- [SOLOMON ISLANDS](./notebooks/SolomonIslands2019.html)​
-- [TONGA​](./notebooks/Tonga2019.html)
-- [TUVALU​](./notebooks/Tuvalu2019.html)
-- [VANUATU​](./notebooks/Vanuatu2019.html)
+
+- SAMOA
+<iframe src="ais/Samoa2019.html" height="600" width="800"></iframe>
+
+- SOLOMON ISLANDS
+<iframe src="ais/SolomonIslands2019.html" height="600" width="800"></iframe>
+
+- TONGA​
+<iframe src="ais/Tonga2019.html" height="600" width="800"></iframe>
+
+- TUVALU​
+<iframe src="ais/Tuvalu2019.html" height="600" width="800"></iframe>
+
+- VANUATU
+<iframe src="ais/Vanuatu2019.html" height="600" width="800"></iframe>
+
 
 ## Trade Estimation Methodologies
 

@@ -9,16 +9,16 @@ parts:
       - file: ch3_dq
       - file: ch4_econ
       - file: ch5_other
-  - caption: Climate and Agriculture 
+  - caption: Climate and Agriculture
     chapters:
       - file: climate_and_ag
-  - caption: Tourism 
+  - caption: Tourism
     chapters:
       - file: TourUpdates
       - file: tourism
   - caption: AIS
     chapters:
-      - file: AIS
+      - file: ais_intro
   - caption: Additional Resources
     chapters:
       - url: https://datapartnership.org/updates
