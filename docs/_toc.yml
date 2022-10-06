@@ -17,7 +17,7 @@ parts:
       - file: TourUpdates
   - caption: AIS
     chapters:
-      - file: ais_intro
+      - file: AIS
   - caption: Additional Resources
     chapters:
       - url: https://datapartnership.org/updates

@@ -38,7 +38,7 @@ The code relies on WFP price surveys that are not available for PNG. The code ha
 
 ### Future work
 
-🔖 [**Automatic Identification System (AIS)**](./ais_intro.md)
+🔖 [**Automatic Identification System (AIS)**](./AIS)
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on trade and fishing intensity.
 
 🔖 **Text Analytics**
