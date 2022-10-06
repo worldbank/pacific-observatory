@@ -28,7 +28,7 @@ The machine learning imputation code is available [here](https://github.com/worl
 
 The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available [here](https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea)
 
-🔖 [**Aviation Statistics**](./TourUpdates)
+🔖 [**Aviation Statistics**](./TourUpdates.html)
 > Monitor tourism recovery through aviation statistics.
 
 🔖 **Climate and Agriculture Monitoring**
