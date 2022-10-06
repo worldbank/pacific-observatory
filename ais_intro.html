@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Economic Applications &#8212; Pacific Observatory</title>
+    <title>Automatic Identification System &#8212; Pacific Observatory</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -50,13 +50,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch4_econ.html" />
+    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ais_intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Other Use Cases" href="ch5_other.html" />
-    <link rel="prev" title="Data Quality Assessment" href="ch3_dq.html" />
+    <link rel="prev" title="Updates on Pacific Islands Country Tourism" href="notebooks/TourUpdates.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -121,7 +118,7 @@ const thebe_selector_output = ".output, .cell_output"
   Night Time Lights
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="ch1_intro.html">
    Introduction
@@ -137,8 +134,8 @@ const thebe_selector_output = ".output, .cell_output"
    Data Quality Assessment
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch4_econ.html">
    Economic Applications
   </a>
  </li>
@@ -177,9 +174,9 @@ const thebe_selector_output = ".output, .cell_output"
   AIS
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ais_intro.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Automatic Identification System
   </a>
  </li>
@@ -290,7 +287,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch4_econ.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fais_intro.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -307,7 +304,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch4_econ.md"
+        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ais_intro.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -335,7 +332,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/ch4_econ.md"
+        <a href="_sources/ais_intro.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -395,29 +392,23 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#extractives">
-   Extractives
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#methodology">
-     <em>
-      Methodology
-     </em>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#results">
-     <em>
-      Results
-     </em>
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poverty-mapping">
-   Poverty Mapping
+  <a class="reference internal nav-link" href="#data-visualization">
+   Data Visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trade-estimation-methodologies">
+   Trade Estimation Methodologies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#additional-resources">
+   Additional Resources
   </a>
  </li>
 </ul>
@@ -429,7 +420,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Economic Applications</h1>
+                <h1>Automatic Identification System</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -440,29 +431,23 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#extractives">
-   Extractives
+  <a class="reference internal nav-link" href="#introduction">
+   Introduction
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#methodology">
-     <em>
-      Methodology
-     </em>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#results">
-     <em>
-      Results
-     </em>
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poverty-mapping">
-   Poverty Mapping
+  <a class="reference internal nav-link" href="#data-visualization">
+   Data Visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trade-estimation-methodologies">
+   Trade Estimation Methodologies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#additional-resources">
+   Additional Resources
   </a>
  </li>
 </ul>
@@ -475,132 +460,142 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="economic-applications">
-<h1>Economic Applications<a class="headerlink" href="#economic-applications" title="Permalink to this headline">#</a></h1>
-<p>In this section we investigate how well signals from nighttime lights can approximate economic measures in Papua New Guinea. We test the suitability of NTL data to proxy economic statistics in this country as a significant portion of its economy is composed by industrial production and extractives, which are more likely to be captured by NTL. Additionally, there is significant variance in terms of poverty levels, and we are interested in knowing whether lights can capture any of that variance. While PNG is exceptional in the region due to its size, we examine other applications that may extend better to smaller islands in section 5.</p>
-<section id="extractives">
-<h2>Extractives<a class="headerlink" href="#extractives" title="Permalink to this headline">#</a></h2>
-<p>From our earlier inspection of annual composites, it was evident that mining sites produced high levels of lights in PNG. In a country that is predominantly rural, sites of extractive operations (Ok Tedi, Porgera, Hides, Agogo, and Iagifu) produce radiance measures higher than what is captured in major cities. Some of these sites are mining operations where the infrastructure built might have their lights on overnight, and they might have caused spillover settlement growth. Others are processing facilities connected to the Liquified Natural Gas pipeline, where NTL may be detecting episodes of flaring. Our hypothesis is that changes in the radiance levels detected in these locations may be related to changes in mining production or economic output.</p>
-<section id="methodology">
-<h3><em>Methodology</em><a class="headerlink" href="#methodology" title="Permalink to this headline">#</a></h3>
-<p>We built a database of mining sites and gas facilities by reviewing an official map and confirming their geo-location through crowd-sourced data . We drew 4-kilometer buffers around each site and calculated the sum of lights (SoL) for each site at the monthly and annual frequency. For the monthly time series, we rely on the VIIRS monthly images (2014-2022) and follow the moving-window linear interpolation described in section 3.3.</p>
-<p>For the annual time series, we rely on two sets of NTL data: the VIIRS annual composites generated by the Earth Observation Group (2013-2021), and the DMPS-OLS annual composites provided by NOAA (1992-2013). Multiple differences between satellites make it challenging to combine statistics from both datasets. To address this, we follow the harmonizing technique developed by Daynan Crull. This method uses the overlap between both platforms for a locally defined region of interest (in this case, PNG), applies various transformations and fits the DMSP composites to VIIRS using a Gradient Boosting decision-tree based algorithm (forthcoming ). We calculated sum of lights from the harmonized annual images and summarized national aggregates of lights per type of operation (mining or gas).</p>
-<p>To compare this with economic measures, we curated national sector-level GDP from the latest published national accounts - 2006 to 2019 (PNG National Statistics Office), and facility-level production reported through the Extractives Industry Transparency Initiative 2019 Report (EITI). Only selected facilities have reported the amount of gold or copper mines in the last few years (typically 2014 to 2019).</p>
-<!-- ```{figure}
-A | B
-- | - 
-![output-mining-gas](./images/Output_Mining_Gas.png) | ![lights-mining-gas](./images/Lights_Mining_Gas.png)
-
-Figure 4.1: National Aggregates. Left: output (PNG NSO), right: sum of lights (DMSP/VIIRS)
-``` -->
-<!-- ````{panels}
-:container: container-fluid 
-:column: col-lg-6 col-md-6 col-sm-6 col-xs-12 
-:card: shadow-none border-0
-
-```{figure} ./images/Output_Mining_Gas.png
-:width: 100%
-:name: output-mining-gas
-
-Figure 4.1.a: National Aggregates. Output (PNG NSO)
-```
-
----
-
-```{figure} ./images/Lights_Mining_Gas.png
-:width: 100%
-:name: lights-mining-gas
-
-Figure 4.1.b: National Aggregates. Sum of lights (DMSP/VIIRS)
-```
-
-```` -->
-<table class="table" id="id1">
-<caption><span class="caption-number">Table 1 </span><span class="caption-text">Figure 4.1: National Aggregates</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Output (PNG NSO)</p></th>
-<th class="head"><p>Sum of lights (DMSP/VIIRS)</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><img alt="" src="_images/Output_Mining_Gas.png" /></p></td>
-<td><p><img alt="" src="_images/Lights_Mining_Gas.png" /></p></td>
-</tr>
-</tbody>
-</table>
-<p>Figure 4-1 shows the national account output for the extractive industries, and the sum of lights after aggregating data from all locations in PNG. We investigated the degree of correlation by applying a natural logarithmic transformation to both series and comparing the difference in logged values year-to-year. To test their degree of correlation we specified the following linear regression, where the coefficient c1 can be interpreted as a growth elasticity index.</p>
-<div class="math notranslate nohighlight">
-\[
-Δ ln⁡(output) = c0 + c1 * Δ ln(sum \ of \ lights)
-\]</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="automatic-identification-system">
+<h1>Automatic Identification System<a class="headerlink" href="#automatic-identification-system" title="Permalink to this headline">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">#</a></h2>
+<p>The Automatic Identification System was originally developed by the International Maritime Organization in 2004 to prevent collisions between large vessels. This system requires all commercial ships (gross tonnage greater than 300) and passenger ships to broadcast their position and other characteristics via ground stations and satellites. The resulting data is highly complex as it includes dynamic information on ship movements (position and speed), and static information on ship characteristics and voyage-related attributes.</p>
+<p>Although AIS was originally developed to maintain safety at sea, recent work by <a class="reference external" href="https://blogs.worldbank.org/opendata/using-marine-spatial-data-inform-development-work-and-public-policies">IMF researchers</a> has highlighted its potential to nowcast economic statistics, with a particular focus on trade. Most relevantly, <a class="reference external" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4026426">Arslanalp, Koepke and Verschuur (2019)</a> conducted a study to track daily merchandise trade at the port-level in the Pacific Islands.</p>
+<p>This branch of work will build on these initiatives by adapting and improving methodologies to derive trade and fishing statistics for the Pacific Island Countries (PICs).</p>
 </section>
-<section id="results">
-<h3><em>Results</em><a class="headerlink" href="#results" title="Permalink to this headline">#</a></h3>
-<p>Although both time series show an upward trend in figure 4-1, aligning the data by type of industry with log differences highlights varying levels of agreement for mining and gas (see figure 4-2). Changes between lights and output do not correlate for mining but seem to have a stronger agreement for gas. Lights captured the strong increase in gas production in 2014, and changes in years prior (2007 to 2010) align well. This is further confirmed by our regression results. The elasticity found between lights and output for gas is significant at 0.98, while the coefficient for mining is -0.07 and not significant.</p>
-<!-- ```{figure}
-A | B
-- | - 
-![mining-log-diff](./images/Lights_Mining_LogDiff.png) | ![gas-log-diff](./images/Lights_Gas_LogDiff.png)
-
-Figure 4.2: Log Difference Output and Lights. Left: Mining, right: Petroleum and natural gas
-``` -->
-<!-- ````{panels}
-:container: container-fluid 
-:column: col-lg-6 col-md-6 col-sm-6 col-xs-12 
-:card: shadow-none border-0
-
-```{figure} ./images/Lights_Mining_LogDiff.png
-:width: 100%
-:name: mining-log-diff
-
-Figure 4.2.a: Log Difference Mining Output and Lights
-```
-
----
-
-```{figure} ./images/Lights_Gas_LogDiff.png
-:width: 100%
-:name: gas-log-diff
-
-Figure 4.2.a: Log Difference Gas Output and Lights
-```
-
-```` -->
-<table class="table" id="id2">
-<caption><span class="caption-number">Table 2 </span><span class="caption-text">Figure 4.2: Log Difference Output and Lights</span><a class="headerlink" href="#id2" title="Permalink to this table">#</a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>Mining Output and Lights</p></th>
-<th class="head"><p>Gas Output and Lights</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><img alt="" src="_images/Lights_Mining_LogDiff.png" /></p></td>
-<td><p><img alt="" src="_images/Lights_Gas_LogDiff.png" /></p></td>
-</tr>
-</tbody>
-</table>
-<p>The static trend in lights for recent years (2019 to 2021) signals that gas production has remained constant. Despite the strong correlation found for gas, the possibility to extend this use case to a predictive framework is limited. With no production values available at the site-level, there are not enough observations to properly test a predictive model.</p>
-<p>Production values are available for mining sites. However, we found that changes in total luminosity do not correlate to changes in the amount of copper or gold that is mined at the site-level. For example, in Porgera we see a slight increase in annual lights which is not reflected in their production values. We observe more movement in the monthly VIIRS time series for mining sites. Monthly lights can be a useful indicator to examine whether a given mine is active or inactive. An interactive application to examine these trends is publicly available at: <a class="reference external" href="https://afche18.users.earthengine.app/view/png-mining">https://afche18.users.earthengine.app/view/png-mining</a>.</p>
+<section id="data-visualization">
+<h2>Data Visualization<a class="headerlink" href="#data-visualization" title="Permalink to this headline">#</a></h2>
+<p>These interactive maps were generated with the following layers:</p>
+<ol class="simple">
+<li><p>22KM square boundary (buffer) for port point</p></li>
+<li><p>IMF defined port boundaries</p></li>
+<li><p>2019 AIS Heatmap (random 10% per buffer, aggregated by H3 resolution 12, ~154 sqm per H3)</p></li>
+</ol>
+<p>Set-up</p>
+<ul class="simple">
+<li><p>UNGP Platform: Ocean Spark / adb kernel OR</p></li>
+<li><p>UNGP Platform: Data Mechanics / cherryl kernel</p></li>
+</ul>
+<p>Pacific Island Countries</p>
+<ul class="simple">
+<li><p><span class="xref myst">FEDERATED STATES OF MICRONESIA​</span></p></li>
+<li><p>FIJI - no data prep yet</p></li>
+<li><p><span class="xref myst">KIRIBATI​</span></p></li>
+<li><p><span class="xref myst">MARSHALL ISLANDS​</span></p></li>
+<li><p><span class="xref myst">NAURU​</span></p></li>
+<li><p><span class="xref myst">PALAU​</span></p></li>
+<li><p>PAPUA NEW GUINEA - no data prep yet​</p></li>
+<li><p><span class="xref myst">SAMOA​</span></p></li>
+<li><p><span class="xref myst">SOLOMON ISLANDS</span>​</p></li>
+<li><p><span class="xref myst">TONGA​</span></p></li>
+<li><p><span class="xref myst">TUVALU​</span></p></li>
+<li><p><span class="xref myst">VANUATU​</span></p></li>
+</ul>
 </section>
+<section id="trade-estimation-methodologies">
+<h2>Trade Estimation Methodologies<a class="headerlink" href="#trade-estimation-methodologies" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>General Methodology</p>
+<ul>
+<li><p>Define port boundary</p></li>
+<li><p>Generate port calls from boundary</p></li>
+<li><p>Estimate trade / generate indicators</p></li>
+</ul>
+</li>
+<li><p><a href="https://www.imf.org/en/Publications/WP/Issues/2019/12/13/Big-Data-on-Vessel-Traffic-Nowcasting-Trade-Flows-in-Real-Time-48837"><b>2019 IMF: Big Data on Vessel Traffic: Nowcasting Trade Flows in Real Time</b><a></p>
+<ul>
+<li><p>Port Calls created by Marine Traffic</p></li>
+<li><p>Data waterfall</p>
+<ol class="simple">
+<li><p>Exclude: speed &gt; 1.0 knot</p></li>
+<li><p>Exclude: Anchorage and bunkering tankers - remove bunkering tankers</p>
+<ul>
+<li><p>Fuel supplied to foreign vessels should be recorded as exports of the country according to international standards, although it is recognized that data collection may be challenging.6 Since the inclusion of these tankers introduces considerable volatility to the indices, we omit bunkering tankers from our valid port calls</p></li>
+</ul>
+</li>
+<li><p>Exclude: Ship arrived but not departerd</p></li>
+<li><p>Exclude: Stay in the harbor outside reasonable range for trade activity</p>
+<ul>
+<li><p>stay in port &lt; 5hrs: unlikely to have enough time to load or unload goods in the port</p></li>
+<li><p>sta in port &gt; 60 hrs: Longer stays may be associated with ships visiting the port for repairs or maintenance services.</p></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>Indicators:</p>
+<ol class="simple">
+<li><p>cargo number</p></li>
+<li><p>cargo load</p>
+<ul>
+<li><p><img alt="image.png" src="docs/images/ais/cargo-formula.png" /></p></li>
+<li><p>DWT is adjusted with a capacity utilization ratio.</p></li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p><a href="https://www.sciencedirect.com/science/article/pii/S1361920920305800"><b> 2020 Science Direct: Port disruptions due to natural disasters: Insights into port and logistics resilience</b><a></p>
+<ul>
+<li><p>no mention of how port calls were derived</p></li>
+<li><p><img alt="image.png" src="docs/images/ais/port-disruptions.png" /></p></li>
+</ul>
+</li>
+<li><p><a href="https://www.imf.org/en/Publications/WP/Issues/2020/05/14/World-Seaborne-Trade-in-Real-Time-A-Proof-of-Concept-for-Building-AIS-based-Nowcasts-from-49393"><b> 2020 IMF: World Seaborne Trade in Real Time</b><a></p>
+<ul>
+<li><p>Port boundary:</p>
+<ul>
+<li><p>SOG &lt; 0.5, &amp;&amp; nav status anchored or moored</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0248818#pone.0248818.s001"><b> 2021 Global economic impacts of COVID-19 lockdown measures stand out in high-frequency shipping data</b><a></p>
+<ul>
+<li><p>Port Boundary: manually mapped, berthing + navigation channels</p></li>
+<li><p>Port Calls: Vessel call algorithm</p>
+<ul>
+<li><p>Filter:</p>
+<ul>
+<li><p>include: cargo and tanker vessels.</p></li>
+<li><p>exclude: stay in port less than 5h and more than the 95th percentile (of the port) are truncated, as they are most likely associated with refueling, repair or maintenance.</p></li>
+<li><p>exclude: turnaround time of less than 10h and leave the port area at a direction that is within 45 degree of the direction of entering the port area. These port calls are most likely associated with vessels passing a port (e.g. ports alongside a river).</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="https://www.imf.org/en/Publications/WP/Issues/2021/08/20/Tracking-Trade-from-Space-An-Application-to-Pacific-Island-Countries-464345"><b> 2021 IMF: Tracking Trade from Space: An Application to Pacific Island Countries</b><a></p>
+<ul>
+<li><p>Port Boundary: “manually determined using satellite imagery”</p></li>
+<li><p>Port Call:</p>
+<ul>
+<li><p>include: focus on container ships—the main engine of seaborne trade in the Pacific—vehicle carriers, and bulk carriers (relevant for Fiji, Nauru, and Solomon Islands as commodity-exporters).</p></li>
+<li><p>exclude: Fuel tankers are not included, as Pacific countries import a significant portion of fuel for re-exports (for visiting foreign vessels and airlines</p></li>
+<li><p>exclude vessels in transit: turnaround time of less than 5 hours and no draft change between the current and next port</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </section>
-<section id="poverty-mapping">
-<h2>Poverty Mapping<a class="headerlink" href="#poverty-mapping" title="Permalink to this headline">#</a></h2>
-<p>Even though light output is extremely low in rural areas in Papua New Guinea (as seen in table 1), we tested the correlation between NTL metrics and a cross-section of province-level poverty rates. For this exercise we used a relative wealth index constructed from the latest DHS survey available (2016 to 2018). This index follows the methodology developed by DHS to summarize wealth based on household assets and amenities.</p>
-<p>The clean NTL annual composite for 2019 contains valuable information about the distribution of wealth across provinces. The statistic with the highest correlation to relative wealth is the share of settled area with lights (r = 0.705). Sum of lights was also correlated but with a lower coefficient (0.58). This suggests that the extent of lights is more indicative of poverty than the intensity of lights. Overall, the correlations identified hint that NTL statistics can be used as supplementary features to map the distribution of poverty at more local levels.</p>
-<figure class="align-default" id="wealth-lights">
-<img alt="_images/wealth-and-lights.jpeg" src="_images/wealth-and-lights.jpeg" />
-<figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Figure 4.3: Correlation between relative wealth and area of lights</span><a class="headerlink" href="#wealth-lights" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
+<section id="additional-resources">
+<h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this headline">#</a></h2>
+<ul>
+<li><p><a class="reference external" href="https://unstats.un.org/wiki/display/AIS/Introduction">AIS Handbook, Global Working Group on Big Data for Official Statistics</a></p>
+<blockquote>
+<div><p>Data for this analysis is available through the UN Global Platform, which also
+hosts a dedicated working group to promote the use of AIS data to derive economic
+indicators.</p>
+</div></blockquote>
+</li>
+</ul>
 </section>
 </section>
 
@@ -631,19 +626,12 @@ Figure 4.2.a: Log Difference Gas Output and Lights
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="ch3_dq.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="notebooks/TourUpdates.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Data Quality Assessment</p>
+            <p class="prev-next-title">Updates on Pacific Islands Country Tourism</p>
         </div>
-    </a>
-    <a class='right-next' id="next-link" href="ch5_other.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Other Use Cases</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
     </a>
 </div>
             </footer>
