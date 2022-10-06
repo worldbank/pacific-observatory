@@ -52,12 +52,12 @@ Pacific Island Countries
     - Indicators:
         1. cargo number
         2. cargo load
-            - ![image.png](./docs/images/ais/cargo-formula.png)
+            - ![image.png](./images/ais/cargo-formula.png)
             - DWT is adjusted with a capacity utilization ratio.
         
 - <a href="https://www.sciencedirect.com/science/article/pii/S1361920920305800"><b> 2020 Science Direct: Port disruptions due to natural disasters: Insights into port and logistics resilience</b><a>
     - no mention of how port calls were derived
-    - ![image.png](./docs/images/ais/port-disruptions.png)
+    - ![image.png](./images/ais/port-disruptions.png)
     
 - <a href="https://www.imf.org/en/Publications/WP/Issues/2020/05/14/World-Seaborne-Trade-in-Real-Time-A-Proof-of-Concept-for-Building-AIS-based-Nowcasts-from-49393"><b> 2020 IMF: World Seaborne Trade in Real Time</b><a>
     - Port boundary:
