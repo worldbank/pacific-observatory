@@ -12,10 +12,11 @@ parts:
   - caption: Climate and Agriculture
     chapters:
       - file: climate_and_ag
+      - file: climate_db
   - caption: Tourism
     chapters:
       - file: TourUpdates
-      - file: tourism
+      # - file: tourism
   - caption: AIS
     chapters:
       - file: ais_intro

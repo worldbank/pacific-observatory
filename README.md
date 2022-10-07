@@ -12,9 +12,7 @@ The content is structured by topic of investigation, each thematic folder contai
 
 🔖 **Night Time Lights Applications**
 > This note explores socio-economic applications with Night Time Lights data.  
-
 > Are lights at night a good proxy for economic activity or extractives?  
-
 > Can lights be used to aid poverty mapping, estimate access to electrification, or estimate damages/recovery from natural disasters?
 
 🔖 **Market Prices Imputation**
@@ -68,7 +66,7 @@ data_startyear = 2009
 
 🔖 **Climate and Agriculture Monitoring**
 > Monitor crop productivity and seasonality through vegetation indices.  
-> Sub-national database of climate indicators.
+> Develop a sub-national database of climate indicators.  
 > Update crop masks with limited training data and satellite imagery. 
 
 ### Future work
