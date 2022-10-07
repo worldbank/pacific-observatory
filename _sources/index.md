@@ -10,9 +10,7 @@ The content is structured by topic of investigation, each thematic folder contai
 
 🔖 [**Night Time Lights Applications**](./ch1_intro.md)
 > This note explores socio-economic applications with Night Time Lights data.  
-
 > Are lights at night a good proxy for economic activity or extractives?  
-
 > Can lights be used to aid poverty mapping, estimate access to electrification, or estimate damages/recovery from natural disasters?
 
 🔖 **Market Prices Imputation**
@@ -31,9 +29,9 @@ The code relies on WFP price surveys that are not available for PNG. The code ha
 🔖 [**Aviation Statistics**](./TourUpdates)
 > Monitor tourism recovery through aviation statistics.
 
-🔖 **Climate and Agriculture Monitoring**
+🔖 [**Climate and Agriculture Monitoring**](./climate_and_ag.md)
 > Monitor crop productivity and seasonality through vegetation indices.  
-> Sub-national database of climate indicators.
+> Develop a sub-national database of climate indicators.  
 > Update crop masks with limited training data and satellite imagery.  
 
 ### Future work

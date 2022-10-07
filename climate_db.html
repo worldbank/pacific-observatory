@@ -1,0 +1,758 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Climate Database &#8212; Pacific Observatory</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/climate_db.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Updates on Pacific Islands Country Tourism" href="TourUpdates.html" />
+    <link rel="prev" title="Agriculture Monitoring in the Pacific Island Countries" href="climate_and_ag.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Pacific Observatory</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    Pacific Observatory
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Night Time Lights
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch1_intro.html">
+   Introduction
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch2_lit.html">
+   Literature Review
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch3_dq.html">
+   Data Quality Assessment
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch4_econ.html">
+   Economic Applications
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch5_other.html">
+   Other Use Cases
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Climate and Agriculture
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="climate_and_ag.html">
+   Agriculture Monitoring in the Pacific Island Countries
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Climate Database
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Tourism
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="TourUpdates.html">
+   Updates on Pacific Islands Country Tourism
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  AIS
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ais_intro.html">
+   Automatic Identification System
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Additional Resources
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference external" href="https://datapartnership.org/updates">
+   Projects &amp; News
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference external" href="https://worldbank.org">
+   World Bank
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/andresfchamorro/pacific-observatory"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fclimate_db.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/climate_db.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/climate_db.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zonal-statistics">
+   Zonal statistics
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#output-table">
+     Output table
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#metadata">
+   Metadata
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualization">
+   Visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variable-descriptions">
+   Variable Descriptions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standardized-precipitation-index">
+     Standardized Precipitation Index
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standardized-precipitation-evapotranspiration-index">
+     Standardized Precipitation-Evapotranspiration Index
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#consecutive-dry-days">
+     Consecutive Dry Days
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#consecutive-wet-days">
+     Consecutive Wet Days
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dry-days">
+     Dry Days
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#wet-days">
+     Wet Days
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Climate Database</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zonal-statistics">
+   Zonal statistics
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#output-table">
+     Output table
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#metadata">
+   Metadata
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#visualization">
+   Visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variable-descriptions">
+   Variable Descriptions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standardized-precipitation-index">
+     Standardized Precipitation Index
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standardized-precipitation-evapotranspiration-index">
+     Standardized Precipitation-Evapotranspiration Index
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#consecutive-dry-days">
+     Consecutive Dry Days
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#consecutive-wet-days">
+     Consecutive Wet Days
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dry-days">
+     Dry Days
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#wet-days">
+     Wet Days
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="climate-database">
+<h1>Climate Database<a class="headerlink" href="#climate-database" title="Permalink to this headline">#</a></h1>
+<p>Climate change poses an existential threat to many islands in the Pacific. Small island states in the region are increasingly vulnerable to extreme rainfall events, cyclones, changes in ocean circulation, and rising sea level. Climate data is a critical resource to help us prepare for and address the challenges of a changing environment. However, these datasets can be difficult to work with due to technical characteristics of the raw data. They are often stored in complex time-series grid formats such as netcdf. Additionally, global climate datasets are typically produced at coarse spatial resolutions (~55 km), making them unsuitable to study climate dynamics in small island states.</p>
+<p>The Global Operations Support Team (GOST) has developed tools to process a suite of medium resolution climate datasets (10 to 5 km), producing monthly and daily raster files (geotiffs) for each climate indicator. This processing toolset was developed by Benny Istanto, and continues to be expanded as it informs various knowledge products and initiatives, including CCDRs and the Pacific Observatory. To learn more about the underlying source data and how each index is constructed, please refer to its <a class="reference external" href="https://bennyistanto.github.io/gost-climate/intro.html">documentation pages</a>.</p>
+<section id="zonal-statistics">
+<h2>Zonal statistics<a class="headerlink" href="#zonal-statistics" title="Permalink to this headline">#</a></h2>
+<p>The team has calculated statistics (max, mean, median, standard deviation) for each administrative level-1 area and every timestep available. Sub-national boundaries for selected Pacific Island Countries were retrieved from the <a class="reference external" href="https://sdd.spc.int/mapping-popgis">Pacific Community PopGIS portals</a> and, where not available, from UN OCHA via the Humanitarian Data Exchange. The script used to calculate these statistics is available in this repository.</p>
+<section id="output-table">
+<h3>Output table<a class="headerlink" href="#output-table" title="Permalink to this headline">#</a></h3>
+<p>The output dataset can be accessed via the following Development Data Hub <a class="reference external" href="https://datacatalog.worldbank.org/int/search/dataset/0062856">entry</a>.</p>
+<p>The output table contains monthly statistics for 131 areas across 12 countries (Papua New Guinea, Federated States of Micronesia, Fiji, Kiribati, Marshall Islands, Nauru, Palau, Samoa, Solomon Islands, Tonga, Tuvalu, Vanuatu).</p>
+<p>The time coverage varies by indicator but extends from January 1958 to December 2021.</p>
+</section>
+</section>
+<section id="metadata">
+<h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><em>Admin variables</em><br />
+<strong>index</strong>: Unique identifier for each area<br />
+<strong>ADM0_NAME</strong>: Country name<br />
+<strong>ADM0_PCODE</strong>: Country code<br />
+<strong>ADM1_NAME</strong>: Administrative name<br />
+<strong>ADM1_PCODE</strong>: Administrative code from original source<br />
+<strong>year</strong><br />
+<strong>month</strong><br />
+<strong>date</strong>: YYYYMM</p>
+<p><em>List of variables</em><br />
+<strong>spi</strong>: Standardized Precipitation Index<br />
+<strong>spei</strong>: Standardized Precipitation-Evapotranspiration Index<br />
+<strong>cdd</strong>: Consecutive dry days<br />
+<strong>cwd</strong>: Consecutive wet days<br />
+<strong>drydays</strong>: Number of dry days<br />
+<strong>wetdays</strong> Number of wet days</p>
+<p><em>Rainfall thresholds</em> (for cdd, cwd, drydays, wetdays)<br />
+<strong>1mm</strong>: 1 millimeters of rainfall per day.<br />
+<strong>5mm</strong>: 5 millimeters of rainfall per day.</p>
+<p><em>List of zonal statistics</em><br />
+<strong>max</strong>: Maximum<br />
+<strong>mean</strong>: Mean value<br />
+<strong>std</strong>: Standard deviation<br />
+<strong>median</strong>: Median value</p>
+<p><em>Variable name example</em>: variable_parameter_zonal statistic<br />
+<strong>Variable name</strong>: spi03_median<br />
+<strong>Description</strong>: Standardized precipitation index, 3-month window, median value</p>
+</div>
+</section>
+<section id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="d683455e-e3dc-4370-aae5-abbb7086a735" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="d683455e-e3dc-4370-aae5-abbb7086a735">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Papua-New-Guinea1.jpeg" /></p>
+</div>
+<input id="2c7a1047-6de8-41ec-9ec5-fa5b26a5b2e8" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="2c7a1047-6de8-41ec-9ec5-fa5b26a5b2e8">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Federated-States-of-Micronesia1.jpeg" /></p>
+</div>
+<input id="21885afd-0656-4af1-8956-850ace035af6" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="21885afd-0656-4af1-8956-850ace035af6">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Fiji1.jpeg" /></p>
+</div>
+<input id="17b3c71e-8c3c-42af-ab58-f21179a700ae" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="17b3c71e-8c3c-42af-ab58-f21179a700ae">
+Kiribati</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Kiribati1.jpeg" /></p>
+</div>
+<input id="25a8d592-a183-43aa-988d-979c881230d1" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="25a8d592-a183-43aa-988d-979c881230d1">
+Marshall Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Marshall-Islands1.jpeg" /></p>
+</div>
+<input id="ba7899b9-aa78-4b85-b1b5-78d3b641c070" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="ba7899b9-aa78-4b85-b1b5-78d3b641c070">
+Nauru</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Nauru1.jpeg" /></p>
+</div>
+<input id="ff4633aa-1a1a-4cfc-adbd-71feb49cccd5" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="ff4633aa-1a1a-4cfc-adbd-71feb49cccd5">
+Palau</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Palau1.jpeg" /></p>
+</div>
+<input id="c69d611d-c04d-46c9-bc88-e27ad9bf624b" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="c69d611d-c04d-46c9-bc88-e27ad9bf624b">
+Samoa</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Samoa1.jpeg" /></p>
+</div>
+<input id="40a51f5b-4076-4b00-9f80-8eee6fa3d78d" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="40a51f5b-4076-4b00-9f80-8eee6fa3d78d">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Solomon-Islands1.jpeg" /></p>
+</div>
+<input id="ebfecf74-84f2-4d3d-9775-2e8368592344" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="ebfecf74-84f2-4d3d-9775-2e8368592344">
+Tonga</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Kingdom-of-Tonga.jpeg" /></p>
+</div>
+<input id="403367bc-62b2-4f9e-9ff5-9cab041af59c" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="403367bc-62b2-4f9e-9ff5-9cab041af59c">
+Tuvalu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tuvalu1.jpeg" /></p>
+</div>
+<input id="c05157bd-4439-443a-a7ae-9160643b64cf" name="9e7bddd5-b482-436a-abad-0c4ccc686e72" type="radio">
+</input><label class="sd-tab-label" for="c05157bd-4439-443a-a7ae-9160643b64cf">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Vanuatu1.jpeg" /></p>
+</div>
+</div>
+</section>
+<section id="variable-descriptions">
+<h2>Variable Descriptions<a class="headerlink" href="#variable-descriptions" title="Permalink to this headline">#</a></h2>
+<section id="standardized-precipitation-index">
+<h3>Standardized Precipitation Index<a class="headerlink" href="#standardized-precipitation-index" title="Permalink to this headline">#</a></h3>
+<p>The Standardized Precipitation Index (<a class="reference external" href="https://library.wmo.int/doc_num.php?explnum_id=7768">SPI</a>) is a normalized index representing the probability of occurrence of an observed rainfall amount when compared with the rainfall climatology over a long-term period. This long-term record is fitted to a probability distribution, which is then transformed into a normal distribution so that the mean SPI for the location and desired period is zero.</p>
+<p>Negative SPI values represent rainfall deficit and less than median precipitation (Dry), starts when the SPI value is equal or below -1.0. Whereas positive SPI values indicate rainfall surplus and greater than median precipitation (Wet), starts when the SPI value is equal or above 1.0, and ends when the value becomes negative.</p>
+</section>
+<section id="standardized-precipitation-evapotranspiration-index">
+<h3>Standardized Precipitation-Evapotranspiration Index<a class="headerlink" href="#standardized-precipitation-evapotranspiration-index" title="Permalink to this headline">#</a></h3>
+<p>The <a class="reference external" href="https://spei.csic.es">SPEI</a> is an extension of the widely used SPI. The SPEI is designed to take into account both <code class="docutils literal notranslate"><span class="pre">precipitation</span></code> and <code class="docutils literal notranslate"><span class="pre">potential</span> <span class="pre">evapotranspiration</span></code> (PET) in determining drought. Thus, unlike the SPI, the SPEI captures the main impact of increased temperatures on water demand.</p>
+<p>The SPEI can measure drought severity according to its intensity and duration, and can identify the onset and end of drought episodes. The SPEI allows comparison of drought severity through time and space, since it can be calculated over a wide range of climates, as can the SPI.</p>
+<p>The idea behind the SPEI is to compare the highest possible evapotranspiration (what we call the evaporative demand by the atmosphere) with the current water availability. Thus, precipitation (accumulated over a period of time) in the SPEI stands for the water availability, while ETo stands for the atmospheric water demand.</p>
+<p>Negative SPEI values represent rainfall deficit and less than median precipitation, and high potential epotranspiration (Dry), starts when the SPEI value is equal or below -1.0. Whereas positive SPEI values indicate rainfall surplus and greater than median precipitation, and low potential epotranspiration (Wet), starts when the SPEI value is equal or above 1.0, and ends when the value becomes negative.</p>
+</section>
+<section id="consecutive-dry-days">
+<h3>Consecutive Dry Days<a class="headerlink" href="#consecutive-dry-days" title="Permalink to this headline">#</a></h3>
+<p>The number of consecutive dry days (CDD) is the largest number of consecutive days with daily precipitation amount less than 1 mm (or depending on the rain days criteria of the country), within a certain time. Usually the process counts the number of days in the past 90 days to measure the drought level.</p>
+</section>
+<section id="consecutive-wet-days">
+<h3>Consecutive Wet Days<a class="headerlink" href="#consecutive-wet-days" title="Permalink to this headline">#</a></h3>
+<p>The number of consecutive wet days (CWD) is similar to the above CDD, the largest number of consecutive days with daily precipitation amount more than 1 mm (or depend on the rain days criteria of the country), within a certain time. Usually the process counts the number of days in the past 90 days to measure the wet level.</p>
+</section>
+<section id="dry-days">
+<h3>Dry Days<a class="headerlink" href="#dry-days" title="Permalink to this headline">#</a></h3>
+<p>The number of dry days (DD) is the largest number of days with daily precipitation amount less than 1 mm (or depending on the rain days criteria of the country), within a certain time. Usually the process counts the number of days within a year to measure the dry condition.</p>
+</section>
+<section id="wet-days">
+<h3>Wet Days<a class="headerlink" href="#wet-days" title="Permalink to this headline">#</a></h3>
+<p>The number of wet days (DD) is the largest number of days with daily precipitation amount more than 1 mm (or depending on the rain days criteria of the country), within a certain time. Usually the process counts the number of days within a year to measure the wet condition.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="climate_and_ag.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Agriculture Monitoring in the Pacific Island Countries</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="TourUpdates.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Updates on Pacific Islands Country Tourism</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By World Bank<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

@@ -21,38 +21,38 @@ Set-up
 
 Pacific Island Countries
 
-- FEDERATED STATES OF MICRONESIA​
+### Federated States of Micronesia
 <iframe src="ais/Micronesia2019.html" height="600" width="800"></iframe>
 
-- FIJI - no data prep yet
+- Fiji - no data prep yet
 
-- KIRIBATI
+### Kiribati
 <iframe src="ais/Kiribati2019.html" height="600" width="800"></iframe>
 
-- MARSHALL ISLANDS
+### Marshall Islands
 <iframe src="ais/Marshall-Islands2019.html" height="600" width="800"></iframe>
 
-- NAURU​
+### Nauru
 <iframe src="ais/Nauru2019.html" height="600" width="800"></iframe>
 
-- PALAU
+### Palau
 <iframe src="ais/Palau2019.html" height="600" width="800"></iframe>
 
-- PAPUA NEW GUINEA - no data prep yet​
+- Papua New Guinea - no data prep yet​
 
-- SAMOA
+### Samoa
 <iframe src="ais/Samoa2019.html" height="600" width="800"></iframe>
 
-- SOLOMON ISLANDS
+### Solomon Islands
 <iframe src="ais/SolomonIslands2019.html" height="600" width="800"></iframe>
 
-- TONGA​
+### Tonga
 <iframe src="ais/Tonga2019.html" height="600" width="800"></iframe>
 
-- TUVALU​
+### Tuvalu
 <iframe src="ais/Tuvalu2019.html" height="600" width="800"></iframe>
 
-- VANUATU
+### Vanuatu
 <iframe src="ais/Vanuatu2019.html" height="600" width="800"></iframe>
 
 
