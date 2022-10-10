@@ -1,0 +1,19 @@
+p {
+    text-align: justify;
+}
+
+div#content {
+    position: relative;
+    padding: 56.25%;
+}
+
+div#content iframe {
+    position: absolute;
+    scroll-behavior: auto;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+  

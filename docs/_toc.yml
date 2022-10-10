@@ -15,8 +15,8 @@ parts:
       - file: climate_db
   - caption: Tourism
     chapters:
-      - file: TourUpdates
-      # - file: tourism
+    # - file: TourUpdates
+      - file: tourism
   - caption: AIS
     chapters:
       - file: ais_intro
