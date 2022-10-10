@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -42,6 +43,7 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
+    <script src="_static/scale.fix.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -53,6 +55,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/tourism.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Automatic Identification System" href="ais_intro.html" />
+    <link rel="prev" title="Climate Database" href="climate_db.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -166,10 +170,10 @@ const thebe_selector_output = ".output, .cell_output"
   Tourism
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="TourUpdates.html">
-   Updates on Pacific Islands Country Tourism
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Updates on Tourism
   </a>
  </li>
 </ul>
@@ -396,9 +400,50 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#exploratory-data-analysis">
-   Exploratory Data Analysis
+  <a class="reference internal nav-link" href="#eda">
+   EDA
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-country-comparisons">
+   Cross-country comparisons
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#number-of-flights-in-7-days">
+     Number of Flights in 7 Days
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistical-properties">
+   Statistical Properties
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#missingness">
+     Missingness
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#variability">
+     Variability
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#future-directions">
+   Future Directions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-data-sources">
+     Other Data Sources
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -420,9 +465,50 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#exploratory-data-analysis">
-   Exploratory Data Analysis
+  <a class="reference internal nav-link" href="#eda">
+   EDA
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cross-country-comparisons">
+   Cross-country comparisons
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#number-of-flights-in-7-days">
+     Number of Flights in 7 Days
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#statistical-properties">
+   Statistical Properties
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#missingness">
+     Missingness
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#variability">
+     Variability
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#future-directions">
+   Future Directions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-data-sources">
+     Other Data Sources
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -436,10 +522,132 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="updates-on-tourism">
 <h1>Updates on Tourism<a class="headerlink" href="#updates-on-tourism" title="Permalink to this headline">#</a></h1>
-<section id="exploratory-data-analysis">
-<h2>Exploratory Data Analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this headline">#</a></h2>
-<p>This is a test for AIS Interative Map.</p>
-<iframe src="ais/Micronesia2019.html" height="600" width="800"></iframe></section>
+<section id="eda">
+<h2>EDA<a class="headerlink" href="#eda" title="Permalink to this headline">#</a></h2>
+<p>Three types of data about Pacific Islands are available:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Available</span> <span class="pre">Seats</span> <span class="pre">Kilometers</span></code>, a variable that measures the vacancy per flight. The equation is <code class="docutils literal notranslate"><span class="pre">Available</span> <span class="pre">Seats</span></code> * <code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">kilometers</span></code>, however, given there is no corresponding flight distace, the variable yields little value for further analysis.</p></li>
+<li><p>Thus, <code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">Flights</span> <span class="pre">in</span> <span class="pre">7</span> <span class="pre">Days</span></code> and <code class="docutils literal notranslate"><span class="pre">Number</span> <span class="pre">of</span> <span class="pre">Passengers</span> <span class="pre">in</span> <span class="pre">7</span> <span class="pre">Days</span></code> become the main focus of this analysis.</p></li>
+</ul>
+</section>
+<section id="cross-country-comparisons">
+<h2>Cross-country comparisons<a class="headerlink" href="#cross-country-comparisons" title="Permalink to this headline">#</a></h2>
+<section id="number-of-flights-in-7-days">
+<h3>Number of Flights in 7 Days<a class="headerlink" href="#number-of-flights-in-7-days" title="Permalink to this headline">#</a></h3>
+<figure class="align-default" id="number-of-flights-in-7-days-by-country">
+<img alt="_images/NumFlsIn7Days.png" src="_images/NumFlsIn7Days.png" />
+</figure>
+<p>And then</p>
+<div id="content">
+    <iframe src="tourism/fl.html" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
+</section>
+</section>
+<section id="statistical-properties">
+<h2>Statistical Properties<a class="headerlink" href="#statistical-properties" title="Permalink to this headline">#</a></h2>
+<section id="missingness">
+<h3>Missingness<a class="headerlink" href="#missingness" title="Permalink to this headline">#</a></h3>
+<figure class="align-default" id="missing-data-heatmap">
+<img alt="tourism/ms_heatmap.png" src="tourism/ms_heatmap.png" />
+</figure>
+<p>Basically, from the heatmap displayed above, the missing columns <code class="docutils literal notranslate"><span class="pre">psg_wow_change</span></code> and <code class="docutils literal notranslate"><span class="pre">fl_wow_change</span></code> have exactly the same entry combinations missed.</p>
+<p>Except for <strong>Fiji</strong> and <strong>Papua New Guinea</strong>, other countries get some proportion of the missing data, ranging from 11.38% in Tuvalu to 95.14% in Solomon Islands. Noted:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">date_range</span></code> measures difference between the first and last recorded dates;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">df_length</span></code> is the available dataframe’s length;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">missing</span></code> counts the missing items in the available dataframe; and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">available</span></code> is the true aviliable counts over the recorded time periods.</p></li>
+</ul>
+<p>In line with missing data from the Covid Stringency Index, Fiji, Papua New Guinea, Tonga, and Solomon Islands are the countries with least missing data. A detailed count are displayed below:</p>
+<ul class="simple">
+<li><p>1 out of 511 in TON is null.</p></li>
+<li><p>6 out of 701 in SLB is null.</p></li>
+<li><p>14 out of 957 in FJI is null.</p></li>
+<li><p>14 out of 907 in PNG is null.</p></li>
+<li><p>21 out of 483 in KIR is null.</p></li>
+<li><p>21 out of 672 in VUT is null.</p></li>
+<li><p>451 out of 451 in TUV is null.</p></li>
+<li><p>387 out of 387 in PLW is null.</p></li>
+<li><p>460 out of 460 in NRU is null.</p></li>
+<li><p>859 out of 859 in MHL is null.</p></li>
+<li><p>600 out of 600 in FSM is null.</p></li>
+<li><p>664 out of 664 in WSM is null.</p></li>
+</ul>
+<p><strong>Table 1: % Pixels with lights in the cleaned VIIRS 2021</strong></p>
+<table class="table">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Country</p></th>
+<th class="head"><p>Number of Flights Before Covid</p></th>
+<th class="head"><p>Number of Flights During Covid</p></th>
+<th class="head"><p>Percantage Changed</p></th>
+<th class="head"><p>Number of Passengers Before Covid</p></th>
+<th class="head"><p>Number of Passengers Before Covid</p></th>
+<th class="head"><p>Percentage Changed</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Vanuatu</p></td>
+<td><p>26.792373</p></td>
+<td><p>29.347409</p></td>
+<td><p>9.536430</p></td>
+<td><p>3028.190678</p></td>
+<td><p>2553.804223</p></td>
+<td><p>-15.66567</p></td>
+</tr>
+<tr class="row-odd"><td><p>Solomon Islands</p></td>
+<td><p>7.199248</p></td>
+<td><p>2.636678</p></td>
+<td><p>-63.375645</p></td>
+<td><p>935.939850</p></td>
+<td><p>386.366782</p></td>
+<td><p>-58.718845</p></td>
+</tr>
+<tr class="row-even"><td><p>Papua New Guinea</p></td>
+<td><p>454.928571</p></td>
+<td><p>465.118774</p></td>
+<td><p>2.239957</p></td>
+<td><p>34249.642857</p></td>
+<td><p>32915.454662</p></td>
+<td><p>-3.895481</p></td>
+</tr>
+<tr class="row-odd"><td><p>Fiji</p></td>
+<td><p>287.924051</p></td>
+<td><p>67.417513</p></td>
+<td><p>-76.584967</p></td>
+<td><p>26749.341772</p></td>
+<td><p>6948.908629</p></td>
+<td><p>-74.022132</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="variability">
+<h3>Variability<a class="headerlink" href="#variability" title="Permalink to this headline">#</a></h3>
+</section>
+</section>
+<section id="future-directions">
+<h2>Future Directions<a class="headerlink" href="#future-directions" title="Permalink to this headline">#</a></h2>
+<section id="other-data-sources">
+<h3>Other Data Sources<a class="headerlink" href="#other-data-sources" title="Permalink to this headline">#</a></h3>
+<p><a class="reference external" href="https://www.imf.org/en/Countries/ResRep/PIS-Region">IMF Tourism Tracker</a> provides an estimated visitor during 2020-2021. Their method is quoted as below:</p>
+<blockquote>
+<div><p>Chinese visitors to Fiji fell by 73 percent in February relative to a year earlier. And Chinese visitors to Palau accounted for 32 percent of total visitors in 2019. Multiplying the two percentages yields the percentage point contribution to the change in visitors to Palau from Chinese visitors. Adding up the contributions across all source countries yields the total 12-month percent change.</p>
+</div></blockquote>
+<p><strong>Regression Discontinunity in Time (RDiT)</strong> could be especially helpful to detect the treatment effects of the Covid-19.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -469,6 +677,20 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="climate_db.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Climate Database</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="ais_intro.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Automatic Identification System</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>
