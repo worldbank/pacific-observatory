@@ -1,6 +1,6 @@
-# Updates on Tourism
+# Introduction
 
-## EDA
+## Exploratory Data Analysis 
 
 Three types of data about Pacific Islands are available:
 - `Available Seats Kilometers`, a variable that measures the vacancy per flight. The equation is `Available Seats` * `The number of kilometers`, however, given there is no corresponding flight distace, the variable yields little value for further analysis.
@@ -19,12 +19,11 @@ Three types of data about Pacific Islands are available:
 And then 
 
 <div id="content">
-    <iframe src="tourism/fl.html" name="frame2" id="frame2" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+    <iframe src="interactive/tourism/tourism-fl.html" name="flights" id="flights" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
 
 
-## Statistical Properties
-### Missingness
+## Missingness
 
 ```{figure} tourism/ms_heatmap.png
 :name: Missing Data Heatmap
@@ -54,45 +53,15 @@ In line with missing data from the Covid Stringency Index, Fiji, Papua New Guine
 - 600 out of 600 in FSM is null.
 - 664 out of 664 in WSM is null.
 
-**Table 1: % Pixels with lights in the cleaned VIIRS 2021**
-```{list-table}
-:header-rows: 1
-* - Country
-  - Number of Flights Before Covid
-  - Number of Flights During Covid
-  - Percantage Changed 
-  - Number of Passengers Before Covid
-  - Number of Passengers Before Covid
-  - Percentage Changed
-* - Vanuatu	
-  - 26.792373	
-  - 29.347409	
-  - 9.536430	
-  - 3028.190678	
-  - 2553.804223	
-  - -15.66567 
-* - Solomon Islands	
-  - 7.199248	
-  - 2.636678	
-  - -63.375645	
-  - 935.939850	
-  - 386.366782	
-  - -58.718845
-* - Papua New Guinea	
-  - 454.928571	
-  - 465.118774	
-  - 2.239957	
-  - 34249.642857	
-  - 32915.454662	
-  - -3.895481
-* - Fiji
-  - 287.924051 
-  - 67.417513	
-  - -76.584967	
-  - 26749.341772	
-  - 6948.908629	
-  - -74.022132
-```
+### A Tiered System of Pacific Islands Countries from Data Completeness
+Tier A
+- Fiji
+- Papua New Guinea
+- Tonga
+- Vanuatu
+
+Tier B
+
 
 ### Variability
 
@@ -102,7 +71,6 @@ In line with missing data from the Covid Stringency Index, Fiji, Papua New Guine
 [IMF Tourism Tracker](https://www.imf.org/en/Countries/ResRep/PIS-Region) provides an estimated visitor during 2020-2021. Their method is quoted as below:
 > Chinese visitors to Fiji fell by 73 percent in February relative to a year earlier. And Chinese visitors to Palau accounted for 32 percent of total visitors in 2019. Multiplying the two percentages yields the percentage point contribution to the change in visitors to Palau from Chinese visitors. Adding up the contributions across all source countries yields the total 12-month percent change.
 
-**Regression Discontinunity in Time (RDiT)** could be especially helpful to detect the treatment effects of the Covid-19.
 
 
 ```
