@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Literature Review &#8212; Pacific Observatory</title>
+    <title>Analysis and Predicting on Aviation Data &#8212; Pacific Observatory</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,11 +52,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch2_lit.html" />
+    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/tourism_analysis.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data Quality Assessment" href="ch3_dq.html" />
-    <link rel="prev" title="Introduction" href="ch1_intro.html" />
+    <link rel="next" title="Automatic Identification System" href="ais_intro.html" />
+    <link rel="prev" title="Updates on Tourism" href="tourism_intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -121,14 +121,14 @@ const thebe_selector_output = ".output, .cell_output"
   Night Time Lights
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="ch1_intro.html">
    Introduction
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ch2_lit.html">
    Literature Review
   </a>
  </li>
@@ -170,14 +170,14 @@ const thebe_selector_output = ".output, .cell_output"
   Tourism
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="tourism_intro.html">
    Updates on Tourism
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="tourism_analysis.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Analysis and Predicting on Aviation Data
   </a>
  </li>
@@ -300,7 +300,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch2_lit.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Ftourism_analysis.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -317,7 +317,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch2_lit.md"
+        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/tourism_analysis.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -345,7 +345,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/ch2_lit.md"
+        <a href="_sources/tourism_analysis.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -405,30 +405,8 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#socio-economic-applications-of-ntl">
-   1. Socio-Economic Applications of NTL
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales">
-     A. Cross-section: Disaggregating economic measures to finer spatial scales
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b-time-series-predicting-growth-in-gdp">
-     B.	Time-series: Predicting growth in GDP
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-proxying-electricity-consumption">
-     C.	Proxying electricity consumption
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#previous-use-of-ntl-in-the-pacific">
-   Previous Use of NTL in the Pacific
+  <a class="reference internal nav-link" href="#regression-discontinuity-in-time-rdit">
+   Regression Discontinuity in Time (RDiT)
   </a>
  </li>
 </ul>
@@ -440,7 +418,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Literature Review</h1>
+                <h1>Analysis and Predicting on Aviation Data</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -451,30 +429,8 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#socio-economic-applications-of-ntl">
-   1. Socio-Economic Applications of NTL
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales">
-     A. Cross-section: Disaggregating economic measures to finer spatial scales
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b-time-series-predicting-growth-in-gdp">
-     B.	Time-series: Predicting growth in GDP
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-proxying-electricity-consumption">
-     C.	Proxying electricity consumption
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#previous-use-of-ntl-in-the-pacific">
-   Previous Use of NTL in the Pacific
+  <a class="reference internal nav-link" href="#regression-discontinuity-in-time-rdit">
+   Regression Discontinuity in Time (RDiT)
   </a>
  </li>
 </ul>
@@ -487,32 +443,27 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="literature-review">
-<h1>Literature Review<a class="headerlink" href="#literature-review" title="Permalink to this headline">#</a></h1>
-<section id="socio-economic-applications-of-ntl">
-<h2>1. Socio-Economic Applications of NTL<a class="headerlink" href="#socio-economic-applications-of-ntl" title="Permalink to this headline">#</a></h2>
-<p>Although DMSP and VIIRS were originally designed for meteorological purposes, a growing literature has documented their capability to detect human activity. NTL have been used extensively in the remote sensing discipline to map urban areas and the distribution of human settlements (Zhao et al. 2019). The economic literature has examined the use of luminosity data to proxy economic variables. This body of work can be broadly categorized into three groups. While this is not a comprehensive review of all papers, our objective here is to highlight general findings and notable applications which may be tested in the Pacific context.</p>
-<section id="a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales">
-<h3>A. Cross-section: Disaggregating economic measures to finer spatial scales<a class="headerlink" href="#a-cross-section-disaggregating-economic-measures-to-finer-spatial-scales" title="Permalink to this headline">#</a></h3>
-<p>A recurring objective has been to disaggregate socioeconomic indicators from the national level into sub-national units, or into a spatial grid (Sutton, Elvidge, and Ghosh 2007; Ghosh et al. 2010; Doll, Muller, and Morley 2006). These studies typically use a cross-section of GDP, nighttime lights, and gridded population to “spread” GDP data into smaller units. To give a simplified example, the proportion of brightness per pixel to sum of lights can be multiplied to national GDP to obtain pixel-level GDP. Additional information about the composition of labor per district can be used to create different spatial weights for agricultural vs. non-agricultural GDP.</p>
-<p>These methods have yielded disaggregated results that are well correlated with official GDP measures. However, some studies have flagged small islands as outliers because they are generally much dimmer than would be expected given the estimated relationship between GDP and sum of lights (Ghosh et al. 2010).  This poses the risk that gridded products based on lights might underestimate the economic output of small islands.</p>
-</section>
-<section id="b-time-series-predicting-growth-in-gdp">
-<h3>B.	Time-series: Predicting growth in GDP<a class="headerlink" href="#b-time-series-predicting-growth-in-gdp" title="Permalink to this headline">#</a></h3>
-<p>A second and more challenging use case associates the increase in lights to economic growth. Economists have investigated how to weigh NTL and official data when constructing true GDP measures and estimated the elasticity between the two data series (Henderson, Storeygard, and Weil 2012; Hu and Yao 2019; Chen and Nordhaus 2011). There are contrasting views as to how useful lights are to proxy economic growth. Henderson concluded that lights could augment GDP measurements. Chen and Nordhaus provided a more cautious view, arguing that lights added limited value except in countries with the poorest statistical systems. The IMF study by Hu and Yao builds upon this framework and shows how the information content from NTL differs for each country (2019).</p>
-<p>Addison and Stewart (2015) revised this correlation and found the growth elasticities to be too small or unstable, while Beyer (2018) found that the elasticities hold true in South Asia , particularly for the manufacturing and services sectors. Studies have shifted to using the much-improved VIIRS data, yet a general trend has been that lights are more useful for cross-sectional work than for time series analysis (Gibson, Susan, and Boe-Gibson 2020).</p>
-</section>
-<section id="c-proxying-electricity-consumption">
-<h3>C.	Proxying electricity consumption<a class="headerlink" href="#c-proxying-electricity-consumption" title="Permalink to this headline">#</a></h3>
-<p>Another economic variable that has been strongly linked to NTL data is energy use (Min and Gaba 2014; Doll and Pachauri 2010; Falchetta et al. 2019; Mensan Gaba et al., n.d.). Out of all the economic variables considered in Addison’s study, nightlights only provided a strong fit to proxy growth rates in electricity consumption (Addison and Stewart 2015).
-Building upon this well-established correlation, Brian Min and Zachary O’Keeffee developed a new method that leverages daily NTL scenes and high-resolution settlement maps to generate nuanced electrification statistics. Their method separates anthropogenic lights from background brightness, and then calculates the probability that a settlement pixel is electrified, as well as the proportion of nights that it was lit throughout a given year. Aggregating their results to the district-level showed strong correlations with electrification rates derived from DHS surveys.</p>
-</section>
-</section>
-<section id="previous-use-of-ntl-in-the-pacific">
-<h2>Previous Use of NTL in the Pacific<a class="headerlink" href="#previous-use-of-ntl-in-the-pacific" title="Permalink to this headline">#</a></h2>
-<p>Despite the vast economic literature, the use of NTL data for research in the Pacific has been limited. Edmonds et al. (2018) observe correlations between lights and population density in Papua New Guinea and calculate a measure of economic intensity (million kina/ light unit). However, NTL does not provide any additional value in their analysis of household welfare.</p>
-<p>More attention has been given to the use of lights to analyze economic recovery from natural disasters. In this branch of work, damage modeling is used to identify affected vs. non-affected pixels, setting up a comparison for change in lights before and after a disaster occurs. Such analyses depend on monthly or daily lights data, which can be subject to noise from measurement errors, interruptions due to cloud coverage, and seasonal trends (Skoufias, Strobl, and Tveit 2021).</p>
-<p>Mohan and Strobl follow a similar methodology in their study of cyclone Pam in the South Pacific islands (2017). The authors calculate damage indices for wind spend and storm surge and disentangle the effects of these indices on nightlight intensity. The findings suggest that the data is good enough to assess short-term shocks to the economy by tropical storms, though it is hard to understand what is driving the patterns in recovery.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="analysis-and-predicting-on-aviation-data">
+<h1>Analysis and Predicting on Aviation Data<a class="headerlink" href="#analysis-and-predicting-on-aviation-data" title="Permalink to this headline">#</a></h1>
+<section id="regression-discontinuity-in-time-rdit">
+<h2>Regression Discontinuity in Time (RDiT)<a class="headerlink" href="#regression-discontinuity-in-time-rdit" title="Permalink to this headline">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="0c63cb70-f155-4d8c-9e62-a590421f97f0" name="ff5a8e52-50c0-4aea-947f-418767ce2f98" type="radio">
+</input><label class="sd-tab-label" for="0c63cb70-f155-4d8c-9e62-a590421f97f0">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="tourism/rdd_fj.png" /></p>
+</div>
+<input id="94e5ee07-d833-4fe8-b610-61044466e980" name="ff5a8e52-50c0-4aea-947f-418767ce2f98" type="radio">
+</input><label class="sd-tab-label" for="94e5ee07-d833-4fe8-b610-61044466e980">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="tourism/rdd_pg.png" /></p>
+</div>
+<input id="6c2ae883-40bf-42e7-9552-f1d8ef116c89" name="ff5a8e52-50c0-4aea-947f-418767ce2f98" type="radio">
+</input><label class="sd-tab-label" for="6c2ae883-40bf-42e7-9552-f1d8ef116c89">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="tourism/rdd_vu.png" /></p>
+</div>
+</div>
 </section>
 </section>
 
@@ -543,17 +494,17 @@ Building upon this well-established correlation, Brian Min and Zachary O’Keeff
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="ch1_intro.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="tourism_intro.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Introduction</p>
+            <p class="prev-next-title">Updates on Tourism</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="ch3_dq.html" title="next page">
+    <a class='right-next' id="next-link" href="ais_intro.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data Quality Assessment</p>
+        <p class="prev-next-title">Automatic Identification System</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
