@@ -22,39 +22,57 @@ Set-up
 Pacific Island Countries
 
 ### Federated States of Micronesia
-<iframe src="ais/Micronesia2019.html" height="600" width="800"></iframe>
+<div id= "content">
+<iframe src="interactive/ais/Micronesia2019.html" name="Micronesia" id="Micronesia" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 
 - Fiji - no data prep yet
 
 ### Kiribati
-<iframe src="ais/Kiribati2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/Kiribati2019.html" name="Kiribati" id="Kiribati" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ### Marshall Islands
-<iframe src="ais/Marshall-Islands2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/Marshall-Islands2019.html" name="Marshall" id="Marshall" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ### Nauru
-<iframe src="ais/Nauru2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/Nauru2019.html" name="Nauru" id="Nauru" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ### Palau
-<iframe src="ais/Palau2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/Palau2019.html" name="Palau" id="Palau" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 - Papua New Guinea - no data prep yet​
 
 ### Samoa
-<iframe src="ais/Samoa2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/Samoa2019.html" name="Samoa" id="Samoa" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ### Solomon Islands
-<iframe src="ais/SolomonIslands2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/SolomonIslands2019.html" name="Solomon" id="Solomon" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ### Tonga
-<iframe src="ais/Tonga2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/Tonga2019.html "name="Tonga" id="Tonga" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ### Tuvalu
-<iframe src="ais/Tuvalu2019.html" height="600" width="800"></iframe>
+<div id= "content">
+    <iframe src="interactive/ais/Tuvalu2019.html" name="Tuvalu" id="Tuvalu" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ### Vanuatu
-<iframe src="ais/Vanuatu2019.html" height="600" width="800"></iframe>
-
+<div id= "content">
+    <iframe src="interactive/ais/Vanuatu2019.html" name="Vanuatu" id="Vanuatu" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
 
 ## Trade Estimation Methodologies
 
