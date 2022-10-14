@@ -7,12 +7,27 @@ library(RColorBrewer)
 library(zoo)
 library(tidyr)
 
-df <- read.csv("X:/data/pacific/output/adm1_climate_full.csv") %>%
+df <- read.csv("X:/data/pacific/output/adm1_climate_full_10-12-2022.csv") %>%
   mutate(date = as.character(date)) 
   # select(-index, -month, -ADM1_PCODE, -ADM1_NAME, -ADM0_PCODE,
   #        -date, -year)
 
+df.sel <- df %>% filter(date=="202001")
+
+
+null <- df.sel %>% filter(is.na(spei12_max))
+
 gg_miss_fct(x = df, fct = ADM0_NAME)
+
+gg_miss_fct(x = df.sel, fct = ADM0_NAME)
+
+df.sel %>%
+  group_by(ADM0_NAME) %>%
+  summarise(
+    n = n(),
+    nodata = length(spei12_max[is.na(spei12_max)])
+  )
+
 
 ggsave(paste0("../../docs/images/climate_coverage.jpeg"), width = 10, height = 6)
 

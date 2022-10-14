@@ -4,7 +4,7 @@ author: World Bank
 logo: images/logo.png
 
 repository:
-    url: https://github.com/andresfchamorro/pacific-observatory
+    url: https://github.com/worldbank/pacific-observatory
     branch: main
 
 sphinx:
@@ -16,7 +16,7 @@ html:
     use_edit_page_button: true
     use_repository_button: true
     use_issues_button: true
-    baseurl: https://github.com/andresfchamorro/pacific-observatory
+    baseurl: https://github.com/worldbank/pacific-observatory
 
 execute:
   execute_notebooks: auto
