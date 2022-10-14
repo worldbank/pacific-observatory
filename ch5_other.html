@@ -52,10 +52,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch5_other.html" />
+    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/ch5_other.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Agriculture Monitoring in the Pacific Island Countries" href="climate_and_ag.html" />
+    <link rel="next" title="Climate and Agriculture Monitoring in the Pacific Island Countries" href="climate_and_ag.html" />
     <link rel="prev" title="Economic Applications" href="ch4_econ.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -156,7 +156,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="climate_and_ag.html">
-   Agriculture Monitoring in the Pacific Island Countries
+   Climate and Agriculture Monitoring in the Pacific Island Countries
   </a>
  </li>
  <li class="toctree-l1">
@@ -283,7 +283,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory"
+        <a href="https://github.com/worldbank/pacific-observatory"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -300,7 +300,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch5_other.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch5_other.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -317,7 +317,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch5_other.md"
+        <a href="https://github.com/worldbank/pacific-observatory/edit/main/ch5_other.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -457,17 +457,12 @@ title="Print to PDF"
 <h1>Other Use Cases<a class="headerlink" href="#other-use-cases" title="Permalink to this headline">#</a></h1>
 <section id="recovery-in-tonga">
 <h2>Recovery in Tonga<a class="headerlink" href="#recovery-in-tonga" title="Permalink to this headline">#</a></h2>
-<p>On January 15th, 2022, the Hunga-Tonga-Hunga-Ha’apai volcano in Tonga had an extreme eruption, categorized as a once-in-1000-years event. The eruption dispersed clouds of ash and set off several tsunami waves, altogether causing an estimated cost of US$90.4M in damages (GRADE, World Bank 2022). In this analysis, we examine whether scenes from the newly released Light Every Night dataset  can be used to assess the disruption on electricity use in buildings and consequent recovery of economic activities.</p>
-<p>Few studies have examined the availability of satellite data for the Pacific islands. Some public satellites such as Sentinel-1 do not cover some of the smaller islands in the Pacific (Digital Earth Pacific, 2022). Although VIIRS has a daily revisit rate for most areas in the world, our analysis shows that the coverage is much scarcer for Tonga. Figure 5-1 shows the availability and quality of the data for the two biggest islands (Tongatapu and ʻEua) from November 2021 through February 2022. Each radiance image has a corresponding data quality image, flagging various issues with the data. The Suomi satellite only overpasses 8 to 10 days per month, but most of the images captured do not contain any valid observations . Only 7 images are available over the four months considered, and 3 of those are heavily impacted by clouds. This leaves us with 4 images with substantial clear observations (green bars in the graph).</p>
-<figure class="align-default" id="len-coverage">
-<img alt="_images/LEN_Coverage_Tonga.png" src="_images/LEN_Coverage_Tonga.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Data quality in Tonga by day, Nov 2021 - Feb 2022</span><a class="headerlink" href="#len-coverage" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>Figure 5-2 presents maps of data quality (left) and NTL radiance (right) for the 4 days available. The image closest to the largest eruption (January 19th) shows high radiance, possibly from consecutive volcanic activity or residual ash. Lights in February seem comparable to the levels captured in November, prior to the event (the first eruption occurred on December 20th). To get a wider view of the changes we charted the monthly sum of lights by region, or group of islands.</p>
-<table class="table" id="id1">
-<caption><span class="caption-number">Table 3 </span><span class="caption-text">Daily Maps</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
+<p>On January 15th, 2022, the Hunga-Tonga-Hunga-Ha’apai volcano in Tonga had an extreme eruption, categorized as a once-in-1000-years event. The eruption dispersed clouds of ash and set off several tsunami waves, altogether causing an estimated cost of US$90.4M in damages (GRADE, World Bank 2022). In this analysis, we examine whether scenes from the newly released <a class="reference external" href="https://blogs.worldbank.org/opendata/light-every-night-new-nighttime-light-data-set-and-tools-development">Light Every Night dataset</a> can be used to assess the disruption on electricity use in buildings and consequent recovery of economic activities.</p>
+<p>Few studies have examined the availability of satellite data for the Pacific islands. Some public satellites such as Sentinel-1 do not cover some of the smaller islands in the Pacific (Digital Earth Pacific, 2022). Although VIIRS has a daily revisit rate for most areas in the world, our analysis shows that the coverage is much scarcer for Tonga. Figure 8 shows the availability and quality of the data for the two biggest islands (Tongatapu and ʻEua) from November 2021 through February 2022. Each radiance image has a corresponding data quality image, flagging various issues with the data. The Suomi satellite only overpasses 8 to 10 days per month, but most of the images captured do not contain any valid observations<a class="footnote-reference brackets" href="#id2" id="id1">1</a>. Only 7 images are available over the four months considered, and 3 of those are heavily impacted by clouds. This leaves us with 4 images with substantial clear observations (green bars in the graph).</p>
+<a class="reference internal image-reference" href="_images/LEN_Coverage_Tonga.png" id="len-coverage"><img alt="_images/LEN_Coverage_Tonga.png" id="len-coverage" src="_images/LEN_Coverage_Tonga.png" style="width: 80%;" /></a>
+<p><strong>Figure 8</strong>: Data quality in Tonga by day, Nov 2021 - Feb 2022</p>
+<p>Figure 9 presents maps of data quality (left) and NTL radiance (right) for the 4 days available. The image closest to the largest eruption (January 19th) shows high radiance, possibly from consecutive volcanic activity or residual ash. Lights in February seem comparable to the levels captured in November, prior to the event (the first eruption occurred on December 20th). To get a wider view of the changes we charted the monthly sum of lights by region, or group of islands.</p>
+<table class="table">
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />
@@ -483,26 +478,42 @@ title="Print to PDF"
 </tr>
 </tbody>
 </table>
-<p>We see an important decrease in lights in the main island (Tongatapu) in January 2022. However, monthly lights recover quite rapidly to a level comparable to its historical average. One interpretation could be that power was restored by the time the satellite captured NTL data for February. Unfortunately, daily cadence is not available to conduct a detailed assessment of when lights recovered. Future analysis could examine pixel-level changes with detailed settlement maps.</p>
-<figure class="align-default" id="sol-tonga">
-<img alt="_images/Tonga_NTL_Chart.png" src="_images/Tonga_NTL_Chart.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Monthly sum of lights for regions in Tonga</span><a class="headerlink" href="#sol-tonga" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
-<p>This assessment highlights a key trade-off in pursuing a higher temporal resolution for analysis. Although daily images can provide temporal precision to investigate specific events, the images are typically much noisier, can be affected by clouds, and may not be available in remote areas. Monthly composites are stable, though they may only be based on a few cloud-free observations. Annual composites are generated with a more a more intense cleaning and noise-removal procedure, making them more optimal for economic analysis.</p>
+<p><strong>Figure 9</strong>: Daily maps of data quality (left) and VIIRS radiance (right) for Tonga.</p>
+<p>We observe an important decrease in lights in the main island (Tongatapu) in January 2022. However, monthly lights recover quite rapidly to a level comparable to its historical average. One interpretation could be that power was restored by the time the satellite captured NTL data for February. Unfortunately, daily cadence is not available to conduct a detailed assessment of when lights recovered. Future analysis could examine pixel-level changes with detailed settlement maps.</p>
+<a class="reference internal image-reference" href="_images/Tonga_NTL_Chart.png" id="sol-tonga"><img alt="_images/Tonga_NTL_Chart.png" id="sol-tonga" src="_images/Tonga_NTL_Chart.png" style="width: 80%;" /></a>
+<p><strong>Figure 10</strong>: Monthly sum of lights for regions in Tonga</p>
+<p>This assessment highlights a key trade-off in pursuing a higher temporal resolution for analysis. Although daily images can provide temporal precision to investigate specific events, the images are typically much noisier, can be affected by clouds, and may not be available in remote areas. Monthly composites are stable, though they may only be based on a few cloud-free observations. Annual composites are generated with a more a more intense cleaning and noise-removal procedure, making them more optimal for economic analysis, but cannot be used to assess the short-term impact of a shock.</p>
 </section>
 <section id="electrification">
 <h2>Electrification<a class="headerlink" href="#electrification" title="Permalink to this headline">#</a></h2>
-<p>This section introduces electrification statistics derived from the High-Resolution Electricity Access project (Brian Min, Zachary O’Keeffee ). The model developed also relies on the Light Every Night dataset, in combination with High-Resolution Settlement Maps, to generate electrification statistics at a high spatial resolution. The methodology is described in depth in the project website and can be summarized with the following steps:</p>
+<p>This section introduces electrification statistics derived from the High-Resolution Electricity Access project (Brian Min, Zachary O’Keeffee)[<a class="reference external" href="http://www-personal.umich.edu/~brianmin/HREA/methods.html">http://www-personal.umich.edu/~brianmin/HREA/methods.html</a>]. The model developed also relies on the Light Every Night dataset, in combination with High-Resolution Settlement Maps, to generate electrification statistics at a high spatial resolution. The methodology is described in depth in the project website and can be summarized with the following steps:</p>
 <ol class="simple">
 <li><p>Match daily NTL scenes with high resolution settlement maps.</p></li>
 <li><p>Remove observations with poor data quality and outliers.</p></li>
 <li><p>Sample lights from uninhabited locations to measure background noise.</p></li>
 <li><p>Estimate if a settlement is brighter than background noise through a linear mixed effects model.</p></li>
 </ol>
-<p>The output of this model are pixel-level probabilities that each settlement was electrified on a given year. We downloaded these outputs and summarized them to calculate ward-level electrification rates. We define electricity rates as the share of settlement with a lit probability score higher or equal than 0.5. The maps in Figure 5-4 show summarized results for the Solomon Islands and Vanuatu. Most wards are classified with low electrification rates (0 to 20), except for the main cities and more populated areas.</p>
+<p>The output of this model are pixel-level probabilities that each settlement was electrified on a given year. We downloaded these outputs and summarized them to calculate ward-level electrification rates. We define electricity rates as the share of settlement with a lit probability score higher or equal than 0.5. The maps in Figure 11 show summarized results for the Solomon Islands and Vanuatu. Most wards are classified with low electrification rates (0 to 20), except for the main cities and more populated areas.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="19f0189d-7d97-4afb-a77f-b7df44b372cc" name="cd88f17f-f06e-40cb-b1a7-ff1352e3229d" type="radio">
+</input><label class="sd-tab-label" for="19f0189d-7d97-4afb-a77f-b7df44b372cc">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/SLB_Elec2.jpg" /></p>
+</div>
+<input id="cb134188-33b8-455c-b396-92b197bf5172" name="cd88f17f-f06e-40cb-b1a7-ff1352e3229d" type="radio">
+</input><label class="sd-tab-label" for="cb134188-33b8-455c-b396-92b197bf5172">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/VUT_Elec2.jpg" /></p>
+</div>
+</div>
+<p><strong>Figure 11.</strong> Electrification Rates</p>
 <p>The spatial disaggregation provided by this method is likely invaluable for targeting development operations in island states. Yet more efforts are needed to validate these statistics with household surveys. Summarizing these outputs to the national level results in rates much lower than what is reported in the World Development Indicators (30% in Solomon Islands and 36% in Vanuatu). In Papua New Guinea, electrification rates derived from the HREA dataset are generally higher than those observed in the latest electrification survey, but correlation is still high (r=0.84).</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>We do not know the exact cause for this. The description of the quality flag is as follows: “This bit is set to 1 if no data is available for that scanline/section of orbit, or the grid cell is outside the bounds of the swath.”</p>
+</dd>
+</dl>
 </section>
 </section>
 
@@ -543,7 +554,7 @@ title="Print to PDF"
     <a class='right-next' id="next-link" href="climate_and_ag.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Agriculture Monitoring in the Pacific Island Countries</p>
+        <p class="prev-next-title">Climate and Agriculture Monitoring in the Pacific Island Countries</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

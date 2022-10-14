@@ -52,11 +52,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/climate_db.html" />
+    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/climate_db.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Introduction" href="tourism_intro.html" />
-    <link rel="prev" title="Agriculture Monitoring in the Pacific Island Countries" href="climate_and_ag.html" />
+    <link rel="prev" title="Climate and Agriculture Monitoring in the Pacific Island Countries" href="climate_and_ag.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -156,7 +156,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="climate_and_ag.html">
-   Agriculture Monitoring in the Pacific Island Countries
+   Climate and Agriculture Monitoring in the Pacific Island Countries
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -283,7 +283,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory"
+        <a href="https://github.com/worldbank/pacific-observatory"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -300,7 +300,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fclimate_db.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fclimate_db.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -317,7 +317,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/climate_db.md"
+        <a href="https://github.com/worldbank/pacific-observatory/edit/main/climate_db.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -408,23 +408,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#zonal-statistics">
    Zonal statistics
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#output-table">
-     Output table
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#metadata">
-   Metadata
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#visualization">
-   Visualization
-  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#variable-descriptions">
@@ -462,6 +445,16 @@ title="Print to PDF"
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-visualization">
+   Data Visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#metadata">
+   Metadata
+  </a>
  </li>
 </ul>
 
@@ -486,23 +479,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#zonal-statistics">
    Zonal statistics
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#output-table">
-     Output table
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#metadata">
-   Metadata
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#visualization">
-   Visualization
-  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#variable-descriptions">
@@ -541,6 +517,16 @@ title="Print to PDF"
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-visualization">
+   Data Visualization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#metadata">
+   Metadata
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -553,17 +539,111 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="climate-database">
 <h1>Climate Database<a class="headerlink" href="#climate-database" title="Permalink to this headline">#</a></h1>
-<p>Climate change poses an existential threat to many islands in the Pacific. Small island states in the region are increasingly vulnerable to extreme rainfall events, cyclones, changes in ocean circulation, and rising sea level. Climate data is a critical resource to help us prepare for and address the challenges of a changing environment. However, these datasets can be difficult to work with due to technical characteristics of the raw data. They are often stored in complex time-series grid formats such as netcdf. Additionally, global climate datasets are typically produced at coarse spatial resolutions (~55 km), making them unsuitable to study climate dynamics in small island states.</p>
-<p>The Global Operations Support Team (GOST) has developed tools to process a suite of medium resolution climate datasets (10 to 5 km), producing monthly and daily raster files (geotiffs) for each climate indicator. This processing toolset was developed by Benny Istanto, and continues to be expanded as it informs various knowledge products and initiatives, including CCDRs and the Pacific Observatory. To learn more about the underlying source data and how each index is constructed, please refer to its <a class="reference external" href="https://bennyistanto.github.io/gost-climate/intro.html">documentation pages</a>.</p>
+<p>Climate change poses an existential threat to many islands in the Pacific. Small island states in the region are increasingly vulnerable to extreme rainfall events, cyclones, changes in ocean circulation, and rising sea level. Climate data is a critical resource to help development actors prepare for and address the challenges of a changing environment. However, these datasets can be difficult to work with due to the technical characteristics of the raw data. They are often stored in complex time-series grid formats such as netcdf. The raw data often require additional processing steps to compute meaningful indicators, such as rainfall anomalies or drought indices. Additionally, global climate grids are typically produced at coarse spatial resolutions (~55 km), making them unsuitable to study climate dynamics in small island states.</p>
+<p>The Global Operations Support Team (GOST) has developed tools to process a curated set of medium resolution climate datasets (5 to 10 km), producing monthly and daily raster files (geotiffs) for each climate indicator. The processing workflows were developed by Benny Istanto. The output dataset informs knowledge products and initiatives across the World Bank, including CCDRs and the Pacific Observatory. The granular and temporal characteristics of the data are intended to supplement the already extensive database from World Bank Climate Change Knowledge Portal. To learn more about the underlying data and how each index is constructed, please refer to the <a class="reference external" href="https://bennyistanto.github.io/gost-climate/intro.html">source documentation</a>.</p>
 <section id="zonal-statistics">
 <h2>Zonal statistics<a class="headerlink" href="#zonal-statistics" title="Permalink to this headline">#</a></h2>
-<p>The team has calculated statistics (max, mean, median, standard deviation) for each administrative level-1 area and every timestep available. Sub-national boundaries for selected Pacific Island Countries were retrieved from the <a class="reference external" href="https://sdd.spc.int/mapping-popgis">Pacific Community PopGIS portals</a> and, where not available, from UN OCHA via the Humanitarian Data Exchange. The script used to calculate these statistics is available in this repository.</p>
-<section id="output-table">
-<h3>Output table<a class="headerlink" href="#output-table" title="Permalink to this headline">#</a></h3>
-<p>The output dataset can be accessed via the following Development Data Hub <a class="reference external" href="https://datacatalog.worldbank.org/int/search/dataset/0062856">entry</a>.</p>
-<p>The output table contains monthly statistics for 131 areas across 12 countries (Papua New Guinea, Federated States of Micronesia, Fiji, Kiribati, Marshall Islands, Nauru, Palau, Samoa, Solomon Islands, Tonga, Tuvalu, Vanuatu).</p>
-<p>The time coverage varies by indicator but extends from January 1958 to December 2021.</p>
+<p>The Pacific Observatory team has calculated statistics from the climate datasets (maximum, mean, median, and standard deviation) for each administrative level-1 area (equivalent to a state, or an atoll) and every timestep available. Sub-national boundaries were retrieved from the <a class="reference external" href="https://sdd.spc.int/mapping-popgis">Pacific Community PopGIS portals</a> and, where not available, from UN OCHA via the Humanitarian Data Exchange. The script used to calculate these statistics is available through the Pacific Observatory <a class="reference external" href="https://github.com/worldbank/pacific-observatory">github repository</a>.</p>
+<p>The tabular time-series output and geospatial boundaries can be accessed via the following Development Data Hub <a class="reference external" href="https://datacatalog.worldbank.org/int/search/dataset/0062856">entry</a>. The table contains monthly statistics for 131 areas across 12 countries (Papua New Guinea, Federated States of Micronesia, Fiji, Kiribati, Marshall Islands, Nauru, Palau, Samoa, Solomon Islands, Tonga, Tuvalu, Vanuatu). The temporal coverage varies by indicator but extends from January 1958 to December 2021.</p>
 </section>
+<section id="variable-descriptions">
+<h2>Variable Descriptions<a class="headerlink" href="#variable-descriptions" title="Permalink to this headline">#</a></h2>
+<section id="standardized-precipitation-index">
+<h3>Standardized Precipitation Index<a class="headerlink" href="#standardized-precipitation-index" title="Permalink to this headline">#</a></h3>
+<p>The Standardized Precipitation Index (<a class="reference external" href="https://library.wmo.int/doc_num.php?explnum_id=7768">SPI</a>) is a normalized index representing the probability of occurrence of an observed rainfall amount when compared with the rainfall climatology over a long-term period. This long-term record is fitted to a probability distribution, which is then transformed into a normal distribution so that the mean SPI for the location and desired period is zero.</p>
+<p>Negative SPI values represent rainfall deficit and less than median precipitation (dry), starting at SPI values equal or below -1.0. Whereas positive SPI values indicate rainfall surplus and greater than median precipitation (wet), starting at SPI values equal or above 1.0.</p>
+</section>
+<section id="standardized-precipitation-evapotranspiration-index">
+<h3>Standardized Precipitation-Evapotranspiration Index<a class="headerlink" href="#standardized-precipitation-evapotranspiration-index" title="Permalink to this headline">#</a></h3>
+<p>The <a class="reference external" href="https://spei.csic.es">SPEI</a> is an extension of the widely used SPI. The SPEI is designed to consider both precipitation and potential evapotranspiration (PET) in determining drought. Thus, unlike the SPI, the SPEI captures the main impact of increased temperatures on water demand.</p>
+<p>The SPEI can measure drought severity according to its intensity and duration and can identify the onset and end of drought episodes. The SPEI allows comparison of drought severity through time and space, since it can be calculated over a wide range of climates, as can the SPI.</p>
+<p>The idea behind the SPEI is to compare the highest possible evapotranspiration (what we call the evaporative demand by the atmosphere) with the current water availability. Thus, precipitation (accumulated over time) in the SPEI stands for the water availability, while ETo stands for the atmospheric water demand.</p>
+<p>Negative SPEI values represent rainfall deficit and less than median precipitation, and high potential evapotranspiration (dry), starting with SPEI values equal or below -1.0. Whereas positive SPEI values indicate rainfall surplus and greater than median precipitation, and low potential evapotranspiration (wet), starting with SPEI values equal or above 1.0.</p>
+</section>
+<section id="consecutive-dry-days">
+<h3>Consecutive Dry Days<a class="headerlink" href="#consecutive-dry-days" title="Permalink to this headline">#</a></h3>
+<p>The number of consecutive dry days (CDD) is the largest number of consecutive days with daily precipitation amount less than a given threshold (1 or 5 mm), within a certain time. Typically, the process counts the number of consecutive days in the past 90 days.</p>
+</section>
+<section id="consecutive-wet-days">
+<h3>Consecutive Wet Days<a class="headerlink" href="#consecutive-wet-days" title="Permalink to this headline">#</a></h3>
+<p>Similarly, the number of consecutive wet days (CWD) is the largest number of consecutive days with daily precipitation amount more than 1 or 5 mm, within a certain time. Typically, the process counts the number of days in the past 90 days.</p>
+</section>
+<section id="dry-days">
+<h3>Dry Days<a class="headerlink" href="#dry-days" title="Permalink to this headline">#</a></h3>
+<p>The number of dry days is the largest number of days with daily precipitation amount less than 1 or 5 mm, within a certain time. Typically, the process counts the number of days within a year to measure the dry condition.</p>
+</section>
+<section id="wet-days">
+<h3>Wet Days<a class="headerlink" href="#wet-days" title="Permalink to this headline">#</a></h3>
+<p>The number of wet days is the largest number of days with daily precipitation amount more than 1 or 5 mm, within a certain time. Typically, the process counts the number of days within a year to measure the wet condition.</p>
+</section>
+</section>
+<section id="data-visualization">
+<h2>Data Visualization<a class="headerlink" href="#data-visualization" title="Permalink to this headline">#</a></h2>
+<p>As an initial step to explore the data, the team has prepared visualizations for the 12-month SPEI drought index aggregated at the national level. The charts below display monthly SPEI values for Papua New Guinea and Kiribati, aggregated using the mean value. Each column represents a monthly value for SPEI. Blue and positive columns signify months where conditions were exceptionally wet relative to historical averages. Red and negative columns signal drought or months with exceptionally dry conditions.</p>
+<p>The SPEI at the 12-month timescale reflects long-term weather patterns. A 12-month SPEI is a comparison of the index for 12 consecutive months relative to what was recorded in the same 12 consecutive months in all previous years of available data. Because this timescale contains the cumulative result of shorter weather patterns, the longer SPEIs tend to gravitate toward zero unless a distinctive wet or dry season is taking place. Precipitation indices for 12-month timescales are usually reflective of stream flows and reservoir levels. PNG has been relatively wet in the last 20 years, although the ENSO signal drove a significant dry period during 2015-2016. Kiribati has experienced more variability in dry/wet periods, but relatively dry conditions have persisted in the last 20 years.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="e0ca293b-c5db-44cb-9a18-26624e39df53" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="e0ca293b-c5db-44cb-9a18-26624e39df53">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Papua-New-Guinea1.jpeg" /></p>
+</div>
+<input id="34fa205d-d1c3-4a9b-929e-b68209344fa7" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="34fa205d-d1c3-4a9b-929e-b68209344fa7">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Federated-States-of-Micronesia1.jpeg" /></p>
+</div>
+<input id="236f0fe3-45bb-4b75-b159-2a3035d74c20" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="236f0fe3-45bb-4b75-b159-2a3035d74c20">
+Fiji</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Fiji1.jpeg" /></p>
+</div>
+<input id="038374bf-a97e-4397-b51f-db6f96aa6968" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="038374bf-a97e-4397-b51f-db6f96aa6968">
+Kiribati</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Kiribati1.jpeg" /></p>
+</div>
+<input id="97f8f394-8aa8-490a-9e12-e301a1e17a63" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="97f8f394-8aa8-490a-9e12-e301a1e17a63">
+Marshall Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Marshall-Islands1.jpeg" /></p>
+</div>
+<input id="0212dbe6-8084-4ec5-b45f-74f5b14fa367" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="0212dbe6-8084-4ec5-b45f-74f5b14fa367">
+Nauru</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Nauru1.jpeg" /></p>
+</div>
+<input id="9fa064f4-eeb7-439a-b984-9cd39bbeaf6e" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="9fa064f4-eeb7-439a-b984-9cd39bbeaf6e">
+Palau</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Palau1.jpeg" /></p>
+</div>
+<input id="9cdadc8d-c417-4468-81de-4cea8af9eedd" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="9cdadc8d-c417-4468-81de-4cea8af9eedd">
+Samoa</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Samoa1.jpeg" /></p>
+</div>
+<input id="b1dab821-91b6-449c-bc89-2b4c5c4ce8da" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="b1dab821-91b6-449c-bc89-2b4c5c4ce8da">
+Solomon Islands</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Solomon-Islands1.jpeg" /></p>
+</div>
+<input id="67ede446-6351-4a53-83e0-3f651eed0d41" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="67ede446-6351-4a53-83e0-3f651eed0d41">
+Tonga</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Kingdom-of-Tonga.jpeg" /></p>
+</div>
+<input id="9150fffe-acaa-4c7e-82bb-f803bcb14aa6" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="9150fffe-acaa-4c7e-82bb-f803bcb14aa6">
+Tuvalu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Tuvalu1.jpeg" /></p>
+</div>
+<input id="8b7e6f13-f73d-4062-9b3b-cb41343ee8c9" name="7c8c69d5-6d4c-4d73-8e5d-e985b9fabb8e" type="radio">
+</input><label class="sd-tab-label" for="8b7e6f13-f73d-4062-9b3b-cb41343ee8c9">
+Vanuatu</label><div class="sd-tab-content docutils">
+<p><img alt="Overview" src="_images/Vanuatu1.jpeg" /></p>
+</div>
+</div>
+<p><strong>Figure 1</strong>: 12-month SPEI index aggregated with mean values</p>
 </section>
 <section id="metadata">
 <h2>Metadata<a class="headerlink" href="#metadata" title="Permalink to this headline">#</a></h2>
@@ -578,7 +658,7 @@ title="Print to PDF"
 <strong>year</strong><br />
 <strong>month</strong><br />
 <strong>date</strong>: YYYYMM</p>
-<p><em>List of variables</em><br />
+<p><em>List of climate variables</em><br />
 <strong>spi</strong>: Standardized Precipitation Index<br />
 <strong>spei</strong>: Standardized Precipitation-Evapotranspiration Index<br />
 <strong>cdd</strong>: Consecutive dry days<br />
@@ -593,106 +673,10 @@ title="Print to PDF"
 <strong>mean</strong>: Mean value<br />
 <strong>std</strong>: Standard deviation<br />
 <strong>median</strong>: Median value</p>
-<p><em>Variable name example</em>: variable_parameter_zonal statistic<br />
+<p><em>Variable name example</em> (variable_parameter_zonal statistic)<br />
 <strong>Variable name</strong>: spi03_median<br />
 <strong>Description</strong>: Standardized precipitation index, 3-month window, median value</p>
 </div>
-</section>
-<section id="visualization">
-<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">#</a></h2>
-<div class="sd-tab-set docutils">
-<input checked="checked" id="cd0138cf-cb39-437f-9d88-a5d063b9d633" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="cd0138cf-cb39-437f-9d88-a5d063b9d633">
-Papua New Guinea</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Papua-New-Guinea1.jpeg" /></p>
-</div>
-<input id="8901669e-79bf-4592-8b0a-175c4b812ec5" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="8901669e-79bf-4592-8b0a-175c4b812ec5">
-Federated States of Micronesia</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Federated-States-of-Micronesia1.jpeg" /></p>
-</div>
-<input id="df242fab-7f5c-4904-a88a-5219fa6e2017" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="df242fab-7f5c-4904-a88a-5219fa6e2017">
-Fiji</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Fiji1.jpeg" /></p>
-</div>
-<input id="fa0d202c-ac94-4603-a75f-fff3eaeae5f9" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="fa0d202c-ac94-4603-a75f-fff3eaeae5f9">
-Kiribati</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Kiribati1.jpeg" /></p>
-</div>
-<input id="644ff7d2-80cf-4c29-bcc4-3ed867860320" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="644ff7d2-80cf-4c29-bcc4-3ed867860320">
-Marshall Islands</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Marshall-Islands1.jpeg" /></p>
-</div>
-<input id="76ca247e-9b50-4564-b734-d3c38b8bf332" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="76ca247e-9b50-4564-b734-d3c38b8bf332">
-Nauru</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Nauru1.jpeg" /></p>
-</div>
-<input id="b6e3262c-959b-43fc-b2ed-4ebd2167375f" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="b6e3262c-959b-43fc-b2ed-4ebd2167375f">
-Palau</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Palau1.jpeg" /></p>
-</div>
-<input id="389e3b48-017f-49ec-834f-0068aee7b822" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="389e3b48-017f-49ec-834f-0068aee7b822">
-Samoa</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Samoa1.jpeg" /></p>
-</div>
-<input id="35a5744a-e35a-4304-9471-dacc96362c4d" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="35a5744a-e35a-4304-9471-dacc96362c4d">
-Solomon Islands</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Solomon-Islands1.jpeg" /></p>
-</div>
-<input id="29fba433-9e26-47fa-8bf8-d93987a5d321" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="29fba433-9e26-47fa-8bf8-d93987a5d321">
-Tonga</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Kingdom-of-Tonga.jpeg" /></p>
-</div>
-<input id="82929d24-3a4f-4107-a345-5dac931b34c4" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="82929d24-3a4f-4107-a345-5dac931b34c4">
-Tuvalu</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Tuvalu1.jpeg" /></p>
-</div>
-<input id="c4b9faa1-16a1-4896-96a8-09c8965702e5" name="2ee85d71-07af-4721-9976-4fe26a1790b0" type="radio">
-</input><label class="sd-tab-label" for="c4b9faa1-16a1-4896-96a8-09c8965702e5">
-Vanuatu</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="_images/Vanuatu1.jpeg" /></p>
-</div>
-</div>
-</section>
-<section id="variable-descriptions">
-<h2>Variable Descriptions<a class="headerlink" href="#variable-descriptions" title="Permalink to this headline">#</a></h2>
-<section id="standardized-precipitation-index">
-<h3>Standardized Precipitation Index<a class="headerlink" href="#standardized-precipitation-index" title="Permalink to this headline">#</a></h3>
-<p>The Standardized Precipitation Index (<a class="reference external" href="https://library.wmo.int/doc_num.php?explnum_id=7768">SPI</a>) is a normalized index representing the probability of occurrence of an observed rainfall amount when compared with the rainfall climatology over a long-term period. This long-term record is fitted to a probability distribution, which is then transformed into a normal distribution so that the mean SPI for the location and desired period is zero.</p>
-<p>Negative SPI values represent rainfall deficit and less than median precipitation (Dry), starts when the SPI value is equal or below -1.0. Whereas positive SPI values indicate rainfall surplus and greater than median precipitation (Wet), starts when the SPI value is equal or above 1.0, and ends when the value becomes negative.</p>
-</section>
-<section id="standardized-precipitation-evapotranspiration-index">
-<h3>Standardized Precipitation-Evapotranspiration Index<a class="headerlink" href="#standardized-precipitation-evapotranspiration-index" title="Permalink to this headline">#</a></h3>
-<p>The <a class="reference external" href="https://spei.csic.es">SPEI</a> is an extension of the widely used SPI. The SPEI is designed to take into account both <code class="docutils literal notranslate"><span class="pre">precipitation</span></code> and <code class="docutils literal notranslate"><span class="pre">potential</span> <span class="pre">evapotranspiration</span></code> (PET) in determining drought. Thus, unlike the SPI, the SPEI captures the main impact of increased temperatures on water demand.</p>
-<p>The SPEI can measure drought severity according to its intensity and duration, and can identify the onset and end of drought episodes. The SPEI allows comparison of drought severity through time and space, since it can be calculated over a wide range of climates, as can the SPI.</p>
-<p>The idea behind the SPEI is to compare the highest possible evapotranspiration (what we call the evaporative demand by the atmosphere) with the current water availability. Thus, precipitation (accumulated over a period of time) in the SPEI stands for the water availability, while ETo stands for the atmospheric water demand.</p>
-<p>Negative SPEI values represent rainfall deficit and less than median precipitation, and high potential epotranspiration (Dry), starts when the SPEI value is equal or below -1.0. Whereas positive SPEI values indicate rainfall surplus and greater than median precipitation, and low potential epotranspiration (Wet), starts when the SPEI value is equal or above 1.0, and ends when the value becomes negative.</p>
-</section>
-<section id="consecutive-dry-days">
-<h3>Consecutive Dry Days<a class="headerlink" href="#consecutive-dry-days" title="Permalink to this headline">#</a></h3>
-<p>The number of consecutive dry days (CDD) is the largest number of consecutive days with daily precipitation amount less than 1 mm (or depending on the rain days criteria of the country), within a certain time. Usually the process counts the number of days in the past 90 days to measure the drought level.</p>
-</section>
-<section id="consecutive-wet-days">
-<h3>Consecutive Wet Days<a class="headerlink" href="#consecutive-wet-days" title="Permalink to this headline">#</a></h3>
-<p>The number of consecutive wet days (CWD) is similar to the above CDD, the largest number of consecutive days with daily precipitation amount more than 1 mm (or depend on the rain days criteria of the country), within a certain time. Usually the process counts the number of days in the past 90 days to measure the wet level.</p>
-</section>
-<section id="dry-days">
-<h3>Dry Days<a class="headerlink" href="#dry-days" title="Permalink to this headline">#</a></h3>
-<p>The number of dry days (DD) is the largest number of days with daily precipitation amount less than 1 mm (or depending on the rain days criteria of the country), within a certain time. Usually the process counts the number of days within a year to measure the dry condition.</p>
-</section>
-<section id="wet-days">
-<h3>Wet Days<a class="headerlink" href="#wet-days" title="Permalink to this headline">#</a></h3>
-<p>The number of wet days (DD) is the largest number of days with daily precipitation amount more than 1 mm (or depending on the rain days criteria of the country), within a certain time. Usually the process counts the number of days within a year to measure the wet condition.</p>
-</section>
 </section>
 </section>
 
@@ -727,7 +711,7 @@ Vanuatu</label><div class="sd-tab-content docutils">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Agriculture Monitoring in the Pacific Island Countries</p>
+            <p class="prev-next-title">Climate and Agriculture Monitoring in the Pacific Island Countries</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="tourism_intro.html" title="next page">

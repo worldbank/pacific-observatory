@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch4_econ.html" />
+    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/ch4_econ.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Other Use Cases" href="ch5_other.html" />
@@ -158,7 +158,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="climate_and_ag.html">
-   Agriculture Monitoring in the Pacific Island Countries
+   Climate and Agriculture Monitoring in the Pacific Island Countries
   </a>
  </li>
  <li class="toctree-l1">
@@ -285,7 +285,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory"
+        <a href="https://github.com/worldbank/pacific-observatory"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -302,7 +302,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch4_econ.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch4_econ.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -319,7 +319,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch4_econ.md"
+        <a href="https://github.com/worldbank/pacific-observatory/edit/main/ch4_econ.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -489,14 +489,14 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="economic-applications">
 <h1>Economic Applications<a class="headerlink" href="#economic-applications" title="Permalink to this headline">#</a></h1>
-<p>In this section we investigate how well signals from nighttime lights can approximate economic measures in Papua New Guinea. We test the suitability of NTL data to proxy economic statistics in this country as a significant portion of its economy is composed by industrial production and extractives, which are more likely to be captured by NTL. Additionally, there is significant variance in terms of poverty levels, and we are interested in knowing whether lights can capture any of that variance. While PNG is exceptional in the region due to its size, we examine other applications that may extend better to smaller islands in section 5.</p>
+<p>In this section we investigate how well signals from (NTL) can approximate economic measures in Papua New Guinea. We test the suitability of NTL data to proxy economic statistics in this country as a significant portion of its economy is composed by industrial production and extractives, which are more likely to be captured by NTL. Additionally, there is significant variance in terms of poverty levels, and we are interested in knowing whether lights can capture any of that variance. While PNG is exceptional in the region due to its size, we examine other applications that may extend better to smaller islands in section 5.</p>
 <section id="extractives">
 <h2>Extractives<a class="headerlink" href="#extractives" title="Permalink to this headline">#</a></h2>
 <p>From our earlier inspection of annual composites, it was evident that mining sites produced high levels of lights in PNG. In a country that is predominantly rural, sites of extractive operations (Ok Tedi, Porgera, Hides, Agogo, and Iagifu) produce radiance measures higher than what is captured in major cities. Some of these sites are mining operations where the infrastructure built might have their lights on overnight, and they might have caused spillover settlement growth. Others are processing facilities connected to the Liquified Natural Gas pipeline, where NTL may be detecting episodes of flaring. Our hypothesis is that changes in the radiance levels detected in these locations may be related to changes in mining production or economic output.</p>
 <section id="methodology">
 <h3><em>Methodology</em><a class="headerlink" href="#methodology" title="Permalink to this headline">#</a></h3>
-<p>We built a database of mining sites and gas facilities by reviewing an official map and confirming their geo-location through crowd-sourced data . We drew 4-kilometer buffers around each site and calculated the sum of lights (SoL) for each site at the monthly and annual frequency. For the monthly time series, we rely on the VIIRS monthly images (2014-2022) and follow the moving-window linear interpolation described in section 3.3.</p>
-<p>For the annual time series, we rely on two sets of NTL data: the VIIRS annual composites generated by the Earth Observation Group (2013-2021), and the DMPS-OLS annual composites provided by NOAA (1992-2013). Multiple differences between satellites make it challenging to combine statistics from both datasets. To address this, we follow the harmonizing technique developed by Daynan Crull. This method uses the overlap between both platforms for a locally defined region of interest (in this case, PNG), applies various transformations and fits the DMSP composites to VIIRS using a Gradient Boosting decision-tree based algorithm (forthcoming ). We calculated sum of lights from the harmonized annual images and summarized national aggregates of lights per type of operation (mining or gas).</p>
+<p>We built a database of mining sites and gas facilities by reviewing an official map and confirming their geo-location through crowd-sourced data<a class="footnote-reference brackets" href="#id3" id="id1">1</a>. We drew 4-kilometer buffers around each site and calculated the sum of lights (SoL) for each site at the monthly and annual frequency. For the monthly time series, we rely on the VIIRS monthly images (2014-2022) and follow the moving-window linear interpolation described in section 3.3.</p>
+<p>For the annual time series, we rely on two sets of NTL data: the VIIRS annual composites generated by the Earth Observation Group (2013-2021), and the DMPS-OLS annual composites provided by NOAA (1992-2013). Multiple differences between satellites make it challenging to combine statistics from both datasets. To address this, we follow the harmonizing technique developed by Daynan Crull. This method uses the overlap between both platforms for a locally defined region of interest (in this case, PNG), applies various transformations and fits the DMSP composites to VIIRS using a Gradient Boosting decision-tree based algorithm (forthcoming<a class="footnote-reference brackets" href="#id4" id="id2">2</a>). We calculated sum of lights from the harmonized annual images and summarized national aggregates of lights per type of operation (mining or gas).</p>
 <p>To compare this with economic measures, we curated national sector-level GDP from the latest published national accounts - 2006 to 2019 (PNG National Statistics Office), and facility-level production reported through the Extractives Industry Transparency Initiative 2019 Report (EITI). Only selected facilities have reported the amount of gold or copper mines in the last few years (typically 2014 to 2019).</p>
 <!-- ```{figure}
 A | B
@@ -527,8 +527,7 @@ Figure 4.1.b: National Aggregates. Sum of lights (DMSP/VIIRS)
 ```
 
 ```` -->
-<table class="table" id="id1">
-<caption><span class="caption-number">Table 1 </span><span class="caption-text">Figure 4.1: National Aggregates</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
+<table class="table">
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />
@@ -544,7 +543,8 @@ Figure 4.1.b: National Aggregates. Sum of lights (DMSP/VIIRS)
 </tr>
 </tbody>
 </table>
-<p>Figure 4-1 shows the national account output for the extractive industries, and the sum of lights after aggregating data from all locations in PNG. We investigated the degree of correlation by applying a natural logarithmic transformation to both series and comparing the difference in logged values year-to-year. To test their degree of correlation we specified the following linear regression, where the coefficient c1 can be interpreted as a growth elasticity index.</p>
+<p><strong>Figure 5</strong>: National Aggregates</p>
+<p>Figure 5 shows the national account output for the extractive industries, and the sum of lights after aggregating data from all locations in PNG. We investigated the degree of correlation by applying a natural logarithmic transformation to both series and comparing the difference in logged values year-to-year. To test their degree of correlation we specified the following linear regression, where the coefficient c1 can be interpreted as a growth elasticity index.</p>
 <div class="math notranslate nohighlight">
 \[
 Δ ln⁡(output) = c0 + c1 * Δ ln(sum \ of \ lights)
@@ -552,7 +552,7 @@ Figure 4.1.b: National Aggregates. Sum of lights (DMSP/VIIRS)
 </section>
 <section id="results">
 <h3><em>Results</em><a class="headerlink" href="#results" title="Permalink to this headline">#</a></h3>
-<p>Although both time series show an upward trend in figure 4-1, aligning the data by type of industry with log differences highlights varying levels of agreement for mining and gas (see figure 4-2). Changes between lights and output do not correlate for mining but seem to have a stronger agreement for gas. Lights captured the strong increase in gas production in 2014, and changes in years prior (2007 to 2010) align well. This is further confirmed by our regression results. The elasticity found between lights and output for gas is significant at 0.98, while the coefficient for mining is -0.07 and not significant.</p>
+<p>Although both time series show an upward trend, aligning the data by type of industry with log differences highlights varying levels of agreement for mining and gas (see Figure 6). Changes between lights and output do not correlate for mining but seem to have a stronger agreement for gas. Lights captured the strong increase in gas production in 2014, and changes in years prior (2007 to 2010) align well. This is further confirmed by our regression results. The elasticity found between lights and output for gas is significant at 0.98, while the coefficient for mining is -0.07 and not significant.</p>
 <!-- ```{figure}
 A | B
 - | - 
@@ -582,8 +582,7 @@ Figure 4.2.a: Log Difference Gas Output and Lights
 ```
 
 ```` -->
-<table class="table" id="id2">
-<caption><span class="caption-number">Table 2 </span><span class="caption-text">Figure 4.2: Log Difference Output and Lights</span><a class="headerlink" href="#id2" title="Permalink to this table">#</a></caption>
+<table class="table">
 <colgroup>
 <col style="width: 50%" />
 <col style="width: 50%" />
@@ -599,20 +598,26 @@ Figure 4.2.a: Log Difference Gas Output and Lights
 </tr>
 </tbody>
 </table>
+<p><strong>Figure 6</strong>: Log Difference Output and Lights</p>
 <p>The static trend in lights for recent years (2019 to 2021) signals that gas production has remained constant. Despite the strong correlation found for gas, the possibility to extend this use case to a predictive framework is limited. With no production values available at the site-level, there are not enough observations to properly test a predictive model.</p>
-<p>Production values are available for mining sites. However, we found that changes in total luminosity do not correlate to changes in the amount of copper or gold that is mined at the site-level. For example, in Porgera we see a slight increase in annual lights which is not reflected in their production values. We observe more movement in the monthly VIIRS time series for mining sites. Monthly lights can be a useful indicator to examine whether a given mine is active or inactive. An interactive application to examine these trends is publicly available at: <a class="reference external" href="https://afche18.users.earthengine.app/view/png-mining">https://afche18.users.earthengine.app/view/png-mining</a>.</p>
+<p>Monthly lights can be a useful indicator to examine whether a given mine is active or inactive. An increase in NTL for mining locations can be a signal of exploration activities, expansion of an operation, or spillover settlement growth. On the other hand, NTL trends for gas facilities are much more volatile capturing episodes of gas flaring. An interactive map to explore these trends was developed with Google Earth Engine and is <a class="reference external" href="https://afche18.users.earthengine.app/view/png-mining">publicly available</a>. Correlating changes in NTL to annual changes in the amount of copper or gold that is mined proved to be challenging. For example, in Porgera we see a slight increase in annual lights which is not reflected in their production levels.</p>
 </section>
 </section>
 <section id="poverty-mapping">
 <h2>Poverty Mapping<a class="headerlink" href="#poverty-mapping" title="Permalink to this headline">#</a></h2>
-<p>Even though light output is extremely low in rural areas in Papua New Guinea (as seen in table 1), we tested the correlation between NTL metrics and a cross-section of province-level poverty rates. For this exercise we used a relative wealth index constructed from the latest DHS survey available (2016 to 2018). This index follows the methodology developed by DHS to summarize wealth based on household assets and amenities.</p>
+<p>Even though light output is extremely low in rural areas in Papua New Guinea (as seen in Table 1), we tested the correlation between NTL metrics and a cross-section of province-level poverty rates. For this exercise we used a relative wealth index constructed from the latest DHS survey available (2016 to 2018). This index follows the methodology developed by DHS to summarize wealth based on household assets and amenities.</p>
+<a class="reference internal image-reference" href="_images/wealth-and-lights.jpeg" id="wealth-lights"><img alt="_images/wealth-and-lights.jpeg" id="wealth-lights" src="_images/wealth-and-lights.jpeg" style="width: 80%;" /></a>
+<p><strong>Figure 7</strong>: Correlation between relative wealth and area of lights</p>
 <p>The clean NTL annual composite for 2019 contains valuable information about the distribution of wealth across provinces. The statistic with the highest correlation to relative wealth is the share of settled area with lights (r = 0.705). Sum of lights was also correlated but with a lower coefficient (0.58). This suggests that the extent of lights is more indicative of poverty than the intensity of lights. Overall, the correlations identified hint that NTL statistics can be used as supplementary features to map the distribution of poverty at more local levels.</p>
-<figure class="align-default" id="wealth-lights">
-<img alt="_images/wealth-and-lights.jpeg" src="_images/wealth-and-lights.jpeg" />
-<figcaption>
-<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Figure 4.3: Correlation between relative wealth and area of lights</span><a class="headerlink" href="#wealth-lights" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Mindat Database (Hudson Institute of Mineralogy), retrieved from <a class="reference external" href="https://www.mindat.org/loc-2438.html">https://www.mindat.org/loc-2438.html</a>,  MiningInfo (Google Sites), retrieved from <a class="reference external" href="https://sites.google.com/site/mininginfosite/">https://sites.google.com/site/mininginfosite/</a></p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Implementation available via <a class="reference external" href="https://github.com/worldbank/NTL_Harmonizer/tree/main/harmonizer">https://github.com/worldbank/NTL_Harmonizer/tree/main/harmonizer</a></p>
+</dd>
+</dl>
 </section>
 </section>
 

@@ -52,7 +52,7 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://github.com/andresfchamorro/pacific-observatory/ch3_dq.html" />
+    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/ch3_dq.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Economic Applications" href="ch4_econ.html" />
@@ -156,7 +156,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="climate_and_ag.html">
-   Agriculture Monitoring in the Pacific Island Countries
+   Climate and Agriculture Monitoring in the Pacific Island Countries
   </a>
  </li>
  <li class="toctree-l1">
@@ -283,7 +283,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory"
+        <a href="https://github.com/worldbank/pacific-observatory"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -300,7 +300,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch3_dq.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch3_dq.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -317,7 +317,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/andresfchamorro/pacific-observatory/edit/main/ch3_dq.md"
+        <a href="https://github.com/worldbank/pacific-observatory/edit/main/ch3_dq.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -455,139 +455,141 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="data-quality-assessment">
 <h1>Data Quality Assessment<a class="headerlink" href="#data-quality-assessment" title="Permalink to this headline">#</a></h1>
-<p>In this section we examine the distribution and temporal quality of nighttime lights data from the VIIRS satellite for selected Pacific Islands. All analytical steps were implemented in python leveraging the Google Earth Engine API. Annotated notebooks to replicate the analysis can be found in the Pacific Observatory github repository. Maps and graphs for all islands are available on the online version of this technical note.</p>
+<p>In this section we examine the distribution and temporal quality of nighttime lights data from the VIIRS satellite for selected Pacific Islands. All analytical steps were implemented in python leveraging the Google Earth Engine API. Annotated notebooks to replicate the analysis can be found in the Pacific Observatory github repository.</p>
 <section id="annual-maps-of-lights">
 <h2>Annual Maps of Lights<a class="headerlink" href="#annual-maps-of-lights" title="Permalink to this headline">#</a></h2>
-<p>The first set of maps in figure 3-1 presents maps of nighttime lights for the year 2021. We generated raw annual composites for each island by averaging the radiance value from monthly images after removing non-cloudy observations. Lights are visualized on a scale from dark purple (0) to bright yellow (radiance value greater than or equal to 1 nanoWatts/cm2/sr).</p>
+<p>The first set of maps in Figure 1 presents maps of nighttime lights for the year 2021. We generated raw annual composites for each island by averaging the radiance value from monthly images after removing non-cloudy observations. Lights are visualized on a scale from dark purple (0) to bright yellow (radiance value greater than or equal to 1 nanoWatts/cm2/sr).</p>
+<p>NTL values for most areas are low, with higher values clustered around human settlements. Beyond cities and towns, in some islands it is possible to identify infrastructure features, such as roads along coastal areas. Low radiance values are hard to interpret as the satellite is very sensitive to various sources of light. For reference, previous studies have noted radiance values for specific features: 3.28 for a bridge, and 3.65 for a vessel (Cao and Bai 2014).</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="34c36b1a-8441-43b3-93f6-3d6a1262d731" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="34c36b1a-8441-43b3-93f6-3d6a1262d731">
+<input checked="checked" id="f1db68f0-6207-4849-9549-a450f80357f4" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="f1db68f0-6207-4849-9549-a450f80357f4">
 Papua New Guinea</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/PNG.jpg" /></p>
 </div>
-<input id="f16f52d1-f1bc-4b18-9f56-ba26bc4385c9" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="f16f52d1-f1bc-4b18-9f56-ba26bc4385c9">
+<input id="da610c9c-28e1-4a5f-ac4d-05db9a30fb58" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="da610c9c-28e1-4a5f-ac4d-05db9a30fb58">
 Federated States of Micronesia</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FSM.jpg" /></p>
 </div>
-<input id="57bc5709-3bd1-45e6-ae94-93ac45bed3c4" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="57bc5709-3bd1-45e6-ae94-93ac45bed3c4">
+<input id="26db6b0f-62b0-4e01-987f-360537b68fcc" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="26db6b0f-62b0-4e01-987f-360537b68fcc">
 Fiji</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FJI.jpg" /></p>
 </div>
-<input id="5f871710-1a01-4524-b129-03ece26759ae" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="5f871710-1a01-4524-b129-03ece26759ae">
+<input id="3b3e243b-b1c2-448f-acd0-4594ad02b0dd" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="3b3e243b-b1c2-448f-acd0-4594ad02b0dd">
 Kiribati</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/KIR.jpg" /></p>
 </div>
-<input id="79d68354-9b5c-4e31-9de0-0e4b715aacf9" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="79d68354-9b5c-4e31-9de0-0e4b715aacf9">
+<input id="3f9941b0-ba98-4ab6-8140-0278dbe79dc5" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="3f9941b0-ba98-4ab6-8140-0278dbe79dc5">
 Marshall Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/MHL.jpg" /></p>
 </div>
-<input id="6e69445b-4522-4da1-9f4a-ad1c6c71c5f7" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="6e69445b-4522-4da1-9f4a-ad1c6c71c5f7">
+<input id="0731179b-b9ec-4ed1-b58a-73f161835fc7" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="0731179b-b9ec-4ed1-b58a-73f161835fc7">
 Nauru</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/NRU.jpg" /></p>
 </div>
-<input id="5f232c45-a86c-4763-8172-95214e97647a" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="5f232c45-a86c-4763-8172-95214e97647a">
+<input id="28c588e3-e3e2-4689-a349-b55149331a63" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="28c588e3-e3e2-4689-a349-b55149331a63">
 Palau</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Palau.jpg" /></p>
 </div>
-<input id="385f04ac-b50a-4706-9551-55bb6b5c52bb" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="385f04ac-b50a-4706-9551-55bb6b5c52bb">
+<input id="9ef40a7e-e7e4-4c08-8f7d-a230e5389139" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="9ef40a7e-e7e4-4c08-8f7d-a230e5389139">
 Samoa</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Samoa.jpg" /></p>
 </div>
-<input id="08a97ce0-428d-4afc-af5e-c1a4545ec8d5" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="08a97ce0-428d-4afc-af5e-c1a4545ec8d5">
+<input id="1ac0de01-d486-4f9e-9be1-270de5504590" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="1ac0de01-d486-4f9e-9be1-270de5504590">
 Solomon Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Solomon.jpg" /></p>
 </div>
-<input id="13922b7d-ff9a-4ccb-96ae-5208ed9ddb61" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="13922b7d-ff9a-4ccb-96ae-5208ed9ddb61">
+<input id="585c5d84-d56d-4aba-ac20-34892eeb07f9" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="585c5d84-d56d-4aba-ac20-34892eeb07f9">
 Tonga</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tonga.jpg" /></p>
 </div>
-<input id="9930b936-cf10-4d61-aa12-967aec8582da" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="9930b936-cf10-4d61-aa12-967aec8582da">
+<input id="30428858-e857-4679-8bd0-36daf3ce50aa" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="30428858-e857-4679-8bd0-36daf3ce50aa">
 Tuvalu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tuvalu.jpg" /></p>
 </div>
-<input id="c8824dda-d5e5-4e3f-955c-d6ea3374717c" name="43e85b33-0385-43e0-9b35-8a62f0e4e6c3" type="radio">
-</input><label class="sd-tab-label" for="c8824dda-d5e5-4e3f-955c-d6ea3374717c">
+<input id="193fa19d-89d3-4090-a3aa-9704c7239448" name="0001f5a1-44a5-49fa-8802-7bbefc12e459" type="radio">
+</input><label class="sd-tab-label" for="193fa19d-89d3-4090-a3aa-9704c7239448">
 Vanuatu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Vanuatu.jpg" /></p>
 </div>
 </div>
-<p>NTL values for most areas are low, with higher values clustered around human settlements. Beyond cities and towns, in some islands it is possible to identify infrastructure features, such as roads along coastal areas. Low radiance values are hard to interpret as the satellite is very sensitive to various sources of light. For reference, previous studies have noted radiance values for specific features: 3.28 for a bridge, and 3.65 for a vessel (Cao and Bai 2014).</p>
-<p>One would expect radiance values for populated areas to be higher, though previous studies have warned that rural areas may not be detected. This assumption can be investigated further by matching the NTL composite with a population grid. In this case, we use Facebook’s High Resolution Settlement Layer, which mapped the distribution of human population at a resolution of 30m. This population layer was generated by combining census data with computer vision techniques and is available for all islands.</p>
-<p>After matching the population data to the VIIRS annual composites, we created histograms of VIIRS values for different population density thresholds. Figure 3-2 presents histograms for Fiji and Samoa, where the left panel shows the distribution of light values for unpopulated areas, the center is for rural areas, and the right is for urban areas, defined as cells with population density higher than 300 people per square kilometer. Although the distribution for all graphs is heavily skewed towards 0, populated areas show a longer tail of pixels with slightly higher luminosity values.</p>
+<p><strong>Figure 1.</strong> NTL Maps, 2021 (VIIRS).</p>
+<p>One would expect radiance values for populated areas to be higher, though previous studies have warned that rural areas may not be detected. This assumption can be investigated further by matching the NTL composite with a population grid. We use Facebook’s High Resolution Settlement Layer which mapped the distribution of human population at a resolution of 30m. This population layer was generated by combining census data with computer vision techniques and is available for all islands.<a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
+<p>After matching the population data to the VIIRS annual composites, we created histograms of VIIRS values for different population density thresholds. Figure 2 presents histograms for Fiji and Samoa, where the left panel shows the distribution of light values for unpopulated areas, the center is for rural areas, and the right is for urban areas, defined as cells with population density higher than 300 people per square kilometer. Although the distribution for all graphs is heavily skewed towards 0, populated areas show a longer tail of pixels with slightly higher luminosity values.</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="fda8728c-0505-4117-bdee-b7561ced80de" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="fda8728c-0505-4117-bdee-b7561ced80de">
+<input checked="checked" id="fde62c4d-7a13-4212-928b-d109d7790530" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="fde62c4d-7a13-4212-928b-d109d7790530">
 Papua New Guinea</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/PNG.png" /></p>
 </div>
-<input id="dd218a56-9b27-4a76-ba4b-20dcf9a13a99" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="dd218a56-9b27-4a76-ba4b-20dcf9a13a99">
+<input id="71c0480c-cfa4-4d18-89d9-29028f2d06a8" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="71c0480c-cfa4-4d18-89d9-29028f2d06a8">
 Federated States of Micronesia</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FSM.png" /></p>
 </div>
-<input id="df87de92-7b3f-42d3-ac59-9bd684ded110" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="df87de92-7b3f-42d3-ac59-9bd684ded110">
+<input id="da5ec7a4-b231-41eb-b086-a8f8e6694a46" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="da5ec7a4-b231-41eb-b086-a8f8e6694a46">
 Fiji</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FJI.png" /></p>
 </div>
-<input id="93925749-7554-4724-83d8-e2d4f228c002" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="93925749-7554-4724-83d8-e2d4f228c002">
+<input id="e28b5bb9-9562-45b6-91fd-5f6bcfdd252b" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="e28b5bb9-9562-45b6-91fd-5f6bcfdd252b">
 Kiribati</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/KIR.png" /></p>
 </div>
-<input id="da07ee88-cf2b-418e-8e18-cb6c533a1b03" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="da07ee88-cf2b-418e-8e18-cb6c533a1b03">
+<input id="e1db7023-dd88-4099-a199-5e5cc3e2340f" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="e1db7023-dd88-4099-a199-5e5cc3e2340f">
 Marshall Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/MHL.png" /></p>
 </div>
-<input id="262719e1-61e7-438a-a17a-94f91a6226dc" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="262719e1-61e7-438a-a17a-94f91a6226dc">
+<input id="a0fff042-e0e1-4526-8cc0-0afd28ea9daf" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="a0fff042-e0e1-4526-8cc0-0afd28ea9daf">
 Nauru</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/NRU.png" /></p>
 </div>
-<input id="106beb28-5669-4a59-a140-5747d881428b" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="106beb28-5669-4a59-a140-5747d881428b">
+<input id="789cb599-2ad7-4c32-bd62-89d8d3108c9a" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="789cb599-2ad7-4c32-bd62-89d8d3108c9a">
 Palau</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/PLW.png" /></p>
 </div>
-<input id="c42bfc3e-0014-4a65-8763-2f4b79e1dc77" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="c42bfc3e-0014-4a65-8763-2f4b79e1dc77">
+<input id="7b4bd1b3-31df-4dd0-8897-9dd7291d3a40" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="7b4bd1b3-31df-4dd0-8897-9dd7291d3a40">
 Samoa</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/WSM.png" /></p>
 </div>
-<input id="a6b3f89a-d8f7-4c41-b263-3a9cb8d6e377" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="a6b3f89a-d8f7-4c41-b263-3a9cb8d6e377">
+<input id="b10f1323-0ae2-4a86-b1f7-225217283d4a" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="b10f1323-0ae2-4a86-b1f7-225217283d4a">
 Solomon Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/SLB.png" /></p>
 </div>
-<input id="531e4209-6585-476a-9700-327237dbf8d1" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="531e4209-6585-476a-9700-327237dbf8d1">
+<input id="fd68a849-b074-49a1-a20b-24a058ecc824" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="fd68a849-b074-49a1-a20b-24a058ecc824">
 Tonga</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/TON.png" /></p>
 </div>
-<input id="935f6d30-c81e-44ca-b509-ac9a8e6fbb11" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="935f6d30-c81e-44ca-b509-ac9a8e6fbb11">
+<input id="9f15c494-32e8-4cb9-82e1-d1e68741fdf0" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="9f15c494-32e8-4cb9-82e1-d1e68741fdf0">
 Tuvalu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/TUV.png" /></p>
 </div>
-<input id="53376b23-3a7b-4bf9-b6df-cdcaf66d361c" name="0e6c9c4c-8a0c-4f3c-9da9-2336d7c6ae51" type="radio">
-</input><label class="sd-tab-label" for="53376b23-3a7b-4bf9-b6df-cdcaf66d361c">
+<input id="83b97fb2-9ba8-4a59-a1c5-855ef9b84273" name="4d95e84c-b207-44f9-8ba0-daeb9a27711c" type="radio">
+</input><label class="sd-tab-label" for="83b97fb2-9ba8-4a59-a1c5-855ef9b84273">
 Vanuatu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/VUT.png" /></p>
 </div>
 </div>
-<p>We ran a similar test with a better annual composite. Elvidge et al. developed a methodology to remove background noise, solar and lunar contamination, and features unrelated to electric lighting (aurora, fires, flares, volcanoes) (2021). We retrieve the latest “clean” annual composite from the Earth Observation Group at the Payne Institute for Public Policy. With this cleaned data, values of 0 are defined as non-lit background, and any value above 0 can be attributed to anthropogenic lights. Table 1 presents the share of pixels with lights, by unsettled, rural, and urban areas. Urban areas are relatively well captured in NTL, and a very small share of rural pixels seem to be emitting light. Tonga and Nauru have high shares for rural pixels, but they are also locations with high mining and volcanic activity.</p>
-<p><strong>Table 1: % Pixels with lights in the cleaned VIIRS 2021</strong></p>
+<p><strong>Figure 2.</strong> Distribution of VIIRS values.</p>
+<p>We ran a similar test with a better annual composite. Elvidge et al. (2021) developed a methodology to remove background noise, solar and lunar contamination, and features unrelated to electric lighting (aurora, fires, flares, volcanoes) (2021). We retrieve the latest “clean” annual composite from the Earth Observation Group at the Payne Institute for Public Policy. With this cleaned data, values of 0 are defined as non-lit background, and any value above 0 can be attributed to anthropogenic lights. Table 1 presents the share of pixels with lights, by unsettled, rural, and urban areas. Urban areas are relatively well captured in NTL, and a very small share of rural pixels seem to be emitting light. Tonga and Nauru have high shares for rural pixels, but they are also locations with high mining and volcanic activity.</p>
+<p><strong>Table 1</strong>: % Pixels with lights in the cleaned VIIRS 2021</p>
 <table class="table">
 <colgroup>
 <col style="width: 25%" />
@@ -669,76 +671,79 @@ Vanuatu</label><div class="sd-tab-content docutils">
 <section id="cloud-coverage">
 <h2>Cloud Coverage<a class="headerlink" href="#cloud-coverage" title="Permalink to this headline">#</a></h2>
 <p>Many of the applications discussed in section 2 take advantage of the temporal cadence of nighttime lights to derive trends. Researchers should be cautious in assessing the consistency of time-series observations before drawing economic interpretations from the trends. The following analysis examines what percentage of area for each island had data that was affected by clouds.</p>
-<p>The monthly VIIRS composites are based on the average value from daily scenes. The authors of the dataset also provide a quality-control image specifying how many valid observations were available to calculate the monthly value. In some areas, there is not one day from the entire month with a cloud-free observation available. Figure 3-3 shows the percentage of pixels without any valid data for each month from 2019 to 2022 in Papua New Guinea and Marshall Islands. Clouds are particularly disruptive in the wet season (December to March), with no coverage available for more than 50% of the area in PNG for 2021 and 2022. The disruption is less drastic in smaller islands but can still be significant when computing an average value.</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="93000e08-5011-45cc-a0ea-ccf784eec9c1" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="93000e08-5011-45cc-a0ea-ccf784eec9c1">
+<input checked="checked" id="ef7ca5c7-ded6-4cfc-9ce2-9d71588f391f" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="ef7ca5c7-ded6-4cfc-9ce2-9d71588f391f">
 Papua New Guinea</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Papua-New-Guinea.jpeg" /></p>
 </div>
-<input id="8b46be26-d6fc-444e-bd30-b51b27c9998a" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="8b46be26-d6fc-444e-bd30-b51b27c9998a">
+<input id="4a3cb00f-3544-420f-a3c2-8d91a16b2a0b" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="4a3cb00f-3544-420f-a3c2-8d91a16b2a0b">
 Federated States of Micronesia</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Federated-States-of-Micronesia.jpeg" /></p>
 </div>
-<input id="55937030-59a2-46cf-9765-df65a95cd95a" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="55937030-59a2-46cf-9765-df65a95cd95a">
+<input id="aa931153-8abb-4f9e-983f-82efa18c9120" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="aa931153-8abb-4f9e-983f-82efa18c9120">
 Fiji</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Fiji.jpeg" /></p>
 </div>
-<input id="39788980-e2bb-44fd-820d-78c84ee207ca" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="39788980-e2bb-44fd-820d-78c84ee207ca">
+<input id="a34a4b29-c1be-4568-96f9-23f621b79282" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="a34a4b29-c1be-4568-96f9-23f621b79282">
 Kiribati</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Kiribati.jpeg" /></p>
 </div>
-<input id="42671ff7-9094-4588-a6fb-157d62fcc053" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="42671ff7-9094-4588-a6fb-157d62fcc053">
+<input id="cbadb00b-8514-4c47-8b04-568ebf88364f" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="cbadb00b-8514-4c47-8b04-568ebf88364f">
 Marshall Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Marshall-Islands.jpeg" /></p>
 </div>
-<input id="e9953a4e-1962-4716-9140-87cdfe519947" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="e9953a4e-1962-4716-9140-87cdfe519947">
+<input id="dfeb6569-7686-41a5-8371-a4dee71d1b3d" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="dfeb6569-7686-41a5-8371-a4dee71d1b3d">
 Nauru</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Nauru.jpeg" /></p>
 </div>
-<input id="0b941514-82fc-4726-aa32-15d99decadb5" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="0b941514-82fc-4726-aa32-15d99decadb5">
+<input id="fa66f429-4272-4acf-a0e0-92fe9c906dbf" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="fa66f429-4272-4acf-a0e0-92fe9c906dbf">
 Palau</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Palau.jpeg" /></p>
 </div>
-<input id="b96d91f6-7da4-4533-933b-78775c9ed75f" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="b96d91f6-7da4-4533-933b-78775c9ed75f">
+<input id="60820e94-85c6-40d4-8f70-7a393e5eaf24" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="60820e94-85c6-40d4-8f70-7a393e5eaf24">
 Samoa</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Samoa.jpeg" /></p>
 </div>
-<input id="9e12eb7d-bcb0-45f2-b47f-47960425fd7a" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="9e12eb7d-bcb0-45f2-b47f-47960425fd7a">
+<input id="5c29b4af-d0bc-43c8-9e7a-3b9aca31367a" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="5c29b4af-d0bc-43c8-9e7a-3b9aca31367a">
 Solomon Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Solomon-Islands.jpeg" /></p>
 </div>
-<input id="4a9f3cc1-4133-4ee0-8f3d-c5de593420b7" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="4a9f3cc1-4133-4ee0-8f3d-c5de593420b7">
+<input id="5b1ebd68-c1ee-433a-bd94-e84a48082f08" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="5b1ebd68-c1ee-433a-bd94-e84a48082f08">
 Tonga</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tonga.jpeg" /></p>
 </div>
-<input id="b0e4eea3-1b62-48fa-8bb9-d7f364d29910" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="b0e4eea3-1b62-48fa-8bb9-d7f364d29910">
+<input id="28430587-ce1d-4d26-a8b6-cf58d0845716" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="28430587-ce1d-4d26-a8b6-cf58d0845716">
 Tuvalu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tuvalu.jpeg" /></p>
 </div>
-<input id="2dd3efae-5930-41f7-8119-f23d1430b093" name="d22da953-9e28-4de3-a9c3-f4277820a076" type="radio">
-</input><label class="sd-tab-label" for="2dd3efae-5930-41f7-8119-f23d1430b093">
+<input id="75b8ef4c-3808-4124-95d7-5890f1f126cd" name="49973dac-7a2a-43d4-ad7e-601e3d43ef62" type="radio">
+</input><label class="sd-tab-label" for="75b8ef4c-3808-4124-95d7-5890f1f126cd">
 Vanuatu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Vanuatu.jpeg" /></p>
 </div>
 </div>
-<p>A light-weight approach to mitigate issues with cloud coverage is to interpolate missing timesteps with valid observations from nearby months. To test this approach, we implemented a pixel-level moving window linear regression that uses values from 3 months before and after each observation. Figure 3-4 displays an example of this approach for Lae. The raw data shows drastic drops in NTL which can be attributed to months with high cloud coverage. The interpolated trend is more stable and shows much more continuity despite slight increases/decreases.</p>
-<figure class="align-default" id="lae-interpolation">
-<img alt="_images/Lae_VIIRS_Interpolation.png" src="_images/Lae_VIIRS_Interpolation.png" />
-<figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Figure 3.4: Interpolation of NTL time-series</span><a class="headerlink" href="#lae-interpolation" title="Permalink to this image">#</a></p>
-</figcaption>
-</figure>
+<p><strong>Figure 3.</strong> Cloud Coverage by Month</p>
+<p>The monthly VIIRS composites are based on the average value from daily scenes. The authors of the dataset also provide a quality-control image specifying how many valid observations were available to calculate the monthly value. In some areas, there is not one day from the entire month with a cloud-free observation available. Figure 3 shows the percentage of pixels without any valid data for each month from 2019 to 2022 in Papua New Guinea and Marshall Islands. Clouds are particularly disruptive in the wet season (December to March), with no coverage available for more than 50% of the area in PNG for 2021 and 2022. The disruption is less drastic in smaller islands but can still be significant when computing an average value.</p>
+<a class="reference internal image-reference" href="_images/Lae_VIIRS_Interpolation.png" id="lae-interpolation"><img alt="_images/Lae_VIIRS_Interpolation.png" id="lae-interpolation" src="_images/Lae_VIIRS_Interpolation.png" style="width: 80%;" /></a>
+<p><strong>Figure 4</strong>: Interpolation of NTL time-series</p>
+<p>A light-weight approach to mitigate issues with cloud coverage is to interpolate missing timesteps with valid observations from nearby months. For further applications, we implemented a pixel-level moving window linear regression that uses values from 3 months before and after each observation. Figure 4 displays an example of this approach for Lae. The raw data shows drastic drops in NTL which can be attributed to months with high cloud coverage. The interpolated trend is more stable and shows much more continuity despite slight increases/decreases.</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>High Resolution Population Density Maps + Demographic Estimates by CIESIN and Meta was accessed on May 2022 from <a class="reference external" href="https://registry.opendata.aws/dataforgood-fb-hrsl">https://registry.opendata.aws/dataforgood-fb-hrsl</a>. Meta and Center for International Earth Science Information Network - CIESIN - Columbia University. 2022. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 Maxar.</p>
+</dd>
+</dl>
 </section>
 </section>
 
