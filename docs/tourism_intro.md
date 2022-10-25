@@ -19,7 +19,7 @@ Three types of data about Pacific Islands are available:
 And then 
 
 <div id="content">
-    <iframe src="interactive/tourism/tourism-fl.html" name="flights" id="flights" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+    <iframe src="interactive/tourism/tourism-psg.html" name="flights" id="flights" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
 
 
