@@ -37,7 +37,13 @@ while start < 136:
         page_lst.append(url)
         start += 1
 
-
+# Download pdf files
 for url in download_urls:
     path = os.getcwd() + "/data/tourism/fiji/scraping/" + url.split("/")[-1]
     download_files(url, path=path)
+
+os.getcwd()
+palau = pd.read_excel(os.getcwd() + "/data/tourism/palau/Visitor-Arrivals_ALL_20221020.xlsx", sheet_name="TabMth")
+palau.columns = palau.iloc[0]
+palau = palau.iloc[1:-1].reset_index().drop("index",axis=1).T
+palau.columns = palau.iloc[0]
