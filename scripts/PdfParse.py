@@ -59,6 +59,18 @@ def load_pdf(filepath: str,
     return df
 
 
+def detect_year(series: pd.Series):
+    nacheck = pd.isna(series)
+    start_year = int(series[nacheck == False][0])
+    return start_year
+
+
+def generate_time(df: pd.DataFrame,
+                  start_year: int):
+
+    years = [start_year + idx // 12 for idx in df.index]
+    df["Year"] = years
+
 def split_time(df: pd.DataFrame,
                time_var: str):
 
