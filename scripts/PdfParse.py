@@ -3,7 +3,6 @@ import math
 import re
 import numpy as np
 import pandas as pd
-import pdfplumber
 import tabula
 import PyPDF2
 import warnings
@@ -35,7 +34,6 @@ def locate_table(filepath: str,
                 search_lst.append(page_num+1)
         except:
             pass
-
     return {"table_loc": search_lst}
 
 
@@ -56,20 +54,10 @@ def load_pdf(filepath: str,
         df = dfs[table_num]
         df.columns = df.iloc[0, :].to_list()
 
+    df = df.iloc[1:].reset_index().drop("index", axis=1)
+
     return df
 
-
-def detect_year(series: pd.Series):
-    nacheck = pd.isna(series)
-    start_year = int(series[nacheck == False][0])
-    return start_year
-
-
-def generate_time(df: pd.DataFrame,
-                  start_year: int):
-
-    years = [start_year + idx // 12 for idx in df.index]
-    df["Year"] = years
 
 def split_time(df: pd.DataFrame,
                time_var: str):
@@ -86,39 +74,68 @@ def split_time(df: pd.DataFrame,
     return latest_year_idx, year_idx, month_idx
 
 
+def detect_year(series: pd.Series):
+    nacheck = pd.isna(series)
+    start_year = int(series[nacheck == False][0])
+    return start_year
+
+
+def generate_time(df: pd.DataFrame,
+                  start_year: int):
+
+    years = [start_year + idx // 12 for idx in df.index]
+    df["Year"] = years
+
+    return df
+
+
 def remove_separator(df: pd.DataFrame):
 
     colnames = df.columns
     for col in colnames:
-        col_series = pd.Series(df[col].values.flatten())
-        df[col] = (df[col].str.replace(",", "")
-                              .replace("-", "0")
-                              .replace("(", "")
-                              .replace(")", ""))
-
+        if df[col].dtype == "O":
+            df[col] = (df[col].str.replace(",", "")
+                                  .replace("-", "0")
+                                  .replace("(", "")
+                                  .replace(")", ""))
     return df
 
 
 def separate_data(df: pd.DataFrame,
                   var: str):
 
-    air_number, ship_number = list(), list()
-    for i in df[var]:
-        try:
-            air, ship = i.split(" ")[0], i.split(" ")[-1]
-            air_number.append(air)
-            ship_number.append(ship)
-        except:
-            if type(i) != float:
-                length = len(i.split(" "))
-                if length < 2:
-                    air_number.append(i.split(" ")[0])
-                    ship_number.append(0)
-            else:
-                pass
+    splited_lst = var.split(" ")
+    var_number = len(splited_lst)
 
-    df["Air"], df["Ship"] = air_number, ship_number
-    df = df.drop(var, axis=1)
+    obj = dict()
+    for i in range(var_number):
+        obj[str(splited_lst[i])] = []
+
+    for i in df[var]:
+        elems = i.split(" ")
+        length = len(elems)
+        if length == var_number:
+            idx, var = 0, list(obj.keys())
+            while idx < length:
+                key, val = var[idx], elems[idx]
+                obj[key].append(val)
+                idx += 1
+
+        elif length < var_number:
+            idx, var = 0, list(obj.keys())
+            while idx < length and len(elems) != 0:
+                key, val = var[idx], elems[idx].split(" ")[0]
+                obj[key].append(val)
+                elems = i.replace(val, "").strip()
+                idx += 1
+            else:
+                key, val = var[idx], 0
+                obj[key].append(val)
+                idx += 1
+
+    for i in range(var_number):
+        df[str(splited_lst[i])] = obj[list(obj.keys())[i]]
+
     return df
 
 
@@ -131,8 +148,14 @@ def check_quality(df: pd.DataFrame,
     for idx in new_df.index:
         row_sum = 0
         for var in checked_vars:
-            row_sum += int(new_df[var][idx])
+            val = new_df[var][idx]
+            if math.isnan(float(val)) != True:
+                row_sum += float(val)
+            else:
+                row_sum += 0
         if int(new_df["Total"][idx]) == row_sum:
             pass
         else:
             return False
+
+    return True
