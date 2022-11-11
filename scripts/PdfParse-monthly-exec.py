@@ -66,5 +66,5 @@ indexes = months[colnames].drop_duplicates().index
 months = months.iloc[indexes].reset_index().drop("index", axis=1)
 
 # Save the file
-months.to_csv("data/tourism/tonga/tonga_monthly_visitor_temp.csv",
+months.to_csv("data/tourism/tonga/tonga_monthly_visitor.csv",
               encoding="utf-8")

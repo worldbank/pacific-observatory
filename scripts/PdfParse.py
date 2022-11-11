@@ -39,19 +39,24 @@ def locate_table(filepath: str,
 
 def load_pdf(filepath: str,
              search_string: str,
-             table_num: int):
+             table_page: int,
+             table_seq = 0):
 
     table_loc = locate_table(filepath, search_string,
                              ignore_case=True)["table_loc"]
     if len(table_loc) != 0:
-        table_num = table_loc[-1]
-        dfs = tabula.read_pdf(filepath, pages=table_num, stream=True)
-        df = dfs[0]
-        df.columns = df.iloc[0, :].to_list()
+        table_page = table_loc[-1]
+        dfs = tabula.read_pdf(filepath, pages=table_page, stream=True)
+        if len(dfs) > 1:
+            print(f"The page has {len(dfs)} tables.")
+            df = dfs[table_seq]
 
+        else:
+            df = dfs[0]
+            df.columns = df.iloc[0, :].to_list()
     else:
         dfs = tabula.read_pdf(filepath, pages="all", stream=True)
-        df = dfs[table_num]
+        df = dfs[table_page]
         df.columns = df.iloc[0, :].to_list()
 
     df = df.iloc[1:].reset_index().drop("index", axis=1)
