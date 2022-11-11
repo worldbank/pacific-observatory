@@ -1,4 +1,5 @@
 from scripts.PdfParse import *
+from datetime import datetime
 
 tonga_lsts = os.listdir("data/tourism/tonga")
 filepaths = [os.getcwd() + "/data/tourism/tonga/" +
@@ -41,5 +42,29 @@ months = (months.drop_duplicates()
                 .reset_index()
                 .drop("index", axis=1))
 
+# Clean the datetime format
+time = list()
+for idx in months.index:
+    month, year = months["Period"][idx], str(months["Year"][idx])
+    if type(month) == str:
+        try:
+            YM = year + month
+            time.append(datetime.strptime(YM, "%Y%B"))
+        except:
+            time.append(datetime.strptime(YM, "%Y%b"))
+    else:
+        time.append(month)
+
+months["time"] = time
+months = months.sort_values(by="time")
+
+months
+
+# Check for duplicates (e.g. Dec vs December in different years)
+colnames = months.columns[~months.columns.isin(["Period"])]
+indexes = months[colnames].drop_duplicates().index
+months = months.iloc[indexes].reset_index().drop("index", axis=1)
+
+# Save the file
 months.to_csv("data/tourism/tonga/tonga_monthly_visitor_temp.csv",
               encoding="utf-8")
