@@ -21,7 +21,10 @@ for file in tonga_lsts:
             df.columns = colname_lst
 
             df = separate_data(df, "Conference Friends").drop("Conference Friends", axis=1)
-            df = df.iloc[1:-2].reset_index().drop("index", axis=1)
+            df = (df.iloc[1:-2, :]
+                    .dropna(how="all", axis=1)
+                    .reset_index().
+                    drop("index", axis=1))
 
             saved_path = os.getcwd() + "/data/tourism/tonga/temp/" + file.split(".")[0] + ".csv"
 
@@ -30,3 +33,6 @@ for file in tonga_lsts:
         except:
             print(f"{file} has an error.")
             error_lsts.append(file)
+
+with open(os.getcwd() + "/data/tourism/tonga/temp/error.txt", "w") as file:
+    file.write("\n".join(error_lsts))
