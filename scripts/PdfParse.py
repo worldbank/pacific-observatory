@@ -145,10 +145,11 @@ def separate_data(df: pd.DataFrame,
 
 
 def check_quality(df: pd.DataFrame,
-                  exclude_vars: list):
+                  exclude_vars: list,
+                  test_var: str):
 
     new_df = df.iloc[:, ~df.columns.isin(exclude_vars)]
-    checked_vars = new_df.columns[~new_df.columns.isin(["Total"])].to_list()
+    checked_vars = new_df.columns[~new_df.columns.isin([test_var])].to_list()
 
     for idx in new_df.index:
         row_sum = 0
@@ -158,7 +159,7 @@ def check_quality(df: pd.DataFrame,
                 row_sum += float(val)
             else:
                 row_sum += 0
-        if int(new_df["Total"][idx]) == row_sum:
+        if int(new_df[test_var][idx]) == row_sum:
             pass
         else:
             return False
