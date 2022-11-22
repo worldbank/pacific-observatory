@@ -86,12 +86,16 @@ for file in dec_lst:
     if ".pdf" in file:
 
         print(f"{file} has started")
+
         filepath = os.getcwd() + "/data/tourism/vanuatu/" + file
+
+        print(file, locate_table(
+        filepath, "Visitor Arrivals by Usual Country of Residence", ignore_case=True))
 
 
         try:
-            df = load_pdf(filepath, "Visitor Arrivals by Usual Country of Residence", 7)
-            df = df.iloc[:, :-2]
+            df = load_pdf(filepath, "Visitor Arrivals by Usual Country of Residence", 2)
+            df = df.iloc[:, :-2].dropna(thresh=4, axis=1)
 
             headers, row1 = df.columns.to_list(), df.iloc[0].to_list()
             newheader = list()
@@ -101,14 +105,16 @@ for file in dec_lst:
                 else:
                     newheader.append(str(header))
 
-            newheader[-1], newheader[5] = "Total", "Europe"
+            newheader[-1] = "Total"
+            newheader[newheader.index("Countries")], newheader[newheader.index(
+                "nan")] = "Other PIC", "Europe"
 
             df.columns = newheader
             df = df.iloc[2:].reset_index().drop("index", axis=1)
             df = remove_separator(df)
 
             if check_quality(df, ["Month", "Year"], "Total"):
-                print(f"{file} pass the quality check.")
+                print(f"    {file} pass the quality check.")
                 saved_path = os.getcwd() + "/data/tourism/vanuatu/byorigin/" + \
                     file.split(".")[0] + ".csv"
                 df.to_csv(saved_path, encoding="utf-8")
