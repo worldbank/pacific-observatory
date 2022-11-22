@@ -8,7 +8,7 @@ error_dict = {
     "reason": []
 }
 
-
+# Total Visitor
 for file in dec_lst:
     if ".pdf" in file:
 
@@ -79,3 +79,46 @@ for file in dec_lst:
 
 
 error_dict
+
+# By Country
+bycountry_err_lst = list()
+for file in dec_lst:
+    if ".pdf" in file:
+
+        print(f"{file} has started")
+        filepath = os.getcwd() + "/data/tourism/vanuatu/" + file
+
+
+        try:
+            df = load_pdf(filepath, "Visitor Arrivals by Usual Country of Residence", 7)
+            df = df.iloc[:, :-2]
+
+            headers, row1 = df.columns.to_list(), df.iloc[0].to_list()
+            newheader = list()
+            for header, row in zip(headers, row1):
+                if type(header) != str:
+                    newheader.append(str(row))
+                else:
+                    newheader.append(str(header))
+
+            newheader[-1], newheader[5] = "Total", "Europe"
+
+            df.columns = newheader
+            df = df.iloc[2:].reset_index().drop("index", axis=1)
+            df = remove_separator(df)
+
+            if check_quality(df, ["Month", "Year"], "Total"):
+                print(f"{file} pass the quality check.")
+                saved_path = os.getcwd() + "/data/tourism/vanuatu/byorigin/" + \
+                    file.split(".")[0] + ".csv"
+                df.to_csv(saved_path, encoding="utf-8")
+            else:
+                print(f"{file} could have column errors")
+                saved_path = os.getcwd() + "/data/tourism/vanuatu/byorigin/" + \
+                    file.split(".")[0] + ".csv"
+                df.to_csv(saved_path, encoding="utf-8")
+                bycountry_err_lst.append(file)
+
+        except:
+            print(f"{file} could have errors in finding the table.")
+            bycountry_err_lst.append(file)
