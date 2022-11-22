@@ -78,53 +78,49 @@ for file in dec_lst:
             error_dict["reason"].append("Column Error")
 
 
-error_dict
-
 # By Country
-bycountry_err_lst = list()
+bycountry_err_dict = {
+    "file": [],
+    "reason": []
+}
+
 for file in dec_lst:
-    if ".pdf" in file:
-
-        print(f"{file} has started")
-
-        filepath = os.getcwd() + "/data/tourism/vanuatu/" + file
-
-        print(file, locate_table(
+    filepath = "/Users/czhang/Desktop/pacific-observatory/data/tourism/vanuatu/" + file
+    print(file, locate_table(
         filepath, "Visitor Arrivals by Usual Country of Residence", ignore_case=True))
+    try:
+        df = load_pdf(
+            filepath, "Visitor Arrivals by Usual Country of Residence", 2)
+        df = df.iloc[:, :-2].dropna(thresh=4, axis=1)
 
-
-        try:
-            df = load_pdf(filepath, "Visitor Arrivals by Usual Country of Residence", 2)
-            df = df.iloc[:, :-2].dropna(thresh=4, axis=1)
-
-            headers, row1 = df.columns.to_list(), df.iloc[0].to_list()
-            newheader = list()
-            for header, row in zip(headers, row1):
-                if type(header) != str:
-                    newheader.append(str(row))
-                else:
-                    newheader.append(str(header))
-
-            newheader[-1] = "Total"
-            newheader[newheader.index("Countries")], newheader[newheader.index(
-                "nan")] = "Other PIC", "Europe"
-
-            df.columns = newheader
-            df = df.iloc[2:].reset_index().drop("index", axis=1)
-            df = remove_separator(df)
-
-            if check_quality(df, ["Month", "Year"], "Total"):
-                print(f"    {file} pass the quality check.")
-                saved_path = os.getcwd() + "/data/tourism/vanuatu/byorigin/" + \
-                    file.split(".")[0] + ".csv"
-                df.to_csv(saved_path, encoding="utf-8")
+        headers, row1 = df.columns.to_list(), df.iloc[0].to_list()
+        newheader = list()
+        for header, row in zip(headers, row1):
+            if type(header) != str:
+                newheader.append(str(row))
             else:
-                print(f"{file} could have column errors")
-                saved_path = os.getcwd() + "/data/tourism/vanuatu/byorigin/" + \
-                    file.split(".")[0] + ".csv"
-                df.to_csv(saved_path, encoding="utf-8")
-                bycountry_err_lst.append(file)
+                newheader.append(str(header))
 
-        except:
-            print(f"{file} could have errors in finding the table.")
-            bycountry_err_lst.append(file)
+        newheader[-1] = "Total"
+        newheader[newheader.index("Countries")], newheader[newheader.index(
+            "nan")] = "Other PIC", "Europe"
+
+        df.columns = newheader
+        df = df.iloc[2:].reset_index().drop("index", axis=1)
+        df = remove_separator(df)
+        if check_quality(df, ["Month", "Year"], "Total"):
+            print(f"  {file} pass the quality check.")
+            saved_path = os.getcwd() + "/data/tourism/vanuatu/byorigin/" + \
+                file.split(".")[0] + ".csv"
+            df.to_csv(saved_path, encoding="utf-8")
+        else:
+            print(f"  {file} could have column errors")
+            saved_path = os.getcwd() + "/data/tourism/vanuatu/byorigin/" + \
+                file.split(".")[0] + ".csv"
+            df.to_csv(saved_path, encoding="utf-8")
+            bycountry_err_dict["file"].append(file)
+            bycountry_err_dict["reason"].append("Column Error")
+    except:
+        print(f"  {file} has an error.")
+        bycountry_err_dict["file"].append(file)
+        bycountry_err_dict["reason"].append("Missing Error")

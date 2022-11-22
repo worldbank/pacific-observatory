@@ -34,6 +34,7 @@ def locate_table(filepath: str,
                 search_lst.append(page_num+1)
         except:
             pass
+
     return {"table_loc": search_lst}
 
 
@@ -98,11 +99,16 @@ def remove_separator(df: pd.DataFrame):
 
     colnames = df.columns
     for col in colnames:
-        if df[col].dtype == "O":
-            df[col] = (df[col].str.replace(",", "")
-                                  .replace("-", "0")
-                                  .replace("(", "")
-                                  .replace(")", ""))
+        try:
+            if df[col].dtype == "O":
+                df[col] = (df[col].str.replace(",", "")
+                                      .replace("-", "0")
+                                      .replace("(", "")
+                                      .replace(")", "")
+                                      .str.replace(" ", ""))
+        except:
+            print(col, "might have an error.")
+
     return df
 
 
