@@ -2,6 +2,8 @@ from scripts.PdfParse import *
 
 vu_lsts = os.listdir("data/tourism/vanuatu")
 dec_lst = [file for file in vu_lsts if "Dec" in file]
+lst_22 = [file for file in vu_lsts if "2022" in file]
+
 
 error_dict = {
     "file": [],
@@ -84,6 +86,10 @@ bycountry_err_dict = {
     "reason": []
 }
 
+for val in lst_22:
+    dec_lst.append(val)
+
+
 for file in dec_lst:
     filepath = "/Users/czhang/Desktop/pacific-observatory/data/tourism/vanuatu/" + file
     print(file, locate_table(
@@ -124,3 +130,5 @@ for file in dec_lst:
         print(f"  {file} has an error.")
         bycountry_err_dict["file"].append(file)
         bycountry_err_dict["reason"].append("Missing Error")
+
+bycountry_err = pd.DataFrame(bycountry_err_dict)
