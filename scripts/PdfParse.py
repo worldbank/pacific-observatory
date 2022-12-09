@@ -102,20 +102,22 @@ def remove_separator(df: pd.DataFrame):
         try:
             if df[col].dtype == "O":
                 df[col] = (df[col].str.replace(",", "")
-                                      .replace("-", "0")
-                                      .replace("(", "")
-                                      .replace(")", "")
-                                      .str.replace(" ", ""))
+                                  .str.replace("-", "")
+                                  .str.replace("(", "")
+                                  .str.replace(")", "")
+                                  .str.replace(" ", ""))
         except:
             print(col, "might have an error.")
 
     return df
 
 
-def separate_data(df: pd.DataFrame,
-                  var: str):
 
-    splited_lst = var.split(" ")
+def separate_data(df: pd.DataFrame,
+                  var: str,
+                  split_rule: str):
+
+    splited_lst = var.split(split_rule)
     var_number = len(splited_lst)
 
     obj = dict()
@@ -144,6 +146,17 @@ def separate_data(df: pd.DataFrame,
                 obj[key].append(val)
                 idx += 1
 
+        else:
+            idx, var = 0, list(obj.keys())
+            while idx < var_number:
+                key, val = var[idx], elems[idx]
+                obj[key].append(val)
+                idx += 1
+            else:
+                key, val = var[-1], elems[idx]
+                prev_val = obj[key][-1]
+                obj[key][-1] = prev_val + val
+
     for i in range(var_number):
         df[str(splited_lst[i])] = obj[list(obj.keys())[i]]
 
@@ -152,10 +165,10 @@ def separate_data(df: pd.DataFrame,
 
 def check_quality(df: pd.DataFrame,
                   exclude_vars: list,
-                  test_var: str):
+                  sum_var: str):
 
     new_df = df.iloc[:, ~df.columns.isin(exclude_vars)]
-    checked_vars = new_df.columns[~new_df.columns.isin([test_var])].to_list()
+    checked_vars = new_df.columns[~new_df.columns.isin([sum_var])].to_list()
 
     for idx in new_df.index:
         row_sum = 0
@@ -165,7 +178,7 @@ def check_quality(df: pd.DataFrame,
                 row_sum += float(val)
             else:
                 row_sum += 0
-        if int(new_df[test_var][idx]) == row_sum:
+        if float(new_df[sum_var][idx]) == row_sum:
             pass
         else:
             return False

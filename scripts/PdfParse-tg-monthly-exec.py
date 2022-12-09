@@ -2,18 +2,24 @@ from scripts.PdfParse import *
 from datetime import datetime
 
 tonga_lsts = os.listdir("data/tourism/tonga")
-filepaths = [os.getcwd() + "/data/tourism/tonga/" +
-             path for path in tonga_lsts if "Dec" in path]
+filepaths = list()
+for path in tonga_lsts:
+    folder_path = os.getcwd() + "/data/tourism/tonga/"
+    if "Dec" in path:
+        filepaths.append(folder_path + path)
+    elif "2021" and "Bulletin" in path:
+        filepaths.append(folder_path + path)
+    else:
+        pass
 
-for file in filepaths:
-    print(file)
+filepaths
 
 months = pd.DataFrame()
 
 for file in filepaths[:-1]:
     print(file)
 
-    df = load_pdf(file, "Monthly Arrival and Departure", table_num=-5)
+    df = load_pdf(file, "Monthly Arrival and Departure", table_page=-5)
     latest_year, year_idx, month_idx = split_time(df, "Period")
     month = df.iloc[month_idx, 0:4]
     start_year = detect_year(df.iloc[month_idx].iloc[0])
@@ -23,24 +29,22 @@ for file in filepaths[:-1]:
 
     print(f"The file starts from {start_year}.")
 
-    month = separate_data(month, "Air Ship").drop("Air Ship", axis=1)
+    month = separate_data(month, "Air Ship", " ").drop("Air Ship", axis=1)
     month = remove_separator(month)
     month = month.replace(r'^\s*$', 0, regex=True)
 
-    if check_quality(month, ["Period", "Year"]) == False:
+    if check_quality(month, ["Period", "Year"], "Total") == False:
         name = file.split("/")[-1].split(".")[0]
         print("  ", name, "could go wrong!")
 
     generate_time(month, start_year)
-    print(month.head(5))
     months = pd.concat([months, month], axis=0)
 
-
-months = (months.drop_duplicates()
-                [["Year", "Period", "Air", "Yacht", "Ship", "Total"]]
-                .sort_values(by="Year")
-                .reset_index()
-                .drop("index", axis=1))
+months = (months[["Year", "Period", "Air", "Ship", "Yacht", "Total"]]
+          .drop_duplicates()
+          .sort_values(by="Year")
+          .reset_index()
+          .drop("index", axis=1))
 
 # Clean the datetime format
 time = list()
