@@ -66,6 +66,32 @@ def parse_filename(filename: str) -> dict:
     return identifier
 
 
+
+def adf_test(ts: pd.Series) -> pd.Series:
+
+    from statsmodels.tsa.stattools import adfuller
+
+    print("Results of Dickey-Fuller Test:")
+
+    dftest = adfuller(ts, autolag="AIC")
+    output = pd.Series(
+        dftest[0:4],
+        index=[
+            "Test Statistic",
+            "p-value",
+            "# Lags Used",
+            "Number of Observations Used",
+        ],
+    )
+    for key, value in dftest[4].items():
+        output["Critical Value (%s)" % key] = value
+
+    print(output)
+    
+    return output
+
+
+
 def grangers_causation_matrix(data, variables,
                               maxlag=15, test='ssr_chi2test', verbose=False):
 
@@ -86,3 +112,20 @@ def grangers_causation_matrix(data, variables,
     df.columns = [var + '_x' for var in variables]
     df.index = [var + '_y' for var in variables]
     return df
+
+
+
+def cointegration_test(df, alpha=0.05):
+
+    from statsmodels.tsa.vector_ar.vecm import coint_johansen
+
+    out = coint_johansen(df,-1,5)
+    d = {'0.90':0, '0.95':1, '0.99':2}
+    traces = out.lr1
+    cvts = out.cvt[:, d[str(1-alpha)]]
+    def adjust(val, length= 6):
+        return str(val).ljust(length)
+    # Summary
+    print('Name   ::  Test Stat > C(95%)    =>   Signif  \n', '--'*20)
+    for col, trace, cvt in zip(df.columns, traces, cvts):
+        print(adjust(col), ':: ', adjust(round(trace,2), 9), ">", adjust(cvt, 8), ' =>  ' , trace > cvt)
