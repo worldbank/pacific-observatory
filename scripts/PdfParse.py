@@ -169,6 +169,7 @@ def check_quality(df: pd.DataFrame,
 
     new_df = df.iloc[:, ~df.columns.isin(exclude_vars)]
     checked_vars = new_df.columns[~new_df.columns.isin([sum_var])].to_list()
+    error_lst = []
 
     for idx in new_df.index:
         row_sum = 0
@@ -181,6 +182,8 @@ def check_quality(df: pd.DataFrame,
         if float(new_df[sum_var][idx]) == row_sum:
             pass
         else:
-            return False
+            error_lst.append(idx)
+            # return False Previous version 
 
-    return True
+    # return True ## Previous version
+    return error_lst
