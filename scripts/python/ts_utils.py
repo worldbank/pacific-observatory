@@ -1,77 +1,56 @@
-import os
-import urllib3
-import datetime
 import pandas as pd
 import numpy as np
 
-# Wrap the urllib3 downloading functions
-def download_files(url:str, path:str, chunk_size=1024):
-    """
-    Args
-    ------
-    url: string
-        The string of URL for downloading.
-    path: string
-        The string of the saving path.
-    chuck_sise: int
-        The default is set as 1024.
 
-    Return
-    ------
-        N/A
-    """
+def cross_corr_df(data: pd.DataFrame,
+                  series_a: str,
+                  series_b: str) -> pd.DataFrame:
 
-    http = urllib3.PoolManager()
-    r = http.request(
-        'GET',
-        url,
-        preload_content=False)
+    from statsmodels.tsa.stattools import ccf
 
-    with open(path, 'wb') as out:
-        while True:
-            data = r.read(chunk_size)
-            if not data:
-                break
-            out.write(data)
-    r.release_conn()
+    sig_a, sig_b = data[series_a], data[series_b]
+
+    ccorr = ccf(sig_a, sig_b, adjusted=False)
+
+    ccorr_df = (pd.DataFrame(ccorr)
+                .reset_index()
+                .rename({"index": "lag", 0: "cross_corr_coef"}, axis=1))
+
+    return ccorr_df
 
 
-def create_month_mapping():
+def kpss_test(data: pd.DataFrame,
+              incl_columns: list) -> pd.DataFrame:
 
-    month_equv = dict()
+    from statsmodels.tsa.stattools import kpss
+    import warnings
+    warnings.filterwarnings("ignore")
 
-    for i in range(1, 13):
-        month_abbre = datetime.date(1900, i, 1).strftime('%b')
-        month_full = datetime.date(1900, i, 1).strftime('%B')
-        month_equv.update({month_full: i, month_abbre: i})
+    test_stat, p_val = [], []
+    cv_1, cv_5, cv_10 = [], [], []
+    temp_df = data[incl_columns].copy()
 
-    return month_equv
+    for c in temp_df.columns:
+        kpss_res = kpss(temp_df[c].dropna(), regression='ct')
+        test_stat.append(kpss_res[0])
+        p_val.append(kpss_res[1])
+        cv_1.append(kpss_res[3]['1%'])
+        cv_5.append(kpss_res[3]['5%'])
+        cv_10.append(kpss_res[3]['10%'])
+    kpss_res_df = pd.DataFrame({'Test statistic': test_stat,
+                               'p-value': p_val,
+                                'Critical value - 1%': cv_1,
+                                'Critical value - 5%': cv_5,
+                                'Critical value - 10%': cv_10},
+                               index=temp_df.columns)
+    kpss_res_df = kpss_res_df.round(4)
 
-
-def parse_filename(filename: str) -> dict:
-
-    filename_lst = filename.replace(".csv", "").split("-")
-
-    identifier = {"year": [], "month": []}
-    for elem in filename_lst:
-        if elem.isdigit() == True:
-            if len(elem) == 4:
-                identifier["year"].append(elem)
-        else:
-            temp_dict = create_month_mapping()
-            for (key, val) in temp_dict.items():
-                if elem in key:
-                    identifier["month"].append(val)
-
-    return identifier
-
+    return kpss_res_df
 
 
 def adf_test(ts: pd.Series) -> pd.Series:
 
     from statsmodels.tsa.stattools import adfuller
-
-    print("Results of Dickey-Fuller Test:")
 
     dftest = adfuller(ts, autolag="AIC")
     output = pd.Series(
@@ -86,9 +65,21 @@ def adf_test(ts: pd.Series) -> pd.Series:
     for key, value in dftest[4].items():
         output["Critical Value (%s)" % key] = value
 
-    print(output)
-    
     return output
+
+
+def get_adf_df(data: pd.DataFrame,
+               incl_columns: list):
+
+    test_result = pd.DataFrame()
+
+    for col in incl_columns:
+        col_result = adf_test(data[col])
+        col_result_df = pd.DataFrame(col_result)
+        col_result_df.columns = [col]
+        test_result = pd.concat([test_result, col_result_df.T], axis=0)
+
+    return test_result
 
 
 
