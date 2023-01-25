@@ -50,6 +50,7 @@ After preparing the raw data, the following section in the ```main.R``` file of 
     cat("adding PNG from file")
     PNG <- read.csv("PNG_july2022_prices_wc.csv") ##### <---------- Point the code to the new file name. 
     PNG$time_id <- NA 
+      PNG=dropcol(PNG, setdiff(colnames(PNG), colnames(rawMarketPrices)))
       rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
   }
