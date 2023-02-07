@@ -179,11 +179,9 @@ def check_quality(df: pd.DataFrame,
                 row_sum += float(val)
             else:
                 row_sum += 0
-        if float(new_df[sum_var][idx]) == row_sum:
+        if float(new_df[sum_var][idx]) == (row_sum):
             pass
         else:
             error_lst.append(idx)
-            # return False Previous version 
-
-    # return True ## Previous version
+            # return False Previous version
     return error_lst
