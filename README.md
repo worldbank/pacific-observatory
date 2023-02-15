@@ -21,13 +21,13 @@ The content is structured by topic of investigation, each thematic folder contai
 
 This follows the estimation proposed by
 
-[Andree, Bo Pieter Johannes. 2021. Estimating Food Price Inflation from Partial Surveys. Policy Research Working Paper;No. 9886. World Bank, Washington, DC. © World Bank.](https://openknowledge.worldbank.org/handle/10986/36778) License: CC BY 3.0 IGO.
-
-[URI](http://hdl.handle.net/10986/36778)
+> [Andree, Bo Pieter Johannes. 2021. Estimating Food Price Inflation from Partial Surveys. Policy Research Working Paper;No. 9886. World Bank, Washington, DC. © World Bank.](https://openknowledge.worldbank.org/handle/10986/36778) License: CC BY 3.0 IGO.
+> 
+> [URI](http://hdl.handle.net/10986/36778)
 
 To improve the results for Papua New Guinea, a two-stage nonlinear estimation procedure for low-data regimes was suggested by
 
-Andree, Bo Pieter Johannes; Pape, Utz Johann. 2023 (Forthcoming). Can co-deployment of machine learning and high-frequency surveys produce reliable real-time data in data-scarce regions?. Policy Research Working Paper. World Bank, Washington, DC. 
+> Andree, Bo Pieter Johannes; Pape, Utz Johann. 2023 (Forthcoming). Can co-deployment of machine learning and high-frequency surveys produce reliable real-time data in data-scarce regions?. Policy Research Working Paper. World Bank, Washington, DC. 
 
 Andree and Pape (2023) also suggest using the institutional exchange rate as a trend variable and narrow down the tuning grid of the cubist algorithm to improve processing speeds when handling a large number of price items.
 
