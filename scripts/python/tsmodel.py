@@ -33,6 +33,18 @@ def sarimax(series, exog, all_param):
     return results
 
 
+def get_prediction_df(mod, steps: int, exog):
+
+    pred = (mod.get_prediction(exog=exog).summary_frame(alpha=0.05)
+            .rename({"mean": "train_pred"}, axis=1))
+    forecast = (mod.get_forecast(
+        steps=steps, exog=exog, dynamic=True).summary_frame(alpha=0.05).
+        rename({"mean": "test_pred"}, axis=1))
+
+    pred_stats = pd.concat([pred, forecast], axis=0)
+    return pred_stats
+
+
 def compare_models(data,
                    models: list,
                    hyper_params=None):
@@ -65,3 +77,6 @@ def compare_models(data,
         result["avg_error"].append(model_avg_error)
 
     return result
+
+
+
