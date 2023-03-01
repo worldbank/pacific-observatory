@@ -14,6 +14,22 @@ import pmdarima as pm
 from pmdarima import model_selection
 from pmdarima import auto_arima
 
+
+def scaled_logit_transform(series):
+
+    upper, lower = series.max() + 1, series.min() - 1
+    scaled_logit = np.log((series - lower)/(upper - series))
+
+    return scaled_logit
+
+
+def inverse_scaled_logit(trans_series, upper, lower):
+    exp = np.exp(trans_series)
+    inv_series = (((upper - lower) * exp)/ (1 + exp)) + lower
+    
+    return inv_series
+
+
 def sarimax(series, exog, all_param):
     results = []
     for param in all_param:
@@ -23,7 +39,7 @@ def sarimax(series, exog, all_param):
                           order=param[0],
                           seasonal_order=param[1],
                           return_ssm=False)
-            res = mod.fit()
+            res = mod.fit(disp=False)
             results.append((res, res.aic, param))
             print(
                 'Tried out SARIMAX{}x{} - AIC:{}'.format(param[0], param[1], round(res.aic, 2)))
@@ -35,7 +51,7 @@ def sarimax(series, exog, all_param):
 
 def get_prediction_df(mod, steps: int, exog):
 
-    pred = (mod.get_prediction(exog=exog).summary_frame(alpha=0.05)
+    pred = (mod.get_prediction().summary_frame(alpha=0.05)
             .rename({"mean": "train_pred"}, axis=1))
     forecast = (mod.get_forecast(
         steps=steps, exog=exog, dynamic=True).summary_frame(alpha=0.05).
