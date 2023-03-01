@@ -1,50 +1,58 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Data Quality Assessment &#8212; Pacific Observatory</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/scale.fix.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
@@ -52,62 +60,397 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ch3_dq';</script>
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/ch3_dq.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Economic Applications" href="ch4_econ.html" />
     <link rel="prev" title="Literature Review" href="ch2_lit.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
-    
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
         
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch1_intro.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch2_lit.html">
+                        Literature Review
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Data Quality Assessment
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch4_econ.html">
+                        Economic Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch5_other.html">
+                        Other Use Cases
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="climate_and_ag.html">
+                        Climate and Agriculture Monitoring in the Pacific Island Countries
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="climate_db.html">
+                        Climate Database
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="tourism_intro.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="tourism_analysis.html">
+                        Analysis and Predicting on Aviation Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ais_intro.html">
+                        Automatic Identification System
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-external" href="https://datapartnership.org/updates">
+                        Projects & News
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-external" href="https://worldbank.org">
+                        World Bank
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
       
       
-      <img src="_static/logo.png" class="logo" alt="logo">
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
       
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
       
-      <h1 class="site-logo" id="site-title">Pacific Observatory</h1>
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch1_intro.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch2_lit.html">
+                        Literature Review
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Data Quality Assessment
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch4_econ.html">
+                        Economic Applications
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ch5_other.html">
+                        Other Use Cases
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="climate_and_ag.html">
+                        Climate and Agriculture Monitoring in the Pacific Island Countries
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="climate_db.html">
+                        Climate Database
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="tourism_intro.html">
+                        Introduction
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="tourism_analysis.html">
+                        Analysis and Predicting on Aviation Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="ais_intro.html">
+                        Automatic Identification System
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-external" href="https://datapartnership.org/updates">
+                        Projects & News
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-external" href="https://worldbank.org">
+                        World Bank
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="index.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="_static/logo.png" class="logo__image only-light" alt="Logo image">
+    <img src="_static/logo.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -116,473 +459,349 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Night Time Lights
- </span>
-</p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Night Time Lights</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ch1_intro.html">
-   Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ch2_lit.html">
-   Literature Review
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Data Quality Assessment
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ch4_econ.html">
-   Economic Applications
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ch5_other.html">
-   Other Use Cases
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ch1_intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch2_lit.html">Literature Review</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Quality Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch4_econ.html">Economic Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ch5_other.html">Other Use Cases</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Climate and Agriculture
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate and Agriculture</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="climate_and_ag.html">
-   Climate and Agriculture Monitoring in the Pacific Island Countries
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="climate_db.html">
-   Climate Database
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="climate_and_ag.html">Climate and Agriculture Monitoring in the Pacific Island Countries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="climate_db.html">Climate Database</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Tourism
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="tourism_intro.html">
-   Introduction
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="tourism_analysis.html">
-   Analysis and Predicting on Aviation Data
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="tourism_intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tourism_analysis.html">Analysis and Predicting on Aviation Data</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  AIS
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">AIS</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="ais_intro.html">
-   Automatic Identification System
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="ais_intro.html">Automatic Identification System</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Additional Resources
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Additional Resources</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference external" href="https://datapartnership.org/updates">
-   Projects &amp; News
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference external" href="https://worldbank.org">
-   World Bank
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference external" href="https://datapartnership.org/updates">Projects &amp; News</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://worldbank.org">World Bank</a></li>
 </ul>
 
     </div>
-</nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
+</nav>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  </div>
+  
 
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
 
-          
+  
+  <div id="rtd-footer-container"></div>
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
+      </div>
+      <main id="main-content" class="bd-main">
         
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
 
 
 
 <div class="col py-1 d-flex header-article-main">
     <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
     </div>
     <div class="header-article__right">
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
+  class="btn btn-sm"
   data-toggle="tooltip"
 data-placement="bottom"
 title="Fullscreen mode"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/worldbank/pacific-observatory"
-   class="headerbtn"
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/worldbank/pacific-observatory" target="_blank"
+   class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
 title="Source repository"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fab fa-github"></i>
   </span>
-<span class="headerbtn__text-container">repository</span>
+<span class="btn__text-container">repository</span>
 </a>
-
-      </li>
+</a>
       
-      <li>
-        <a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch3_dq.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
+      <li><a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch3_dq.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
 title="Open an issue"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-lightbulb"></i>
   </span>
-<span class="headerbtn__text-container">open issue</span>
+<span class="btn__text-container">open issue</span>
 </a>
-
-      </li>
+</a>
       
-      <li>
-        <a href="https://github.com/worldbank/pacific-observatory/edit/main/ch3_dq.md"
-   class="headerbtn"
+      <li><a href="https://github.com/worldbank/pacific-observatory/edit/main/ch3_dq.md" target="_blank"
+   class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
 title="Edit this page"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-pencil-alt"></i>
   </span>
-<span class="headerbtn__text-container">suggest edit</span>
+<span class="btn__text-container">suggest edit</span>
 </a>
-
-      </li>
+</a>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="_sources/ch3_dq.md"
-   class="headerbtn"
+  <ul class="dropdown-menu">
+      <li><a href="_sources/ch3_dq.md" target="_blank"
+   class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
 title="Download source file"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="btn__text-container">.md</span>
 </a>
-
-      </li>
+</a>
       
       <li>
-        
 <button onclick="printPdf(this)"
-  class="headerbtn"
+  class="btn btn-sm dropdown-item"
   data-toggle="tooltip"
 data-placement="left"
 title="Print to PDF"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-file-pdf"></i>
   </span>
-<span class="headerbtn__text-container">.pdf</span>
+<span class="btn__text-container">.pdf</span>
 </button>
-
-      </li>
+</a>
       
-    </ul>
-  </div>
+  </ul>
 </div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#annual-maps-of-lights">
-   Annual Maps of Lights
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#cloud-coverage">
-   Cloud Coverage
-  </a>
- </li>
-</ul>
-
-    </nav>
-</div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Data Quality Assessment</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#annual-maps-of-lights">
-   Annual Maps of Lights
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#cloud-coverage">
-   Cloud Coverage
-  </a>
- </li>
-</ul>
-
-                        </nav>
-                    </div>
-                </div>
             </div>
-            <main id="main-content" role="main">
-                
-              <div>
-                
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Data Quality Assessment</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annual-maps-of-lights">
+   Annual Maps of Lights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cloud-coverage">
+   Cloud Coverage
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
   <section class="tex2jax_ignore mathjax_ignore" id="data-quality-assessment">
-<h1>Data Quality Assessment<a class="headerlink" href="#data-quality-assessment" title="Permalink to this headline">#</a></h1>
+<h1>Data Quality Assessment<a class="headerlink" href="#data-quality-assessment" title="Permalink to this heading">#</a></h1>
 <p>In this section we examine the distribution and temporal quality of nighttime lights data from the VIIRS satellite for selected Pacific Islands. All analytical steps were implemented in python leveraging the Google Earth Engine API. Annotated notebooks to replicate the analysis can be found in the Pacific Observatory github repository.</p>
 <section id="annual-maps-of-lights">
-<h2>Annual Maps of Lights<a class="headerlink" href="#annual-maps-of-lights" title="Permalink to this headline">#</a></h2>
+<h2>Annual Maps of Lights<a class="headerlink" href="#annual-maps-of-lights" title="Permalink to this heading">#</a></h2>
 <p>The first set of maps in Figure 1 presents maps of nighttime lights for the year 2021. We generated raw annual composites for each island by averaging the radiance value from monthly images after removing non-cloudy observations. Lights are visualized on a scale from dark purple (0) to bright yellow (radiance value greater than or equal to 1 nanoWatts/cm2/sr).</p>
 <p>NTL values for most areas are low, with higher values clustered around human settlements. Beyond cities and towns, in some islands it is possible to identify infrastructure features, such as roads along coastal areas. Low radiance values are hard to interpret as the satellite is very sensitive to various sources of light. For reference, previous studies have noted radiance values for specific features: 3.28 for a bridge, and 3.65 for a vessel (Cao and Bai 2014).</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="b80bced3-c78a-403c-be5d-a284101fa03b" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="b80bced3-c78a-403c-be5d-a284101fa03b">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-0">
 Papua New Guinea</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/PNG.jpg" /></p>
 </div>
-<input id="83bc6509-2e42-45f5-8c04-d262e08b9c5c" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="83bc6509-2e42-45f5-8c04-d262e08b9c5c">
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-1">
 Federated States of Micronesia</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FSM.jpg" /></p>
 </div>
-<input id="62b7cfbb-b3e5-47c5-a4f7-f56cd7b5c2dc" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="62b7cfbb-b3e5-47c5-a4f7-f56cd7b5c2dc">
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-2">
 Fiji</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FJI.jpg" /></p>
 </div>
-<input id="b92e6444-8640-41c8-bd05-a0c5651733c3" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="b92e6444-8640-41c8-bd05-a0c5651733c3">
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-3">
 Kiribati</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/KIR.jpg" /></p>
 </div>
-<input id="1a71622c-4681-417e-83c5-47c3bfe07d5e" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="1a71622c-4681-417e-83c5-47c3bfe07d5e">
+<input id="sd-tab-item-4" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-4">
 Marshall Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/MHL.jpg" /></p>
 </div>
-<input id="4b317084-d04b-4f7e-92c8-283b274a6738" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="4b317084-d04b-4f7e-92c8-283b274a6738">
+<input id="sd-tab-item-5" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-5">
 Nauru</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/NRU.jpg" /></p>
 </div>
-<input id="2dde3841-d70d-4099-8957-6d1854b82d07" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="2dde3841-d70d-4099-8957-6d1854b82d07">
+<input id="sd-tab-item-6" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-6">
 Palau</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Palau.jpg" /></p>
 </div>
-<input id="b29b0c01-8a7e-4b7b-a467-bd5d579b04a8" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="b29b0c01-8a7e-4b7b-a467-bd5d579b04a8">
+<input id="sd-tab-item-7" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-7">
 Samoa</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Samoa.jpg" /></p>
 </div>
-<input id="df03eada-3991-43db-8ffc-3bdb4f51bd4d" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="df03eada-3991-43db-8ffc-3bdb4f51bd4d">
+<input id="sd-tab-item-8" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-8">
 Solomon Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Solomon.jpg" /></p>
 </div>
-<input id="eef67c21-8f7f-4c3b-8fc8-934af1611ec2" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="eef67c21-8f7f-4c3b-8fc8-934af1611ec2">
+<input id="sd-tab-item-9" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-9">
 Tonga</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tonga.jpg" /></p>
 </div>
-<input id="ba9cafb7-6744-45c2-acd2-247b3e17b92a" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="ba9cafb7-6744-45c2-acd2-247b3e17b92a">
+<input id="sd-tab-item-10" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-10">
 Tuvalu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tuvalu.jpg" /></p>
 </div>
-<input id="044dacd2-9e56-4a97-90f2-17f872b8a994" name="2242fe77-36b9-488b-87de-ff885e90987d" type="radio">
-</input><label class="sd-tab-label" for="044dacd2-9e56-4a97-90f2-17f872b8a994">
+<input id="sd-tab-item-11" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-11">
 Vanuatu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Vanuatu.jpg" /></p>
 </div>
 </div>
 <p><strong>Figure 1.</strong> NTL Maps, 2021 (VIIRS).</p>
-<p>One would expect radiance values for populated areas to be higher, though previous studies have warned that rural areas may not be detected. This assumption can be investigated further by matching the NTL composite with a population grid. We use Facebook’s High Resolution Settlement Layer which mapped the distribution of human population at a resolution of 30m. This population layer was generated by combining census data with computer vision techniques and is available for all islands.<a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
+<p>One would expect radiance values for populated areas to be higher, though previous studies have warned that rural areas may not be detected. This assumption can be investigated further by matching the NTL composite with a population grid. We use Facebook’s High Resolution Settlement Layer which mapped the distribution of human population at a resolution of 30m. This population layer was generated by combining census data with computer vision techniques and is available for all islands.<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a></p>
 <p>After matching the population data to the VIIRS annual composites, we created histograms of VIIRS values for different population density thresholds. Figure 2 presents histograms for Fiji and Samoa, where the left panel shows the distribution of light values for unpopulated areas, the center is for rural areas, and the right is for urban areas, defined as cells with population density higher than 300 people per square kilometer. Although the distribution for all graphs is heavily skewed towards 0, populated areas show a longer tail of pixels with slightly higher luminosity values.</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="43e063d7-c2e6-439d-8549-e12e29ae3828" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="43e063d7-c2e6-439d-8549-e12e29ae3828">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-12">
 Papua New Guinea</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/PNG.png" /></p>
 </div>
-<input id="f7596d9c-7b36-4d9b-959a-20795d93db71" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="f7596d9c-7b36-4d9b-959a-20795d93db71">
+<input id="sd-tab-item-13" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-13">
 Federated States of Micronesia</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FSM.png" /></p>
 </div>
-<input id="3f4a47f4-6034-4096-948e-fb5fc804cb83" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="3f4a47f4-6034-4096-948e-fb5fc804cb83">
+<input id="sd-tab-item-14" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-14">
 Fiji</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/FJI.png" /></p>
 </div>
-<input id="f18c4479-da51-42cf-ab32-15d17bd5394a" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="f18c4479-da51-42cf-ab32-15d17bd5394a">
+<input id="sd-tab-item-15" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-15">
 Kiribati</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/KIR.png" /></p>
 </div>
-<input id="dfb6b58e-4fc8-4cd8-8a36-08db0e287c44" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="dfb6b58e-4fc8-4cd8-8a36-08db0e287c44">
+<input id="sd-tab-item-16" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-16">
 Marshall Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/MHL.png" /></p>
 </div>
-<input id="3b9c086c-090f-4160-9534-cee50c2e2a13" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="3b9c086c-090f-4160-9534-cee50c2e2a13">
+<input id="sd-tab-item-17" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-17">
 Nauru</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/NRU.png" /></p>
 </div>
-<input id="149f2dbb-ef30-4c66-b376-a6bf12b63b3b" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="149f2dbb-ef30-4c66-b376-a6bf12b63b3b">
+<input id="sd-tab-item-18" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-18">
 Palau</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/PLW.png" /></p>
 </div>
-<input id="8f522648-65c7-424b-87f3-595891c5ed40" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="8f522648-65c7-424b-87f3-595891c5ed40">
+<input id="sd-tab-item-19" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-19">
 Samoa</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/WSM.png" /></p>
 </div>
-<input id="d3c6e4b8-c22d-4f98-be5f-edcd2f806594" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="d3c6e4b8-c22d-4f98-be5f-edcd2f806594">
+<input id="sd-tab-item-20" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-20">
 Solomon Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/SLB.png" /></p>
 </div>
-<input id="62fa82ab-e053-4037-8541-ce603bed7d3e" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="62fa82ab-e053-4037-8541-ce603bed7d3e">
+<input id="sd-tab-item-21" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-21">
 Tonga</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/TON.png" /></p>
 </div>
-<input id="a62463de-ad08-4a67-963f-1ef115a1fcc7" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="a62463de-ad08-4a67-963f-1ef115a1fcc7">
+<input id="sd-tab-item-22" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-22">
 Tuvalu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/TUV.png" /></p>
 </div>
-<input id="7b3c27c2-c4a9-4957-845a-eefdf92fc89f" name="e5cc9949-309a-4816-b8af-dfef16fe1c49" type="radio">
-</input><label class="sd-tab-label" for="7b3c27c2-c4a9-4957-845a-eefdf92fc89f">
+<input id="sd-tab-item-23" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-23">
 Vanuatu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/VUT.png" /></p>
 </div>
@@ -591,12 +810,6 @@ Vanuatu</label><div class="sd-tab-content docutils">
 <p>We ran a similar test with a better annual composite. Elvidge et al. (2021) developed a methodology to remove background noise, solar and lunar contamination, and features unrelated to electric lighting (aurora, fires, flares, volcanoes) (2021). We retrieve the latest “clean” annual composite from the Earth Observation Group at the Payne Institute for Public Policy. With this cleaned data, values of 0 are defined as non-lit background, and any value above 0 can be attributed to anthropogenic lights. Table 1 presents the share of pixels with lights, by unsettled, rural, and urban areas. Urban areas are relatively well captured in NTL, and a very small share of rural pixels seem to be emitting light. Tonga and Nauru have high shares for rural pixels, but they are also locations with high mining and volcanic activity.</p>
 <p><strong>Table 1</strong>: % Pixels with lights in the cleaned VIIRS 2021</p>
 <table class="table">
-<colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Country</p></th>
 <th class="head"><p>No population</p></th>
@@ -669,66 +882,66 @@ Vanuatu</label><div class="sd-tab-content docutils">
 </table>
 </section>
 <section id="cloud-coverage">
-<h2>Cloud Coverage<a class="headerlink" href="#cloud-coverage" title="Permalink to this headline">#</a></h2>
+<h2>Cloud Coverage<a class="headerlink" href="#cloud-coverage" title="Permalink to this heading">#</a></h2>
 <p>Many of the applications discussed in section 2 take advantage of the temporal cadence of nighttime lights to derive trends. Researchers should be cautious in assessing the consistency of time-series observations before drawing economic interpretations from the trends. The following analysis examines what percentage of area for each island had data that was affected by clouds.</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="7d9948c0-3204-4a5d-a8db-b1b7ea7b0b2a" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="7d9948c0-3204-4a5d-a8db-b1b7ea7b0b2a">
+<input checked="checked" id="sd-tab-item-24" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-24">
 Papua New Guinea</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Papua-New-Guinea.jpeg" /></p>
 </div>
-<input id="9826ac58-f301-49a1-92d2-17467dc24fe6" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="9826ac58-f301-49a1-92d2-17467dc24fe6">
+<input id="sd-tab-item-25" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-25">
 Federated States of Micronesia</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Federated-States-of-Micronesia.jpeg" /></p>
 </div>
-<input id="3cad7247-b172-4687-88a1-000cc5ec60eb" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="3cad7247-b172-4687-88a1-000cc5ec60eb">
+<input id="sd-tab-item-26" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-26">
 Fiji</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Fiji.jpeg" /></p>
 </div>
-<input id="db7f560a-6454-406b-9149-cb44dcaecd81" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="db7f560a-6454-406b-9149-cb44dcaecd81">
+<input id="sd-tab-item-27" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-27">
 Kiribati</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Kiribati.jpeg" /></p>
 </div>
-<input id="4904ae7e-ea11-4265-b449-e8e4fa7eb811" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="4904ae7e-ea11-4265-b449-e8e4fa7eb811">
+<input id="sd-tab-item-28" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-28">
 Marshall Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Marshall-Islands.jpeg" /></p>
 </div>
-<input id="cda9230d-a9cf-4f1a-9c18-bcd3641a6ade" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="cda9230d-a9cf-4f1a-9c18-bcd3641a6ade">
+<input id="sd-tab-item-29" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-29">
 Nauru</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Nauru.jpeg" /></p>
 </div>
-<input id="8c1ea86a-dbf3-4374-8134-b65f02f1aa93" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="8c1ea86a-dbf3-4374-8134-b65f02f1aa93">
+<input id="sd-tab-item-30" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-30">
 Palau</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Palau.jpeg" /></p>
 </div>
-<input id="bf44bd5c-9aa8-4928-82d6-c9d549752f7d" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="bf44bd5c-9aa8-4928-82d6-c9d549752f7d">
+<input id="sd-tab-item-31" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-31">
 Samoa</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Samoa.jpeg" /></p>
 </div>
-<input id="09399b58-75fb-472c-b2c1-1007ec0e5b95" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="09399b58-75fb-472c-b2c1-1007ec0e5b95">
+<input id="sd-tab-item-32" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-32">
 Solomon Islands</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Solomon-Islands.jpeg" /></p>
 </div>
-<input id="ae97e220-b666-4f88-819f-bcf465491660" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="ae97e220-b666-4f88-819f-bcf465491660">
+<input id="sd-tab-item-33" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-33">
 Tonga</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tonga.jpeg" /></p>
 </div>
-<input id="40ae1898-04ae-435f-9bb7-fc9ac10225a4" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="40ae1898-04ae-435f-9bb7-fc9ac10225a4">
+<input id="sd-tab-item-34" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-34">
 Tuvalu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Tuvalu.jpeg" /></p>
 </div>
-<input id="0d6ccd69-6fa5-4c4c-ae10-d31b9b658a9b" name="099f5e2b-7a00-4057-85ca-3d3b1e5f02fb" type="radio">
-</input><label class="sd-tab-label" for="0d6ccd69-6fa5-4c4c-ae10-d31b9b658a9b">
+<input id="sd-tab-item-35" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-35">
 Vanuatu</label><div class="sd-tab-content docutils">
 <p><img alt="Overview" src="_images/Vanuatu.jpeg" /></p>
 </div>
@@ -739,11 +952,10 @@ Vanuatu</label><div class="sd-tab-content docutils">
 <p><strong>Figure 4</strong>: Interpolation of NTL time-series</p>
 <p>A light-weight approach to mitigate issues with cloud coverage is to interpolate missing timesteps with valid observations from nearby months. For further applications, we implemented a pixel-level moving window linear regression that uses values from 3 months before and after each observation. Figure 4 displays an example of this approach for Lae. The raw data shows drastic drops in NTL which can be attributed to months with high cloud coverage. The interpolated trend is more stable and shows much more continuity despite slight increases/decreases.</p>
 <hr class="footnotes docutils" />
-<dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>High Resolution Population Density Maps + Demographic Estimates by CIESIN and Meta was accessed on May 2022 from <a class="reference external" href="https://registry.opendata.aws/dataforgood-fb-hrsl">https://registry.opendata.aws/dataforgood-fb-hrsl</a>. Meta and Center for International Earth Science Information Network - CIESIN - Columbia University. 2022. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 Maxar.</p>
-</dd>
-</dl>
+<aside class="footnote brackets" id="id2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>High Resolution Population Density Maps + Demographic Estimates by CIESIN and Meta was accessed on May 2022 from <a class="reference external" href="https://registry.opendata.aws/dataforgood-fb-hrsl">https://registry.opendata.aws/dataforgood-fb-hrsl</a>. Meta and Center for International Earth Science Information Network - CIESIN - Columbia University. 2022. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 Maxar.</p>
+</aside>
 </section>
 </section>
 
@@ -767,50 +979,110 @@ Vanuatu</label><div class="sd-tab-content docutils">
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
-              
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="ch2_lit.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Literature Review</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="ch4_econ.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Economic Applications</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
+  <a class='left-prev' id="prev-link" href="ch2_lit.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Literature Review</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="ch4_econ.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Economic Applications</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
 </div>
             </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
   
-    By World Bank<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#annual-maps-of-lights">
+   Annual Maps of Lights
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cloud-coverage">
+   Cloud Coverage
+  </a>
+ </li>
+</ul>
+
+</nav>
 </div>
 
-
-      </div>
-    </div>
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <div class="footer-item">
+    
+<p class="component-author">
+By World Bank
+</p>
 
+  </div>
+  
+  <div class="footer-item">
+    
+<p class="copyright">
+
+    &copy; Copyright 2022.<br>
+
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on None.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   </body>
 </html>
