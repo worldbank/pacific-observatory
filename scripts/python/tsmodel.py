@@ -18,61 +18,93 @@ from pmdarima import auto_arima
 class SARIMAXPipeline:
     def __init__(self,
                  data: pd.DataFrame,
-                 y: str, exog_var: str,
+                 y_var: str, exog_var: str,
                  transform_method: str,
                  training_ratio=0.9):
+        """
+        Initialize SARIMAXPipeline object.
+
+        Args:
+            data (pd.DataFrame): The time series data.
+            y (str): The name of the column representing the time series variable.
+            exog_var (str, optional): The name of the column representing the exogenous variable.
+            transform_method (str, optional): The name of the transformation method to apply to the time series.
+            training_ratio (float, optional): The proportion of the data to use for training the model.
+
+        Raises:
+            AttributeError: If an invalid transformation method is specified.
+        """
         self.data = data
-        self.y = y
+        self.y_var = y_var
         self.exog_var = exog_var
-        self.exog = self.data[[self.exog_var]]
+        self.training_ratio = training_ratio
         self.transform_method = transform_method
+
+        # Check if the transformation method is valid
         if transform_method not in ["scaledlogit", "minmax", None]:
             raise AttributeError("No such transformation exists.")
-        self.training_ratio = training_ratio
+
+        # Load the data
+        self.y = self.data[[self.y_var]]
+        self.exog = self.data[[self.exog_var]]
+
         self.total_size = len(self.data)
         self.training_size = int(training_ratio * self.total_size)
         self.test_size = self.total_size - self.training_size
         print("training size : {}, testing size : {}".format(
             self.training_size, self.test_size))
+
+        # Initialize the stepwise model
         self.stepwise_model = None
+        self.manual_search_results = None
 
     @staticmethod
-    def scaled_logit_transform(series):
+    def scaledlogit_transform(series):
         upper, lower = series.max() + 1, series.min() - 1
         scaled_logit = np.log((series - lower)/(upper - series))
 
         return scaled_logit
 
     @staticmethod
-    def inverse_scaled_logit(trans_series, upper, lower):
+    def inverse_scaledlogit(trans_series, upper, lower):
         exp = np.exp(trans_series)
         inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
         return inv_series
 
     def transform(self):
         if self.transform_method == "scaledlogit":
-            self.transformed_y = scaled_logit_transform(self.data[[self.y]])
+            self.transformed_y = self.scaledlogit_transform(self.y)
         elif self.transform_method == "minmax":
             from sklearn.preprocessing import MinMaxScaler
             self.minmax = MinMaxScaler()
-            self.transformed_y = minmax.fit_transform(self.data[[self.y]])
+            self.transformed_y = minmax.fit_transform(self.y)
         else:
-            self.transformed_y = self.data[[self.y]]
+            self.transformed_y = self.y
 
-    def stepwise_search(self) -> dict:
-        stepwise_fit = auto_arima(self.transformed_y.iloc[:self.training_size+1],
+    def stepwise_search(self, d: int = None, D: int= None) -> dict:
+        """
+        Perform stepwise search for the best SARIMAX model.
+        
+        Args: 
+            d : the order of differencing
+            D : the order of seasonal differencing
+
+        Returns:
+            dict: Dictionary containing the parameters of the best model.
+        """
+        self.stepwise_fit = auto_arima(self.transformed_y.iloc[:self.training_size+1],
                                   X=self.exog.iloc[:self.training_size+1],
                                   start_p=0, start_q=0,
                                   max_p=5, max_q=5, m=12,
                                   start_P=0, seasonal=True,
-                                  d=0, D=1, trace=True,
+                                  d=d, D=D, trace=True,
                                   error_action='ignore',
                                   suppress_warnings=True,
                                   stepwise=True)
-        print(stepwise_fit.summary())
-        stepwise_fit.plot_diagnostics(figsize=(15, 12))
+        print(self.stepwise_fit.summary())
+        self.stepwise_fit.plot_diagnostics(figsize=(15, 12))
         plt.show()
-        self.stepwise_model = stepwise_fit.get_params()
+        self.stepwise_model = self.stepwise_fit.get_params()
 
         return self.stepwise_model
 
@@ -80,11 +112,10 @@ class SARIMAXPipeline:
         self.manual_search_results = []
         for param in params:
             try:
-                mod = SARIMAX(self.transformed_y.iloc[:self.training_size+1],
-                              exog=self.exog[:self.training_size+1],
+                mod = SARIMAX(self.transformed_y.iloc[:self.training_size],
+                              exog=self.exog[:self.training_size],
                               order=param[0],
-                              seasonal_order=param[1],
-                              return_ssm=False)
+                              seasonal_order=param[1])
                 res = mod.fit(disp=False)
                 self.manual_search_results.append((res, res.aic, param))
                 print(
@@ -108,8 +139,9 @@ class SARIMAXPipeline:
         return pred_stats
 
     @staticmethod
-    def compare_models(data,
+    def compare_models(y, exog,
                        models: list,
+                       scoring="smape",
                        hyper_params=None):
 
         from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
@@ -125,7 +157,7 @@ class SARIMAXPipeline:
                                      step=hyper_params["step"],
                                      h=hyper_params["h"])
 
-        result = {
+        comparison_result = {
             "model": [],
             "cv_scores": [],
             "avg_error": [],
@@ -133,10 +165,10 @@ class SARIMAXPipeline:
 
         for model in models:
             model_cv_scores = cross_val_score(
-                model, data, scoring='smape', cv=cv, verbose=2)
+                model, y, exog, scoring=scoring, cv=cv, verbose=2)
             model_avg_error = np.average(model_cv_scores)
-            result["model"].append(model)
-            result["cv_scores"].append(model_cv_scores)
-            result["avg_error"].append(model_avg_error)
+            comparison_result["model"].append(model)
+            comparison_result["cv_scores"].append(model_cv_scores)
+            comparison_result["avg_error"].append(model_avg_error)
 
-        return result
+        return comparison_result
