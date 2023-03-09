@@ -92,8 +92,8 @@ class SARIMAXPipeline:
         Returns:
             dict: Dictionary containing the parameters of the best model.
         """
-        self.stepwise_fit = auto_arima(self.transformed_y.iloc[:self.training_size+1],
-                                  X=self.exog.iloc[:self.training_size+1],
+        self.stepwise_fit = auto_arima(self.transformed_y.iloc[:self.training_size],
+                                  X=self.exog.iloc[:self.training_size],
                                   start_p=0, start_q=0,
                                   max_p=5, max_q=5, m=12,
                                   start_P=0, seasonal=True,
