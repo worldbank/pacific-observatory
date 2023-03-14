@@ -33,9 +33,7 @@ Andree and Pape (2023) also suggest using the institutional exchange rate as a t
 
 The machine learning imputation code is available [here](https://github.com/worldbank/Food-Price-Estimation)
 
-The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available [here](https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea)
-
-This requires a few additional pre-processing steps to add coordinates and turn the IFPRI data into the required format. See pacific-observatory/data/prices/
+The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available [here](https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea) Unlike the WFP data, the IFPRI data is not accessed through a scraper or API and requires a manual download along with a few additional pre-processing steps to add coordinates and turn the IFPRI data into the required format. See pacific-observatory/data/prices/ 
 
 After preparing the raw data, the following section in the ```main.R``` file of the price imputation code should be changed to read the data:
 
