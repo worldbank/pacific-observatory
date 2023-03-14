@@ -43,12 +43,19 @@ After preparing the raw data, the following section in the ```main.R``` file of 
 ```splus
   if("Papua New Guinea" %in% selected_country_list){
     cat("adding PNG from file")
-    PNG <- read.csv("PNG_dec_prices_wc.csv") ##### <---------- Original PNG price data file name. 
+    PNG <- read.csv("PNG_july2022_prices_wc.csv") ##### <---------- Original PNG price data file name. 
     PNG$time_id <- NA 
       PNG=dropcol(PNG, setdiff(colnames(PNG), colnames(rawMarketPrices)))
       rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
+    # historical mode
+    historical_mode =TRUE
+    if(historical_mode){
+      rawMarketPrices=rawMarketPrices[rawMarketPrices$time_id<=max(rawMarketPrices$time_id[rawMarketPrices$adm0_name=="Papua New Guinea"]), ]
+        unique(rawMarketPrices$time_id) -> time_id
+    }
   }
+}
 ```
 ### New code
 ```splus
@@ -59,6 +66,12 @@ After preparing the raw data, the following section in the ```main.R``` file of 
       PNG=dropcol(PNG, setdiff(colnames(PNG), colnames(rawMarketPrices)))
       rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
       rawMarketPrices$time_id <- generate_T(rawMarketPrices$year, rawMarketPrices$month)
+    # historical mode
+    historical_mode =TRUE
+    if(historical_mode){
+      rawMarketPrices=rawMarketPrices[rawMarketPrices$time_id<=max(rawMarketPrices$time_id[rawMarketPrices$adm0_name=="Papua New Guinea"]), ]
+        unique(rawMarketPrices$time_id) -> time_id
+    }
   }
 ```
 Also make sure that Papua New Guinea is included in the country list:
