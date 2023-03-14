@@ -43,7 +43,7 @@ After preparing the raw data, the following section in the ```main.R``` file of 
 ```splus
   if("Papua New Guinea" %in% selected_country_list){
     cat("adding PNG from file")
-    PNG <- read.csv("PNG_dec_prices_wc.csv") ##### <---------- Original PNG price data file name. 
+    PNG <- read.csv("PNG_dec2021_prices_wc.csv") ##### <---------- Original PNG price data file name. 
     PNG$time_id <- NA 
       PNG=dropcol(PNG, setdiff(colnames(PNG), colnames(rawMarketPrices)))
       rawMarketPrices = rbind(rawMarketPrices, PNG[PNG$year>=data_startyear,])
