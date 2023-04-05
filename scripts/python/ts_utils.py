@@ -103,3 +103,56 @@ def grangers_causation_matrix(data, variables,
     df.columns = [var + '_x' for var in variables]
     df.index = [var + '_y' for var in variables]
     return df
+
+def naive_method(y: pd.Series) -> pd.Series:
+    """
+    Calculates forecasts using the naive method for time series data.
+    \hat{y}_{t+h} = y_{t}
+
+    """
+    forecast = y.shift(1)
+    return forecast
+
+def seasonal_naive_method(y: pd.array, period: int = 12) -> np.array:
+    """
+    Calculates forecasts using the seasonal naive method for time series data.
+
+    Args:
+        y (pd.array): A numpy array of time series data.
+        period (int): The seasonal period of the time series, default to be 12.
+
+    Returns:
+        np.ndarray: A numpy array of forecasts for the time series.
+    """
+    n = len(y)
+    forecasts = np.zeros(n)
+
+    for i in range(period, n):
+        forecasts[i] = y[i - period]
+
+    return forecasts
+
+def mean_method(y: np.ndarray) -> np.ndarray:
+    """
+    Calculates forecasts using the mean method for time series data.
+    """
+    n = len(y)
+    mean = y.mean()
+    forecasts = np.full(n, mean)
+
+    return forecasts
+
+def calculate_evaluation(y_true: np.ndarray, y_pred: np.ndarray) -> float:
+    """
+    Calculates the Root Mean Squared Error (RMSE) for time series data.
+
+    Args:
+        y_true (np.ndarray): A numpy array of the true values.
+        y_pred (np.ndarray): A numpy array of the predicted values.
+
+    Returns:
+        tuple: The RMSE of the predicted values compared to the true values.
+    """
+    mse = np.mean((y_pred - y_true) ** 2)
+    rmse = np.sqrt(mse)
+    return rmse

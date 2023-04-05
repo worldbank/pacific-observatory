@@ -18,7 +18,7 @@ from pmdarima import auto_arima
 class SARIMAXPipeline:
     def __init__(self,
                  data: pd.DataFrame,
-                 y_var: str, exog_var: str,
+                 y_var: str, exog_var: list,
                  transform_method: str,
                  training_ratio=0.9):
         """
@@ -27,7 +27,7 @@ class SARIMAXPipeline:
         Args:
             data (pd.DataFrame): The time series data.
             y (str): The name of the column representing the time series variable.
-            exog_var (str, optional): The name of the column representing the exogenous variable.
+            exog_var (list, optional): The list of the column names representing the exogenous variable.
             transform_method (str, optional): The name of the transformation method to apply to the time series.
             training_ratio (float, optional): The proportion of the data to use for training the model.
 
@@ -46,7 +46,7 @@ class SARIMAXPipeline:
 
         # Load the data
         self.y = self.data[[self.y_var]]
-        self.exog = self.data[[self.exog_var]]
+        self.exog = self.data[self.exog_var]
 
         self.total_size = len(self.data)
         self.training_size = int(training_ratio * self.total_size)
