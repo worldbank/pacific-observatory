@@ -103,3 +103,5 @@ def grangers_causation_matrix(data, variables,
     df.columns = [var + '_x' for var in variables]
     df.index = [var + '_y' for var in variables]
     return df
+
+
