@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Introduction &#8212; Pacific Observatory</title>
+    <title>&lt;no title&gt; &#8212; Pacific Observatory</title>
   
   
   
@@ -63,12 +63,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'ch1_intro';</script>
-    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/ch1_intro.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'palau_display';</script>
+    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/palau_display.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Literature Review" href="ch2_lit.html" />
-    <link rel="prev" title="Pacific Observatory" href="index.html" />
+    <link rel="next" title="Automatic Identification System" href="ais_intro.html" />
+    <link rel="prev" title="Introduction" href="tourism_intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,8 +160,8 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Night Time Lights</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="ch1_intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ch2_lit.html">Literature Review</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ch3_dq.html">Data Quality Assessment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ch4_econ.html">Economic Applications</a></li>
@@ -255,7 +255,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/worldbank/pacific-observatory/edit/main/ch1_intro.md" target="_blank"
+      <li><a href="https://github.com/worldbank/pacific-observatory/edit/main/palau_display.ipynb" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -272,7 +272,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fch1_intro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Fpalau_display.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -302,7 +302,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/ch1_intro.md" target="_blank"
+      <li><a href="_sources/palau_display.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -312,7 +312,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -371,7 +371,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -382,11 +384,19 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Introduction</h1>
+    <h1><no title></h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -396,13 +406,248 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="introduction">
-<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
-<p>Measurements of light captured at night have become an increasingly popular data source for economists and social scientists. Nighttime lights (NTL) statistics have been used extensively to measure the extent of urban areas and to proxy economic activity. Given its ubiquity and ease of access, NTL data has become a popular choice as an economic variable, particularly in countries where economic statistics are lacking. Two public satellites – Defense Meteorological Satellite Program (DMSP) and Visible Infrared Imaging Radiometer Suite (VIIRS) – combined provide data with global coverage and monthly cadence since 1992. A new partnership between the World Bank and NOAA has unlocked access to daily scenes from both archives.</p>
-<p>Researchers have used NTL to study economic dynamics at various scales, whether to estimate growth in GDP, or map the distribution of economic activity at local levels (Zhao et al. 2019). The main assumption behind the use of lights as an economic proxy is that consumption and production activities during the evening require some form of lighting. However, there are several reasons why this relationship might not be as strong in the Pacific Islands.</p>
-<p>For one, the overpass time of the more accurate VIIRS satellite  is after-midnight when centers of production may not be emitting light. Satellite data for the Pacific territories is highly susceptible to clouds, causing frequent interruptions in data coverage. Populations in the Pacific Island states are predominately rural and produce too little light to be captured by these satellites (Gibson, Susan, and Boe-Gibson 2020). Perhaps most importantly, there is a risk that important economic activities from the islands (fishing, agriculture, and tourism) are not captured well by luminosity signals.</p>
-<p>The objective of this feasibility note is to test these assumptions and assess the usability of NTL to generate statistics for the Pacific Island Countries (PICs). The note is divided into four sections. As a preamble, we will review the main approaches to generating economic statistics from NTL data and note previous efforts to apply them in the Pacific context. In the second section, we present a quality assessment of nighttime lights data for PICs, exploring the distribution of values and issues with cloud coverage. The third section investigates whether lights data can be used to predict output from the extractives industry in Papua New Guinea, and if they correlate with sub-national poverty. The last section explores two other use cases for NTL in PICs: tracking recovery from natural disasters and estimating electrification rates.</p>
-</section>
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.seasonal</span> <span class="kn">import</span> <span class="n">seasonal_decompose</span><span class="p">,</span> <span class="n">STL</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.statespace.sarimax</span> <span class="kn">import</span> <span class="n">SARIMAX</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.arima.model</span> <span class="kn">import</span> <span class="n">ARIMA</span>
+<span class="kn">import</span> <span class="nn">pmdarima</span> <span class="k">as</span> <span class="nn">pm</span>
+<span class="kn">from</span> <span class="nn">pmdarima</span> <span class="kn">import</span> <span class="n">model_selection</span>
+<span class="kn">from</span> <span class="nn">pmdarima</span> <span class="kn">import</span> <span class="n">auto_arima</span>
+<span class="kn">from</span> <span class="nn">scripts.python.ts_utils</span> <span class="kn">import</span> <span class="o">*</span> 
+<span class="kn">from</span> <span class="nn">scripts.python.tsmodel</span> <span class="kn">import</span> <span class="o">*</span> 
+<span class="kn">from</span> <span class="nn">scripts.python.ts_eval</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">pickle</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">palau_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/palau/&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">palau_va</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">palau_folder</span> <span class="o">+</span> <span class="s2">&quot;model/palau_for_utsa.csv&quot;</span><span class="p">)</span>
+              <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">palau_va</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>JAPAN</th>
+      <th>SOUTH KOREA</th>
+      <th>TAIWAN</th>
+      <th>CHINA</th>
+      <th>USA/CANADA</th>
+      <th>EUROPE</th>
+      <th>OTHERS</th>
+      <th>Total</th>
+      <th>palau_travel</th>
+      <th>year</th>
+      <th>month</th>
+      <th>covid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2007-06-01</td>
+      <td>856.0</td>
+      <td>1291.0</td>
+      <td>3245.0</td>
+      <td>86.0</td>
+      <td>669.0</td>
+      <td>99.0</td>
+      <td>463.0</td>
+      <td>6709.0</td>
+      <td>0.320004</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2007-07-01</td>
+      <td>2119.0</td>
+      <td>1366.0</td>
+      <td>3269.0</td>
+      <td>33.0</td>
+      <td>653.0</td>
+      <td>144.0</td>
+      <td>437.0</td>
+      <td>8021.0</td>
+      <td>0.952482</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2007-08-01</td>
+      <td>3476.0</td>
+      <td>1354.0</td>
+      <td>3046.0</td>
+      <td>46.0</td>
+      <td>580.0</td>
+      <td>256.0</td>
+      <td>438.0</td>
+      <td>9196.0</td>
+      <td>0.453967</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2007-09-01</td>
+      <td>3022.0</td>
+      <td>910.0</td>
+      <td>2497.0</td>
+      <td>61.0</td>
+      <td>559.0</td>
+      <td>145.0</td>
+      <td>401.0</td>
+      <td>7595.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2007-10-01</td>
+      <td>1807.0</td>
+      <td>1082.0</td>
+      <td>2298.0</td>
+      <td>49.0</td>
+      <td>774.0</td>
+      <td>390.0</td>
+      <td>395.0</td>
+      <td>6795.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">naive_pred</span> <span class="o">=</span> <span class="n">naive_method</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">])</span>
+<span class="n">mean_pred</span> <span class="o">=</span> <span class="n">mean_method</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">])</span>
+<span class="n">snaive_pred</span> <span class="o">=</span> <span class="n">seasonal_naive_method</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">])</span>
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">naive_pred</span><span class="p">,</span> <span class="n">mean_pred</span><span class="p">,</span> <span class="n">snaive_pred</span><span class="p">]):</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">],</span> <span class="n">pred</span><span class="p">)</span>
+    <span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+    <span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">metrics_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">benchmark</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;naive&quot;</span><span class="p">,</span> <span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;seasonal naive&quot;</span><span class="p">]</span>
+<span class="n">benchmark</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>MAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>2.096767e+06</td>
+      <td>1448.021907</td>
+      <td>1092.759563</td>
+      <td>323.392324</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.639656e+07</td>
+      <td>4049.266859</td>
+      <td>3178.648757</td>
+      <td>8859.425305</td>
+    </tr>
+    <tr>
+      <th>seasonal naive</th>
+      <td>1.123704e+07</td>
+      <td>3352.169852</td>
+      <td>2405.935201</td>
+      <td>8120.993038</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -436,20 +681,20 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="index.html"
+       href="tourism_intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Pacific Observatory</p>
+        <p class="prev-next-title">Introduction</p>
       </div>
     </a>
     <a class="right-next"
-       href="ch2_lit.html"
+       href="ais_intro.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Literature Review</p>
+        <p class="prev-next-title">Automatic Identification System</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -462,6 +707,20 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
