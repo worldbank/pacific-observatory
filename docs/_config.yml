@@ -19,4 +19,4 @@ html:
     baseurl: https://github.com/worldbank/pacific-observatory
 
 execute:
-  execute_notebooks: cache
+  execute_notebooks: auto
