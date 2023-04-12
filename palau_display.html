@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; Pacific Observatory</title>
+    <title>Palau &#8212; Pacific Observatory</title>
   
   
   
@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Automatic Identification System" href="ais_intro.html" />
-    <link rel="prev" title="Introduction" href="tourism_intro.html" />
+    <link rel="prev" title="Univaraite Time Series Analysis" href="tourism_analysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -173,8 +173,15 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="climate_db.html">Climate Database</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tourism_intro.html">Introduction</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="tourism_intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tourism_eda.html">Exploratory Data Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="tourism_analysis.html">Univaraite Time Series Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Palau</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">AIS</span></p>
 <ul class="nav bd-sidenav">
@@ -384,7 +391,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>Palau</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -393,9 +400,10 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-methods">Benchmark Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sarimax">SARIMAX</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -406,7 +414,9 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="palau">
+<h1>Palau<a class="headerlink" href="#palau" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
@@ -414,7 +424,10 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">statsmodels.tsa.seasonal</span> <span class="kn">import</span> <span class="n">seasonal_decompose</span><span class="p">,</span> <span class="n">STL</span>
 <span class="kn">from</span> <span class="nn">statsmodels.tsa.statespace.sarimax</span> <span class="kn">import</span> <span class="n">SARIMAX</span>
@@ -428,20 +441,6 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
 </pre></div>
 </div>
 </div>
@@ -580,6 +579,8 @@ document.write(`
 </table>
 </div></div></div>
 </div>
+<section id="benchmark-methods">
+<h2>Benchmark Methods<a class="headerlink" href="#benchmark-methods" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">naive_pred</span> <span class="o">=</span> <span class="n">naive_method</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">])</span>
@@ -587,8 +588,8 @@ document.write(`
 <span class="n">snaive_pred</span> <span class="o">=</span> <span class="n">seasonal_naive_method</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">])</span>
 
 <span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">naive_pred</span><span class="p">,</span> <span class="n">mean_pred</span><span class="p">,</span> <span class="n">snaive_pred</span><span class="p">]):</span>
-    <span class="n">metrics</span> <span class="o">=</span> <span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">],</span> <span class="n">pred</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">naive_pred</span><span class="p">,</span> <span class="n">mean_pred</span><span class="p">,</span> <span class="n">snaive_pred</span><span class="p">]):</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">],</span> <span class="n">method</span><span class="p">)</span>
     <span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
     <span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">metrics_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
@@ -648,6 +649,1110 @@ document.write(`
 </table>
 </div></div></div>
 </div>
+</section>
+<section id="sarimax">
+<h2>SARIMAX<a class="headerlink" href="#sarimax" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pw</span> <span class="o">=</span> <span class="n">SARIMAXPipeline</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">palau_va</span><span class="p">,</span> <span class="n">y_var</span><span class="o">=</span><span class="s2">&quot;Total&quot;</span><span class="p">,</span>
+                     <span class="n">exog_var</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">,</span> <span class="s2">&quot;palau_travel&quot;</span><span class="p">],</span> <span class="n">transform_method</span><span class="o">=</span><span class="s2">&quot;scaledlogit&quot;</span><span class="p">)</span>
+<span class="n">pw</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 165, testing size : 19
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pw</span><span class="o">.</span><span class="n">transformed_y</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: &gt;
+</pre></div>
+</div>
+<img alt="_images/027fd7326decba5e302c8d383c83f4986ed48010606e721fac186ff0c006b39b.png" src="_images/027fd7326decba5e302c8d383c83f4986ed48010606e721fac186ff0c006b39b.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">pw</span><span class="o">.</span><span class="n">stepwise_search</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Help on method stepwise_search in module scripts.python.tsmodel:
+
+stepwise_search(d: int = None, D: int = None) -&gt; dict method of scripts.python.tsmodel.SARIMAXPipeline instance
+    Perform stepwise search for the best SARIMAX model.
+    
+    Args: 
+        d : the order of differencing
+        D : the order of seasonal differencing
+    
+    Returns:
+        dict: Dictionary containing the parameters of the best model.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pw</span><span class="o">.</span><span class="n">stepwise_search</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing stepwise search to minimize aic
+ ARIMA(0,1,0)(0,0,1)[12] intercept   : AIC=495.109, Time=0.07 sec
+ ARIMA(0,1,0)(0,0,0)[12] intercept   : AIC=494.742, Time=0.02 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(1,0,0)[12] intercept   : AIC=480.126, Time=0.10 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,1)[12] intercept   : AIC=461.639, Time=0.15 sec
+ ARIMA(0,1,0)(0,0,0)[12]             : AIC=492.765, Time=0.03 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,0)[12] intercept   : AIC=463.008, Time=0.08 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(1,0,1)[12] intercept   : AIC=inf, Time=0.37 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,2)[12] intercept   : AIC=462.007, Time=0.36 sec
+ ARIMA(0,1,1)(1,0,0)[12] intercept   : AIC=460.759, Time=0.16 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,0)[12] intercept   : AIC=460.706, Time=0.42 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,1)[12] intercept   : AIC=455.936, Time=0.77 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,2)[12] intercept   : AIC=inf, Time=0.97 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(1,0,2)[12] intercept   : AIC=456.036, Time=0.84 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(2,0,1)[12] intercept   : AIC=inf, Time=0.72 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,1)[12] intercept   : AIC=452.823, Time=0.81 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,1)[12] intercept   : AIC=449.915, Time=0.42 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,1)[12] intercept   : AIC=452.399, Time=0.24 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,0)[12] intercept   : AIC=452.036, Time=0.22 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,2)[12] intercept   : AIC=452.943, Time=0.90 sec
+ ARIMA(1,1,1)(0,0,0)[12] intercept   : AIC=452.503, Time=0.14 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,2)[12] intercept   : AIC=453.651, Time=0.66 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,0)[12] intercept   : AIC=452.986, Time=0.64 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,2)[12] intercept   : AIC=inf, Time=1.11 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.39 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,1)(1,0,1)[12] intercept   : AIC=452.121, Time=0.52 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,2)(1,0,1)[12] intercept   : AIC=451.817, Time=0.49 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.37 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,2)(1,0,1)[12] intercept   : AIC=inf, Time=0.43 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.44 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,2)(1,0,1)[12] intercept   : AIC=453.680, Time=0.52 sec
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,1)[12]             : AIC=inf, Time=0.37 sec
+
+Best model:  ARIMA(1,1,1)(1,0,1)[12] intercept
+Total fit time: 13.752 seconds
+                                     SARIMAX Results                                      
+==========================================================================================
+Dep. Variable:                                  y   No. Observations:                  165
+Model:             SARIMAX(1, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -216.957
+Date:                            Wed, 12 Apr 2023   AIC                            449.915
+Time:                                    22:06:25   BIC                            474.714
+Sample:                                         0   HQIC                           459.982
+                                            - 165                                         
+Covariance Type:                              opg                                         
+================================================================================
+                   coef    std err          z      P&gt;|z|      [0.025      0.975]
+--------------------------------------------------------------------------------
+intercept       -0.0005      0.003     -0.154      0.878      -0.007       0.006
+covid           -0.1103      0.011    -10.388      0.000      -0.131      -0.089
+palau_travel     0.3562      0.743      0.480      0.632      -1.100       1.812
+ar.L1            0.2969      0.078      3.796      0.000       0.144       0.450
+ma.L1           -0.8719      0.064    -13.720      0.000      -0.996      -0.747
+ar.S.L12         0.8994      0.305      2.952      0.003       0.302       1.497
+ma.S.L12        -0.8042      0.375     -2.144      0.032      -1.539      -0.069
+sigma2           0.8102      0.038     21.233      0.000       0.735       0.885
+===================================================================================
+Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):             17043.31
+Prob(Q):                              1.00   Prob(JB):                         0.00
+Heteroskedasticity (H):               6.79   Skew:                             4.71
+Prob(H) (two-sided):                  0.00   Kurtosis:                        52.05
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+</pre></div>
+</div>
+<img alt="_images/91ad515673500e3adbc3f9f674fef8b7bfda1d2ce2adb5baf34f2527cbd32b03.png" src="_images/91ad515673500e3adbc3f9f674fef8b7bfda1d2ce2adb5baf34f2527cbd32b03.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;maxiter&#39;: 50,
+ &#39;method&#39;: &#39;lbfgs&#39;,
+ &#39;order&#39;: (1, 1, 1),
+ &#39;out_of_sample_size&#39;: 0,
+ &#39;scoring&#39;: &#39;mse&#39;,
+ &#39;scoring_args&#39;: {},
+ &#39;seasonal_order&#39;: (1, 0, 1, 12),
+ &#39;start_params&#39;: None,
+ &#39;suppress_warnings&#39;: True,
+ &#39;trend&#39;: None,
+ &#39;with_intercept&#39;: True}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set parameter range</span>
+<span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">P</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
+
+<span class="c1"># list of all parameter combos</span>
+<span class="n">pdq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">q</span><span class="p">))</span>
+<span class="n">seasonal_pdq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+<span class="n">all_param</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">pdq</span><span class="p">,</span> <span class="n">seasonal_pdq</span><span class="p">))</span>
+
+<span class="c1"># Search the minimim aic</span>
+<span class="n">pw_msres</span> <span class="o">=</span> <span class="n">pw</span><span class="o">.</span><span class="n">manual_search</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">all_param</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 0, 0, 12) - AIC:504.6
+Tried out SARIMAX(0, 0, 0)x(0, 0, 1, 12) - AIC:494.47
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 0, 2, 12) - AIC:493.57
+Tried out SARIMAX(0, 0, 0)x(0, 1, 0, 12) - AIC:511.9
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 1, 1, 12) - AIC:481.05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 1, 2, 12) - AIC:481.04
+Tried out SARIMAX(0, 0, 0)x(1, 0, 0, 12) - AIC:491.4
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(1, 0, 1, 12) - AIC:491.79
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(1, 0, 2, 12) - AIC:493.74
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(1, 1, 0, 12) - AIC:492.37
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(1, 1, 1, 12) - AIC:479.33
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(1, 1, 2, 12) - AIC:480.44
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(2, 0, 0, 12) - AIC:491.94
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(2, 0, 1, 12) - AIC:493.75
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(2, 0, 2, 12) - AIC:492.19
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(2, 1, 0, 12) - AIC:486.38
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(2, 1, 1, 12) - AIC:480.19
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(2, 1, 2, 12) - AIC:480.76
+Tried out SARIMAX(0, 0, 1)x(0, 0, 0, 12) - AIC:468.93
+Tried out SARIMAX(0, 0, 1)x(0, 0, 1, 12) - AIC:464.86
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(0, 0, 2, 12) - AIC:465.47
+Tried out SARIMAX(0, 0, 1)x(0, 1, 0, 12) - AIC:498.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(0, 1, 1, 12) - AIC:457.92
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(0, 1, 2, 12) - AIC:457.35
+Tried out SARIMAX(0, 0, 1)x(1, 0, 0, 12) - AIC:463.64
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(1, 0, 1, 12) - AIC:464.19
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(1, 0, 2, 12) - AIC:466.16
+Tried out SARIMAX(0, 0, 1)x(1, 1, 0, 12) - AIC:474.26
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(1, 1, 1, 12) - AIC:456.59
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(1, 1, 2, 12) - AIC:460.5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 0, 0, 12) - AIC:464.52
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 0, 1, 12) - AIC:466.17
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 0, 2, 12) - AIC:466.43
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 1, 0, 12) - AIC:465.88
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 1, 1, 12) - AIC:457.78
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 1, 2, 12) - AIC:459.83
+Tried out SARIMAX(0, 0, 2)x(0, 0, 0, 12) - AIC:459.87
+Tried out SARIMAX(0, 0, 2)x(0, 0, 1, 12) - AIC:457.53
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(0, 0, 2, 12) - AIC:458.35
+Tried out SARIMAX(0, 0, 2)x(0, 1, 0, 12) - AIC:494.11
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(0, 1, 1, 12) - AIC:450.41
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(0, 1, 2, 12) - AIC:449.84
+Tried out SARIMAX(0, 0, 2)x(1, 0, 0, 12) - AIC:456.67
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 0, 1, 12) - AIC:457.11
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 0, 2, 12) - AIC:459.05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 1, 0, 12) - AIC:469.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 1, 1, 12) - AIC:449.43
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 1, 2, 12) - AIC:450.68
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 0, 0, 12) - AIC:457.53
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 0, 1, 12) - AIC:459.07
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 0, 2, 12) - AIC:461.08
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 1, 0, 12) - AIC:460.14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 1, 1, 12) - AIC:450.82
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 1, 2, 12) - AIC:453.02
+Tried out SARIMAX(0, 1, 0)x(0, 0, 0, 12) - AIC:492.77
+Tried out SARIMAX(0, 1, 0)x(0, 0, 1, 12) - AIC:493.14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(0, 0, 2, 12) - AIC:494.65
+Tried out SARIMAX(0, 1, 0)x(0, 1, 0, 12) - AIC:541.14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(0, 1, 1, 12) - AIC:474.36
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(0, 1, 2, 12) - AIC:476.32
+Tried out SARIMAX(0, 1, 0)x(1, 0, 0, 12) - AIC:492.91
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(1, 0, 1, 12) - AIC:490.57
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(1, 0, 2, 12) - AIC:492.54
+Tried out SARIMAX(0, 1, 0)x(1, 1, 0, 12) - AIC:510.09
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(1, 1, 1, 12) - AIC:476.32
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(1, 1, 2, 12) - AIC:478.3
+Tried out SARIMAX(0, 1, 0)x(2, 0, 0, 12) - AIC:494.22
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(2, 0, 1, 12) - AIC:492.55
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">11</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">all_param</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">pdq</span><span class="p">,</span> <span class="n">seasonal_pdq</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="c1"># Search the minimim aic</span>
+<span class="ne">---&gt; </span><span class="mi">11</span> <span class="n">pw_msres</span> <span class="o">=</span> <span class="n">pw</span><span class="o">.</span><span class="n">manual_search</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">all_param</span><span class="p">)</span>
+
+<span class="nn">File ~/work/pacific-observatory/pacific-observatory/scripts/python/tsmodel.py:119,</span> in <span class="ni">SARIMAXPipeline.manual_search</span><span class="nt">(self, params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">114</span> <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">115</span>     <span class="n">mod</span> <span class="o">=</span> <span class="n">SARIMAX</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">transformed_y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">training_size</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">116</span>                   <span class="n">exog</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">exog</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">training_size</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">117</span>                   <span class="n">order</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">118</span>                   <span class="n">seasonal_order</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="ne">--&gt; </span><span class="mi">119</span>     <span class="n">res</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">120</span>     <span class="bp">self</span><span class="o">.</span><span class="n">manual_search_results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">res</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">aic</span><span class="p">,</span> <span class="n">param</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">121</span>     <span class="nb">print</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">122</span>         <span class="s1">&#39;Tried out SARIMAX</span><span class="si">{}</span><span class="s1">x</span><span class="si">{}</span><span class="s1"> - AIC:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">param</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">round</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">aic</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/tsa/statespace/mlemodel.py:704,</span> in <span class="ni">MLEModel.fit</span><span class="nt">(self, start_params, transformed, includes_fixed, cov_type, cov_kwds, method, maxiter, full_output, disp, callback, return_params, optim_score, optim_complex_step, optim_hessian, flags, low_memory, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">702</span>         <span class="n">flags</span><span class="p">[</span><span class="s1">&#39;hessian_method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">optim_hessian</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span>     <span class="n">fargs</span> <span class="o">=</span> <span class="p">(</span><span class="n">flags</span><span class="p">,)</span>
+<span class="ne">--&gt; </span><span class="mi">704</span>     <span class="n">mlefit</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">MLEModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">start_params</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">705</span>                                        <span class="n">fargs</span><span class="o">=</span><span class="n">fargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">706</span>                                        <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">707</span>                                        <span class="n">full_output</span><span class="o">=</span><span class="n">full_output</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">708</span>                                        <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">709</span>                                        <span class="n">skip_hessian</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">711</span> <span class="c1"># Just return the fitted parameters if requested</span>
+<span class="g g-Whitespace">    </span><span class="mi">712</span> <span class="k">if</span> <span class="n">return_params</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/base/model.py:563,</span> in <span class="ni">LikelihoodModel.fit</span><span class="nt">(self, start_params, method, maxiter, full_output, disp, fargs, callback, retall, skip_hessian, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">560</span>     <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;use_t&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">562</span> <span class="n">optimizer</span> <span class="o">=</span> <span class="n">Optimizer</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">563</span> <span class="n">xopt</span><span class="p">,</span> <span class="n">retvals</span><span class="p">,</span> <span class="n">optim_settings</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">_fit</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">start_params</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">564</span>                                                <span class="n">fargs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">565</span>                                                <span class="n">hessian</span><span class="o">=</span><span class="n">hess</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">566</span>                                                <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">567</span>                                                <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">568</span>                                                <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">569</span>                                                <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">570</span>                                                <span class="n">retall</span><span class="o">=</span><span class="n">retall</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">571</span>                                                <span class="n">full_output</span><span class="o">=</span><span class="n">full_output</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">572</span> <span class="c1"># Restore cov_type, cov_kwds and use_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">573</span> <span class="n">optim_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/base/optimizer.py:241,</span> in <span class="ni">Optimizer._fit</span><span class="nt">(self, objective, gradient, start_params, fargs, kwargs, hessian, method, maxiter, full_output, disp, callback, retall)</span>
+<span class="g g-Whitespace">    </span><span class="mi">238</span>     <span class="n">fit_funcs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extra_fit_funcs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">240</span> <span class="n">func</span> <span class="o">=</span> <span class="n">fit_funcs</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">241</span> <span class="n">xopt</span><span class="p">,</span> <span class="n">retvals</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">start_params</span><span class="p">,</span> <span class="n">fargs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">242</span>                      <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">243</span>                      <span class="n">retall</span><span class="o">=</span><span class="n">retall</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="n">full_output</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">244</span>                      <span class="n">hess</span><span class="o">=</span><span class="n">hessian</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span> <span class="n">optim_settings</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;optimizer&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="s1">&#39;start_params&#39;</span><span class="p">:</span> <span class="n">start_params</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">247</span>                   <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="n">maxiter</span><span class="p">,</span> <span class="s1">&#39;full_output&#39;</span><span class="p">:</span> <span class="n">full_output</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span>                   <span class="s1">&#39;disp&#39;</span><span class="p">:</span> <span class="n">disp</span><span class="p">,</span> <span class="s1">&#39;fargs&#39;</span><span class="p">:</span> <span class="n">fargs</span><span class="p">,</span> <span class="s1">&#39;callback&#39;</span><span class="p">:</span> <span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>                   <span class="s1">&#39;retall&#39;</span><span class="p">:</span> <span class="n">retall</span><span class="p">,</span> <span class="s2">&quot;extra_fit_funcs&quot;</span><span class="p">:</span> <span class="n">extra_fit_funcs</span><span class="p">}</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span> <span class="n">optim_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/base/optimizer.py:651,</span> in <span class="ni">_fit_lbfgs</span><span class="nt">(f, score, start_params, fargs, kwargs, disp, maxiter, callback, retall, full_output, hess)</span>
+<span class="g g-Whitespace">    </span><span class="mi">648</span> <span class="k">elif</span> <span class="n">approx_grad</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">649</span>     <span class="n">func</span> <span class="o">=</span> <span class="n">f</span>
+<span class="ne">--&gt; </span><span class="mi">651</span> <span class="n">retvals</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">fmin_l_bfgs_b</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">start_params</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">652</span>                                  <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">fargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">653</span>                                  <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">disp</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">654</span>                                  <span class="o">**</span><span class="n">extra_kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">656</span> <span class="k">if</span> <span class="n">full_output</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">657</span>     <span class="n">xopt</span><span class="p">,</span> <span class="n">fopt</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">retvals</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_lbfgsb_py.py:197,</span> in <span class="ni">fmin_l_bfgs_b</span><span class="nt">(func, x0, fprime, args, approx_grad, bounds, m, factr, pgtol, epsilon, iprint, maxfun, maxiter, disp, callback, maxls)</span>
+<span class="g g-Whitespace">    </span><span class="mi">185</span> <span class="c1"># build options</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span> <span class="n">opts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;disp&#39;</span><span class="p">:</span> <span class="n">disp</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>         <span class="s1">&#39;iprint&#39;</span><span class="p">:</span> <span class="n">iprint</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="s1">&#39;maxcor&#39;</span><span class="p">:</span> <span class="n">m</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">194</span>         <span class="s1">&#39;callback&#39;</span><span class="p">:</span> <span class="n">callback</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">195</span>         <span class="s1">&#39;maxls&#39;</span><span class="p">:</span> <span class="n">maxls</span><span class="p">}</span>
+<span class="ne">--&gt; </span><span class="mi">197</span> <span class="n">res</span> <span class="o">=</span> <span class="n">_minimize_lbfgsb</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="n">jac</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">198</span>                        <span class="o">**</span><span class="n">opts</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;grad&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;jac&#39;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>      <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">201</span>      <span class="s1">&#39;funcalls&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;nfev&#39;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">202</span>      <span class="s1">&#39;nit&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;nit&#39;</span><span class="p">],</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span>      <span class="s1">&#39;warnflag&#39;</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]}</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span> <span class="n">f</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;fun&#39;</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_lbfgsb_py.py:359,</span> in <span class="ni">_minimize_lbfgsb</span><span class="nt">(fun, x0, args, jac, bounds, disp, maxcor, ftol, gtol, eps, maxfun, maxiter, iprint, callback, maxls, finite_diff_rel_step, **unknown_options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">353</span> <span class="n">task_str</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">tobytes</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">354</span> <span class="k">if</span> <span class="n">task_str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;FG&#39;</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">355</span>     <span class="c1"># The minimization routine wants f and g at the current x.</span>
+<span class="g g-Whitespace">    </span><span class="mi">356</span>     <span class="c1"># Note that interruptions due to maxfun are postponed</span>
+<span class="g g-Whitespace">    </span><span class="mi">357</span>     <span class="c1"># until the completion of the current minimization iteration.</span>
+<span class="g g-Whitespace">    </span><span class="mi">358</span>     <span class="c1"># Overwrite f and g:</span>
+<span class="ne">--&gt; </span><span class="mi">359</span>     <span class="n">f</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">func_and_grad</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">360</span> <span class="k">elif</span> <span class="n">task_str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;NEW_X&#39;</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">361</span>     <span class="c1"># new iteration</span>
+<span class="g g-Whitespace">    </span><span class="mi">362</span>     <span class="n">n_iterations</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_differentiable_functions.py:286,</span> in <span class="ni">ScalarFunction.fun_and_grad</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">284</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_update_x_impl</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_fun</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">286</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_grad</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_differentiable_functions.py:256,</span> in <span class="ni">ScalarFunction._update_grad</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">254</span> <span class="k">def</span> <span class="nf">_update_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">255</span>     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_updated</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">256</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_update_grad_impl</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">257</span>         <span class="bp">self</span><span class="o">.</span><span class="n">g_updated</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_differentiable_functions.py:173,</span> in <span class="ni">ScalarFunction.__init__.&lt;locals&gt;.update_grad</span><span class="nt">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_fun</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">172</span> <span class="bp">self</span><span class="o">.</span><span class="n">ngev</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="ne">--&gt; </span><span class="mi">173</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">approx_derivative</span><span class="p">(</span><span class="n">fun_wrapped</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span>                            <span class="o">**</span><span class="n">finite_diff_options</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_numdiff.py:505,</span> in <span class="ni">approx_derivative</span><span class="nt">(fun, x0, method, rel_step, abs_step, f0, bounds, sparsity, as_linear_operator, args, kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">502</span>     <span class="n">use_one_sided</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">504</span> <span class="k">if</span> <span class="n">sparsity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">505</span>     <span class="k">return</span> <span class="n">_dense_difference</span><span class="p">(</span><span class="n">fun_wrapped</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">f0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">506</span>                              <span class="n">use_one_sided</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">507</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">508</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">issparse</span><span class="p">(</span><span class="n">sparsity</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">sparsity</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_numdiff.py:576,</span> in <span class="ni">_dense_difference</span><span class="nt">(fun, x0, f0, h, use_one_sided, method)</span>
+<span class="g g-Whitespace">    </span><span class="mi">574</span>     <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">h_vecs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">575</span>     <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">x0</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>  <span class="c1"># Recompute dx as exactly representable number.</span>
+<span class="ne">--&gt; </span><span class="mi">576</span>     <span class="n">df</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">f0</span>
+<span class="g g-Whitespace">    </span><span class="mi">577</span> <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;3-point&#39;</span> <span class="ow">and</span> <span class="n">use_one_sided</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+<span class="g g-Whitespace">    </span><span class="mi">578</span>     <span class="n">x1</span> <span class="o">=</span> <span class="n">x0</span> <span class="o">+</span> <span class="n">h_vecs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_numdiff.py:456,</span> in <span class="ni">approx_derivative.&lt;locals&gt;.fun_wrapped</span><span class="nt">(x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">455</span> <span class="k">def</span> <span class="nf">fun_wrapped</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">456</span>     <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">457</span>     <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">458</span>         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;`fun` return value has &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">459</span>                            <span class="s2">&quot;more than 1 dimension.&quot;</span><span class="p">)</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/scipy/optimize/_differentiable_functions.py:137,</span> in <span class="ni">ScalarFunction.__init__.&lt;locals&gt;.fun_wrapped</span><span class="nt">(x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">133</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfev</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="g g-Whitespace">    </span><span class="mi">134</span> <span class="c1"># Send a copy because the user may overwrite it.</span>
+<span class="g g-Whitespace">    </span><span class="mi">135</span> <span class="c1"># Overwriting results in undefined behaviour because</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span> <span class="c1"># fun(self.x) will change self.x, with the two no longer linked.</span>
+<span class="ne">--&gt; </span><span class="mi">137</span> <span class="n">fx</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="c1"># Make sure the function returns a true scalar</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">fx</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/base/model.py:531,</span> in <span class="ni">LikelihoodModel.fit.&lt;locals&gt;.f</span><span class="nt">(params, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">530</span> <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">531</span>     <span class="k">return</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">loglike</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">/</span> <span class="n">nobs</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/tsa/statespace/mlemodel.py:939,</span> in <span class="ni">MLEModel.loglike</span><span class="nt">(self, params, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">936</span> <span class="k">if</span> <span class="n">complex_step</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">937</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;inversion_method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">INVERT_UNIVARIATE</span> <span class="o">|</span> <span class="n">SOLVE_LU</span>
+<span class="ne">--&gt; </span><span class="mi">939</span> <span class="n">loglike</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssm</span><span class="o">.</span><span class="n">loglike</span><span class="p">(</span><span class="n">complex_step</span><span class="o">=</span><span class="n">complex_step</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">941</span> <span class="c1"># Koopman, Shephard, and Doornik recommend maximizing the average</span>
+<span class="g g-Whitespace">    </span><span class="mi">942</span> <span class="c1"># likelihood to avoid scale issues, but the averaging is done</span>
+<span class="g g-Whitespace">    </span><span class="mi">943</span> <span class="c1"># automatically in the base model `fit` method</span>
+<span class="g g-Whitespace">    </span><span class="mi">944</span> <span class="k">return</span> <span class="n">loglike</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/tsa/statespace/kalman_filter.py:983,</span> in <span class="ni">KalmanFilter.loglike</span><span class="nt">(self, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">967</span><span class="w"> </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">968</span><span class="sd"> Calculate the loglikelihood associated with the statespace model.</span>
+<span class="g g-Whitespace">    </span><span class="mi">969</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">979</span><span class="sd">     The joint loglikelihood.</span>
+<span class="g g-Whitespace">    </span><span class="mi">980</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">981</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;conserve_memory&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">982</span>                   <span class="n">MEMORY_CONSERVE</span> <span class="o">^</span> <span class="n">MEMORY_NO_LIKELIHOOD</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">983</span> <span class="n">kfilter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filter</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">984</span> <span class="n">loglikelihood_burn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;loglikelihood_burn&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">985</span>                                 <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood_burn</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">986</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;conserve_memory&#39;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">MEMORY_NO_LIKELIHOOD</span><span class="p">):</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/tsa/statespace/kalman_filter.py:906,</span> in <span class="ni">KalmanFilter._filter</span><span class="nt">(self, filter_method, inversion_method, stability_method, conserve_memory, filter_timing, tolerance, loglikelihood_burn, complex_step)</span>
+<span class="g g-Whitespace">    </span><span class="mi">903</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_state</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">complex_step</span><span class="o">=</span><span class="n">complex_step</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">905</span> <span class="c1"># Run the filter</span>
+<span class="ne">--&gt; </span><span class="mi">906</span> <span class="n">kfilter</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">908</span> <span class="k">return</span> <span class="n">kfilter</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display top five model params with the lowest AICs</span>
+<span class="n">pw_msres</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">pw_msres</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&lt;statsmodels.tsa.statespace.sarimax.SARIMAXResultsWrapper at 0x167cdb430&gt;,
+  432.6888172242761,
+  ((1, 1, 1), (0, 1, 1, 12))),
+ (&lt;statsmodels.tsa.statespace.sarimax.SARIMAXResultsWrapper at 0x169fa4f10&gt;,
+  432.93177621896336,
+  ((0, 1, 2), (0, 1, 1, 12))),
+ (&lt;statsmodels.tsa.statespace.sarimax.SARIMAXResultsWrapper at 0x323800880&gt;,
+  433.17575492530113,
+  ((2, 0, 1), (0, 1, 1, 12))),
+ (&lt;statsmodels.tsa.statespace.sarimax.SARIMAXResultsWrapper at 0x16befcd90&gt;,
+  433.4407618847055,
+  ((1, 0, 2), (0, 1, 1, 12))),
+ (&lt;statsmodels.tsa.statespace.sarimax.SARIMAXResultsWrapper at 0x169c73d90&gt;,
+  433.53063528216273,
+  ((0, 1, 1), (0, 1, 1, 12)))]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construct a list of top models for cross-validation</span>
+<span class="n">pw_models</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Append the best model from stepwise_search()</span>
+<span class="n">pw_swm</span> <span class="o">=</span> <span class="n">pw</span><span class="o">.</span><span class="n">stepwise_model</span>
+<span class="n">pw_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">ARIMA</span><span class="p">(</span>
+    <span class="n">pw_swm</span><span class="p">[</span><span class="s2">&quot;order&quot;</span><span class="p">],</span> <span class="n">pw_swm</span><span class="p">[</span><span class="s2">&quot;seasonal_order&quot;</span><span class="p">],</span>  <span class="n">exog</span><span class="o">=</span><span class="n">pw</span><span class="o">.</span><span class="n">exog</span><span class="p">[:</span><span class="n">pw</span><span class="o">.</span><span class="n">training_size</span><span class="p">]))</span>
+
+<span class="c1"># Append top five GridSearch results</span>
+<span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">pw_msres</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="n">order</span><span class="p">,</span> <span class="n">seasonal_order</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">ARIMA</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">seasonal_order</span><span class="p">,</span> <span class="n">exog</span><span class="o">=</span><span class="n">pw</span><span class="o">.</span><span class="n">exog</span><span class="p">[:</span><span class="n">pw</span><span class="o">.</span><span class="n">training_size</span><span class="p">])</span>
+    <span class="n">pw_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Conduct model comparisons based on cross-validation</span>
+<span class="n">pw_comp</span> <span class="o">=</span> <span class="n">pw</span><span class="o">.</span><span class="n">compare_models</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">pw</span><span class="o">.</span><span class="n">transformed_y</span><span class="p">[:</span><span class="n">pw</span><span class="o">.</span><span class="n">training_size</span><span class="p">],</span>
+                            <span class="n">exog</span><span class="o">=</span><span class="n">pw</span><span class="o">.</span><span class="n">exog</span><span class="p">[:</span><span class="n">pw</span><span class="o">.</span><span class="n">training_size</span><span class="p">],</span>
+                            <span class="n">models</span><span class="o">=</span><span class="n">pw_models</span><span class="p">)</span>
+<span class="n">pw_comp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] fold=0 ..........................................................
+[CV] fold=1 ..........................................................
+[CV] fold=2 ..........................................................
+[CV] fold=3 ..........................................................
+[CV] fold=4 ..........................................................
+[CV] fold=5 ..........................................................
+[CV] fold=6 ..........................................................
+[CV] fold=7 ..........................................................
+[CV] fold=8 ..........................................................
+[CV] fold=9 ..........................................................
+[CV] fold=10 .........................................................
+[CV] fold=11 .........................................................
+[CV] fold=12 .........................................................
+[CV] fold=13 .........................................................
+[CV] fold=14 .........................................................
+[CV] fold=15 .........................................................
+[CV] fold=16 .........................................................
+[CV] fold=17 .........................................................
+[CV] fold=18 .........................................................
+[CV] fold=19 .........................................................
+[CV] fold=20 .........................................................
+[CV] fold=21 .........................................................
+[CV] fold=22 .........................................................
+[CV] fold=23 .........................................................
+[CV] fold=0 ..........................................................
+[CV] fold=1 ..........................................................
+[CV] fold=2 ..........................................................
+[CV] fold=3 ..........................................................
+[CV] fold=4 ..........................................................
+[CV] fold=5 ..........................................................
+[CV] fold=6 ..........................................................
+[CV] fold=7 ..........................................................
+[CV] fold=8 ..........................................................
+[CV] fold=9 ..........................................................
+[CV] fold=10 .........................................................
+[CV] fold=11 .........................................................
+[CV] fold=12 .........................................................
+[CV] fold=13 .........................................................
+[CV] fold=14 .........................................................
+[CV] fold=15 .........................................................
+[CV] fold=16 .........................................................
+[CV] fold=17 .........................................................
+[CV] fold=18 .........................................................
+[CV] fold=19 .........................................................
+[CV] fold=20 .........................................................
+[CV] fold=21 .........................................................
+[CV] fold=22 .........................................................
+[CV] fold=23 .........................................................
+[CV] fold=0 ..........................................................
+[CV] fold=1 ..........................................................
+[CV] fold=2 ..........................................................
+[CV] fold=3 ..........................................................
+[CV] fold=4 ..........................................................
+[CV] fold=5 ..........................................................
+[CV] fold=6 ..........................................................
+[CV] fold=7 ..........................................................
+[CV] fold=8 ..........................................................
+[CV] fold=9 ..........................................................
+[CV] fold=10 .........................................................
+[CV] fold=11 .........................................................
+[CV] fold=12 .........................................................
+[CV] fold=13 .........................................................
+[CV] fold=14 .........................................................
+[CV] fold=15 .........................................................
+[CV] fold=16 .........................................................
+[CV] fold=17 .........................................................
+[CV] fold=18 .........................................................
+[CV] fold=19 .........................................................
+[CV] fold=20 .........................................................
+[CV] fold=21 .........................................................
+[CV] fold=22 .........................................................
+[CV] fold=23 .........................................................
+[CV] fold=0 ..........................................................
+[CV] fold=1 ..........................................................
+[CV] fold=2 ..........................................................
+[CV] fold=3 ..........................................................
+[CV] fold=4 ..........................................................
+[CV] fold=5 ..........................................................
+[CV] fold=6 ..........................................................
+[CV] fold=7 ..........................................................
+[CV] fold=8 ..........................................................
+[CV] fold=9 ..........................................................
+[CV] fold=10 .........................................................
+[CV] fold=11 .........................................................
+[CV] fold=12 .........................................................
+[CV] fold=13 .........................................................
+[CV] fold=14 .........................................................
+[CV] fold=15 .........................................................
+[CV] fold=16 .........................................................
+[CV] fold=17 .........................................................
+[CV] fold=18 .........................................................
+[CV] fold=19 .........................................................
+[CV] fold=20 .........................................................
+[CV] fold=21 .........................................................
+[CV] fold=22 .........................................................
+[CV] fold=23 .........................................................
+[CV] fold=0 ..........................................................
+[CV] fold=1 ..........................................................
+[CV] fold=2 ..........................................................
+[CV] fold=3 ..........................................................
+[CV] fold=4 ..........................................................
+[CV] fold=5 ..........................................................
+[CV] fold=6 ..........................................................
+[CV] fold=7 ..........................................................
+[CV] fold=8 ..........................................................
+[CV] fold=9 ..........................................................
+[CV] fold=10 .........................................................
+[CV] fold=11 .........................................................
+[CV] fold=12 .........................................................
+[CV] fold=13 .........................................................
+[CV] fold=14 .........................................................
+[CV] fold=15 .........................................................
+[CV] fold=16 .........................................................
+[CV] fold=17 .........................................................
+[CV] fold=18 .........................................................
+[CV] fold=19 .........................................................
+[CV] fold=20 .........................................................
+[CV] fold=21 .........................................................
+[CV] fold=22 .........................................................
+[CV] fold=23 .........................................................
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CV] fold=0 ..........................................................
+[CV] fold=1 ..........................................................
+[CV] fold=2 ..........................................................
+[CV] fold=3 ..........................................................
+[CV] fold=4 ..........................................................
+[CV] fold=5 ..........................................................
+[CV] fold=6 ..........................................................
+[CV] fold=7 ..........................................................
+[CV] fold=8 ..........................................................
+[CV] fold=9 ..........................................................
+[CV] fold=10 .........................................................
+[CV] fold=11 .........................................................
+[CV] fold=12 .........................................................
+[CV] fold=13 .........................................................
+[CV] fold=14 .........................................................
+[CV] fold=15 .........................................................
+[CV] fold=16 .........................................................
+[CV] fold=17 .........................................................
+[CV] fold=18 .........................................................
+[CV] fold=19 .........................................................
+[CV] fold=20 .........................................................
+[CV] fold=21 .........................................................
+[CV] fold=22 .........................................................
+[CV] fold=23 .........................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;model&#39;: [ARIMA(order=(1, 1, 1), seasonal_order=(1, 0, 1, 12)),
+  ARIMA(order=(1, 1, 1), seasonal_order=(0, 1, 1, 12)),
+  ARIMA(order=(0, 1, 2), seasonal_order=(0, 1, 1, 12)),
+  ARIMA(order=(2, 0, 1), seasonal_order=(0, 1, 1, 12)),
+  ARIMA(order=(1, 0, 2), seasonal_order=(0, 1, 1, 12)),
+  ARIMA(order=(0, 1, 1), seasonal_order=(0, 1, 1, 12))],
+ &#39;cv_scores&#39;: [array([106.84907584,  69.17575204,  59.46283951,  93.92695356,
+          91.5328029 , 163.31470591, 148.64533213, 167.10137747,
+         180.91158619, 170.76577203, 172.62822017, 196.87461592,
+         115.32507484,  53.36791049, 129.09521683, 193.60380046,
+         121.16344171, 154.82443827, 154.7316949 , 138.35118655,
+         114.29133923,  83.75223643, 182.02682155, 181.76198728]),
+  array([ 59.46083747,  48.5008139 ,  54.62415759, 103.28969877,
+         118.10870816, 161.92650478, 126.07084679, 101.90918207,
+          88.43730345, 106.07581107, 171.83034237, 191.08560152,
+         131.56954299,  51.33194005,  79.52073519,  62.59240922,
+          91.4509115 , 119.5724935 , 124.39721314, 137.34031623,
+          65.97272267,  95.6669215 , 134.11707214, 187.92224809]),
+  array([ 59.46083747,  48.5008139 ,  54.62415759, 103.28969877,
+         118.10870816, 161.92650478, 126.07084679, 101.90918207,
+          88.43730345, 106.07581107, 171.83034237, 191.08560152,
+         131.56954299,  51.33194005,  79.52073519,  62.59240922,
+          91.4509115 , 119.5724935 , 124.39721314, 137.34031623,
+          65.97272267,  95.6669215 , 134.11707214, 187.92224809]),
+  array([ 83.50433558,  59.38133388,  42.86171263,  71.69032886,
+          99.63731122, 132.36983658, 144.24200682, 130.96972791,
+          90.7017921 , 100.99001631, 114.21517752, 123.61253026,
+         162.34837472, 103.14314222,  68.02675611,  83.66464783,
+          99.65174683,  96.84790168,  87.65375846, 137.57464315,
+         161.58515175, 129.12153603, 152.41667341, 187.53323173]),
+  array([ 83.50433558,  59.38133388,  42.86171263,  71.69032886,
+          99.63731122, 132.36983658, 144.24200682, 130.96972791,
+          90.7017921 , 100.99001631, 114.21517752, 123.61253026,
+         162.34837472, 103.14314222,  68.02675611,  83.66464783,
+          99.65174683,  96.84790168,  87.65375846, 137.57464315,
+         161.58515175, 129.12153603, 152.41667341, 187.53323173]),
+  array([ 59.46083747,  48.5008139 ,  54.62415759, 103.28969877,
+         118.10870816, 161.92650478, 126.07084679, 101.90918207,
+          88.43730345, 106.07581107, 171.83034237, 191.08560152,
+         131.56954299,  51.33194005,  79.52073519,  62.59240922,
+          91.4509115 , 119.5724935 , 124.39721314, 137.34031623,
+          65.97272267,  95.6669215 , 134.11707214, 187.92224809])],
+ &#39;avg_error&#39;: [135.1451742600334,
+  108.86559725629589,
+  108.86559725629589,
+  110.98931973356294,
+  110.98931973356294,
+  108.86559725629589]}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_pw</span> <span class="o">=</span> <span class="n">pw_msres</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">best_pw_mod</span> <span class="o">=</span> <span class="n">pw</span><span class="o">.</span><span class="n">get_prediction_df</span><span class="p">(</span>
+    <span class="n">best_pw</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="n">pw</span><span class="o">.</span><span class="n">exog</span><span class="p">[</span><span class="o">-</span><span class="n">pw</span><span class="o">.</span><span class="n">test_size</span><span class="p">:])</span>
+<span class="n">lower</span> <span class="o">=</span> <span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">upper</span> <span class="o">=</span> <span class="n">palau_va</span><span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">best_pw_mod</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">best_pw_mod</span><span class="p">[</span><span class="n">col</span><span class="p">]):</span>
+        <span class="n">best_pw_mod</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">]</span> <span class="o">=</span> \
+        <span class="n">pw</span><span class="o">.</span><span class="n">inverse_scaledlogit</span><span class="p">(</span><span class="n">best_pw_mod</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">],</span> <span class="n">upper</span><span class="p">,</span> <span class="n">lower</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">best_pw_mod</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">palau_va</span><span class="p">[[</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;Total&quot;</span><span class="p">]],</span> <span class="n">best_pw_mod</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">best_pw_mod</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Total</th>
+      <th>train_pred</th>
+      <th>mean_se</th>
+      <th>mean_ci_lower</th>
+      <th>mean_ci_upper</th>
+      <th>test_pred</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2007-06-01</td>
+      <td>6709.0</td>
+      <td>9014.209105</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2007-07-01</td>
+      <td>8021.0</td>
+      <td>7005.766606</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2007-08-01</td>
+      <td>9196.0</td>
+      <td>7777.401864</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2007-09-01</td>
+      <td>7595.0</td>
+      <td>8971.695406</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2007-10-01</td>
+      <td>6795.0</td>
+      <td>7595.000824</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2007-11-01</td>
+      <td>6252.0</td>
+      <td>7029.338556</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2007-12-01</td>
+      <td>7595.0</td>
+      <td>6028.952118</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2008-01-01</td>
+      <td>8911.0</td>
+      <td>8015.469905</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2008-02-01</td>
+      <td>8766.0</td>
+      <td>8751.406872</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2008-03-01</td>
+      <td>7817.0</td>
+      <td>9460.849009</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>2008-04-01</td>
+      <td>6606.0</td>
+      <td>7105.236479</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>2008-05-01</td>
+      <td>4963.0</td>
+      <td>6791.564625</td>
+      <td>NaN</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>2008-06-01</td>
+      <td>4628.0</td>
+      <td>3964.611763</td>
+      <td>inf</td>
+      <td>0.000000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>2008-07-01</td>
+      <td>6679.0</td>
+      <td>5787.038162</td>
+      <td>1.433498e+04</td>
+      <td>491.425234</td>
+      <td>15797.719750</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>2008-08-01</td>
+      <td>7341.0</td>
+      <td>7238.469951</td>
+      <td>1.402267e+04</td>
+      <td>850.921296</td>
+      <td>16019.440321</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>2008-09-01</td>
+      <td>6497.0</td>
+      <td>6183.205955</td>
+      <td>1.386618e+04</td>
+      <td>737.220825</td>
+      <td>15388.558520</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>2008-10-01</td>
+      <td>6237.0</td>
+      <td>5528.439599</td>
+      <td>1.379391e+04</td>
+      <td>656.671038</td>
+      <td>14921.708277</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>2008-11-01</td>
+      <td>5767.0</td>
+      <td>5001.258685</td>
+      <td>1.375511e+04</td>
+      <td>586.142363</td>
+      <td>14505.286162</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>2008-12-01</td>
+      <td>6869.0</td>
+      <td>6641.663899</td>
+      <td>1.373359e+04</td>
+      <td>889.993828</td>
+      <td>15442.206323</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>2009-01-01</td>
+      <td>8225.0</td>
+      <td>7797.149236</td>
+      <td>1.372130e+04</td>
+      <td>1157.063955</td>
+      <td>15913.552856</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaled_viz_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">best_pw_mod</span><span class="p">[[</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;train_pred&quot;</span><span class="p">,</span> <span class="s2">&quot;test_pred&quot;</span><span class="p">]]</span>
+                 <span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]))</span>
+
+<span class="c1"># use the timezone object in your code</span>
+<span class="c1"># scaled_viz_df[&quot;Date&quot;] = pd.to_datetime(</span>
+<span class="c1">#     scaled_viz_df[&quot;Date&quot;], format=&quot;%Y-%m-%d&quot;)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="s2">&quot;mean_ci_lower&quot;</span><span class="p">,</span> <span class="n">y2</span><span class="o">=</span><span class="s2">&quot;mean_ci_upper&quot;</span><span class="p">,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">best_pw_mod</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">scaled_viz_df</span><span class="p">,</span>
+             <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">best_pw_mod</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Total&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Palau&#39;s Visitor Arrivals&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/ffc7849456b00da278e7899432b2529720ea583bbdb918e55ab73d8a9e4378a0.png" src="_images/ffc7849456b00da278e7899432b2529720ea583bbdb918e55ab73d8a9e4378a0.png" />
+</div>
+</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -681,12 +1786,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="tourism_intro.html"
+       href="tourism_analysis.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Introduction</p>
+        <p class="prev-next-title">Univaraite Time Series Analysis</p>
       </div>
     </a>
     <a class="right-next"
@@ -715,9 +1820,10 @@ document.write(`
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#benchmark-methods">Benchmark Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sarimax">SARIMAX</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>

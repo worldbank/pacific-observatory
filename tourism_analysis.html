@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Analysis and Predicting on Aviation Data &#8212; Pacific Observatory</title>
+    <title>Univaraite Time Series Analysis &#8212; Pacific Observatory</title>
   
   
   
@@ -63,10 +63,14 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tourism_analysis';</script>
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/tourism_analysis.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Palau" href="palau_display.html" />
+    <link rel="prev" title="Exploratory Data Analysis" href="tourism_eda.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,8 +175,15 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="climate_db.html">Climate Database</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="tourism_intro.html">Introduction</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="tourism_intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tourism_eda.html">Exploratory Data Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Univaraite Time Series Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="palau_display.html">Palau</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">AIS</span></p>
 <ul class="nav bd-sidenav">
@@ -382,7 +393,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Analysis and Predicting on Aviation Data</h1>
+    <h1>Univaraite Time Series Analysis</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -392,7 +403,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-discontinuity-in-time-rdit">Regression Discontinuity in Time (RDiT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-modelling">Empirical Modelling</a></li>
 </ul>
             </nav>
         </div>
@@ -404,75 +415,39 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="analysis-and-predicting-on-aviation-data">
-<h1>Analysis and Predicting on Aviation Data<a class="headerlink" href="#analysis-and-predicting-on-aviation-data" title="Permalink to this heading">#</a></h1>
-<p><strong>Table 1: % Before- and After-Covid Comparisons</strong></p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Country</p></th>
-<th class="head"><p>Number of Flights Before Covid</p></th>
-<th class="head"><p>Number of Flights During Covid</p></th>
-<th class="head"><p>Percantage Changed</p></th>
-<th class="head"><p>Number of Passengers Before Covid</p></th>
-<th class="head"><p>Number of Passengers Before Covid</p></th>
-<th class="head"><p>Percentage Changed</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>Vanuatu</p></td>
-<td><p>26.792373</p></td>
-<td><p>29.347409</p></td>
-<td><p>9.536430</p></td>
-<td><p>3028.190678</p></td>
-<td><p>2553.804223</p></td>
-<td><p>-15.66567</p></td>
-</tr>
-<tr class="row-odd"><td><p>Solomon Islands</p></td>
-<td><p>7.199248</p></td>
-<td><p>2.636678</p></td>
-<td><p>-63.375645</p></td>
-<td><p>935.939850</p></td>
-<td><p>386.366782</p></td>
-<td><p>-58.718845</p></td>
-</tr>
-<tr class="row-even"><td><p>Papua New Guinea</p></td>
-<td><p>454.928571</p></td>
-<td><p>465.118774</p></td>
-<td><p>2.239957</p></td>
-<td><p>34249.642857</p></td>
-<td><p>32915.454662</p></td>
-<td><p>-3.895481</p></td>
-</tr>
-<tr class="row-odd"><td><p>Fiji</p></td>
-<td><p>287.924051</p></td>
-<td><p>67.417513</p></td>
-<td><p>-76.584967</p></td>
-<td><p>26749.341772</p></td>
-<td><p>6948.908629</p></td>
-<td><p>-74.022132</p></td>
-</tr>
-</tbody>
-</table>
-<section id="regression-discontinuity-in-time-rdit">
-<h2>Regression Discontinuity in Time (RDiT)<a class="headerlink" href="#regression-discontinuity-in-time-rdit" title="Permalink to this heading">#</a></h2>
-<div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
-</input><label class="sd-tab-label" for="sd-tab-item-0">
-Fiji</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="tourism/rdd_fj.png" /></p>
-</div>
-<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
-</input><label class="sd-tab-label" for="sd-tab-item-1">
-Papua New Guinea</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="tourism/rdd_pg.png" /></p>
-</div>
-<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
-</input><label class="sd-tab-label" for="sd-tab-item-2">
-Vanuatu</label><div class="sd-tab-content docutils">
-<p><img alt="Overview" src="tourism/rdd_vu.png" /></p>
-</div>
-</div>
+  <section class="tex2jax_ignore mathjax_ignore" id="univaraite-time-series-analysis">
+<h1>Univaraite Time Series Analysis<a class="headerlink" href="#univaraite-time-series-analysis" title="Permalink to this heading">#</a></h1>
+<section id="empirical-modelling">
+<h2>Empirical Modelling<a class="headerlink" href="#empirical-modelling" title="Permalink to this heading">#</a></h2>
+<p>Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC’s VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX <span class="math notranslate nohighlight">\((p,d,q)(P,D,Q,s)\)</span> is defined as below:</p>
+<div class="math notranslate nohighlight">
+\[
+\Theta(L)^{p} \theta(L^{s})^{P} \Delta^{d} \Delta_{s}^{D} VA_{t} = \Phi(L)^{q} \phi(L^{s})^{Q} \Delta^{d} \Delta_{s}^{D} \epsilon_{t} + \sum_{i=1}^{n} \beta_{i} {x}_{t}^{i}
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\({VA}_{t}\)</span> is the Visitor Arrivals at time <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\({x}_{t}^{i}\)</span> for <span class="math notranslate nohighlight">\(i &lt;= n\)</span> with coefficients <span class="math notranslate nohighlight">\(\beta_{i}\)</span> denotes <span class="math notranslate nohighlight">\(n\)</span> exogenous variables defined at each time step <span class="math notranslate nohighlight">\(t\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(L\)</span> is the lag operator and <span class="math notranslate nohighlight">\(L^{s}\)</span> is the seasonal lag operator</p></li>
+<li><p><span class="math notranslate nohighlight">\(p\)</span> is the order of the AR part, <span class="math notranslate nohighlight">\(q\)</span> is the order of the MA part, and <span class="math notranslate nohighlight">\(d\)</span> is the degree of first differencing involved</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Theta(L)^{p}\)</span> is an order <span class="math notranslate nohighlight">\(p\)</span> polynomial function of <span class="math notranslate nohighlight">\(L\)</span> from the AR part, and <span class="math notranslate nohighlight">\(\phi\)</span> is defined analogously to <span class="math notranslate nohighlight">\(\Theta\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Delta^{d}\)</span> is the integration operator and <span class="math notranslate nohighlight">\(\Delta_{s}^{D}\)</span> takes the seasonal differences of the series</p></li>
+</ul>
+<p>The model employs the scaled logit transformation to avoid negative predictions, transforming <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(\log(\frac{x-a}{b-x})\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> is the lower bound and <span class="math notranslate nohighlight">\(b\)</span> is the upper bound. Further, to prevent -<span class="math notranslate nohighlight">\(\infty\)</span>, <span class="math notranslate nohighlight">\(a\)</span> is set to be slightly smaller than the minimum of the series, and <span class="math notranslate nohighlight">\(b\)</span> is slightly larger than the maximum.</p>
+<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Three benchmark methods are employed:</p>
+<ul class="simple">
+<li><p>Average method, where the forecasts of all future values are equal to the average (or “mean”) of the historical data.</p></li>
+<li><p>Naïve method, setting all forecasts to be the value of the last observation.</p></li>
+<li><p>Drift method, <span class="math notranslate nohighlight">\(\hat{y}_{T+h|T} = y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1}) = y_{T} + h \left( \frac{y_{T} -y_{1}}{T-1}\right).\)</span>, which is equivalent to drawing a line between the first and last observations, and extrapolating it into the future.</p></li>
+</ul>
+<hr class="footnotes docutils" />
+<aside class="footnote brackets" id="id2" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Rob J Hyndman and George Athanasopoulos, Forecasting: principles and practice (OTexts, 2018). See more <a class="reference external" href="https://otexts.com/fpp3/simple-methods.html">here</a>.</p>
+</aside>
 </section>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -506,6 +481,24 @@ Vanuatu</label><div class="sd-tab-content docutils">
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="tourism_eda.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Exploratory Data Analysis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="palau_display.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Palau</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div></div>
   
 </div>
@@ -524,7 +517,7 @@ Vanuatu</label><div class="sd-tab-content docutils">
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-discontinuity-in-time-rdit">Regression Discontinuity in Time (RDiT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-modelling">Empirical Modelling</a></li>
 </ul>
   </nav></div>
 

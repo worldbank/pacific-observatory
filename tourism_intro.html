@@ -63,13 +63,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tourism_intro';</script>
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/tourism_intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="palau_display.html" />
+    <link rel="next" title="Exploratory Data Analysis" href="tourism_eda.html" />
     <link rel="prev" title="Climate Database" href="climate_db.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -176,7 +174,14 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Introduction</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Introduction</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tourism_eda.html">Exploratory Data Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tourism_analysis.html">Univaraite Time Series Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="palau_display.html">Palau</a></li>
+</ul>
+</li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">AIS</span></p>
 <ul class="nav bd-sidenav">
@@ -406,7 +411,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment">Assessment</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-modelling">Empirical Modelling</a></li>
 </ul>
             </nav>
         </div>
@@ -420,7 +424,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h1>
-<p>Tourism has been a significant component of the Pacific Islands Countries (PICs) economy, driving economic growth. However, limited access to essential data and information obstructs sustainable development. For example, in the Solomon Islands, an International Finance Corporation (IFC) report estimated that tourism contributes to 10.5% of the Gross Domestic Product (GDP) and 10.8% of employment.<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Meanwhile, the latest available tourist data is from the fourth quarter of 2020, and a two-year data vacuum exists. [^2] The lagged data is not unique to the Solomon Islands, but more of a general situation for PICs.</p>
+<p>Tourism has been a significant component of the Pacific Islands Countries (PICs) economy, driving economic growth. However, limited access to essential data and information obstructs sustainable development. For example, in the Solomon Islands, an International Finance Corporation (IFC) report estimated that tourism contributes to 10.5% of the Gross Domestic Product (GDP) and 10.8% of employment.<a class="footnote-reference brackets" href="#id3" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Meanwhile, the latest available tourist data is from the fourth quarter of 2020, and a two-year data vacuum exists. <a class="footnote-reference brackets" href="#id4" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> The lagged data is not unique to the Solomon Islands, but more of a general situation for PICs.</p>
 <p>What is worse, when Covid-19 hit globally, tourism came to a pause for PICs. Recovery slowly takes place, and data plays a more significant role in understanding how long PICs could bounce back. By leveraging alternative data sources, such as flight data, and combining them with the available historical data, we can better understand the Pacific Islands countries’ economic and social conditions.</p>
 <p>The report will be divided into five parts [temporarily]. The first part reviews the literature about tourism and development, specifically focusing on PICs, and the main forecasting models employed in tourism research. Then, the second part introduces the sources and features of the official and flight data and assesses their relevance by correlational and time series analysis. The third part describes the empirical modeling strategies and robustness checks. The fourth part will display the results from the model.</p>
 <section id="literature-review">
@@ -452,33 +456,18 @@ document.write(`
 <figure class="align-default" id="missing-data-heatmap">
 <img alt="tourism/ms_heatmap.png" src="tourism/ms_heatmap.png" />
 </figure>
-</section>
-</section>
-<section id="empirical-modelling">
-<h2>Empirical Modelling<a class="headerlink" href="#empirical-modelling" title="Permalink to this heading">#</a></h2>
-<p>Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC’s VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX <span class="math notranslate nohighlight">\((p,d,q)(P,D,Q,s)\)</span> is defined as below:
-\begin{equation*}
-\centering
-\Theta(L)^{p} \theta(L^{s})^{P} \Delta^{d} \Delta_{s}^{D} VA_{t} = \Phi(L)^{q} \phi(L^{s})^{Q} \Delta^{d} \Delta_{s}^{D} \epsilon_{t} + \sum_{i=1}^{n} \beta_{i} {x}_{t}^{i}
-\end{equation*}
-where:
-\begin{itemize}
-\singlespacing
-\item <span class="math notranslate nohighlight">\({VA}_{t}\)</span> is the Visitor Arrivals at time <span class="math notranslate nohighlight">\(t\)</span>
-\item <span class="math notranslate nohighlight">\({x}_{t}^{i}\)</span> for <span class="math notranslate nohighlight">\(i &lt;= n\)</span> with coefficients <span class="math notranslate nohighlight">\(\beta_{i}\)</span> denotes <span class="math notranslate nohighlight">\(n\)</span>
-exogenous variables defined at each time step <span class="math notranslate nohighlight">\(t\)</span>
-\item <span class="math notranslate nohighlight">\(L\)</span> is the lag operator and <span class="math notranslate nohighlight">\(L^{s}\)</span> is the seasonal lag operator
-\item <span class="math notranslate nohighlight">\(p\)</span> is the order of the AR part, <span class="math notranslate nohighlight">\(q\)</span> is the order of the MA part, and <span class="math notranslate nohighlight">\(d\)</span> is the degree of first differencing involved
-\item <span class="math notranslate nohighlight">\(\Theta(L)^{p}\)</span> is an order <span class="math notranslate nohighlight">\(p\)</span> polynomial function of <span class="math notranslate nohighlight">\(L\)</span> from the AR part, and <span class="math notranslate nohighlight">\(\phi\)</span> is defined analogously to <span class="math notranslate nohighlight">\(\Theta\)</span>.
-\item <span class="math notranslate nohighlight">\(\Delta^{d}\)</span> is the integration operator and <span class="math notranslate nohighlight">\(\Delta_{s}^{D}\)</span> takes the seasonal differences of the series
-\end{itemize}
-The model employs the scaled logit transformation to avoid negative predictions, transforming <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(\log(\frac{x-a}{b-x})\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> is the lower bound and <span class="math notranslate nohighlight">\(b\)</span> is the upper bound. Further, to prevent -<span class="math notranslate nohighlight">\(\infty\)</span>, <span class="math notranslate nohighlight">\(a\)</span> is set to be slightly smaller than the minimum of the series, and <span class="math notranslate nohighlight">\(b\)</span> is slightly larger than the maximum.</p>
-<p>[^2] See more in <a class="reference external" href="https://www.statistics.gov.sb/statistics/visitor-arrivals#month">https://www.statistics.gov.sb/statistics/visitor-arrivals#month</a>.</p>
 <hr class="footnotes docutils" />
-<aside class="footnote brackets" id="id2" role="note">
+<aside class="footnote brackets" id="id3" role="note">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
 </aside>
+<aside class="footnote brackets" id="id4" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<p>See more in <a class="reference external" href="https://www.statistics.gov.sb/statistics/visitor-arrivals#month">https://www.statistics.gov.sb/statistics/visitor-arrivals#month</a>.</p>
+</aside>
 </section>
+</section>
+<div class="toctree-wrapper compound">
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -522,11 +511,11 @@ The model employs the scaled logit transformation to avoid negative predictions,
       </div>
     </a>
     <a class="right-next"
-       href="palau_display.html"
+       href="tourism_eda.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title">Exploratory Data Analysis</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -558,7 +547,6 @@ The model employs the scaled logit transformation to avoid negative predictions,
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment">Assessment</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-modelling">Empirical Modelling</a></li>
 </ul>
   </nav></div>
 

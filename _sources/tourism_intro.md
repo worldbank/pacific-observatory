@@ -37,25 +37,6 @@ Given the daily frequency of GAD data and the monthly frequency of official stat
 :name: Missing Data Heatmap
 ```
 
-## Empirical Modelling
-Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC's VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX $(p,d,q)(P,D,Q,s)$ is defined as below:
-\begin{equation*}
-\centering
-\Theta(L)^{p} \theta(L^{s})^{P} \Delta^{d} \Delta_{s}^{D} VA_{t} = \Phi(L)^{q} \phi(L^{s})^{Q} \Delta^{d} \Delta_{s}^{D} \epsilon_{t} + \sum_{i=1}^{n} \beta_{i} {x}_{t}^{i}
-\end{equation*}
-where: 
-\begin{itemize}
-    \singlespacing
-    \item ${VA}_{t}$ is the Visitor Arrivals at time $t$
-    \item ${x}_{t}^{i}$ for $i <= n$ with coefficients $\beta_{i}$ denotes $n$
- exogenous variables defined at each time step $t$
-    \item $L$ is the lag operator and $L^{s}$ is the seasonal lag operator 
-    \item $p$ is the order of the AR part, $q$ is the order of the MA part, and $d$ is the degree of first differencing involved
-    \item $\Theta(L)^{p}$ is an order $p$ polynomial function of $L$ from the AR part, and $\phi$ is defined analogously to $\Theta$.
-    \item $\Delta^{d}$ is the integration operator and $\Delta_{s}^{D}$ takes the seasonal differences of the series
-\end{itemize}
-The model employs the scaled logit transformation to avoid negative predictions, transforming $x$ to $\log(\frac{x-a}{b-x})$, where $a$ is the lower bound and $b$ is the upper bound. Further, to prevent -$\infty$, $a$ is set to be slightly smaller than the minimum of the series, and $b$ is slightly larger than the maximum. 
-
 
 [^1]: 
-[^2] See more in https://www.statistics.gov.sb/statistics/visitor-arrivals#month.
+[^2]: See more in https://www.statistics.gov.sb/statistics/visitor-arrivals#month.
