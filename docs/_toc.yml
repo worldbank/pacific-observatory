@@ -16,7 +16,11 @@ parts:
   - caption: Tourism
     chapters:
       - file: tourism_intro
-      - file: palau_display
+        sections:   
+        - file: tourism_eda
+      - file: tourism_analysis
+        sections:
+        - file: palau_display
   - caption: AIS
     chapters:
       - file: ais_intro
