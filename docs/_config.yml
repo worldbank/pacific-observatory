@@ -19,7 +19,7 @@ html:
     baseurl: https://github.com/worldbank/pacific-observatory
 
 execute:
-  execute_notebooks: force
+  execute_notebooks: cache
   allow_errors: true
   # exclude_patterns:
 
