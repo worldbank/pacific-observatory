@@ -18,9 +18,12 @@ parts:
       - file: tourism_intro
         sections:   
         - file: tourism_eda
-      - file: tourism_analysis
+      - file: tourism_utsa
         sections:
         - file: palau_display
+      - file: tourism_mtsa
+        sections:
+        - file: palau_mtsa
   - caption: AIS
     chapters:
       - file: ais_intro
