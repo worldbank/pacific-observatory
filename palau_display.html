@@ -67,8 +67,6 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/palau_display.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Automatic Identification System" href="ais_intro.html" />
-    <link rel="prev" title="Univaraite Time Series Analysis" href="tourism_analysis.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -173,13 +171,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="climate_db.html">Climate Database</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="tourism_intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="tourism_eda.html">Exploratory Data Analysis</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="tourism_analysis.html">Univaraite Time Series Analysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Palau</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tourism_analysis.html">Univaraite Time Series Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="simple">
 </ul>
 </li>
 </ul>
@@ -709,124 +706,120 @@ stepwise_search(d: int = None, D: int = None) -&gt; dict method of scripts.pytho
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Performing stepwise search to minimize aic
- ARIMA(0,1,0)(0,0,1)[12] intercept   : AIC=495.109, Time=0.15 sec
+ ARIMA(0,1,0)(0,0,1)[12] intercept   : AIC=495.109, Time=0.12 sec
+ ARIMA(0,1,0)(0,0,0)[12] intercept   : AIC=494.742, Time=0.02 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(0,0,0)[12] intercept   : AIC=494.742, Time=0.04 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(1,0,0)[12] intercept   : AIC=480.126, Time=0.10 sec
+ ARIMA(0,1,1)(0,0,1)[12] intercept   : AIC=461.639, Time=0.14 sec
+ ARIMA(0,1,0)(0,0,0)[12]             : AIC=492.765, Time=0.03 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(1,0,0)[12] intercept   : AIC=480.126, Time=0.21 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,0)[12] intercept   : AIC=463.008, Time=0.08 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,1)[12] intercept   : AIC=461.639, Time=0.32 sec
- ARIMA(0,1,0)(0,0,0)[12]             : AIC=492.765, Time=0.06 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(1,0,1)[12] intercept   : AIC=inf, Time=0.35 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,0)[12] intercept   : AIC=463.008, Time=0.15 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,2)[12] intercept   : AIC=462.007, Time=0.43 sec
+ ARIMA(0,1,1)(1,0,0)[12] intercept   : AIC=460.759, Time=0.15 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(1,0,1)[12] intercept   : AIC=inf, Time=0.82 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,0)[12] intercept   : AIC=460.706, Time=0.42 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(0,0,2)[12] intercept   : AIC=462.007, Time=0.82 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,1)[12] intercept   : AIC=455.936, Time=0.78 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(1,0,0)[12] intercept   : AIC=460.759, Time=0.33 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,2)[12] intercept   : AIC=inf, Time=1.00 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,0)[12] intercept   : AIC=460.706, Time=0.87 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(1,0,2)[12] intercept   : AIC=456.036, Time=0.92 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,1)(2,0,1)[12] intercept   : AIC=inf, Time=1.66 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(2,0,1)[12] intercept   : AIC=inf, Time=0.74 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(2,0,0)[12] intercept   : AIC=496.191, Time=0.36 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,1)[12] intercept   : AIC=452.823, Time=0.84 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,0)[12] intercept   : AIC=452.986, Time=1.53 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,1)[12] intercept   : AIC=449.915, Time=0.40 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,0)[12] intercept   : AIC=452.036, Time=0.44 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,1)[12] intercept   : AIC=452.399, Time=0.23 sec
+ ARIMA(1,1,1)(1,0,0)[12] intercept   : AIC=452.036, Time=0.20 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,0)[12] intercept   : AIC=452.503, Time=0.27 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,2)[12] intercept   : AIC=452.943, Time=0.94 sec
+ ARIMA(1,1,1)(0,0,0)[12] intercept   : AIC=452.503, Time=0.13 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,1)[12] intercept   : AIC=449.925, Time=0.89 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,2)[12] intercept   : AIC=453.651, Time=0.70 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,1)[12] intercept   : AIC=452.399, Time=0.50 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,0)[12] intercept   : AIC=452.986, Time=0.68 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,1)[12] intercept   : AIC=452.664, Time=1.84 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,2)[12] intercept   : AIC=inf, Time=1.15 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,2)[12] intercept   : AIC=452.890, Time=2.08 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.37 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(0,0,2)[12] intercept   : AIC=453.651, Time=1.63 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,1)(1,0,1)[12] intercept   : AIC=452.121, Time=0.48 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(2,0,2)[12] intercept   : AIC=inf, Time=2.38 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,2)(1,0,1)[12] intercept   : AIC=451.817, Time=0.47 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.78 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.34 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,1)(1,0,1)[12] intercept   : AIC=452.088, Time=1.11 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,2)(1,0,1)[12] intercept   : AIC=inf, Time=0.39 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,2)(1,0,1)[12] intercept   : AIC=451.814, Time=1.05 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.43 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=0.82 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,2)(1,0,1)[12] intercept   : AIC=453.680, Time=0.50 sec
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(0,1,2)(1,0,1)[12] intercept   : AIC=inf, Time=0.84 sec
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,0)(1,0,1)[12] intercept   : AIC=inf, Time=1.12 sec
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(2,1,2)(1,0,1)[12] intercept   : AIC=453.543, Time=1.14 sec
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,1)[12]             : AIC=inf, Time=0.86 sec
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> ARIMA(1,1,1)(1,0,1)[12]             : AIC=inf, Time=0.35 sec
 
 Best model:  ARIMA(1,1,1)(1,0,1)[12] intercept
-Total fit time: 25.102 seconds
+Total fit time: 13.907 seconds
                                      SARIMAX Results                                      
 ==========================================================================================
 Dep. Variable:                                  y   No. Observations:                  165
-Model:             SARIMAX(1, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -216.963
-Date:                            Fri, 14 Apr 2023   AIC                            449.925
-Time:                                    03:56:12   BIC                            474.724
-Sample:                                         0   HQIC                           459.993
+Model:             SARIMAX(1, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -216.957
+Date:                            Fri, 14 Apr 2023   AIC                            449.915
+Time:                                    19:53:19   BIC                            474.714
+Sample:                                         0   HQIC                           459.982
                                             - 165                                         
 Covariance Type:                              opg                                         
 ================================================================================
                    coef    std err          z      P&gt;|z|      [0.025      0.975]
 --------------------------------------------------------------------------------
-intercept       -0.0005      0.003     -0.156      0.876      -0.007       0.006
-covid           -0.1100      0.011    -10.364      0.000      -0.131      -0.089
-palau_travel     0.3535      0.747      0.473      0.636      -1.110       1.817
-ar.L1            0.2927      0.078      3.754      0.000       0.140       0.446
-ma.L1           -0.8704      0.063    -13.732      0.000      -0.995      -0.746
-ar.S.L12         0.8956      0.310      2.892      0.004       0.289       1.503
-ma.S.L12        -0.7994      0.379     -2.110      0.035      -1.542      -0.057
-sigma2           0.8123      0.038     21.505      0.000       0.738       0.886
+intercept       -0.0005      0.003     -0.154      0.878      -0.007       0.006
+covid           -0.1103      0.011    -10.388      0.000      -0.131      -0.089
+palau_travel     0.3562      0.743      0.480      0.632      -1.100       1.812
+ar.L1            0.2969      0.078      3.796      0.000       0.144       0.450
+ma.L1           -0.8719      0.064    -13.720      0.000      -0.996      -0.747
+ar.S.L12         0.8994      0.305      2.952      0.003       0.302       1.497
+ma.S.L12        -0.8042      0.375     -2.144      0.032      -1.539      -0.069
+sigma2           0.8102      0.038     21.233      0.000       0.735       0.885
 ===================================================================================
-Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):             17025.51
-Prob(Q):                              0.97   Prob(JB):                         0.00
-Heteroskedasticity (H):               6.80   Skew:                             4.71
-Prob(H) (two-sided):                  0.00   Kurtosis:                        52.02
+Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):             17043.31
+Prob(Q):                              1.00   Prob(JB):                         0.00
+Heteroskedasticity (H):               6.79   Skew:                             4.71
+Prob(H) (two-sided):                  0.00   Kurtosis:                        52.05
 ===================================================================================
 
 Warnings:
 [1] Covariance matrix calculated using the outer product of gradients (complex-step).
 </pre></div>
 </div>
-<img alt="_images/1259db45606ad618ddb465e7df63c0beda0105dc54c42e1b02aa2b8ea2c46062.png" src="_images/1259db45606ad618ddb465e7df63c0beda0105dc54c42e1b02aa2b8ea2c46062.png" />
+<img alt="_images/91ad515673500e3adbc3f9f674fef8b7bfda1d2ce2adb5baf34f2527cbd32b03.png" src="_images/91ad515673500e3adbc3f9f674fef8b7bfda1d2ce2adb5baf34f2527cbd32b03.png" />
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;maxiter&#39;: 50,
  &#39;method&#39;: &#39;lbfgs&#39;,
  &#39;order&#39;: (1, 1, 1),
@@ -864,9 +857,7 @@ Tried out SARIMAX(0, 0, 0)x(0, 0, 1, 12) - AIC:494.47
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 0, 2, 12) - AIC:493.57
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 1, 0, 12) - AIC:511.9
+Tried out SARIMAX(0, 0, 0)x(0, 1, 0, 12) - AIC:511.9
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 1, 1, 12) - AIC:481.05
@@ -874,9 +865,7 @@ Tried out SARIMAX(0, 0, 0)x(0, 0, 1, 12) - AIC:494.47
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(0, 1, 2, 12) - AIC:481.04
 Tried out SARIMAX(0, 0, 0)x(1, 0, 0, 12) - AIC:491.4
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(1, 0, 1, 12) - AIC:491.79
+Tried out SARIMAX(0, 0, 0)x(1, 0, 1, 12) - AIC:491.79
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(1, 0, 2, 12) - AIC:493.74
@@ -908,9 +897,7 @@ Tried out SARIMAX(0, 0, 0)x(1, 0, 0, 12) - AIC:491.4
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 0)x(2, 1, 2, 12) - AIC:480.76
 Tried out SARIMAX(0, 0, 1)x(0, 0, 0, 12) - AIC:468.93
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(0, 0, 1, 12) - AIC:464.86
+Tried out SARIMAX(0, 0, 1)x(0, 0, 1, 12) - AIC:464.86
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(0, 0, 2, 12) - AIC:465.47
@@ -928,9 +915,7 @@ Tried out SARIMAX(0, 0, 1)x(1, 0, 0, 12) - AIC:463.64
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(1, 0, 2, 12) - AIC:466.16
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(1, 1, 0, 12) - AIC:474.26
+Tried out SARIMAX(0, 0, 1)x(1, 1, 0, 12) - AIC:474.26
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(1, 1, 1, 12) - AIC:456.59
@@ -943,6 +928,87 @@ Tried out SARIMAX(0, 0, 1)x(1, 0, 0, 12) - AIC:463.64
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 0, 1, 12) - AIC:466.17
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 0, 2, 12) - AIC:466.43
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 1, 0, 12) - AIC:465.88
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 1, 1, 12) - AIC:457.78
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 1)x(2, 1, 2, 12) - AIC:459.83
+Tried out SARIMAX(0, 0, 2)x(0, 0, 0, 12) - AIC:459.87
+Tried out SARIMAX(0, 0, 2)x(0, 0, 1, 12) - AIC:457.53
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(0, 0, 2, 12) - AIC:458.35
+Tried out SARIMAX(0, 0, 2)x(0, 1, 0, 12) - AIC:494.11
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(0, 1, 1, 12) - AIC:450.41
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(0, 1, 2, 12) - AIC:449.84
+Tried out SARIMAX(0, 0, 2)x(1, 0, 0, 12) - AIC:456.67
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 0, 1, 12) - AIC:457.11
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 0, 2, 12) - AIC:459.05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 1, 0, 12) - AIC:469.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 1, 1, 12) - AIC:449.43
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(1, 1, 2, 12) - AIC:450.68
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 0, 0, 12) - AIC:457.53
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 0, 1, 12) - AIC:459.07
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 0, 2, 12) - AIC:461.08
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 1, 0, 12) - AIC:460.14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 1, 1, 12) - AIC:450.82
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 0, 2)x(2, 1, 2, 12) - AIC:453.02
+Tried out SARIMAX(0, 1, 0)x(0, 0, 0, 12) - AIC:492.77
+Tried out SARIMAX(0, 1, 0)x(0, 0, 1, 12) - AIC:493.14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(0, 0, 2, 12) - AIC:494.65
+Tried out SARIMAX(0, 1, 0)x(0, 1, 0, 12) - AIC:541.14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(0, 1, 1, 12) - AIC:474.36
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(0, 1, 2, 12) - AIC:476.32
+Tried out SARIMAX(0, 1, 0)x(1, 0, 0, 12) - AIC:492.91
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(1, 0, 1, 12) - AIC:490.57
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(1, 0, 2, 12) - AIC:492.54
+Tried out SARIMAX(0, 1, 0)x(1, 1, 0, 12) - AIC:510.09
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tried out SARIMAX(0, 1, 0)x(1, 1, 1, 12) - AIC:476.32
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1118,20 +1184,11 @@ Tried out SARIMAX(0, 0, 1)x(1, 0, 0, 12) - AIC:463.64
 <span class="g g-Whitespace">    </span><span class="mi">985</span>                                 <span class="bp">self</span><span class="o">.</span><span class="n">loglikelihood_burn</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">986</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;conserve_memory&#39;</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">MEMORY_NO_LIKELIHOOD</span><span class="p">):</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/tsa/statespace/kalman_filter.py:903,</span> in <span class="ni">KalmanFilter._filter</span><span class="nt">(self, filter_method, inversion_method, stability_method, conserve_memory, filter_timing, tolerance, loglikelihood_burn, complex_step)</span>
-<span class="g g-Whitespace">    </span><span class="mi">900</span> <span class="n">kfilter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kalman_filters</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">902</span> <span class="c1"># Initialize the state</span>
-<span class="ne">--&gt; </span><span class="mi">903</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_state</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">complex_step</span><span class="o">=</span><span class="n">complex_step</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/tsa/statespace/kalman_filter.py:906,</span> in <span class="ni">KalmanFilter._filter</span><span class="nt">(self, filter_method, inversion_method, stability_method, conserve_memory, filter_timing, tolerance, loglikelihood_burn, complex_step)</span>
+<span class="g g-Whitespace">    </span><span class="mi">903</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_state</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">complex_step</span><span class="o">=</span><span class="n">complex_step</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">905</span> <span class="c1"># Run the filter</span>
-<span class="g g-Whitespace">    </span><span class="mi">906</span> <span class="n">kfilter</span><span class="p">()</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/statsmodels/tsa/statespace/representation.py:983,</span> in <span class="ni">Representation._initialize_state</span><span class="nt">(self, prefix, complex_step)</span>
-<span class="g g-Whitespace">    </span><span class="mi">981</span>     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialization</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">982</span>         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Initialization is incomplete.&#39;</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">983</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_statespaces</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initialization</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">984</span>                                          <span class="n">complex_step</span><span class="o">=</span><span class="n">complex_step</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">985</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">986</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Statespace model not initialized.&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">906</span> <span class="n">kfilter</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">908</span> <span class="k">return</span> <span class="n">kfilter</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
@@ -1710,24 +1767,6 @@ Tried out SARIMAX(0, 0, 1)x(1, 0, 0, 12) - AIC:463.64
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="tourism_analysis.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Univaraite Time Series Analysis</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="ais_intro.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Automatic Identification System</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div></div>
   
 </div>
