@@ -429,20 +429,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">7</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="ne">----&gt; </span><span class="mi">7</span> <span class="kn">from</span> <span class="nn">scripts.python.PdfParse</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span> <span class="nn">scripts.python.ts_utils</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span> <span class="nn">scripts.python.utils</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;scripts&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -455,88 +441,99 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">folder_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/palau/&quot;</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">palau</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">folder_path</span> <span class="o">+</span> <span class="s2">&quot;intermediate/palau_monthly_visitor.csv&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">palau</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">palau</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">])</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">palau</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/util/_decorators.py:211,</span> in <span class="ni">deprecate_kwarg.&lt;locals&gt;._deprecate_kwarg.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">209</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">210</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">new_arg_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_arg_value</span>
-<span class="ne">--&gt; </span><span class="mi">211</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/util/_decorators.py:331,</span> in <span class="ni">deprecate_nonkeyword_arguments.&lt;locals&gt;.decorate.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_allow_args</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">327</span>         <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arguments</span><span class="o">=</span><span class="n">_format_argument_list</span><span class="p">(</span><span class="n">allow_args</span><span class="p">)),</span>
-<span class="g g-Whitespace">    </span><span class="mi">328</span>         <span class="ne">FutureWarning</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">329</span>         <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
-<span class="g g-Whitespace">    </span><span class="mi">330</span>     <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">331</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:950,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)</span>
-<span class="g g-Whitespace">    </span><span class="mi">935</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">936</span>     <span class="n">dialect</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">937</span>     <span class="n">delimiter</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">946</span>     <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">},</span>
-<span class="g g-Whitespace">    </span><span class="mi">947</span> <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">948</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">950</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:605,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">602</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">604</span> <span class="c1"># Create the parser.</span>
-<span class="ne">--&gt; </span><span class="mi">605</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">607</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">608</span>     <span class="k">return</span> <span class="n">parser</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:1442,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1439</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1441</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="ne">-&gt; </span><span class="mi">1442</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:1735,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1733</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1734</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">1735</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1736</span>     <span class="n">f</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1737</span>     <span class="n">mode</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1738</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1739</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1740</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1741</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1742</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1743</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1744</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1745</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-<span class="g g-Whitespace">   </span><span class="mi">1746</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/common.py:856,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
-<span class="g g-Whitespace">    </span><span class="mi">851</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">852</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
-<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
-<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">855</span>         <span class="c1"># Encoding</span>
-<span class="ne">--&gt; </span><span class="mi">856</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">857</span>             <span class="n">handle</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">858</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">859</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">860</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">861</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">862</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">863</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">864</span>         <span class="c1"># Binary mode</span>
-<span class="g g-Whitespace">    </span><span class="mi">865</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
-
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/home/runner/work/pacific-observatory/pacific-observatory/docs/.jupyter_cache/executed/data/tourism/palau/intermediate/palau_monthly_visitor.csv&#39;
-</pre></div>
-</div>
-</div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>JAPAN</th>
+      <th>SOUTH KOREA</th>
+      <th>TAIWAN</th>
+      <th>CHINA</th>
+      <th>USA/CANADA</th>
+      <th>EUROPE</th>
+      <th>OTHERS</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2007-06-01</td>
+      <td>856.0</td>
+      <td>1291.0</td>
+      <td>3245.0</td>
+      <td>86.0</td>
+      <td>669.0</td>
+      <td>99.0</td>
+      <td>463.0</td>
+      <td>6709.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2007-07-01</td>
+      <td>2119.0</td>
+      <td>1366.0</td>
+      <td>3269.0</td>
+      <td>33.0</td>
+      <td>653.0</td>
+      <td>144.0</td>
+      <td>437.0</td>
+      <td>8021.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2007-08-01</td>
+      <td>3476.0</td>
+      <td>1354.0</td>
+      <td>3046.0</td>
+      <td>46.0</td>
+      <td>580.0</td>
+      <td>256.0</td>
+      <td>438.0</td>
+      <td>9196.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2007-09-01</td>
+      <td>3022.0</td>
+      <td>910.0</td>
+      <td>2497.0</td>
+      <td>61.0</td>
+      <td>559.0</td>
+      <td>145.0</td>
+      <td>401.0</td>
+      <td>7595.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2007-10-01</td>
+      <td>1807.0</td>
+      <td>1082.0</td>
+      <td>2298.0</td>
+      <td>49.0</td>
+      <td>774.0</td>
+      <td>390.0</td>
+      <td>395.0</td>
+      <td>6795.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -860,24 +857,32 @@ if (force === true) {
       run_inline_js();
     });
   }
-}(window));</script><div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">output_notebook</span><span class="p">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">p</span> <span class="o">=</span> <span class="n">figure</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Number of Passengers Per Month&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>            <span class="n">x_axis_type</span><span class="o">=</span><span class="s2">&quot;datetime&quot;</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span>            <span class="n">tooltips</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;Country&quot;</span><span class="p">,</span> <span class="s2">&quot;$name&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span>                      <span class="p">(</span><span class="s2">&quot;Passenger per month&quot;</span><span class="p">,</span> <span class="s2">&quot;@$name&quot;</span><span class="p">)])</span>
-<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">countries</span> <span class="o">=</span> <span class="n">palau</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="o">~</span><span class="n">palau</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;Total&quot;</span><span class="p">])]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">p</span><span class="o">.</span><span class="n">add_layout</span><span class="p">(</span><span class="n">Legend</span><span class="p">(),</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">source</span> <span class="o">=</span> <span class="n">ColumnDataSource</span><span class="p">(</span><span class="n">palau</span><span class="p">)</span>
-
-<span class="ne">NameError</span>: name &#39;palau&#39; is not defined
-</pre></div>
-</div>
-</div>
+}(window));</script><div class="output text_html">
+  <div id="1e251397-1bdc-4074-aaa9-b7c9ef18da33" data-root-id="p1002" style="display: contents;"></div>
+</div><script type="application/javascript">(function(root) {
+  function embed_document(root) {
+  const docs_json = {"0231975c-87e7-4ccc-99b3-141e2b46a6ca":{"version":"3.1.0","title":"Bokeh Application","defs":[],"roots":[{"type":"object","name":"Figure","id":"p1002","attributes":{"width":800,"height":500,"x_range":{"type":"object","name":"DataRange1d","id":"p1003"},"y_range":{"type":"object","name":"DataRange1d","id":"p1004"},"x_scale":{"type":"object","name":"LinearScale","id":"p1016"},"y_scale":{"type":"object","name":"LinearScale","id":"p1018"},"title":{"type":"object","name":"Title","id":"p1005","attributes":{"text":"Number of Passengers Per Month"}},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1097","attributes":{"name":"JAPAN","data_source":{"type":"object","name":"ColumnDataSource","id":"p1088","attributes":{"selected":{"type":"object","name":"Selection","id":"p1089","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1090"},"data":{"type":"map","entries":[["index",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAAEAAAACAAAAAwAAAAQAAAAFAAAABgAAAAcAAAAIAAAACQAAAAoAAAALAAAADAAAAA0AAAAOAAAADwAAABAAAAARAAAAEgAAABMAAAAUAAAAFQAAABYAAAAXAAAAGAAAABkAAAAaAAAAGwAAABwAAAAdAAAAHgAAAB8AAAAgAAAAIQAAACIAAAAjAAAAJAAAACUAAAAmAAAAJwAAACgAAAApAAAAKgAAACsAAAAsAAAALQAAAC4AAAAvAAAAMAAAADEAAAAyAAAAMwAAADQAAAA1AAAANgAAADcAAAA4AAAAOQAAADoAAAA7AAAAPAAAAD0AAAA+AAAAPwAAAEAAAABBAAAAQgAAAEMAAABEAAAARQAAAEYAAABHAAAASAAAAEkAAABKAAAASwAAAEwAAABNAAAATgAAAE8AAABQAAAAUQAAAFIAAABTAAAAVAAAAFUAAABWAAAAVwAAAFgAAABZAAAAWgAAAFsAAABcAAAAXQAAAF4AAABfAAAAYAAAAGEAAABiAAAAYwAAAGQAAABlAAAAZgAAAGcAAABoAAAAaQAAAGoAAABrAAAAbAAAAG0AAABuAAAAbwAAAHAAAABxAAAAcgAAAHMAAAB0AAAAdQAAAHYAAAB3AAAAeAAAAHkAAAB6AAAAewAAAHwAAAB9AAAAfgAAAH8AAACAAAAAgQAAAIIAAACDAAAAhAAAAIUAAACGAAAAhwAAAIgAAACJAAAAigAAAIsAAACMAAAAjQAAAI4AAACPAAAAkAAAAJEAAACSAAAAkwAAAJQAAACVAAAAlgAAAJcAAACYAAAAmQAAAJoAAACbAAAAnAAAAJ0AAACeAAAAnwAAAKAAAAChAAAAogAAAKMAAACkAAAApQAAAKYAAACnAAAAqAAAAKkAAACqAAAAqwAAAKwAAACtAAAArgAAAK8AAACwAAAAsQAAALIAAACzAAAAtAAAALUAAAC2AAAAtwAAAA=="},"shape":[184],"dtype":"int32","order":"little"}],["Date",{"type":"ndarray","array":{"type":"bytes","data":"AADATUkucUIAAEA68TdxQgAAgIzrQXFCAADA3uVLcUIAAEDLjVVxQgAAgB2IX3FCAAAACjBpcUIAAEBcKnNxQgAAgK4kfXFCAABANXqGcUIAAICHdJBxQgAAAHQcmnFCAABAxhakcUIAAMCyvq1xQgAAAAW5t3FCAABAV7PBcUIAAMBDW8txQgAAAJZV1XFCAACAgv3ecUIAAMDU9+hxQgAAACfy8nFCAAAASPX7cUIAAECa7wVyQgAAwIaXD3JCAAAA2ZEZckIAAIDFOSNyQgAAwBc0LXJCAAAAai43ckIAAIBW1kByQgAAwKjQSnJCAABAlXhUckIAAIDncl5yQgAAwDltaHJCAADAWnBxckIAAACtantyQgAAgJkShXJCAADA6wyPckIAAEDYtJhyQgAAgCqvonJCAADAfKmsckIAAEBpUbZyQgAAgLtLwHJCAAAAqPPJckIAAED67dNyQgAAgEzo3XJCAACAbevmckIAAMC/5fByQgAAQKyN+nJCAACA/ocEc0IAAADrLw5zQgAAQD0qGHNCAACAjyQic0IAAAB8zCtzQgAAQM7GNXNCAADAum4/c0IAAAANaUlzQgAAQF9jU3NCAAAA5rhcc0IAAEA4s2ZzQgAAwCRbcHNCAAAAd1V6c0IAAIBj/YNzQgAAwLX3jXNCAAAACPKXc0IAAID0maFzQgAAwEaUq3NCAABAMzy1c0IAAICFNr9zQgAAwNcwyXNCAADA+DPSc0IAAABLLtxzQgAAgDfW5XNCAADAidDvc0IAAEB2ePlzQgAAgMhyA3RCAADAGm0NdEIAAEAHFRd0QgAAgFkPIXRCAAAARrcqdEIAAECYsTR0QgAAgOqrPnRCAACAC69HdEIAAMBdqVF0QgAAQEpRW3RCAACAnEtldEIAAACJ8250QgAAQNvteHRCAACALeiCdEIAAAAakIx0QgAAQGyKlnRCAADAWDKgdEIAAACrLKp0QgAAQP0mtHRCAABAHiq9dEIAAIBwJMd0QgAAAF3M0HRCAABAr8badEIAAMCbbuR0QgAAAO5o7nRCAABAQGP4dEIAAMAsCwJ1QgAAAH8FDHVCAACAa60VdUIAAMC9px91QgAAABCiKXVCAADAlvcydUIAAADp8Tx1QgAAgNWZRnVCAADAJ5RQdUIAAEAUPFp1QgAAgGY2ZHVCAADAuDBudUIAAECl2Hd1QgAAgPfSgXVCAAAA5HqLdUIAAEA2dZV1QgAAgIhvn3VCAACAqXKodUIAAMD7bLJ1QgAAQOgUvHVCAACAOg/GdUIAAAAnt891QgAAQHmx2XVCAACAy6vjdUIAAAC4U+11QgAAQApO93VCAADA9vUAdkIAAABJ8Ap2QgAAQJvqFHZCAABAvO0ddkIAAIAO6Cd2QgAAAPuPMXZCAABATYo7dkIAAMA5MkV2QgAAAIwsT3ZCAABA3iZZdkIAAMDKzmJ2QgAAAB3JbHZCAACACXF2dkIAAMBba4B2QgAAAK5linZCAAAAz2iTdkIAAEAhY512QgAAwA0Lp3ZCAAAAYAWxdkIAAIBMrbp2QgAAwJ6nxHZCAAAA8aHOdkIAAIDdSdh2QgAAwC9E4nZCAABAHOzrdkIAAIBu5vV2QgAAwMDg/3ZCAACARzYJd0IAAMCZMBN3QgAAQIbYHHdCAACA2NImd0IAAADFejB3QgAAQBd1OndCAACAaW9Ed0IAAABWF053QgAAQKgRWHdCAADAlLlhd0IAAADns2t3QgAAQDmudXdCAABAWrF+d0IAAICsq4h3QgAAAJlTkndCAABA602cd0IAAMDX9aV3QgAAACrwr3dCAABAfOq5d0IAAMBoksN3QgAAALuMzXdCAACApzTXd0IAAMD5LuF3QgAAAEwp63dCAAAAbSz0d0IAAEC/Jv53QgAAwKvOB3hCAAAA/sgReEIAAIDqcBt4QgAAwDxrJXhCAAAAj2UveEI="},"shape":[184],"dtype":"float64","order":"little"}],["JAPAN",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAADAikAAAAAAAI6gQAAAAAAAKKtAAAAAAACcp0AAAAAAADycQAAAAAAATJ1AAAAAAACQqEAAAAAAAGSsQAAAAAAAoqdAAAAAAABGp0AAAAAAAJiYQAAAAAAAYJhAAAAAAABMkkAAAAAAAGyjQAAAAAAAuKZAAAAAAAAyqkAAAAAAAGylQAAAAAAAXKBAAAAAAACmqkAAAAAAAFqrQAAAAAAALKhAAAAAAAByp0AAAAAAAMSaQAAAAAAALJdAAAAAAACYiEAAAAAAABScQAAAAAAARKNAAAAAAAAeqUAAAAAAAACcQAAAAAAAWJpAAAAAAAB2p0AAAAAAAGqiQAAAAAAAYKdAAAAAAADSq0AAAAAAAFiVQAAAAAAAdJ5AAAAAAACckEAAAAAAAACiQAAAAAAAnqVAAAAAAACUqEAAAAAAALyfQAAAAAAAXqBAAAAAAADAr0AAAAAAADirQAAAAAAAQ7FAAAAAAAASrUAAAAAAADyfQAAAAAAAfqFAAAAAAABknEAAAAAAAOalQAAAAAAARrFAAAAAAAD+sUAAAAAAAPShQAAAAAAAcqRAAAAAAABUrEAAAAAAAPirQAAAAAAAsLBAAAAAAAA/sEAAAAAAAHijQAAAAAAAoJ9AAAAAAADGoEAAAAAAAHCoQAAAAAAAoLFAAAAAAAB2q0AAAAAAAHamQAAAAAAABqhAAAAAAAAkrkAAAAAAAGqsQAAAAAAA0qtAAAAAAABPsEAAAAAAAIShQAAAAAAAfJlAAAAAAABImUAAAAAAADajQAAAAAAA5K9AAAAAAAAeqUAAAAAAAPCjQAAAAAAA9KRAAAAAAAByr0AAAAAAAJCsQAAAAAAAArBAAAAAAABksEAAAAAAALSjQAAAAAAAVqBAAAAAAABMnkAAAAAAADilQAAAAAAACrFAAAAAAADUqUAAAAAAAFCiQAAAAAAAuKRAAAAAAABGq0AAAAAAANqmQAAAAAAAzKVAAAAAAABWqkAAAAAAAH6jQAAAAAAA9KFAip3YiZ2QmUAAAAAAAOCbQAAAAAAAQKdAAAAAAAA2p0AAAAAAAGigQAAAAAAA+KNAAAAAAACyqUAAAAAAANCnQAAAAAAATqpAAAAAAAC2qUAAAAAAALCeQAAAAAAAUJlAAAAAAAC0lEAAAAAAALSdQAAAAAAAZKZAAAAAAAAmqUAAAAAAAOCXQAAAAAAAyKFAAAAAAADMpUAAAAAAAJqiQAAAAAAA0KBAAAAAAAACp0AAAAAAAH6hQAAAAAAAaJ5AAAAAAADIlUAAAAAAAGyZQAAAAAAA1qJAAAAAAABQoEAAAAAAAASZQAAAAAAAHqJAAAAAAAB4pkAAAAAAADyjQAAAAAAAyqNAAAAAAADgqUAAAAAAAASkQAAAAAAAZJNAAAAAAAC4jUAAAAAAADCRQAAAAAAAYJ9AAAAAAAAslkAAAAAAANiPQAAAAAAAaJdAAAAAAACkoUAAAAAAAISeQAAAAAAADqBAAAAAAAAEo0AAAAAAAHCbQAAAAAAAIJRAAAAAAABQhEAAAAAAAAiRQAAAAAAAiqBAAAAAAADslkAAAAAAALCMQAAAAAAAJJZAAAAAAADio0AAAAAAADChQAAAAAAA0KFAAAAAAAC0k0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBAAAAAAAAAEEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIkAAAAAAAAAAAAAAAAAAABRAAAAAAAAAAAAAAAAAAAAQQAAAAAAAADdAAAAAAAAAP0AAAAAAAAA0QAAAAAAAgENAAAAAAAAAPEAAAAAAAAA9QAAAAAAAAEJAAAAAAACAQkAAAAAAAABUQAAAAAAAQFlAAAAAAAAAT0AAAAAAAABYQAAAAAAAwFhAAAAAAADgYEA="},"shape":[184],"dtype":"float64","order":"little"}],["SOUTH KOREA",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAAAslEAAAAAAAFiVQAAAAAAAKJVAAAAAAABwjEAAAAAAAOiQQAAAAAAAgJVAAAAAAABclEAAAAAAACySQAAAAAAAbJRAAAAAAABMkEAAAAAAALSQQAAAAAAAOJFAAAAAAABIkkAAAAAAACiTQAAAAAAAZJVAAAAAAAAwlEAAAAAAAPCSQAAAAAAA9JJAAAAAAAC0lEAAAAAAANSdQAAAAAAAfJFAAAAAAAAIkkAAAAAAAOCQQAAAAAAAzJBAAAAAAAA8kkAAAAAAAKiSQAAAAAAABJNAAAAAAADAikAAAAAAAPB6QAAAAAAAUItAAAAAAAAQkUAAAAAAAKSUQAAAAAAAzJBAAAAAAADgkEAAAAAAAKCRQAAAAAAAvJBAAAAAAABwj0AAAAAAAJycQAAAAAAAXqFAAAAAAACojUAAAAAAAEiSQAAAAAAAEJNAAAAAAAD8kUAAAAAAALCSQAAAAAAAKIxAAAAAAAD4gEAAAAAAAJCHQAAAAAAA0ItAAAAAAAB4jEAAAAAAACqjQAAAAAAArKJAAAAAAAAok0AAAAAAAGSUQAAAAAAA1JVAAAAAAAA4n0AAAAAAAHycQAAAAAAAdJ5AAAAAAABkkkAAAAAAAFSTQAAAAAAA/JFAAAAAAAAUm0AAAAAAAGiYQAAAAAAAuJlAAAAAAADgmUAAAAAAACiaQAAAAAAAHJ9AAAAAAABwn0AAAAAAAKibQAAAAAAARJNAAAAAAACwlkAAAAAAALSSQAAAAAAA0JJAAAAAAAAkk0AAAAAAAJSUQAAAAAAAhJdAAAAAAACInUAAAAAAAAiYQAAAAAAAPJhAAAAAAAB4mEAAAAAAAHybQAAAAAAATJJAAAAAAACokUAAAAAAABiLQAAAAAAASI5AAAAAAABIk0AAAAAAAHiVQAAAAAAATJlAAAAAAAC4j0AAAAAAACCRQAAAAAAAaJJAAAAAAADwkkAAAAAAAESZQAAAAAAAQIlAAAAAAABgiUAAAAAAABCJQAAAAAAA6I1A7MRO7MTWj0AAAAAAAECQQAAAAAAANJFAAAAAAADgh0AAAAAAAGyQQAAAAAAAMJJAAAAAAABYkkAAAAAAALiVQAAAAAAAKJBAAAAAAABQiEAAAAAAAFCQQAAAAAAA8IpAAAAAAACgh0AAAAAAAICPQAAAAAAAbJBAAAAAAABAkkAAAAAAAPCPQAAAAAAA+JBAAAAAAACkkkAAAAAAAPSVQAAAAAAAdJFAAAAAAADoh0AAAAAAACyRQAAAAAAA2ItAAAAAAAAQkUAAAAAAAJiVQAAAAAAAxJFAAAAAAAA4k0AAAAAAANiGQAAAAAAAMHtAAAAAAACIgUAAAAAAADicQAAAAAAAOI9AAAAAAABYkUAAAAAAAIyRQAAAAAAALJFAAAAAAABgkEAAAAAAAByTQAAAAAAA2JdAAAAAAABQkkAAAAAAAFCQQAAAAAAAfJBAAAAAAAA4kUAAAAAAAESSQAAAAAAALJBAAAAAAAAIkUAAAAAAAECJQAAAAAAAHJFAAAAAAAB4hEAAAAAAACiIQAAAAAAAiJBAAAAAAACIhEAAAAAAANCFQAAAAAAAbJRAAAAAAACsl0AAAAAAALCUQAAAAAAAgItAAAAAAABwfkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABhAAAAAAAAAGEAAAAAAAAAAAAAAAAAAABRAAAAAAAAAHEAAAAAAAAAAAAAAAAAAACZAAAAAAAAAAEAAAAAAAAAuQAAAAAAAADBAAAAAAAAALkAAAAAAAAAgQAAAAAAAADFAAAAAAAAAREA="},"shape":[184],"dtype":"float64","order":"little"}],["TAIWAN",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAABaqUAAAAAAAIqpQAAAAAAAzKdAAAAAAACCo0AAAAAAAPShQAAAAAAATJxAAAAAAABwnEAAAAAAAD6lQAAAAAAAwqZAAAAAAAB4nEAAAAAAACaiQAAAAAAAYIxAAAAAAADMk0AAAAAAANSeQAAAAAAAVJ5AAAAAAAA4jkAAAAAAAFCTQAAAAAAAUI1AAAAAAADYj0AAAAAAAKCSQAAAAAAAxJRAAAAAAAB0lkAAAAAAAGCPQAAAAAAAuI1AAAAAAABYkkAAAAAAADCTQAAAAAAAmJlAAAAAAAD8lUAAAAAAAMidQAAAAAAAKJlAAAAAAACMkUAAAAAAAPydQAAAAAAA3qZAAAAAAADMlUAAAAAAAGSSQAAAAAAALJJAAAAAAADok0AAAAAAAAqqQAAAAAAApqJAAAAAAADcnkAAAAAAALigQAAAAAAAeJJAAAAAAAAIj0AAAAAAAJynQAAAAAAAqJ1AAAAAAABUl0AAAAAAAEqpQAAAAAAAbKVAAAAAAABSq0AAAAAAAH6yQAAAAAAAtbBAAAAAAADUqkAAAAAAAAapQAAAAAAAbKdAAAAAAAA+pkAAAAAAAISsQAAAAAAA3qdAAAAAAACEokAAAAAAAJSlQAAAAAAACqhAAAAAAABrskAAAAAAALy0QAAAAAAAP7BAAAAAAAA6o0AAAAAAAKijQAAAAAAAGqJAAAAAAABgoUAAAAAAAAaiQAAAAAAAtqNAAAAAAAA0mkAAAAAAAFiVQAAAAAAAyJtAAAAAAADSokAAAAAAAC6qQAAAAAAAwKdAAAAAAABepEAAAAAAAAihQAAAAAAA2JhAAAAAAAAwm0AAAAAAALqhQAAAAAAAzqJAAAAAAACApEAAAAAAAEihQAAAAAAAUqdAAAAAAADMrUAAAAAAACyrQAAAAAAAzKpAAAAAAADMokAAAAAAABicQAAAAAAA8JVAAAAAAABYlEAAAAAAAPyRQAAAAAAAdJtAAAAAAADslUAAAAAAANiLQAAAAAAAUJBAO7ETO7H7kEAAAAAAAFCTQAAAAAAAjJJAAAAAAABAjUAAAAAAAKyVQAAAAAAANJJAAAAAAADYjUAAAAAAAByVQAAAAAAAqJNAAAAAAAAsk0AAAAAAALCSQAAAAAAAoI9AAAAAAACcmEAAAAAAALyWQAAAAAAA+JdAAAAAAACklEAAAAAAABiDQAAAAAAA+IBAAAAAAACAiEAAAAAAAHiHQAAAAAAAUIlAAAAAAABYhUAAAAAAALiFQAAAAAAASIdAAAAAAADQj0AAAAAAAJiRQAAAAAAAUI5AAAAAAABwhUAAAAAAACCJQAAAAAAAIIhAAAAAAAAQhkAAAAAAAPCIQAAAAAAAAIpAAAAAAAAIj0AAAAAAAMiJQAAAAAAAyIRAAAAAAAAEkEAAAAAAANCVQAAAAAAAIJlAAAAAAABAi0AAAAAAAGCHQAAAAAAAKIhAAAAAAADoiEAAAAAAALiMQAAAAAAAEJFAAAAAAACYkkAAAAAAACyRQAAAAAAAxJVAAAAAAADclUAAAAAAAISaQAAAAAAAAJpAAAAAAACUk0AAAAAAAFCUQAAAAAAAwJRAAAAAAAA0kUAAAAAAAPyUQAAAAAAA+IlAAAAAAABQdEAAAAAAAAAUQAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwPwAAAAAAACxAAAAAAAAAJEAAAAAAAAAIQAAAAAAAAC5AAAAAAAAAGEAAAAAAAAAxQAAAAAAAAABAAAAAAAAAIEAAAAAAAKBpQAAAAAAAQFhAAAAAAAAAFEAAAAAAAADwPwAAAAAA6IRAAAAAAACgi0AAAAAAAPB2QAAAAAAAABhAAAAAAABQc0AAAAAAAAA+QAAAAAAAACJAAAAAAAAAFEAAAAAAAABDQAAAAAAAAABAAAAAAAAAIEAAAAAAAAAuQAAAAAAAgFRAAAAAAAAANUA="},"shape":[184],"dtype":"float64","order":"little"}],["CHINA",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAACAVUAAAAAAAIBAQAAAAAAAAEdAAAAAAACATkAAAAAAAIBIQAAAAAAAADRAAAAAAAAATEAAAAAAAIBJQAAAAAAAQFhAAAAAAABAVUAAAAAAAIBBQAAAAAAAgEtAAAAAAACASUAAAAAAAAA7QAAAAAAAgExAAAAAAAAAREAAAAAAAIBDQAAAAAAAAEdAAAAAAAAALEAAAAAAAOBgQAAAAAAAAExAAAAAAACAUEAAAAAAAMBQQAAAAAAAwFJAAAAAAACASEAAAAAAAAAxQAAAAAAAgERAAAAAAAAAP0AAAAAAAMBXQAAAAAAAgExAAAAAAACAU0AAAAAAAIBRQAAAAAAAAGlAAAAAAAAATUAAAAAAAABTQAAAAAAAAElAAAAAAAAASEAAAAAAAABaQAAAAAAAgE9AAAAAAAAASUAAAAAAAEBaQAAAAAAAgENAAAAAAABAZEAAAAAAAEBbQAAAAAAAQGZAAAAAAAAgYUAAAAAAAMBnQAAAAAAAQFRAAAAAAADAVEAAAAAAAEBmQAAAAAAAoG5AAAAAAAAgYUAAAAAAAHB0QAAAAAAAAGNAAAAAAAAQfUAAAAAAAHiIQAAAAAAA4G5AAAAAAADgcEAAAAAAANByQAAAAAAAwGNAAAAAAACgZUAAAAAAAIBzQAAAAAAAQG1AAAAAAABAcUAAAAAAAOiCQAAAAAAAEIlAAAAAAAAoiUAAAAAAAGiLQAAAAAAAdJpAAAAAAADQkkAAAAAAAECGQAAAAAAAIGtAAAAAAABgfEAAAAAAAJCFQAAAAAAAMINAAAAAAACIhEAAAAAAAHCDQAAAAAAA8H9AAAAAAAC4jkAAAAAAALSaQAAAAAAAvJtAAAAAAABIjkAAAAAAADiTQAAAAAAAOJRAAAAAAADKoEAAAAAAAFyoQAAAAAAAyKlAAAAAAABCr0AAAAAAADq0QAAAAAAAEbtAAAAAAADovUAAAAAAAFK9QAAAAACAWsVAAAAAAACwvEAAAAAAAFS7QAAAAAAArbpAdmIndmKCvkAAAAAAAMy9QAAAAACAtcFAAAAAAAAzvEAAAAAAAEy5QAAAAAAAv7NAAAAAAACatUAAAAAAAOO6QAAAAAAAkrpAAAAAAAAAtEAAAAAAADqzQAAAAAAAlLJAAAAAAACGuEAAAAAAAGK6QAAAAAAAULpAAAAAAADNtEAAAAAAAISwQAAAAAAAEqxAAAAAAAA0q0AAAAAAAFO2QAAAAAAA9LFAAAAAAAAmo0AAAAAAADywQAAAAAAAcrBAAAAAAABytEAAAAAAAMi5QAAAAAAA9rxAAAAAAAC+rEAAAAAAAMG0QAAAAAAA6rBAAAAAAAB6r0AAAAAAAGyuQAAAAAAAzLlAAAAAAACcrEAAAAAAAKuwQAAAAAAAiKlAAAAAAAB2rkAAAAAAAHCtQAAAAAAA9bFAAAAAAAAAo0AAAAAAAFifQAAAAAAA6JNAAAAAAABwl0AAAAAAADCgQAAAAAAAtq9AAAAAAADqo0AAAAAAANyoQAAAAAAAcqNAAAAAAAAiokAAAAAAAB6iQAAAAAAAKKRAAAAAAACEn0AAAAAAAMCdQAAAAAAAQqFAAAAAAAAeokAAAAAAAEqoQAAAAAAAgF5AAAAAAAAATUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADhAAAAAAAAAHEAAAAAAAAAYQAAAAAAAAAhAAAAAAAAAEEAAAAAAAADwPwAAAAAAAAAAAAAAAAAACEAAAAAAAAAUQAAAAAAAABRAAAAAAAAAJEAAAAAAAAAiQAAAAAAAABRAAAAAAAAAGEA="},"shape":[184],"dtype":"float64","order":"little"}],["USA/CANADA",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAADohEAAAAAAAGiEQAAAAAAAIIJAAAAAAAB4gUAAAAAAADCIQAAAAAAA4IBAAAAAAABAhUAAAAAAAKCFQAAAAAAAkIZAAAAAAACoh0AAAAAAADiHQAAAAAAA0IJAAAAAAABwhEAAAAAAABiBQAAAAAAAYIBAAAAAAADQf0AAAAAAAJB+QAAAAAAAAIVAAAAAAAAggEAAAAAAAFiHQAAAAAAAsIJAAAAAAACwh0AAAAAAAFiDQAAAAAAA8H5AAAAAAAAohEAAAAAAAOiBQAAAAAAAgHtAAAAAAACgeEAAAAAAAAB5QAAAAAAAwIJAAAAAAAAogkAAAAAAAICEQAAAAAAA+INAAAAAAAAAiEAAAAAAAOCBQAAAAAAAmIBAAAAAAAC4gUAAAAAAAPCOQAAAAAAAOIRAAAAAAABYgUAAAAAAAJiFQAAAAAAAWIRAAAAAAADghkAAAAAAAFiHQAAAAAAAEIZAAAAAAACgi0AAAAAAAEiKQAAAAAAAuIZAAAAAAAAAiUAAAAAAAACDQAAAAAAAuIFAAAAAAADQe0AAAAAAALiAQAAAAAAAyIZAAAAAAAC4h0AAAAAAAFCDQAAAAAAAQIhAAAAAAACwjEAAAAAAAICFQAAAAAAAaIlAAAAAAAC4g0AAAAAAAFCIQAAAAAAAkIFAAAAAAAAAfkAAAAAAAHB5QAAAAAAAQIRAAAAAAACIh0AAAAAAALCHQAAAAAAAYIVAAAAAAADAjkAAAAAAAGiJQAAAAAAAaIVAAAAAAAD4iEAAAAAAANCFQAAAAAAAIINAAAAAAACwgUAAAAAAAGCIQAAAAAAAmIJAAAAAAACohEAAAAAAAJCHQAAAAAAA0IZAAAAAAADAi0AAAAAAAAiNQAAAAAAAMIZAAAAAAADYh0AAAAAAAPiGQAAAAAAAoIBAAAAAAACYgEAAAAAAANCDQAAAAAAAIIpAAAAAAAAoiEAAAAAAAHCGQAAAAAAAOIdAAAAAAAC8kEAAAAAAALiIQAAAAAAAcIhAO7ETO7F7iEAAAAAAALiCQAAAAAAAiIBAAAAAAACYgUAAAAAAAKiIQAAAAAAAMIVAAAAAAABoiEAAAAAAAHiEQAAAAAAA0IlAAAAAAADQikAAAAAAAJCEQAAAAAAAmIVAAAAAAABYiEAAAAAAAJiFQAAAAAAAcH5AAAAAAACwgUAAAAAAAMiIQAAAAAAAKIRAAAAAAADgh0AAAAAAAHiEQAAAAAAAGINAAAAAAADwikAAAAAAAPCFQAAAAAAAiIVAAAAAAAAAiUAAAAAAAKCKQAAAAAAA0IJAAAAAAAAYgEAAAAAAAKB8QAAAAAAAMIBAAAAAAABohkAAAAAAALCFQAAAAAAAKIVAAAAAAAAYjUAAAAAAACCGQAAAAAAA2IlAAAAAAAC4h0AAAAAAABiLQAAAAAAAOIJAAAAAAAD4g0AAAAAAADB/QAAAAAAAyIJAAAAAAAAQhEAAAAAAAJCDQAAAAAAA8IVAAAAAAADQiUAAAAAAAEiIQAAAAAAA+IJAAAAAAABwg0AAAAAAAKCGQAAAAAAAuIBAAAAAAAAYhEAAAAAAAGCGQAAAAAAAYINAAAAAAABwiEAAAAAAAMCMQAAAAAAAIIRAAAAAAAAwckAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAzQAAAAAAAACpAAAAAAAAAEEAAAAAAAAAiQAAAAAAAAPA/AAAAAAAA8D8AAAAAAAA3QAAAAAAAAD1AAAAAAAAAPEAAAAAAAABIQAAAAAAAgENAAAAAAACAUkAAAAAAAMBwQAAAAAAA0HVAAAAAAAAgdEAAAAAAAEBqQAAAAAAA8HJAAAAAAAAAeUAAAAAAALBzQAAAAAAA4HlAAAAAAADQekAAAAAAAICFQAAAAAAA6IBAAAAAAADIh0AAAAAAACCGQAAAAAAAcHdAAAAAAAD4gEA="},"shape":[184],"dtype":"float64","order":"little"}],["EUROPE",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAADAWEAAAAAAAABiQAAAAAAAAHBAAAAAAAAgYkAAAAAAAGB4QAAAAAAAkHNAAAAAAABAckAAAAAAACB2QAAAAAAAIHhAAAAAAAAAiEAAAAAAAMB5QAAAAAAAcHRAAAAAAACAXUAAAAAAAIBpQAAAAAAAQG5AAAAAAACAX0AAAAAAALBwQAAAAAAAUIFAAAAAAAAwdEAAAAAAALB6QAAAAAAAcHpAAAAAAABwfEAAAAAAALBxQAAAAAAAIGRAAAAAAACAXkAAAAAAAMBgQAAAAAAAIGtAAAAAAACAYkAAAAAAAEB5QAAAAAAA8HRAAAAAAABAdkAAAAAAAEB0QAAAAAAA0HpAAAAAAAAIgEAAAAAAAJB1QAAAAAAAIG9AAAAAAACAXkAAAAAAAGBqQAAAAAAAgHZAAAAAAADAZEAAAAAAAKBzQAAAAAAA4H9AAAAAAACgdkAAAAAAAAiHQAAAAAAAQH5AAAAAAAAwgEAAAAAAADB4QAAAAAAAAGVAAAAAAABAYkAAAAAAAEBmQAAAAAAA8HBAAAAAAADgakAAAAAAANB1QAAAAAAAYIRAAAAAAADgeUAAAAAAACB6QAAAAAAAoIZAAAAAAAAYh0AAAAAAAOiCQAAAAAAAIG9AAAAAAADgYUAAAAAAAOBpQAAAAAAAcHRAAAAAAADgb0AAAAAAAOB1QAAAAAAA0IRAAAAAAADQf0AAAAAAAEB5QAAAAAAAUItAAAAAAAAoh0AAAAAAACCDQAAAAAAAMHNAAAAAAADga0AAAAAAALB0QAAAAAAA8HFAAAAAAACgZ0AAAAAAAOB+QAAAAAAAUIVAAAAAAAAwgEAAAAAAAFB9QAAAAAAAWINAAAAAAADQhUAAAAAAAGCDQAAAAAAAIHBAAAAAAADgZ0AAAAAAAMBzQAAAAAAAIHJAAAAAAAAAakAAAAAAANB6QAAAAAAAsINAAAAAAAAQfEAAAAAAAIiCQAAAAAAAsHpAAAAAAADYgUAAAAAAADB6QAAAAAAAgG5AYid2YidWZEAAAAAAAOBoQAAAAAAAcHFAAAAAAAAAakAAAAAAAABxQAAAAAAAwH1AAAAAAACwd0AAAAAAAFB/QAAAAAAAUHpAAAAAAACQgUAAAAAAAMB6QAAAAAAAIG1AAAAAAABgakAAAAAAAOBsQAAAAAAA0HBAAAAAAACQcEAAAAAAAJB7QAAAAAAAgIpAAAAAAABwfUAAAAAAAFB2QAAAAAAAMHtAAAAAAACwiEAAAAAAAICAQAAAAAAAYGhAAAAAAABAakAAAAAAAOBtQAAAAAAA4G1AAAAAAAAgakAAAAAAAMB3QAAAAAAAOINAAAAAAABwfEAAAAAAAKB+QAAAAAAAsHtAAAAAAADAgkAAAAAAADB6QAAAAAAAQHBAAAAAAACAZ0AAAAAAACBmQAAAAAAAgG5AAAAAAAAAZkAAAAAAAAiCQAAAAAAAwHZAAAAAAADgeEAAAAAAAGBzQAAAAAAAYHtAAAAAAAAwfkAAAAAAAAB3QAAAAAAAIGdAAAAAAADAXUAAAAAAAGBkQAAAAAAA4GZAAAAAAACgZEAAAAAAAEBxQAAAAAAA6IJAAAAAAAAQekAAAAAAAPB/QAAAAAAAGIFAAAAAAABAZkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPA/AAAAAAAAAAAAAAAAAADwPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAABxAAAAAAAAAIkAAAAAAAAAxQAAAAAAAAChAAAAAAAAAKEAAAAAAAAAxQAAAAAAAADNAAAAAAAAAPkAAAAAAAEBZQAAAAAAAADJAAAAAAAAAQ0AAAAAAAMBfQAAAAAAAoGBAAAAAAACAQ0A="},"shape":[184],"dtype":"float64","order":"little"}],["OTHERS",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAADwfEAAAAAAAFB7QAAAAAAAYHtAAAAAAAAQeUAAAAAAALB4QAAAAAAA0HNAAAAAAADAckAAAAAAAKByQAAAAAAAwHNAAAAAAACwdkAAAAAAACB8QAAAAAAAkHlAAAAAAACgaEAAAAAAAABrQAAAAAAAwHJAAAAAAABAakAAAAAAAIBvQAAAAAAAQG9AAAAAAABQcEAAAAAAAKBzQAAAAAAAYHBAAAAAAAAQdUAAAAAAADB3QAAAAAAAgH1AAAAAAACAbUAAAAAAAPByQAAAAAAAYHJAAAAAAACgaEAAAAAAACBqQAAAAAAAYGZAAAAAAABAaUAAAAAAAABlQAAAAAAA0HNAAAAAAADgc0AAAAAAAAB7QAAAAAAA4HlAAAAAAACAdkAAAAAAAMiOQAAAAAAA6IBAAAAAAADgbkAAAAAAAIBsQAAAAAAAsHNAAAAAAAAQd0AAAAAAAAB0QAAAAAAA4G5AAAAAAAAwdEAAAAAAAGCEQAAAAAAAgH1AAAAAAABwdUAAAAAAAPBwQAAAAAAA4HJAAAAAAAAwd0AAAAAAAKB1QAAAAAAAkHBAAAAAAADAdUAAAAAAAOBxQAAAAAAAMHNAAAAAAABweUAAAAAAALB4QAAAAAAAUHZAAAAAAADAcUAAAAAAAEB1QAAAAAAAwHlAAAAAAABAckAAAAAAADB1QAAAAAAA4G9AAAAAAACAdkAAAAAAAHB4QAAAAAAAwHVAAAAAAACgd0AAAAAAABB7QAAAAAAAoHZAAAAAAABAcUAAAAAAABCAQAAAAAAA8HVAAAAAAACQdkAAAAAAAGBzQAAAAAAAkHpAAAAAAABAfUAAAAAAALByQAAAAAAAQHNAAAAAAACAe0AAAAAAALB9QAAAAAAAwHZAAAAAAABAd0AAAAAAANiBQAAAAAAAAHRAAAAAAAAAd0AAAAAAAGB1QAAAAAAAEHdAAAAAAACQgEAAAAAAAGB1QAAAAAAAoG9AAAAAAABAdkAAAAAAAIB6QAAAAAAAQIBAFDuxEztBc0AAAAAAAFB0QAAAAAAAcHlAAAAAAAAAeEAAAAAAAKB1QAAAAAAAUHJAAAAAAABQe0AAAAAAAOB0QAAAAAAAEHlAAAAAAAAweEAAAAAAAFB6QAAAAAAA8HhAAAAAAACgekAAAAAAACB6QAAAAAAAIHNAAAAAAABgckAAAAAAAOB0QAAAAAAAgHZAAAAAAADwdkAAAAAAANB2QAAAAAAAAHFAAAAAAAAgd0AAAAAAAIB6QAAAAAAAEHNAAAAAAADAdEAAAAAAAGB6QAAAAAAAsHVAAAAAAACAdUAAAAAAAFBzQAAAAAAAUHVAAAAAAACgd0AAAAAAAHBxQAAAAAAAoHJAAAAAAABgd0AAAAAAAHB5QAAAAAAAIHBAAAAAAAAwcUAAAAAAAHB7QAAAAAAAkH5AAAAAAADAc0AAAAAAAMBxQAAAAAAAwHNAAAAAAADgcEAAAAAAAIBxQAAAAAAAMHdAAAAAAADQfEAAAAAAAPB5QAAAAAAAUHpAAAAAAAAQc0AAAAAAAAByQAAAAAAA0HdAAAAAAAAAgEAAAAAAAKB2QAAAAAAAEH1AAAAAAACogUAAAAAAAOB3QAAAAAAAIHJAAAAAAABgYUAAAAAAAAAAAAAAAAAAAPA/AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAABAUEAAAAAAAADwPwAAAAAAAABAAAAAAAAA8D8AAAAAAAAAQAAAAAAAABBAAAAAAAAAIkAAAAAAAAAIQAAAAAAAAABAAAAAAAAAAEAAAAAAAAAxQAAAAAAAAFRAAAAAAAAAPkAAAAAAAIBAQAAAAAAAAEFAAAAAAABAUEAAAAAAAIBCQAAAAAAAAD1AAAAAAAAAUkAAAAAAAHBzQAAAAAAAAFFAAAAAAABAV0AAAAAAACBhQAAAAAAAQF9AAAAAAABAYkA="},"shape":[184],"dtype":"float64","order":"little"}],["Total",{"type":"ndarray","array":{"type":"bytes","data":"AAAAAAA1ukAAAAAAAFW/QAAAAAAA9sFAAAAAAACrvUAAAAAAAIu6QAAAAAAAbLhAAAAAAACrvUAAAAAAgGfBQAAAAAAAH8FAAAAAAACJvkAAAAAAAM65QAAAAAAAY7NAAAAAAAAUskAAAAAAABe6QAAAAAAArbxAAAAAAABhuUAAAAAAAF24QAAAAAAAh7ZAAAAAAADVukAAAAAAgBDAQAAAAAAA4bpAAAAAAAAovEAAAAAAABG0QAAAAAAAaLJAAAAAAABUsEAAAAAAAH60QAAAAAAAqbhAAAAAAABouEAAAAAAAHW0QAAAAAAA3bRAAAAAAAAjuUAAAAAAAJ+6QAAAAACAwcBAAAAAAAANvkAAAAAAAOizQAAAAAAAM7VAAAAAAABYsUAAAAAAAA/DQAAAAAAAjsFAAAAAAACwu0AAAAAAABe6QAAAAAAAfLdAAAAAAACZvkAAAAAAgMfCQAAAAACAQMFAAAAAAADDvUAAAAAAAHy/QAAAAAAAl7xAAAAAAACtvUAAAAAAgOzFQAAAAAAAXchAAAAAAABhxEAAAAAAgFXAQAAAAAAANcFAAAAAAIBsxEAAAAAAAMvFQAAAAAAAIcZAAAAAAACcw0AAAAAAAJDAQAAAAAAAlb5AAAAAAAAxw0AAAAAAgLnGQAAAAAAAJsdAAAAAAIBzwUAAAAAAAB/BQAAAAAAADcNAAAAAAICMxEAAAAAAANDDQAAAAAAAUsVAAAAAAIC5xEAAAAAAAM+8QAAAAAAAKLhAAAAAAABcu0AAAAAAAEjCQAAAAACAfcRAAAAAAICGwkAAAAAAAI7AQAAAAAAAZL9AAAAAAIB0w0AAAAAAgFHFQAAAAAAAssVAAAAAAIBgxUAAAAAAgEvBQAAAAACA78BAAAAAAABvxEAAAAAAAArIQAAAAACADstAAAAAAIAdx0AAAAAAgBbHQAAAAAAAV8tAAAAAAIAazkAAAAAAAALNQAAAAADAS9FAAAAAAAAozUAAAAAAAAnJQAAAAAAAwchA7sRO7EQDyUAAAAAAgAXJQAAAAAAAXc5AAAAAAIB6yUAAAAAAgELIQAAAAACAPcZAAAAAAICAyEAAAAAAAKnLQAAAAACAjstAAAAAAIDfx0AAAAAAgMTEQAAAAACAssJAAAAAAAArxkAAAAAAAFXIQAAAAACA4MlAAAAAAAC/x0AAAAAAgH7BQAAAAACAQ8JAAAAAAIA9w0AAAAAAgLbGQAAAAACAhMNAAAAAAABRwUAAAAAAgDnDQAAAAACAisFAAAAAAACww0AAAAAAAOzHQAAAAAAAoMlAAAAAAIAXwUAAAAAAAL7CQAAAAAAAOcJAAAAAAAD9wkAAAAAAgFvEQAAAAAAAMchAAAAAAABzxUAAAAAAgCPEQAAAAAAAwr1AAAAAAADRv0AAAAAAAIXBQAAAAACAl8VAAAAAAAByu0AAAAAAACG4QAAAAAAA+bZAAAAAAAA3u0AAAAAAAKG8QAAAAAAADMNAAAAAAICkwUAAAAAAgGrAQAAAAAAANr1AAAAAAAC3t0AAAAAAAI67QAAAAAAAo8BAAAAAAAA6ukAAAAAAAB64QAAAAAAAD79AAAAAAAAOwkAAAAAAgB7DQAAAAAAA2rVAAAAAAABmpUAAAAAAAAAUQAAAAAAAAPA/AAAAAAAAAEAAAAAAAAA0QAAAAAAAAD5AAAAAAADAU0AAAAAAAAAuQAAAAAAAADZAAAAAAAAAKEAAAAAAAIBFQAAAAAAAgEFAAAAAAAAAS0AAAAAAAABwQAAAAAAA4GFAAAAAAABAVEAAAAAAAEByQAAAAAAAGJJAAAAAAAAklEAAAAAAAGiEQAAAAAAAIHlAAAAAAADIiUAAAAAAANB6QAAAAAAAMIBAAAAAAAAQgkAAAAAAAFiTQAAAAAAAeIdAAAAAAADYjkAAAAAAADCRQAAAAAAAIIpAAAAAAAAQjUA="},"shape":[184],"dtype":"float64","order":"little"}]]}}},"view":{"type":"object","name":"CDSView","id":"p1098","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1099"}}},"glyph":{"type":"object","name":"Line","id":"p1094","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"JAPAN"},"line_color":"#1f77b4"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1095","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"JAPAN"},"line_color":"#1f77b4","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1096","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"JAPAN"},"line_color":"#1f77b4","line_alpha":0.2}}}},{"type":"object","name":"GlyphRenderer","id":"p1107","attributes":{"name":"SOUTH KOREA","data_source":{"id":"p1088"},"view":{"type":"object","name":"CDSView","id":"p1108","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1109"}}},"glyph":{"type":"object","name":"Line","id":"p1104","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"SOUTH KOREA"},"line_color":"#aec7e8"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1105","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"SOUTH KOREA"},"line_color":"#aec7e8","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1106","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"SOUTH KOREA"},"line_color":"#aec7e8","line_alpha":0.2}}}},{"type":"object","name":"GlyphRenderer","id":"p1117","attributes":{"name":"TAIWAN","data_source":{"id":"p1088"},"view":{"type":"object","name":"CDSView","id":"p1118","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1119"}}},"glyph":{"type":"object","name":"Line","id":"p1114","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"TAIWAN"},"line_color":"#ff7f0e"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1115","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"TAIWAN"},"line_color":"#ff7f0e","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1116","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"TAIWAN"},"line_color":"#ff7f0e","line_alpha":0.2}}}},{"type":"object","name":"GlyphRenderer","id":"p1127","attributes":{"name":"CHINA","data_source":{"id":"p1088"},"view":{"type":"object","name":"CDSView","id":"p1128","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1129"}}},"glyph":{"type":"object","name":"Line","id":"p1124","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"CHINA"},"line_color":"#ffbb78"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1125","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"CHINA"},"line_color":"#ffbb78","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1126","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"CHINA"},"line_color":"#ffbb78","line_alpha":0.2}}}},{"type":"object","name":"GlyphRenderer","id":"p1137","attributes":{"name":"USA/CANADA","data_source":{"id":"p1088"},"view":{"type":"object","name":"CDSView","id":"p1138","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1139"}}},"glyph":{"type":"object","name":"Line","id":"p1134","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"USA/CANADA"},"line_color":"#2ca02c"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1135","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"USA/CANADA"},"line_color":"#2ca02c","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1136","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"USA/CANADA"},"line_color":"#2ca02c","line_alpha":0.2}}}},{"type":"object","name":"GlyphRenderer","id":"p1147","attributes":{"name":"EUROPE","data_source":{"id":"p1088"},"view":{"type":"object","name":"CDSView","id":"p1148","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1149"}}},"glyph":{"type":"object","name":"Line","id":"p1144","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"EUROPE"},"line_color":"#98df8a"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1145","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"EUROPE"},"line_color":"#98df8a","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1146","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"EUROPE"},"line_color":"#98df8a","line_alpha":0.2}}}},{"type":"object","name":"GlyphRenderer","id":"p1157","attributes":{"name":"OTHERS","data_source":{"id":"p1088"},"view":{"type":"object","name":"CDSView","id":"p1158","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1159"}}},"glyph":{"type":"object","name":"Line","id":"p1154","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"OTHERS"},"line_color":"#d62728"}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1155","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"OTHERS"},"line_color":"#d62728","line_alpha":0.1}},"muted_glyph":{"type":"object","name":"Line","id":"p1156","attributes":{"x":{"type":"field","field":"Date"},"y":{"type":"field","field":"OTHERS"},"line_color":"#d62728","line_alpha":0.2}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1011","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1070"},{"type":"object","name":"WheelZoomTool","id":"p1071"},{"type":"object","name":"BoxZoomTool","id":"p1072","attributes":{"overlay":{"type":"object","name":"BoxAnnotation","id":"p1073","attributes":{"syncable":false,"level":"overlay","visible":false,"left_units":"canvas","right_units":"canvas","bottom_units":"canvas","top_units":"canvas","line_color":"black","line_alpha":1.0,"line_width":2,"line_dash":[4,4],"fill_color":"lightgrey","fill_alpha":0.5}}}},{"type":"object","name":"SaveTool","id":"p1074"},{"type":"object","name":"ResetTool","id":"p1075"},{"type":"object","name":"HelpTool","id":"p1076"},{"type":"object","name":"HoverTool","id":"p1078","attributes":{"renderers":"auto","tooltips":[["Country","$name"],["Passenger per month","@$name"]]}}]}},"left":[{"type":"object","name":"LinearAxis","id":"p1063","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1066","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1064"},"axis_label":"Number of Passengers Per Month","major_label_policy":{"type":"object","name":"AllLabels","id":"p1065"}}}],"right":[{"type":"object","name":"Legend","id":"p1087","attributes":{"location":"top_left","click_policy":"mute","label_text_font_size":"9pt","items":[{"type":"object","name":"LegendItem","id":"p1100","attributes":{"label":{"type":"value","value":"JAPAN"},"renderers":[{"id":"p1097"}]}},{"type":"object","name":"LegendItem","id":"p1110","attributes":{"label":{"type":"value","value":"SOUTH KOREA"},"renderers":[{"id":"p1107"}]}},{"type":"object","name":"LegendItem","id":"p1120","attributes":{"label":{"type":"value","value":"TAIWAN"},"renderers":[{"id":"p1117"}]}},{"type":"object","name":"LegendItem","id":"p1130","attributes":{"label":{"type":"value","value":"CHINA"},"renderers":[{"id":"p1127"}]}},{"type":"object","name":"LegendItem","id":"p1140","attributes":{"label":{"type":"value","value":"USA/CANADA"},"renderers":[{"id":"p1137"}]}},{"type":"object","name":"LegendItem","id":"p1150","attributes":{"label":{"type":"value","value":"EUROPE"},"renderers":[{"id":"p1147"}]}},{"type":"object","name":"LegendItem","id":"p1160","attributes":{"label":{"type":"value","value":"OTHERS"},"renderers":[{"id":"p1157"}]}}]}}],"below":[{"type":"object","name":"DatetimeAxis","id":"p1020","attributes":{"ticker":{"type":"object","name":"DatetimeTicker","id":"p1023","attributes":{"num_minor_ticks":5,"tickers":[{"type":"object","name":"AdaptiveTicker","id":"p1024","attributes":{"num_minor_ticks":0,"mantissas":[1,2,5],"max_interval":500.0}},{"type":"object","name":"AdaptiveTicker","id":"p1025","attributes":{"num_minor_ticks":0,"base":60,"mantissas":[1,2,5,10,15,20,30],"min_interval":1000.0,"max_interval":1800000.0}},{"type":"object","name":"AdaptiveTicker","id":"p1026","attributes":{"num_minor_ticks":0,"base":24,"mantissas":[1,2,4,6,8,12],"min_interval":3600000.0,"max_interval":43200000.0}},{"type":"object","name":"DaysTicker","id":"p1027","attributes":{"days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]}},{"type":"object","name":"DaysTicker","id":"p1028","attributes":{"days":[1,4,7,10,13,16,19,22,25,28]}},{"type":"object","name":"DaysTicker","id":"p1029","attributes":{"days":[1,8,15,22]}},{"type":"object","name":"DaysTicker","id":"p1030","attributes":{"days":[1,15]}},{"type":"object","name":"MonthsTicker","id":"p1031","attributes":{"months":[0,1,2,3,4,5,6,7,8,9,10,11]}},{"type":"object","name":"MonthsTicker","id":"p1032","attributes":{"months":[0,2,4,6,8,10]}},{"type":"object","name":"MonthsTicker","id":"p1033","attributes":{"months":[0,4,8]}},{"type":"object","name":"MonthsTicker","id":"p1034","attributes":{"months":[0,6]}},{"type":"object","name":"YearsTicker","id":"p1035"}]}},"formatter":{"type":"object","name":"DatetimeTickFormatter","id":"p1021"},"axis_label":"Date","major_label_policy":{"type":"object","name":"AllLabels","id":"p1022"}}}],"center":[{"type":"object","name":"Grid","id":"p1062","attributes":{"axis":{"id":"p1020"}}},{"type":"object","name":"Grid","id":"p1069","attributes":{"dimension":1,"axis":{"id":"p1063"}}}]}}],"callbacks":{"type":"map"}}};
+  const render_items = [{"docid":"0231975c-87e7-4ccc-99b3-141e2b46a6ca","roots":{"p1002":"1e251397-1bdc-4074-aaa9-b7c9ef18da33"},"root_ids":["p1002"]}];
+  root.Bokeh.embed.embed_items_notebook(docs_json, render_items);
+  }
+  if (root.Bokeh !== undefined) {
+    embed_document(root);
+  } else {
+    let attempts = 0;
+    const timer = setInterval(function(root) {
+      if (root.Bokeh !== undefined) {
+        clearInterval(timer);
+        embed_document(root);
+      } else {
+        attempts++;
+        if (attempts > 100) {
+          clearInterval(timer);
+          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+        }
+      }
+    }, 10, root)
+  }
+})(window);</script></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -886,15 +891,47 @@ if (force === true) {
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_adf_df</span><span class="p">(</span><span class="n">palau</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Total&quot;</span><span class="p">])</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;get_adf_df&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Total</th>
+      <td>-1.230261</td>
+      <td>0.660444</td>
+      <td>13.0</td>
+      <td>170.0</td>
+      <td>-3.469413</td>
+      <td>-2.878696</td>
+      <td>-2.575917</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -905,86 +942,135 @@ if (force === true) {
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">palau_merged</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">folder_path</span> <span class="o">+</span> <span class="s2">&quot;intermediate/palau_merged.csv&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>                   <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">palau_merged</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/util/_decorators.py:211,</span> in <span class="ni">deprecate_kwarg.&lt;locals&gt;._deprecate_kwarg.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">209</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">210</span>         <span class="n">kwargs</span><span class="p">[</span><span class="n">new_arg_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_arg_value</span>
-<span class="ne">--&gt; </span><span class="mi">211</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/util/_decorators.py:331,</span> in <span class="ni">deprecate_nonkeyword_arguments.&lt;locals&gt;.decorate.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">325</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_allow_args</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">326</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">327</span>         <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arguments</span><span class="o">=</span><span class="n">_format_argument_list</span><span class="p">(</span><span class="n">allow_args</span><span class="p">)),</span>
-<span class="g g-Whitespace">    </span><span class="mi">328</span>         <span class="ne">FutureWarning</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">329</span>         <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
-<span class="g g-Whitespace">    </span><span class="mi">330</span>     <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">331</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:950,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)</span>
-<span class="g g-Whitespace">    </span><span class="mi">935</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">936</span>     <span class="n">dialect</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">937</span>     <span class="n">delimiter</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">946</span>     <span class="n">defaults</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;delimiter&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="p">},</span>
-<span class="g g-Whitespace">    </span><span class="mi">947</span> <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">948</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">950</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:605,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">602</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">604</span> <span class="c1"># Create the parser.</span>
-<span class="ne">--&gt; </span><span class="mi">605</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">607</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">608</span>     <span class="k">return</span> <span class="n">parser</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:1442,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1439</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1441</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="ne">-&gt; </span><span class="mi">1442</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/parsers/readers.py:1735,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1733</span>     <span class="k">if</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">mode</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1734</span>         <span class="n">mode</span> <span class="o">+=</span> <span class="s2">&quot;b&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">1735</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="o">=</span> <span class="n">get_handle</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1736</span>     <span class="n">f</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1737</span>     <span class="n">mode</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1738</span>     <span class="n">encoding</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1739</span>     <span class="n">compression</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1740</span>     <span class="n">memory_map</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;memory_map&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1741</span>     <span class="n">is_text</span><span class="o">=</span><span class="n">is_text</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1742</span>     <span class="n">errors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;encoding_errors&quot;</span><span class="p">,</span> <span class="s2">&quot;strict&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1743</span>     <span class="n">storage_options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage_options&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1744</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1745</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-<span class="g g-Whitespace">   </span><span class="mi">1746</span> <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="o">.</span><span class="n">handle</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pandas/io/common.py:856,</span> in <span class="ni">get_handle</span><span class="nt">(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)</span>
-<span class="g g-Whitespace">    </span><span class="mi">851</span> <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">852</span>     <span class="c1"># Check whether the filename is to be opened in binary mode.</span>
-<span class="g g-Whitespace">    </span><span class="mi">853</span>     <span class="c1"># Binary mode does not support &#39;encoding&#39; and &#39;newline&#39;.</span>
-<span class="g g-Whitespace">    </span><span class="mi">854</span>     <span class="k">if</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">and</span> <span class="s2">&quot;b&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">855</span>         <span class="c1"># Encoding</span>
-<span class="ne">--&gt; </span><span class="mi">856</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">857</span>             <span class="n">handle</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">858</span>             <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">859</span>             <span class="n">encoding</span><span class="o">=</span><span class="n">ioargs</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">860</span>             <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">861</span>             <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">862</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">863</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">864</span>         <span class="c1"># Binary mode</span>
-<span class="g g-Whitespace">    </span><span class="mi">865</span>         <span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">ioargs</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
-
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/home/runner/work/pacific-observatory/pacific-observatory/docs/.jupyter_cache/executed/data/tourism/palau/intermediate/palau_merged.csv&#39;
-</pre></div>
-</div>
-</div>
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Month</th>
+      <th>Seats_arrivals_intl</th>
+      <th>Seats_arrivals_total</th>
+      <th>Number_of_flights_intl</th>
+      <th>Number_of_flights_total</th>
+      <th>Date</th>
+      <th>JAPAN</th>
+      <th>SOUTH KOREA</th>
+      <th>TAIWAN</th>
+      <th>CHINA</th>
+      <th>USA/CANADA</th>
+      <th>EUROPE</th>
+      <th>OTHERS</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019</td>
+      <td>1</td>
+      <td>13048.0</td>
+      <td>13048.0</td>
+      <td>75.0</td>
+      <td>75.0</td>
+      <td>2019-01-01</td>
+      <td>1953.0</td>
+      <td>1169.0</td>
+      <td>919.0</td>
+      <td>2072.0</td>
+      <td>626.0</td>
+      <td>310.0</td>
+      <td>280.0</td>
+      <td>7329.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019</td>
+      <td>2</td>
+      <td>13281.0</td>
+      <td>13281.0</td>
+      <td>74.0</td>
+      <td>74.0</td>
+      <td>2019-02-01</td>
+      <td>2055.0</td>
+      <td>1035.0</td>
+      <td>1092.0</td>
+      <td>4059.0</td>
+      <td>702.0</td>
+      <td>438.0</td>
+      <td>371.0</td>
+      <td>9752.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019</td>
+      <td>3</td>
+      <td>12870.0</td>
+      <td>12870.0</td>
+      <td>73.0</td>
+      <td>73.0</td>
+      <td>2019-03-01</td>
+      <td>2434.0</td>
+      <td>1090.0</td>
+      <td>1190.0</td>
+      <td>2549.0</td>
+      <td>826.0</td>
+      <td>483.0</td>
+      <td>461.0</td>
+      <td>9033.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019</td>
+      <td>4</td>
+      <td>10806.0</td>
+      <td>10806.0</td>
+      <td>64.0</td>
+      <td>64.0</td>
+      <td>2019-04-01</td>
+      <td>1756.0</td>
+      <td>808.0</td>
+      <td>1099.0</td>
+      <td>3182.0</td>
+      <td>777.0</td>
+      <td>368.0</td>
+      <td>415.0</td>
+      <td>8405.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019</td>
+      <td>5</td>
+      <td>11472.0</td>
+      <td>11472.0</td>
+      <td>67.0</td>
+      <td>67.0</td>
+      <td>2019-05-01</td>
+      <td>1288.0</td>
+      <td>1095.0</td>
+      <td>1393.0</td>
+      <td>2489.0</td>
+      <td>607.0</td>
+      <td>185.0</td>
+      <td>421.0</td>
+      <td>7478.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 
     <script type="text/x-thebe-config">
