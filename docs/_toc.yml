@@ -15,15 +15,15 @@ parts:
       - file: climate_db
   - caption: Tourism
     chapters:
-      - file: tourism_intro
+      - file: tourism/intro
         sections:   
-        - file: tourism_eda
-      - file: tourism_utsa
+        - file: tourism/eda
+      - file: tourism/utsa
         sections:
-        - file: palau_display
-      - file: tourism_mtsa
+        - file: tourism/palau_display
+      - file: tourism/mtsa
         sections:
-        - file: palau_mtsa
+        - file: tourism/palau_mtsa
   - caption: AIS
     chapters:
       - file: ais_intro
