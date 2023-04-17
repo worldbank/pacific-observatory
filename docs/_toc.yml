@@ -16,6 +16,7 @@ parts:
   - caption: Tourism
     chapters:
       - file: tourism/intro
+      - file: tourism/data
         sections:   
         - file: tourism/eda
       - file: tourism/utsa

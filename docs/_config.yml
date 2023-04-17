@@ -4,26 +4,33 @@ author: World Bank
 logo: images/logo.png
 
 repository:
-    url: https://github.com/worldbank/pacific-observatory
-    branch: main
+  url: https://github.com/worldbank/pacific-observatory
+  branch: main
+
+bibtex_bibfiles:
+  - references.bib"
 
 sphinx:
   config:
+    bibtex_reference_style: author_year
     html_extra_path: ['images']
 
 html:
-    home_page_in_navbar: true
-    use_edit_page_button: true
-    use_repository_button: true
-    use_issues_button: true
-    baseurl: https://github.com/worldbank/pacific-observatory
+  announcement: "⚠️ The Book is under construction!⚠️"
+  home_page_in_navbar: true
+  use_edit_page_button: true
+  use_repository_button: true
+  use_issues_button: true
+  baseurl: https://github.com/worldbank/pacific-observatory
 
 execute:
-  execute_notebooks: auto
+  execute_notebooks: "off"
   allow_errors: true
   timeout: 60
   # exclude_patterns:
 
 latex:
-  latex_engine: pdflatex
+  latex_engine: xelatex
+  latex_documents:
+    targetname: book.tex
   use_jupyterbook_latex: true
