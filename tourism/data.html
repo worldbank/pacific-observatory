@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Multivariate Time Series Analaysis &#8212; Pacific Observatory</title>
+    <title>Data &#8212; Pacific Observatory</title>
   
   
   
@@ -65,12 +65,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tourism/mtsa';</script>
-    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/tourism/mtsa.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tourism/data';</script>
+    <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/tourism/data.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Palau" href="palau_mtsa.html" />
-    <link rel="prev" title="Palau" href="palau_display.html" />
+    <link rel="next" title="Exploratory Data Analysis" href="eda.html" />
+    <link rel="prev" title="Introduction" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -183,7 +183,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="data.html">Data</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Data</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="eda.html">Exploratory Data Analysis</a></li>
 </ul>
 </li>
@@ -191,7 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="palau_display.html">Palau</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Multivariate Time Series Analaysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="mtsa.html">Multivariate Time Series Analaysis</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="palau_mtsa.html">Palau</a></li>
 </ul>
 </li>
@@ -275,7 +275,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/worldbank/pacific-observatory/edit/main/tourism/mtsa.md" target="_blank"
+      <li><a href="https://github.com/worldbank/pacific-observatory/edit/main/tourism/data.md" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -292,7 +292,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Ftourism/mtsa.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/worldbank/pacific-observatory/issues/new?title=Issue%20on%20page%20%2Ftourism/data.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -322,7 +322,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../_sources/tourism/mtsa.md" target="_blank"
+      <li><a href="../_sources/tourism/data.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -404,7 +404,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Multivariate Time Series Analaysis</h1>
+    <h1>Data</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -414,7 +414,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var">Vector AutoRegressive (VAR)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment">Assessment</a></li>
 </ul>
             </nav>
         </div>
@@ -426,18 +427,27 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="multivariate-time-series-analaysis">
-<h1>Multivariate Time Series Analaysis<a class="headerlink" href="#multivariate-time-series-analaysis" title="Permalink to this heading">#</a></h1>
-<section id="vector-autoregressive-var">
-<h2>Vector AutoRegressive (VAR)<a class="headerlink" href="#vector-autoregressive-var" title="Permalink to this heading">#</a></h2>
-<p>Classical VAR would improve the univariate time series modeling by considering the linkages between ISA data from the GAD and the official VA data. A VAR(p) model is formally expressed as:</p>
-<div class="math notranslate nohighlight">
-\[
-VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p} 
-+ \beta_{11}SAI_{t-1} + \cdots + \beta_{1p}SAI_{t-p} + Covid_{t} + \varepsilon_{t} 
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(VA_t\)</span> is the visitor arrivals by the official statistics at time <span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(SAI_t\)</span> is the international seat arrivals at time <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(Covid_t\)</span> is a dummy variable to be one after the WHO announced Covid-19 as the global pandemic. Each equation is estimated via Ordinary Least Squares (OLS). The standard approach for the selection of order p is the Akaike information criterion (AIC).</p>
-<p>Impulse Response Analysis (IRA), which describes the evolution of a model’s variables in reaction to a shock in one or more variables, would also be employed to examine how ISA’s changes would affect VA. To further check the model’s robustness, pairwise Granger causality tests after VAR and the autocorrelation check of the residuals would be employed.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="data">
+<h1>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h1>
+<section id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this heading">#</a></h2>
+<p>The study relies on two distinct kinds of data sources. The first is official Visitor Arrival (VA) data from the official website. There are six Pacific Islands Countries available for access: Tonga. Vanuatu, Palau, Samoa, Fiji, and Solomon Islands. Most countries mentioned above, except for Fiji, have more than 12-year monthly visitor data with countries of origin documented, suggesting more than 120 observations, which is a decent number for conducting a time series analysis.</p>
+<p>The other is the Global Aviation Dashboard (GAD) data. The data includes the daily flight data from 2019-01-01 to up-to-date (2022-10-16) dates. Three relevant variables (number of flights, seat arrivals, and available seat kilometers) are available. All the relevant variables merely reflect the flight’s ability and do not necessarily reflect the actual onboard passengers. Since international tourism is closely related to the GDP, we mainly focus on international seat arrivals (ISA).</p>
+<div id="content">
+    <iframe src="../interactive/tourism/tourism-psg.html" name="flights" id="flights" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
+</div>
+<p>Given the daily frequency of GAD data and the monthly frequency of official statistics, further analysis needs to be built on the aligned frequency. Therefore, the GAD data is transformed into the monthly frequency by simply summing the whole month’s daily data. The aligned data starts from 2019-01-01 and ends at different periods varied by each available country’s latest official statistics.</p>
+</section>
+<section id="assessment">
+<h2>Assessment<a class="headerlink" href="#assessment" title="Permalink to this heading">#</a></h2>
+<p>Pearson’s correlation coefficient is an often-employed approach to test the correlation between variables. However, the employment of Pearson’s correlation could be spurious for checking the relationship between time series data because it ignores that time series data strongly depends on previous states. The additional employment of cross-correlation could be a supplement to measuring the similarity between time series data.</p>
+<p>(Weak) stationarity is fundamental to time series analysis. Without stationarity, time series data is no different from the random walk and makes forecasting impossible. Simply put, (weak) stationarity is the basic statistical properties that do not change over time, including finite variation, constant mean, and autocovariance that only depend on the lags. The Augmented Dickey-Fuller (ADF) test is the most popular method to examine (weak) stationarity. The null hypothesis (<span class="math notranslate nohighlight">\(H_0\)</span>) is that the series is non-stationary and has a unit root. The alternative hypothesis (<span class="math notranslate nohighlight">\(H_1\)</span>) is that the series is stationary or has no unit root. Below is a summary table of the ADF tests. When the p-value is smaller than 0.05, we can reject the null hypothesis of the ADF test and conclude that the time series is stationary.</p>
+<p>Once achieving (weak) stationarity, the Granger causality test, which examines how useful one variable is for forecasting another variable, would make us understand whether introducing variables ISA from the Global Aviation Dashboard would help forecast the VA from the census bureau. The Granger Causality is formally expressed as:</p>
+<p><span class="math notranslate nohighlight">\(
+VA_t = \sum_{i=1}^{p} \alpha_{i} VA_{t-i} + \sum_{i=1}^{p} \beta_{i} ISA_{t-i} + u_{t} 
+\)</span></p>
+<p>The null hypothesis (H0) of the Granger Causality is <span class="math notranslate nohighlight">\(\beta_{i}\)</span> = 0 for i = 1,…,p, which assumes that introducing ISAt would not help forecast <span class="math notranslate nohighlight">\(VA_t\)</span>. The nature of the Granger Causality test is VAR, which will be detailed in the Modelling section. As shown in Table 2, except for Solomon Islands, other countries pass the Granger Causality test, suggesting including ISA would help predict VA.
+A general limitation of these tests is the small sample size of the available data. Despite the larger sample size of the census bureau’s data, the number of observations quickly shrinks to 44 after merging with the GAD data. The limited sample size severely affects not only the extracted information from the data but also the significance/power of the tests.</p>
 </section>
 <div class="toctree-wrapper compound">
 </div>
@@ -475,20 +485,20 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="palau_display.html"
+       href="intro.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Palau</p>
+        <p class="prev-next-title">Introduction</p>
       </div>
     </a>
     <a class="right-next"
-       href="palau_mtsa.html"
+       href="eda.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Palau</p>
+        <p class="prev-next-title">Exploratory Data Analysis</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -510,7 +520,8 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var">Vector AutoRegressive (VAR)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sources">Sources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#assessment">Assessment</a></li>
 </ul>
   </nav></div>
 

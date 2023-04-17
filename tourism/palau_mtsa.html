@@ -7,7 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Palau &#8212; Pacific Observatory</title>
   
@@ -112,6 +112,12 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">⚠️ The Book is under construction!⚠️</div>
+  </div>
+
   
     <nav class="bd-header navbar navbar-expand-lg bd-navbar">
     </nav>
@@ -174,7 +180,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="data.html">Data</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="eda.html">Exploratory Data Analysis</a></li>
 </ul>
 </li>
@@ -440,7 +447,8 @@ ssc install schemepack, replace
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>checking schemepack consistency and verifying not already installed...
+all files already exist and are up to date.
 </pre></div>
 </div>
 </div>
@@ -466,7 +474,49 @@ keep if _merge == 2 | _merge == 3
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. clear all 
+
+. global folder &quot;/Users/czhang/Desktop/pacific-observatory&quot; 
+
+. 
+. ** Save the palau_merged as tempfile for merging
+. import delimited using &quot;$folder/data/tourism/palau/intermediate/palau_merged.
+&gt; csv&quot;, 
+(encoding automatically selected: ISO-8859-1)
+(16 vars, 45 obs)
+
+. generate time = m(2019m1) + _n-1 
+
+. format time %tm 
+
+. tempfile merged 
+
+. save `merged&#39;
+file /var/folders/kn/jw0y9v615mjgg3_51g3s73zh0000gn/T//St23962.000002 saved
+    as .dta format
+
+. 
+. ** Merge with the Covid Stringency Index
+. import delimited using &quot;$folder/data/tourism/oceania_covid_stringency.csv&quot;, c
+&gt; lear
+(encoding automatically selected: ISO-8859-1)
+(5 vars, 38 obs)
+
+. merge 1:1 date using `merged&#39;
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            17
+        from master                         5  (_merge==1)
+        from using                         12  (_merge==2)
+
+    Matched                                33  (_merge==3)
+    -----------------------------------------
+
+. keep if _merge == 2 | _merge == 3
+(5 observations deleted)
+
+. 
 </pre></div>
 </div>
 </div>
@@ -486,7 +536,26 @@ replace covid = 1 if date &gt;= &quot;2020m3&quot;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. // Drop the _merge variables
+. drop _merge v1 
+
+. replace stringency_index = 0 if stringency_index == . 
+(12 real changes made)
+
+. tsset time 
+
+Time variable: time, 2019m1 to 2022m9
+        Delta: 1 month
+
+. 
+. // Generate Covid variable 
+. gen covid = . 
+(45 missing values generated)
+
+. replace covid = 1 if date &gt;= &quot;2020m3&quot;
+(21 real changes made)
+
+. 
 </pre></div>
 </div>
 </div>
@@ -499,7 +568,34 @@ describe
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Contains data
+ Observations:            45                  
+    Variables:            18                  
+-------------------------------------------------------------------------------
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+-------------------------------------------------------------------------------
+year            int     %8.0g                 
+month           byte    %8.0g                 
+stringency_in~x float   %9.0g                 
+date            str10   %10s                  
+seats_arriva~tl int     %8.0g                 Seats_arrivals_intl
+seats_arriva~al int     %8.0g                 Seats_arrivals_total
+number_of_fl~tl byte    %8.0g                 Number_of_flights_intl
+number_of_fl~al byte    %8.0g                 Number_of_flights_total
+japan           int     %8.0g                 JAPAN
+southkorea      int     %8.0g                 SOUTH KOREA
+taiwan          int     %8.0g                 TAIWAN
+china           int     %8.0g                 CHINA
+usacanada       int     %8.0g                 USA/CANADA
+europe          int     %8.0g                 EUROPE
+others          int     %8.0g                 OTHERS
+total           int     %8.0g                 Total
+time            float   %tm                   
+covid           float   %9.0g                 
+-------------------------------------------------------------------------------
+Sorted by: time
+     Note: Dataset has changed since last saved.
 </pre></div>
 </div>
 </div>
@@ -516,10 +612,16 @@ scheme(white_tableau)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. tsline (total seats_arrivals_intl), tline(2020m3) mcolor(%60) mlwidth(0) ///
+&gt; title(&quot;{bf}Visitors Arrivals from 2019 to 2022&quot;, pos(11) size(3)) ///
+&gt; xtitle(&quot;date&quot;) ytitle(&quot;Number&quot;) ///
+&gt; legend(off) ///
+&gt; scheme(white_tableau)
+
+. 
 </pre></div>
 </div>
-</div>
+<img alt="../_images/7329b10bf237ae9ace9d39e705aa10c9c1d815fa508ca004308a86894076487a.svg" src="../_images/7329b10bf237ae9ace9d39e705aa10c9c1d815fa508ca004308a86894076487a.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -532,7 +634,38 @@ foreach x of varlist seats_arrivals_intl total{
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. ** employ dfuller to test stationarity
+. foreach x of varlist seats_arrivals_intl total{
+  2.         dfuller `x&#39;
+  3. }
+
+Dickey–Fuller test for unit root           Number of obs  = 44
+Variable: seats_arrival~tl                 Number of lags =  0
+
+H0: Random walk without drift, d = 0
+
+                                       Dickey–Fuller
+                   Test      -------- critical value ---------
+              statistic           1%           5%          10%
+--------------------------------------------------------------
+ Z(t)            -1.663       -3.621       -2.947       -2.607
+--------------------------------------------------------------
+MacKinnon approximate p-value for Z(t) = 0.4505.
+
+Dickey–Fuller test for unit root           Number of obs  = 44
+Variable: total                            Number of lags =  0
+
+H0: Random walk without drift, d = 0
+
+                                       Dickey–Fuller
+                   Test      -------- critical value ---------
+              statistic           1%           5%          10%
+--------------------------------------------------------------
+ Z(t)            -1.402       -3.621       -2.947       -2.607
+--------------------------------------------------------------
+MacKinnon approximate p-value for Z(t) = 0.5814.
+
+. 
 </pre></div>
 </div>
 </div>
@@ -548,7 +681,14 @@ foreach x of varlist seats_arrivals_intl total {
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. ** differencing variables
+. foreach x of varlist seats_arrivals_intl total {
+  2.         gen diff_`x&#39; = d.`x&#39;
+  3. }
+(1 missing value generated)
+(1 missing value generated)
+
+. 
 </pre></div>
 </div>
 </div>
@@ -562,7 +702,30 @@ varsoc diff_seats_arrivals_intl diff_total, maxlag(8)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. ** Optimal lag selection
+. varsoc diff_seats_arrivals_intl diff_total, maxlag(8)
+
+Lag-order selection criteria
+
+   Sample: 2019m10 thru 2022m9                              Number of obs = 36
+  +---------------------------------------------------------------------------+
+  | Lag |    LL      LR      df    p     FPE       AIC      HQIC      SBIC    |
+  |-----+---------------------------------------------------------------------|
+  |   0 | -606.756                     1.7e+12   33.8198   33.8505   33.9077  |
+  |   1 | -598.411   16.69    4  0.002 1.3e+12   33.5784   33.6705   33.8423  |
+  |   2 | -580.129  36.564    4  0.000 6.0e+11   32.7849   32.9385   33.2248* |
+  |   3 | -578.735  2.7871    4  0.594 6.9e+11   32.9297   33.1447   33.5455  |
+  |   4 | -570.287  16.897    4  0.002 5.5e+11   32.6826   32.9589   33.4744  |
+  |   5 |  -559.86  20.853*   4  0.000 3.9e+11*  32.3256*  32.6633*  33.2933  |
+  |   6 | -556.695  6.3304    4  0.176 4.2e+11   32.3719   32.7711   33.5156  |
+  |   7 | -554.907  3.5764    4  0.466 4.9e+11   32.4948   32.9554   33.8144  |
+  |   8 | -553.978  1.8582    4  0.762 6.2e+11   32.6654   33.1874    34.161  |
+  +---------------------------------------------------------------------------+
+   * optimal lag
+   Endogenous: diff_seats_arrivals_intl diff_total
+    Exogenous: _cons
+
+. 
 </pre></div>
 </div>
 </div>
@@ -576,7 +739,53 @@ var diff_total diff_seats_arrivals_intl, exog(stringency_index covid) dfk small
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. ** Vector Autogressive Models
+. var diff_total diff_seats_arrivals_intl, exog(stringency_index covid) dfk sma
+&gt; ll
+note: covid omitted because of collinearity.
+
+Vector autoregression
+
+Sample: 2021m1 thru 2022m9                      Number of obs     =         21
+Log likelihood =  -304.5915                     AIC               =   30.15157
+FPE            =   4.40e+10                     HQIC              =   30.28111
+Det(Sigma_ml)  =   1.36e+10                     SBIC              =   30.74844
+
+Equation           Parms      RMSE     R-sq        F       P &gt; F
+----------------------------------------------------------------
+diff_total            6     276.536   0.5346    3.44637   0.0285
+diff_seats_arr~l      6     742.976   0.5293   3.373297   0.0306
+----------------------------------------------------------------
+
+------------------------------------------------------------------------------
+             | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+diff_total   |
+  diff_total |
+         L1. |   .3695045   .2894108     1.28   0.221    -.2473599     .986369
+         L2. |   .0788767   .3355229     0.24   0.817    -.6362734    .7940268
+             |
+diff_seats~l |
+         L1. |  -.3889734   .1128063    -3.45   0.004    -.6294144   -.1485325
+         L2. |  -.2176653   .1470382    -1.48   0.159    -.5310699    .0957393
+             |
+stringency~x |  -2.029657   6.563665    -0.31   0.761    -16.01978    11.96046
+       _cons |   226.9108   306.3119     0.74   0.470    -425.9776    879.7992
+-------------+----------------------------------------------------------------
+diff_seats~l |
+  diff_total |
+         L1. |   1.401272   .7775672     1.80   0.092    -.2560731    3.058617
+         L2. |   1.385345   .9014577     1.54   0.145    -.5360669    3.306756
+             |
+diff_seats~l |
+         L1. |  -1.199343   .3030795    -3.96   0.001    -1.845342   -.5533444
+         L2. |  -.8312882   .3950513    -2.10   0.053     -1.67332    .0107437
+             |
+stringency~x |  -17.15659   17.63476    -0.97   0.346     -54.7442    20.43102
+       _cons |   1194.462   822.9759     1.45   0.167    -559.6695    2948.594
+------------------------------------------------------------------------------
+
+. 
 </pre></div>
 </div>
 </div>
@@ -593,10 +802,22 @@ scheme(white_tableau)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. irf create var1, step(12) set($folder/scripts/notebooks/tourism/modelling/pal
+&gt; au_irf) replace
+(file /Users/czhang/Desktop/pacific-observatory/scripts/notebooks/tourism/model
+&gt; ling/palau_irf.irf now active)
+(file /Users/czhang/Desktop/pacific-observatory/scripts/notebooks/tourism/model
+&gt; ling/palau_irf.irf updated)
+
+. irf graph oirf, ///
+&gt; impulse(diff_seats_arrivals_intl) response(diff_total) ///
+&gt; yline(0,lcolor(black)) xlabel(0(3)12) byopts(yrescale) ///
+&gt; scheme(white_tableau)
+
+. 
 </pre></div>
 </div>
-</div>
+<img alt="../_images/b31a80168829bae1558c3efaecfd60f90b7221519081a5ddee63a72acfa9f3eb.svg" src="../_images/b31a80168829bae1558c3efaecfd60f90b7221519081a5ddee63a72acfa9f3eb.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -608,7 +829,25 @@ predict error, residual
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. ** Robustness Check
+. varstable
+
+   Eigenvalue stability condition
+  +----------------------------------------+
+  |        Eigenvalue        |   Modulus   |
+  |--------------------------+-------------|
+  |  .06269116 +  .7198751i  |     .7226   |
+  |  .06269116 -  .7198751i  |     .7226   |
+  |  -.4776104 +  .4730879i  |   .672253   |
+  |  -.4776104 -  .4730879i  |   .672253   |
+  +----------------------------------------+
+   All the eigenvalues lie inside the unit circle.
+   VAR satisfies stability condition.
+
+. predict error, residual
+(3 missing values generated)
+
+. 
 </pre></div>
 </div>
 </div>
@@ -623,10 +862,14 @@ scheme(white_tableau)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. tsline error, ///
+&gt; title(&quot;Residual Over Time&quot;, pos(11) size(3)) ///
+&gt; scheme(white_tableau)
+
+. 
 </pre></div>
 </div>
-</div>
+<img alt="../_images/baadb59283b9770b649ec6d6efddf3f00e69c147c788ba97f7c78651424cd44d.svg" src="../_images/baadb59283b9770b649ec6d6efddf3f00e69c147c788ba97f7c78651424cd44d.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -637,7 +880,19 @@ varlmar
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%stata` not found.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>. ** check autocorrelation at lag
+. varlmar
+
+   Lagrange-multiplier test
+  +--------------------------------------+
+  | lag  |      chi2    df   Prob &gt; chi2 |
+  |------+-------------------------------|
+  |   1  |    9.6931     4     0.04593   |
+  |   2  |    6.2212     4     0.18323   |
+  +--------------------------------------+
+   H0: no autocorrelation at lag order
+
+. 
 </pre></div>
 </div>
 </div>

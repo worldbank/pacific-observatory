@@ -7,7 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Univaraite Time Series Analysis &#8212; Pacific Observatory</title>
   
@@ -114,6 +114,12 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">⚠️ The Book is under construction!⚠️</div>
+  </div>
+
   
     <nav class="bd-header navbar navbar-expand-lg bd-navbar">
     </nav>
@@ -176,7 +182,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="data.html">Data</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="eda.html">Exploratory Data Analysis</a></li>
 </ul>
 </li>
@@ -438,17 +445,18 @@ document.write(`
 <li><p><span class="math notranslate nohighlight">\(\Delta^{d}\)</span> is the integration operator and <span class="math notranslate nohighlight">\(\Delta_{s}^{D}\)</span> takes the seasonal differences of the series</p></li>
 </ul>
 <p>The model employs the scaled logit transformation to avoid negative predictions, transforming <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(\log(\frac{x-a}{b-x})\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> is the lower bound and <span class="math notranslate nohighlight">\(b\)</span> is the upper bound. Further, to prevent -<span class="math notranslate nohighlight">\(\infty\)</span>, <span class="math notranslate nohighlight">\(a\)</span> is set to be slightly smaller than the minimum of the series, and <span class="math notranslate nohighlight">\(b\)</span> is slightly larger than the maximum.</p>
-<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Three benchmark methods are employed:</p>
+<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id2" id="id1">1</a> Three benchmark methods are employed:</p>
 <ul class="simple">
 <li><p>Average method, where the forecasts of all future values are equal to the average (or “mean”) of the historical data.</p></li>
 <li><p>Naïve method, setting all forecasts to be the value of the last observation.</p></li>
 <li><p>Drift method, <span class="math notranslate nohighlight">\(\hat{y}_{T+h|T} = y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1}) = y_{T} + h \left( \frac{y_{T} -y_{1}}{T-1}\right).\)</span>, which is equivalent to drawing a line between the first and last observations, and extrapolating it into the future.</p></li>
 </ul>
 <hr class="footnotes docutils" />
-<aside class="footnote brackets" id="id2" role="note">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p>Rob J Hyndman and George Athanasopoulos, Forecasting: principles and practice (OTexts, 2018). See more <a class="reference external" href="https://otexts.com/fpp3/simple-methods.html">here</a>.</p>
-</aside>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Rob J Hyndman and George Athanasopoulos, Forecasting: principles and practice (OTexts, 2018). See more <a class="reference external" href="https://otexts.com/fpp3/simple-methods.html">here</a>.</p>
+</dd>
+</dl>
 </section>
 <div class="toctree-wrapper compound">
 </div>

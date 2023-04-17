@@ -7,7 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Other Use Cases &#8212; Pacific Observatory</title>
   
@@ -112,6 +112,12 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">⚠️ The Book is under construction!⚠️</div>
+  </div>
+
   
     <nav class="bd-header navbar navbar-expand-lg bd-navbar">
     </nav>
@@ -174,7 +180,8 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="tourism/intro.html">Introduction</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="tourism/intro.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tourism/data.html">Data</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="tourism/eda.html">Exploratory Data Analysis</a></li>
 </ul>
 </li>
@@ -423,11 +430,15 @@ document.write(`
 <section id="recovery-in-tonga">
 <h2>Recovery in Tonga<a class="headerlink" href="#recovery-in-tonga" title="Permalink to this heading">#</a></h2>
 <p>On January 15th, 2022, the Hunga-Tonga-Hunga-Ha’apai volcano in Tonga had an extreme eruption, categorized as a once-in-1000-years event. The eruption dispersed clouds of ash and set off several tsunami waves, altogether causing an estimated cost of US$90.4M in damages (GRADE, World Bank 2022). In this analysis, we examine whether scenes from the newly released <a class="reference external" href="https://blogs.worldbank.org/opendata/light-every-night-new-nighttime-light-data-set-and-tools-development">Light Every Night dataset</a> can be used to assess the disruption on electricity use in buildings and consequent recovery of economic activities.</p>
-<p>Few studies have examined the availability of satellite data for the Pacific islands. Some public satellites such as Sentinel-1 do not cover some of the smaller islands in the Pacific (Digital Earth Pacific, 2022). Although VIIRS has a daily revisit rate for most areas in the world, our analysis shows that the coverage is much scarcer for Tonga. Figure 8 shows the availability and quality of the data for the two biggest islands (Tongatapu and ʻEua) from November 2021 through February 2022. Each radiance image has a corresponding data quality image, flagging various issues with the data. The Suomi satellite only overpasses 8 to 10 days per month, but most of the images captured do not contain any valid observations<a class="footnote-reference brackets" href="#id2" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. Only 7 images are available over the four months considered, and 3 of those are heavily impacted by clouds. This leaves us with 4 images with substantial clear observations (green bars in the graph).</p>
+<p>Few studies have examined the availability of satellite data for the Pacific islands. Some public satellites such as Sentinel-1 do not cover some of the smaller islands in the Pacific (Digital Earth Pacific, 2022). Although VIIRS has a daily revisit rate for most areas in the world, our analysis shows that the coverage is much scarcer for Tonga. Figure 8 shows the availability and quality of the data for the two biggest islands (Tongatapu and ʻEua) from November 2021 through February 2022. Each radiance image has a corresponding data quality image, flagging various issues with the data. The Suomi satellite only overpasses 8 to 10 days per month, but most of the images captured do not contain any valid observations<a class="footnote-reference brackets" href="#id2" id="id1">1</a>. Only 7 images are available over the four months considered, and 3 of those are heavily impacted by clouds. This leaves us with 4 images with substantial clear observations (green bars in the graph).</p>
 <a class="reference internal image-reference" href="_images/LEN_Coverage_Tonga.png" id="len-coverage"><img alt="_images/LEN_Coverage_Tonga.png" id="len-coverage" src="_images/LEN_Coverage_Tonga.png" style="width: 80%;" /></a>
 <p><strong>Figure 8</strong>: Data quality in Tonga by day, Nov 2021 - Feb 2022</p>
 <p>Figure 9 presents maps of data quality (left) and NTL radiance (right) for the 4 days available. The image closest to the largest eruption (January 19th) shows high radiance, possibly from consecutive volcanic activity or residual ash. Lights in February seem comparable to the levels captured in November, prior to the event (the first eruption occurred on December 20th). To get a wider view of the changes we charted the monthly sum of lights by region, or group of islands.</p>
 <table class="table">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Data Quality</p></th>
 <th class="head"><p>VIIRS Radiance</p></th>
@@ -470,10 +481,11 @@ Vanuatu</label><div class="sd-tab-content docutils">
 <p><strong>Figure 11.</strong> Electrification Rates</p>
 <p>The spatial disaggregation provided by this method is likely invaluable for targeting development operations in island states. Yet more efforts are needed to validate these statistics with household surveys. Summarizing these outputs to the national level results in rates much lower than what is reported in the World Development Indicators (30% in Solomon Islands and 36% in Vanuatu). In Papua New Guinea, electrification rates derived from the HREA dataset are generally higher than those observed in the latest electrification survey, but correlation is still high (r=0.84).</p>
 <hr class="footnotes docutils" />
-<aside class="footnote brackets" id="id2" role="note">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
-<p>We do not know the exact cause for this. The description of the quality flag is as follows: “This bit is set to 1 if no data is available for that scanline/section of orbit, or the grid cell is outside the bounds of the swath.”</p>
-</aside>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>We do not know the exact cause for this. The description of the quality flag is as follows: “This bit is set to 1 if no data is available for that scanline/section of orbit, or the grid cell is outside the bounds of the swath.”</p>
+</dd>
+</dl>
 </section>
 </section>
 
