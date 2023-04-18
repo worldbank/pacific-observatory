@@ -431,12 +431,13 @@ document.write(`
 <h1>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h1>
 <section id="sources">
 <h2>Sources<a class="headerlink" href="#sources" title="Permalink to this heading">#</a></h2>
-<p>The study relies on two distinct kinds of data sources. The first is official Visitor Arrival (VA) data from the official website. There are six Pacific Islands Countries available for access: Tonga. Vanuatu, Palau, Samoa, Fiji, and Solomon Islands. Most countries mentioned above, except for Fiji, have more than 12-year monthly visitor data with countries of origin documented, suggesting more than 120 observations, which is a decent number for conducting a time series analysis.</p>
+<p>The study relies on two major data sources. The first is official Visitor Arrival (VA) data from the official website. There are six Pacific Islands Countries available for access: Tonga. Vanuatu, Palau, Samoa, Fiji, and Solomon Islands. Most countries mentioned above, except for Fiji, have more than 12-year monthly visitor data with countries of origin documented, suggesting more than 120 observations, which is a decent number for conducting a time series analysis.</p>
 <p>The other is the Global Aviation Dashboard (GAD) data. The data includes the daily flight data from 2019-01-01 to up-to-date (2022-10-16) dates. Three relevant variables (number of flights, seat arrivals, and available seat kilometers) are available. All the relevant variables merely reflect the flight’s ability and do not necessarily reflect the actual onboard passengers. Since international tourism is closely related to the GDP, we mainly focus on international seat arrivals (ISA).</p>
 <div id="content">
     <iframe src="../interactive/tourism/tourism-psg.html" name="flights" id="flights" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
 <p>Given the daily frequency of GAD data and the monthly frequency of official statistics, further analysis needs to be built on the aligned frequency. Therefore, the GAD data is transformed into the monthly frequency by simply summing the whole month’s daily data. The aligned data starts from 2019-01-01 and ends at different periods varied by each available country’s latest official statistics.</p>
+<p>Other than the abovementioned data sources, the study exploits the Google Trends data accessed from the <a class="reference external" href="https://datapartnership.org/">Development Data Partership</a>. For each country, the keyword search includes country name and suffix of “Travel,” “Hotel,” and “Flight,” for example “Palau Travel.”</p>
 </section>
 <section id="assessment">
 <h2>Assessment<a class="headerlink" href="#assessment" title="Permalink to this heading">#</a></h2>

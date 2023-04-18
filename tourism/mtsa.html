@@ -442,11 +442,24 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
 </section>
 <section id="ratio-approach-temporarily">
 <h2>Ratio Approach [Temporarily]<a class="headerlink" href="#ratio-approach-temporarily" title="Permalink to this heading">#</a></h2>
-<p>Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting <span class="math notranslate nohighlight">\(VA_t\)</span> as the numerator and <span class="math notranslate nohighlight">\(ISA_t\)</span> as the denominator (<span class="math notranslate nohighlight">\(ratio_{t}=\frac{VA_t}{ISA_t}\)</span>). The produced ratio is similar to the load factor in aviation analysis, where <span class="math notranslate nohighlight">\( \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}\)</span>. By assuming the distance is fixed for each passenger, the available seats equal to <span class="math notranslate nohighlight">\(ISA_t\)</span> in our ratio formula, and we can treat <span class="math notranslate nohighlight">\(VA_t\)</span> as a proxy of the number of carried passengers. Thus, we have the model:</p>
+<p>Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting <span class="math notranslate nohighlight">\(VA_t\)</span> as the numerator and <span class="math notranslate nohighlight">\(ISA_t\)</span> as the denominator (<span class="math notranslate nohighlight">\(ratio_{t}=\frac{VA_t}{ISA_t}\)</span>). The produced ratio is similar to the load factor in aviation analysis, where <span class="math notranslate nohighlight">\( \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}\)</span>. By assuming the distance is fixed for each passenger, the available seats equal to <span class="math notranslate nohighlight">\(ISA_t\)</span> in our ratio formula, and we can treat <span class="math notranslate nohighlight">\(VA_t\)</span> as a proxy of the number of carried passengers.<a class="footnote-reference brackets" href="#id2" id="id1">1</a> Thus, we have the model:</p>
 <div class="math notranslate nohighlight">
 \[ 
-Ratio_t = TravelIndex_t + Quarter_t + Covid * StringencyIndex_t + NumofCruise_t + \varepsilon_{t} 
+Ratio_t = TravelIndex_t + Quarter_t + (Covid * StringencyIndex_t) + NumOfCruise_t + \varepsilon_{t} 
 \]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(TrvalIndex_t\)</span> is the Google Search Index data at time <span class="math notranslate nohighlight">\(t\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(Covid_t\)</span> is a dummy variable set to be 1 after WHO announced the Covid-19 as global pandemic;</p></li>
+<li><p><span class="math notranslate nohighlight">\(StringencyIndex_t\)</span> from the <a class="reference external" href="https://ourworldindata.org/covid-stringency-index">OWID Global Stringency Index</a>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(NumOfCruise_t\)</span> is the number of cruises operating at time <span class="math notranslate nohighlight">\(t\)</span> to control the visitors by cruise;</p></li>
+</ul>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>A hideen assumption behind employing the ratio approach is the airline company would dynamically adjust the to choose the combination of fares, aircraft size, and load factor to maximize profits in each market. See more in <a class="reference external" href="https://www.jstor.org/stable/3003541">Graham, Kaplan, and Sibley (1983)</a></p>
+</dd>
+</dl>
 </section>
 <div class="toctree-wrapper compound">
 </div>

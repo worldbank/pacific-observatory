@@ -389,7 +389,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -405,6 +407,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#var-by-pystata">VAR by PyStata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio">Ratio</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -416,7 +427,6 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="palau">
 <h1>Palau<a class="headerlink" href="#palau" title="Permalink to this heading">#</a></h1>
-<p>By <strong>PyStata</strong></p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
@@ -427,10 +437,12 @@ document.write(`
 </div>
 </div>
 </div>
+<section id="var-by-pystata">
+<h2>VAR by PyStata<a class="headerlink" href="#var-by-pystata" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../&quot;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../../&quot;</span><span class="p">)</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -492,7 +504,7 @@ keep if _merge == 2 | _merge == 3
 . tempfile merged 
 
 . save `merged&#39;
-file /var/folders/kn/jw0y9v615mjgg3_51g3s73zh0000gn/T//St23962.000002 saved
+file /var/folders/kn/jw0y9v615mjgg3_51g3s73zh0000gn/T//St40322.000002 saved
     as .dta format
 
 . 
@@ -817,7 +829,7 @@ scheme(white_tableau)
 . 
 </pre></div>
 </div>
-<img alt="../_images/b31a80168829bae1558c3efaecfd60f90b7221519081a5ddee63a72acfa9f3eb.svg" src="../_images/b31a80168829bae1558c3efaecfd60f90b7221519081a5ddee63a72acfa9f3eb.svg" /></div>
+<img alt="../_images/30b89814a140f8911007ff8e3b473d17147dd7ed2bb60b3f4f46a78f0afff303.svg" src="../_images/30b89814a140f8911007ff8e3b473d17147dd7ed2bb60b3f4f46a78f0afff303.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -898,6 +910,861 @@ varlmar
 </div>
 </div>
 </section>
+<section id="ratio">
+<h2>Ratio<a class="headerlink" href="#ratio" title="Permalink to this heading">#</a></h2>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/palau/intermediate/&quot;</span>
+<span class="n">filepaths</span> <span class="o">=</span> <span class="p">[</span><span class="n">filedir</span> <span class="o">+</span> <span class="n">file</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">filedir</span><span class="p">)</span> <span class="k">if</span> <span class="s2">&quot;.csv&quot;</span> <span class="ow">in</span> <span class="n">file</span><span class="p">]</span>
+<span class="n">filepaths</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oceania_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/oceania_covid_stringency.csv&quot;</span><span class="p">)</span>
+                   <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">oceania_index</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">oceania_index</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+<span class="n">oceania_index</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>stringency_index</th>
+      <th>date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2020</td>
+      <td>1</td>
+      <td>6.485000</td>
+      <td>2020-01-01</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2020</td>
+      <td>2</td>
+      <td>18.961379</td>
+      <td>2020-02-01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2020</td>
+      <td>3</td>
+      <td>41.960753</td>
+      <td>2020-03-01</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2020</td>
+      <td>4</td>
+      <td>82.458000</td>
+      <td>2020-04-01</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2020</td>
+      <td>5</td>
+      <td>64.930000</td>
+      <td>2020-05-01</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/trends/trends_palau.csv&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">gt</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">gt</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+<span class="n">gt</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>palau flights-AU</th>
+      <th>palau hotel-AU</th>
+      <th>palau travel-AU</th>
+      <th>palau flights-NZ</th>
+      <th>palau hotel-NZ</th>
+      <th>palau travel-NZ</th>
+      <th>palau flights-US</th>
+      <th>palau hotel-US</th>
+      <th>palau travel-US</th>
+      <th>...</th>
+      <th>palau travel-JP</th>
+      <th>palau flights-HK</th>
+      <th>palau hotel-HK</th>
+      <th>palau travel-HK</th>
+      <th>palau flights-NC</th>
+      <th>palau hotel-NC</th>
+      <th>palau travel-NC</th>
+      <th>palau flights</th>
+      <th>palau hotel</th>
+      <th>palau travel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2004-01-01</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>23</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>3.155717</td>
+      <td>3.055298</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2004-02-01</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>28</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>5.111154</td>
+      <td>2.142547</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2004-03-01</td>
+      <td>0</td>
+      <td>63</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>90</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>6.132983</td>
+      <td>2.768303</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2004-04-01</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>100</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>10.537711</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2004-05-01</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>22</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0.0</td>
+      <td>7.344062</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 22 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">palau_merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepaths</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">month</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">year</span><span class="p">,</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">palau_merged</span><span class="o">.</span><span class="n">Year</span><span class="p">,</span> <span class="n">palau_merged</span><span class="o">.</span><span class="n">Month</span><span class="p">)]</span>
+<span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+<span class="n">palau_merged</span> <span class="o">=</span> <span class="p">(</span><span class="n">palau_merged</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">oceania_index</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">gt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;month&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s2">&quot;2020-03-12&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">palau_merged</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">palau_merged</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">palau_merged</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>month</th>
+      <th>seats_arrivals_intl</th>
+      <th>seats_arrivals_total</th>
+      <th>number_of_flights_intl</th>
+      <th>number_of_flights_total</th>
+      <th>japan</th>
+      <th>south korea</th>
+      <th>taiwan</th>
+      <th>china</th>
+      <th>usa/canada</th>
+      <th>europe</th>
+      <th>others</th>
+      <th>total</th>
+      <th>date</th>
+      <th>stringency_index</th>
+      <th>palau flights</th>
+      <th>palau hotel</th>
+      <th>palau travel</th>
+      <th>covid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019</td>
+      <td>1</td>
+      <td>13048.0</td>
+      <td>13048.0</td>
+      <td>75.0</td>
+      <td>75.0</td>
+      <td>1953.0</td>
+      <td>1169.0</td>
+      <td>919.0</td>
+      <td>2072.0</td>
+      <td>626.0</td>
+      <td>310.0</td>
+      <td>280.0</td>
+      <td>7329.0</td>
+      <td>2019-01-01</td>
+      <td>0.0</td>
+      <td>0.493228</td>
+      <td>2.559978</td>
+      <td>0.194222</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019</td>
+      <td>2</td>
+      <td>13281.0</td>
+      <td>13281.0</td>
+      <td>74.0</td>
+      <td>74.0</td>
+      <td>2055.0</td>
+      <td>1035.0</td>
+      <td>1092.0</td>
+      <td>4059.0</td>
+      <td>702.0</td>
+      <td>438.0</td>
+      <td>371.0</td>
+      <td>9752.0</td>
+      <td>2019-02-01</td>
+      <td>0.0</td>
+      <td>0.310671</td>
+      <td>2.841414</td>
+      <td>0.282245</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019</td>
+      <td>3</td>
+      <td>12870.0</td>
+      <td>12870.0</td>
+      <td>73.0</td>
+      <td>73.0</td>
+      <td>2434.0</td>
+      <td>1090.0</td>
+      <td>1190.0</td>
+      <td>2549.0</td>
+      <td>826.0</td>
+      <td>483.0</td>
+      <td>461.0</td>
+      <td>9033.0</td>
+      <td>2019-03-01</td>
+      <td>0.0</td>
+      <td>0.386389</td>
+      <td>2.921431</td>
+      <td>0.286529</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019</td>
+      <td>4</td>
+      <td>10806.0</td>
+      <td>10806.0</td>
+      <td>64.0</td>
+      <td>64.0</td>
+      <td>1756.0</td>
+      <td>808.0</td>
+      <td>1099.0</td>
+      <td>3182.0</td>
+      <td>777.0</td>
+      <td>368.0</td>
+      <td>415.0</td>
+      <td>8405.0</td>
+      <td>2019-04-01</td>
+      <td>0.0</td>
+      <td>0.293529</td>
+      <td>2.981907</td>
+      <td>0.338945</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019</td>
+      <td>5</td>
+      <td>11472.0</td>
+      <td>11472.0</td>
+      <td>67.0</td>
+      <td>67.0</td>
+      <td>1288.0</td>
+      <td>1095.0</td>
+      <td>1393.0</td>
+      <td>2489.0</td>
+      <td>607.0</td>
+      <td>185.0</td>
+      <td>421.0</td>
+      <td>7478.0</td>
+      <td>2019-05-01</td>
+      <td>0.0</td>
+      <td>0.306351</td>
+      <td>3.537987</td>
+      <td>0.168664</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;ratio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">])</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">palau_merged</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;ratio&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Palau&#39;s Visitor Arrivals to Seats Arrivals Ratio&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a6747b1be38fca47c4ad369bb0dd40f0542416c08d883a1279a4d93d1a729ae8.png" src="../_images/a6747b1be38fca47c4ad369bb0dd40f0542416c08d883a1279a4d93d1a729ae8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adj_ratio</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ratio</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;ratio&quot;</span><span class="p">]):</span>
+    <span class="k">if</span> <span class="n">ratio</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">adj_ratio</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ratio</span> <span class="o">=</span> <span class="p">((</span><span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;ratio&quot;</span><span class="p">][</span><span class="n">idx</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;ratio&quot;</span><span class="p">][</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span><span class="o">/</span><span class="mi">2</span>
+        <span class="n">adj_ratio</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
+        
+<span class="n">palau_merged</span><span class="p">[</span><span class="s2">&quot;adj_ratio&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adj_ratio</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scripts.python.ts_utils</span> <span class="kn">import</span> <span class="n">get_adf_df</span>
+<span class="n">get_adf_df</span><span class="p">(</span><span class="n">palau_merged</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;adj_ratio&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>adj_ratio</th>
+      <td>-2.259475</td>
+      <td>0.185371</td>
+      <td>1.0</td>
+      <td>43.0</td>
+      <td>-3.592504</td>
+      <td>-2.93155</td>
+      <td>-2.604066</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">temp</span> <span class="o">=</span> <span class="n">palau_merged</span><span class="p">[[</span><span class="s2">&quot;ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;adj_ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;stringency_index&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">temp</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="s2">&quot;2020-03-12&quot;</span><span class="p">)</span>
+<span class="n">temp</span><span class="p">[</span><span class="s2">&quot;quarter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">quarter</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">gt</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;palau travel&quot;</span><span class="p">]],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;palau travel&quot;</span><span class="p">:</span> <span class="s2">&quot;palau_travel&quot;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">temp</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>ratio</th>
+      <th>adj_ratio</th>
+      <th>stringency_index</th>
+      <th>date</th>
+      <th>covid</th>
+      <th>quarter</th>
+      <th>palau_travel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0.561695</td>
+      <td>0.561695</td>
+      <td>0.0</td>
+      <td>2019-01-01</td>
+      <td>False</td>
+      <td>1</td>
+      <td>0.194222</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0.734282</td>
+      <td>0.734282</td>
+      <td>0.0</td>
+      <td>2019-02-01</td>
+      <td>False</td>
+      <td>1</td>
+      <td>0.282245</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0.701865</td>
+      <td>0.701865</td>
+      <td>0.0</td>
+      <td>2019-03-01</td>
+      <td>False</td>
+      <td>1</td>
+      <td>0.286529</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0.777809</td>
+      <td>0.777809</td>
+      <td>0.0</td>
+      <td>2019-04-01</td>
+      <td>False</td>
+      <td>2</td>
+      <td>0.338945</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0.651848</td>
+      <td>0.651848</td>
+      <td>0.0</td>
+      <td>2019-05-01</td>
+      <td>False</td>
+      <td>2</td>
+      <td>0.168664</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">wls</span><span class="p">(</span>
+    <span class="n">formula</span><span class="o">=</span><span class="s2">&quot;adj_ratio ~ covid * stringency_index + C(quarter) + palau_travel&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">temp</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">res</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>WLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>        <td>adj_ratio</td>    <th>  R-squared:         </th> <td>   0.762</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>WLS</td>       <th>  Adj. R-squared:    </th> <td>   0.717</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   16.95</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 18 Apr 2023</td> <th>  Prob (F-statistic):</th> <td>8.36e-10</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>16:31:20</td>     <th>  Log-Likelihood:    </th> <td>  34.253</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>    45</td>      <th>  AIC:               </th> <td>  -52.51</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    37</td>      <th>  BIC:               </th> <td>  -38.05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     7</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+                 <td></td>                   <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                      <td>    0.4637</td> <td>    0.074</td> <td>    6.305</td> <td> 0.000</td> <td>    0.315</td> <td>    0.613</td>
+</tr>
+<tr>
+  <th>covid[T.True]</th>                  <td>   -0.5484</td> <td>    0.105</td> <td>   -5.240</td> <td> 0.000</td> <td>   -0.760</td> <td>   -0.336</td>
+</tr>
+<tr>
+  <th>C(quarter)[T.2]</th>                <td>   -0.0496</td> <td>    0.055</td> <td>   -0.908</td> <td> 0.370</td> <td>   -0.160</td> <td>    0.061</td>
+</tr>
+<tr>
+  <th>C(quarter)[T.3]</th>                <td>    0.0487</td> <td>    0.056</td> <td>    0.865</td> <td> 0.392</td> <td>   -0.065</td> <td>    0.163</td>
+</tr>
+<tr>
+  <th>C(quarter)[T.4]</th>                <td>    0.0115</td> <td>    0.059</td> <td>    0.196</td> <td> 0.846</td> <td>   -0.107</td> <td>    0.130</td>
+</tr>
+<tr>
+  <th>stringency_index</th>               <td>   -0.0087</td> <td>    0.003</td> <td>   -2.855</td> <td> 0.007</td> <td>   -0.015</td> <td>   -0.003</td>
+</tr>
+<tr>
+  <th>covid[T.True]:stringency_index</th> <td>    0.0116</td> <td>    0.004</td> <td>    3.184</td> <td> 0.003</td> <td>    0.004</td> <td>    0.019</td>
+</tr>
+<tr>
+  <th>palau_travel</th>                   <td>    0.5390</td> <td>    0.178</td> <td>    3.029</td> <td> 0.004</td> <td>    0.178</td> <td>    0.900</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 6.243</td> <th>  Durbin-Watson:     </th> <td>   0.575</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.044</td> <th>  Jarque-Bera (JB):  </th> <td>   5.029</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.686</td> <th>  Prob(JB):          </th> <td>  0.0809</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 3.894</td> <th>  Cond. No.          </th> <td>    574.</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratio_pred</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">get_prediction</span><span class="p">()</span><span class="o">.</span><span class="n">summary_frame</span><span class="p">()</span>
+<span class="n">ratio_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">temp</span><span class="p">,</span> <span class="n">ratio_pred</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ratio_stats</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>ratio</th>
+      <th>adj_ratio</th>
+      <th>stringency_index</th>
+      <th>date</th>
+      <th>covid</th>
+      <th>quarter</th>
+      <th>palau_travel</th>
+      <th>mean</th>
+      <th>mean_se</th>
+      <th>mean_ci_lower</th>
+      <th>mean_ci_upper</th>
+      <th>obs_ci_lower</th>
+      <th>obs_ci_upper</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0.561695</td>
+      <td>0.561695</td>
+      <td>0.0</td>
+      <td>2019-01-01</td>
+      <td>False</td>
+      <td>1</td>
+      <td>0.194222</td>
+      <td>0.568387</td>
+      <td>0.051942</td>
+      <td>0.463144</td>
+      <td>0.673631</td>
+      <td>0.294774</td>
+      <td>0.842001</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0.734282</td>
+      <td>0.734282</td>
+      <td>0.0</td>
+      <td>2019-02-01</td>
+      <td>False</td>
+      <td>1</td>
+      <td>0.282245</td>
+      <td>0.615828</td>
+      <td>0.047496</td>
+      <td>0.519592</td>
+      <td>0.712064</td>
+      <td>0.345551</td>
+      <td>0.886105</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>0.701865</td>
+      <td>0.701865</td>
+      <td>0.0</td>
+      <td>2019-03-01</td>
+      <td>False</td>
+      <td>1</td>
+      <td>0.286529</td>
+      <td>0.618136</td>
+      <td>0.047401</td>
+      <td>0.522092</td>
+      <td>0.714181</td>
+      <td>0.347928</td>
+      <td>0.888345</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>0.777809</td>
+      <td>0.777809</td>
+      <td>0.0</td>
+      <td>2019-04-01</td>
+      <td>False</td>
+      <td>2</td>
+      <td>0.338945</td>
+      <td>0.596816</td>
+      <td>0.048248</td>
+      <td>0.499057</td>
+      <td>0.694575</td>
+      <td>0.325993</td>
+      <td>0.867639</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>0.651848</td>
+      <td>0.651848</td>
+      <td>0.0</td>
+      <td>2019-05-01</td>
+      <td>False</td>
+      <td>2</td>
+      <td>0.168664</td>
+      <td>0.505042</td>
+      <td>0.059329</td>
+      <td>0.384831</td>
+      <td>0.625253</td>
+      <td>0.225330</td>
+      <td>0.784754</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratio_viz_df</span> <span class="o">=</span> <span class="n">ratio_stats</span><span class="p">[[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;adj_ratio&quot;</span><span class="p">,</span> <span class="s2">&quot;date&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ratio_viz_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ratio_stats</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="s2">&quot;mean_ci_lower&quot;</span><span class="p">,</span> <span class="n">y2</span><span class="o">=</span><span class="s2">&quot;mean_ci_upper&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3de1d8f44971ff498faacb0683a864474bd309f1f08e0c3c39ff05b6c7be166c.png" src="../_images/3de1d8f44971ff498faacb0683a864474bd309f1f08e0c3c39ff05b6c7be166c.png" />
+</div>
+</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -957,6 +1824,21 @@ varlmar
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#var-by-pystata">VAR by PyStata</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio">Ratio</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

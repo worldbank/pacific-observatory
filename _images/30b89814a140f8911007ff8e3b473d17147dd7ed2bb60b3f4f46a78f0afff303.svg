@@ -1316,15 +1316,15 @@
 	<line x1="4138.02" y1="1124.70" x2="4161.10" y2="1124.70" style="stroke:#000000;stroke-width:5.40"/>
 	<line x1="4181.22" y1="1124.70" x2="4184.60" y2="1124.70" style="stroke:#000000;stroke-width:5.40"/>
 	<defs>
-		<path id="path_BAPatzft" d="M383.94 1124.70 L383.94 1124.70 L696.74 1911.09 L1009.53 1359.07 L1322.19 1197.60 L1634.99 1613.28 L1947.78 1472.60 L2260.44 1355.29 L2573.24 1283.74 L2886.03 1257.00 L3198.83 1288.87 L3511.49 1212.72 L3824.28 1186.13 L4137.08 1182.08 L4137.08 1067.73 L3824.28 1022.10 L3511.49 1044.11 L3198.83 1036.68 L2886.03 964.46 L2573.24 889.66 L2260.44 837.28 L1947.78 932.86 L1634.99 934.21 L1322.19 448.88 L1009.53 631.67 L696.74 1295.08 L383.94 1124.70 L383.94 1124.70 Z" stroke-linejoin="round"/>
+		<path id="path_wjAhxBcw" d="M383.94 1124.70 L383.94 1124.70 L696.74 1911.09 L1009.53 1359.07 L1322.19 1197.60 L1634.99 1613.28 L1947.78 1472.60 L2260.44 1355.29 L2573.24 1283.74 L2886.03 1257.00 L3198.83 1288.87 L3511.49 1212.72 L3824.28 1186.13 L4137.08 1182.08 L4137.08 1067.73 L3824.28 1022.10 L3511.49 1044.11 L3198.83 1036.68 L2886.03 964.46 L2573.24 889.66 L2260.44 837.28 L1947.78 932.86 L1634.99 934.21 L1322.19 448.88 L1009.53 631.67 L696.74 1295.08 L383.94 1124.70 L383.94 1124.70 Z" stroke-linejoin="round"/>
 	</defs>
 	<defs>
-		<clipPath id="clipPath_gytfldWA">
-			<use xlink:href="#path_BAPatzft"/>
+		<clipPath id="clipPath_cysGWKwW">
+			<use xlink:href="#path_wjAhxBcw"/>
 		</clipPath>
 	</defs>
-	<use xlink:href="#path_BAPatzft" style="stroke:none;fill:#D9D9D9"/>
-	<use xlink:href="#path_BAPatzft" style="fill:none;stroke:#D0D0D0;stroke-width:6.48" clip-path="url(#clipPath_gytfldWA)"/>
+	<use xlink:href="#path_wjAhxBcw" style="stroke:none;fill:#D9D9D9"/>
+	<use xlink:href="#path_wjAhxBcw" style="fill:none;stroke:#D0D0D0;stroke-width:6.48" clip-path="url(#clipPath_cysGWKwW)"/>
 	<path d=" M383.94 1124.70 L696.60 1603.15 L1009.40 995.51 L1322.19 823.38 L1634.99 1273.74 L1947.65 1202.73 L2260.44 1096.35 L2573.24 1086.77 L2885.90 1110.80 L3198.69 1162.91 L3511.49 1128.48 L3824.28 1104.18 L4136.94 1124.97" stroke-linejoin="round" style="fill:none;stroke:#1F77B4;stroke-width:6.48"/>
 	<line x1="336.42" y1="1958.07" x2="306.45" y2="1958.07" style="stroke:#808080;stroke-width:4.32"/>
 	<text x="291.46" y="1979.08" style="font-family:'Helvetica';font-size:59.94px;fill:#000000" text-anchor="end">-400</text>
