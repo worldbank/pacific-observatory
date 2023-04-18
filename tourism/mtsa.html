@@ -415,6 +415,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var">Vector AutoRegressive (VAR)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach-temporarily">Ratio Approach [Temporarily]</a></li>
 </ul>
             </nav>
         </div>
@@ -438,6 +439,14 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(VA_t\)</span> is the visitor arrivals by the official statistics at time <span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(SAI_t\)</span> is the international seat arrivals at time <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(Covid_t\)</span> is a dummy variable to be one after the WHO announced Covid-19 as the global pandemic. Each equation is estimated via Ordinary Least Squares (OLS). The standard approach for the selection of order p is the Akaike information criterion (AIC).</p>
 <p>Impulse Response Analysis (IRA), which describes the evolution of a model’s variables in reaction to a shock in one or more variables, would also be employed to examine how ISA’s changes would affect VA. To further check the model’s robustness, pairwise Granger causality tests after VAR and the autocorrelation check of the residuals would be employed.</p>
+</section>
+<section id="ratio-approach-temporarily">
+<h2>Ratio Approach [Temporarily]<a class="headerlink" href="#ratio-approach-temporarily" title="Permalink to this heading">#</a></h2>
+<p>Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting <span class="math notranslate nohighlight">\(VA_t\)</span> as the numerator and <span class="math notranslate nohighlight">\(ISA_t\)</span> as the denominator (<span class="math notranslate nohighlight">\(ratio_{t}=\frac{VA_t}{ISA_t}\)</span>). The produced ratio is similar to the load factor in aviation analysis, where <span class="math notranslate nohighlight">\( \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}\)</span>. By assuming the distance is fixed for each passenger, the available seats equal to <span class="math notranslate nohighlight">\(ISA_t\)</span> in our ratio formula, and we can treat <span class="math notranslate nohighlight">\(VA_t\)</span> as a proxy of the number of carried passengers. Thus, we have the model:</p>
+<div class="math notranslate nohighlight">
+\[ 
+Ratio_t = TravelIndex_t + Quarter_t + Covid * StringencyIndex_t + NumofCruise_t + \varepsilon_{t} 
+\]</div>
 </section>
 <div class="toctree-wrapper compound">
 </div>
@@ -511,6 +520,7 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var">Vector AutoRegressive (VAR)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach-temporarily">Ratio Approach [Temporarily]</a></li>
 </ul>
   </nav></div>
 
