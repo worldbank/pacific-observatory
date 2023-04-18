@@ -19,6 +19,7 @@ parts:
       - file: tourism/data
         sections:   
         - file: tourism/eda
+        - file: tourism/googletrends
       - file: tourism/utsa
         sections:
         - file: tourism/palau_display
