@@ -1,6 +1,6 @@
 # Data 
 ## Sources
-The study relies on two distinct kinds of data sources. The first is official Visitor Arrival (VA) data from the official website. There are six Pacific Islands Countries available for access: Tonga. Vanuatu, Palau, Samoa, Fiji, and Solomon Islands. Most countries mentioned above, except for Fiji, have more than 12-year monthly visitor data with countries of origin documented, suggesting more than 120 observations, which is a decent number for conducting a time series analysis.
+The study relies on two major data sources. The first is official Visitor Arrival (VA) data from the official website. There are six Pacific Islands Countries available for access: Tonga. Vanuatu, Palau, Samoa, Fiji, and Solomon Islands. Most countries mentioned above, except for Fiji, have more than 12-year monthly visitor data with countries of origin documented, suggesting more than 120 observations, which is a decent number for conducting a time series analysis.
 
 The other is the Global Aviation Dashboard (GAD) data. The data includes the daily flight data from 2019-01-01 to up-to-date (2022-10-16) dates. Three relevant variables (number of flights, seat arrivals, and available seat kilometers) are available. All the relevant variables merely reflect the flight’s ability and do not necessarily reflect the actual onboard passengers. Since international tourism is closely related to the GDP, we mainly focus on international seat arrivals (ISA).
 
@@ -9,6 +9,8 @@ The other is the Global Aviation Dashboard (GAD) data. The data includes the dai
 </div>
 
 Given the daily frequency of GAD data and the monthly frequency of official statistics, further analysis needs to be built on the aligned frequency. Therefore, the GAD data is transformed into the monthly frequency by simply summing the whole month’s daily data. The aligned data starts from 2019-01-01 and ends at different periods varied by each available country’s latest official statistics.
+
+Other than the abovementioned data sources, the study exploits the Google Trends data accessed from the [Development Data Partership](https://datapartnership.org/). For each country, the keyword search includes country name and suffix of "Travel," "Hotel," and "Flight," for example "Palau Travel."
 
 ## Assessment
 Pearson’s correlation coefficient is an often-employed approach to test the correlation between variables. However, the employment of Pearson’s correlation could be spurious for checking the relationship between time series data because it ignores that time series data strongly depends on previous states. The additional employment of cross-correlation could be a supplement to measuring the similarity between time series data.
