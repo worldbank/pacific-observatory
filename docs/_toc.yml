@@ -18,7 +18,8 @@ parts:
       - file: tourism/intro
       - file: tourism/data
         sections:   
-        - file: tourism/eda
+        - file: tourism/official_eda
+        - file: tourism/aviation_eda
         - file: tourism/googletrends
       - file: tourism/utsa
         sections:
