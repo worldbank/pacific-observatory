@@ -1,0 +1,15 @@
+﻿Description,Source
+Population and demographic structure,Worldpop unconstrained 2020
+"Elevation, DEM, 30 meters",COPERNICUS 2010
+Distance to any road,Open Street Map
+Land cover shares,ESA Worldcover 10m 2020
+Built-up area,World Settlement Footprint 2019
+Nighttime ligths 2020 composite,VIIRS
+Electrification rate,High Resolution Energy Access 2019
+Building heights,WSF 3D 2019
+Count of buildings,Open Street Map
+Count of cell towers,Open Cell ID
+Precipitation,CHIRPS
+Temperature,TerraClimate (4km)
+Drougth Index,TerraClimate (4km)
+NDVI,MODIS (250m)

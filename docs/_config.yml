@@ -16,7 +16,6 @@ sphinx:
     html_extra_path: ['images']
 
 html:
-  announcement: "⚠️ The Book is under construction!⚠️"
   home_page_in_navbar: true
   use_edit_page_button: true
   use_repository_button: true

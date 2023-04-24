@@ -4,15 +4,16 @@ root: index
 parts:
   - caption: Night Time Lights
     chapters:
-      - file: ch1_intro
-      - file: ch2_lit
-      - file: ch3_dq
-      - file: ch4_econ
-      - file: ch5_other
+      - file: ntl/ch1_intro
+      - file: ntl/ch2_lit
+      - file: ntl/ch3_dq
+      - file: ntl/ch4_econ
+      - file: ntl/ch5_other
+      - file: ntl/mining
   - caption: Climate and Agriculture
     chapters:
-      - file: climate_and_ag
-      - file: climate_db
+      - file: climate/climate_and_ag
+      - file: climate/climate_db
   - caption: Tourism
     chapters:
       - file: tourism/intro
@@ -27,12 +28,17 @@ parts:
       - file: tourism/mtsa
         sections:
         - file: tourism/palau_mtsa
-  - caption: AIS
+  - caption: Automatic Identification System
     chapters:
       - file: ais_intro
+  - caption: Geospatial Poverty Map
+    chapters:
+      - file: poverty/vanuatu
+  - caption: Project Targeting Index
+    chapters:
+      - url: https://ifeanyi-edochie.shinyapps.io/pciPTI/
+        title: Demo App
   - caption: Additional Resources
     chapters:
-      - url: https://datapartnership.org/updates
-        title: Projects & News
       - url: https://worldbank.org
         title: World Bank
