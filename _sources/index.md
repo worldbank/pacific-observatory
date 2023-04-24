@@ -8,7 +8,7 @@ The content is structured by topic of investigation, each thematic folder contai
 
 ## Research Topics
 
-🔖 [**Night Time Lights Applications**](./ch1_intro.md)
+🔖 [**Night Time Lights Applications**](./ntl/ch1_intro.md)
 > This note explores socio-economic applications with Night Time Lights data.  
 > Are lights at night a good proxy for economic activity or extractives?  
 > Can lights be used to aid poverty mapping, estimate access to electrification, or estimate damages/recovery from natural disasters?
@@ -26,26 +26,24 @@ The machine learning imputation code is available [here](https://github.com/worl
 
 The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available [here](https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea)
 
-🔖 [**Aviation Statistics**](./tourism_intro.md)
+🔖 [**Aviation Statistics**](./tourism/intro)
 > Monitor tourism recovery through aviation statistics.
 
-🔖 [**Climate and Agriculture Monitoring**](./climate_and_ag.md)
+🔖 [**Climate and Agriculture Monitoring**](./climate/climate_and_ag.md)
 > Monitor crop productivity and seasonality through vegetation indices.  
 > Develop a sub-national database of climate indicators.  
 > Update crop masks with limited training data and satellite imagery.  
 
-### Future work
-
 🔖 [**Automatic Identification System (AIS)**](./ais_intro.md)
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on trade and fishing intensity.
 
-🔖 **Text Analytics**
-> Study social dynamics (conflict risk, cohesion, perceptions of the economy, climate change) through mining from text sources (ACLED, GDELT). 
+🔖 [**Geospatial Poverty Maps**](./poverty/vanuatu)
+> Small area estimation of poverty combining survey and geospatial data.
+
+🔖 [**Project Targeting Index**](https://ifeanyi-edochie.shinyapps.io/pciPTI/)
+> Geospatial variables for project targeting.
 
 ## Additional Resources
-
-- [DIME Analytics Data Handbook](https://worldbank.github.io/dime-data-handbook/)
-    > This book is intended to serve as an introduction to the primary tasks required in development research, from experimental design to data collection to data analysis to publication. It serves as a companion to the DIME Wiki and is produced by DIME Analytics.
 
 - [GitHub Pages](https://guides.github.com/features/pages/)
     > GitHub Pages are public webpages hosted and easily published through GitHub.
