@@ -427,6 +427,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">scripts.python.PdfParse</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">scripts.python.ts_utils</span> <span class="kn">import</span> <span class="o">*</span>
@@ -435,24 +436,104 @@ document.write(`
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">countries_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">]:</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> \
         <span class="s2">&quot;/intermediate/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_monthly_visitor.csv&quot;</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;country&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">]]</span>
+    <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+    
+    <span class="c1"># Descriptive Statistics</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;s descriptive statistics:&quot;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">temp</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+    <span class="c1"># Stationarity Test</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;s ADF test results:&quot;</span><span class="p">)</span>
     <span class="n">display</span><span class="p">(</span><span class="n">get_adf_df</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]))</span>
-    <span class="n">countries_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">countries_df</span><span class="p">,</span> <span class="n">temp</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Plots</span>
+    <span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">temp</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Visitors&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;&#39;s Visitors&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</details>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PALAU&#39;s ADF test results:
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PALAU&#39;s descriptive statistics:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>184.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>7730.008361</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>4060.315357</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>6056.250000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>8384.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>10458.250000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>17711.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PALAU&#39;s ADF test results:
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -492,6 +573,66 @@ document.write(`
       <td>-3.469413</td>
       <td>-2.878696</td>
       <td>-2.575917</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="../_images/c2563045eda83bad22ebf7baf9ea8a778383155c48bb9a3074fcd9eefa8afbee.png" src="../_images/c2563045eda83bad22ebf7baf9ea8a778383155c48bb9a3074fcd9eefa8afbee.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SOLOMON&#39;s descriptive statistics:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>144.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1818.659722</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>613.188425</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1590.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>1856.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2196.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>3122.000000</td>
     </tr>
   </tbody>
 </table>
@@ -538,6 +679,66 @@ document.write(`
     </tr>
   </tbody>
 </table>
+</div></div><img alt="../_images/4df5f9a4f04c9d9bc8bd1d9aff1300a84a46e65f1a236a054e7dd01017d234cf.png" src="../_images/4df5f9a4f04c9d9bc8bd1d9aff1300a84a46e65f1a236a054e7dd01017d234cf.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VANUATU&#39;s descriptive statistics:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>225.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>6893.822222</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>3357.829027</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>5244.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>7211.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>9303.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>13184.000000</td>
+    </tr>
+  </tbody>
+</table>
 </div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VANUATU&#39;s ADF test results:
 </pre></div>
 </div>
@@ -581,7 +782,217 @@ document.write(`
     </tr>
   </tbody>
 </table>
-</div></div></div>
+</div></div><img alt="../_images/a50d4d5fd7057af152cfe53a1030e00bb9c511d7009699b04d371ff2bacab410.png" src="../_images/a50d4d5fd7057af152cfe53a1030e00bb9c511d7009699b04d371ff2bacab410.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SAMOA&#39;s descriptive statistics:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>242.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>9512.599174</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>4693.514588</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>7445.500000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>9657.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>11900.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>24647.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SAMOA&#39;s ADF test results:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>total</th>
+      <td>-3.403589</td>
+      <td>0.010837</td>
+      <td>14.0</td>
+      <td>227.0</td>
+      <td>-3.45949</td>
+      <td>-2.874358</td>
+      <td>-2.573602</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="../_images/23422ac190236486ad291d8fb8934ba1f07288786b800b8fab2ef76a3eee8935.png" src="../_images/23422ac190236486ad291d8fb8934ba1f07288786b800b8fab2ef76a3eee8935.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TONGA&#39;s descriptive statistics:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>146.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>5125.842466</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>2911.141373</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>3828.250000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>5306.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>6827.750000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>13275.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TONGA&#39;s ADF test results:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>total</th>
+      <td>-1.147026</td>
+      <td>0.695959</td>
+      <td>10.0</td>
+      <td>135.0</td>
+      <td>-3.479743</td>
+      <td>-2.883198</td>
+      <td>-2.57832</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="../_images/aaf92894ea445077666ff0cfdbe7d31fffcb6e1be208ecf3a7c0a771e9b35206.png" src="../_images/aaf92894ea445077666ff0cfdbe7d31fffcb6e1be208ecf3a7c0a771e9b35206.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 
