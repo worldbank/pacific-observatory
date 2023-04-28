@@ -69,5 +69,6 @@ def calculate_evaluation(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
     mse = np.mean((y_pred - y_true) ** 2)
     rmse = np.sqrt(mse)
     mae = np.mean(np.abs(y_true - y_pred))
+    y_true[y_true == 0] = 1e-10
     mape = np.mean(np.abs((y_true - y_pred) / y_true)) * 100
     return  {'MSE': mse, 'RMSE': rmse, 'MAE': mae, 'MAPE': mape}

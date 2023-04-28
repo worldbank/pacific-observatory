@@ -13,14 +13,50 @@ from statsmodels.tsa.arima.model import ARIMA
 import pmdarima as pm
 from pmdarima import model_selection
 from pmdarima import auto_arima
+from .ts_eval import *
 
 
-class SARIMAXPipeline:
+class SARIMAXData:
     def __init__(self,
+                 country: str,
+                 data=None):
+        self.country = country
+        self.country_data_folder = os.getcwd() + "/data/tourism/" + str(country)
+        self.trends_data_folder = os.getcwd() + "/data/tourism/trends"
+        self.covid_idx_path = os.getcwd() + "/data/tourism/oceania_covid_stringency.csv"
+
+    def read_and_merge(self):
+        data = (pd.read_csv(self.country_data_folder + "/intermediate/" +
+                            str(self.country) + "_monthly_visitor.csv")
+                .drop("Unnamed: 0", axis=1))
+        data.columns = [col.lower().replace(" ", "_") for col in data.columns]
+        data["date"] = pd.to_datetime(data["date"])
+
+        trends = (pd.read_csv(self.trends_data_folder + "/trends_" +
+                              str(self.country) + ".csv")
+                  .drop("Unnamed: 0", axis=1))
+        trends["date"] = pd.to_datetime(trends["date"])
+        data = data.merge(trends.iloc[:, [0, -3, -2, -1]],
+                          how="left", on="date")
+
+        covid_idx = pd.read_csv(self.covid_idx_path).drop("Unnamed: 0", axis=1)
+        covid_idx["date"] = pd.to_datetime(covid_idx["date"])
+        data = data.merge(covid_idx, how="left", on="date").fillna(0)
+
+        data["covid"] = (data.date >= "2020-03-11").astype(int)
+        data.columns = [col.replace(" ", "_") for col in data.columns]
+
+        self.data = data
+        display(data.head(5))
+
+class SARIMAXPipeline(SARIMAXData):
+    def __init__(self,
+                 country: str, 
                  data: pd.DataFrame,
                  y_var: str, exog_var: list,
                  transform_method: str,
-                 training_ratio=0.9):
+                 training_ratio=0.9,
+                 verbose=True):
         """
         Initialize SARIMAXPipeline object.
 
@@ -30,29 +66,21 @@ class SARIMAXPipeline:
             exog_var (list, optional): The list of the column names representing the exogenous variable.
             transform_method (str, optional): The name of the transformation method to apply to the time series.
             training_ratio (float, optional): The proportion of the data to use for training the model.
+            verbose (bool): Logging the model running or not.
 
         Raises:
             AttributeError: If an invalid transformation method is specified.
         """
-        self.data = data
+        super().__init__(country, data)
         self.y_var = y_var
         self.exog_var = exog_var
         self.training_ratio = training_ratio
         self.transform_method = transform_method
+        self.verbose = verbose
 
         # Check if the transformation method is valid
         if transform_method not in ["scaledlogit", "minmax", None]:
             raise AttributeError("No such transformation exists.")
-
-        # Load the data
-        self.y = self.data[[self.y_var]]
-        self.exog = self.data[self.exog_var]
-
-        self.total_size = len(self.data)
-        self.training_size = int(training_ratio * self.total_size)
-        self.test_size = self.total_size - self.training_size
-        print("training size : {}, testing size : {}".format(
-            self.training_size, self.test_size))
 
         # Initialize the stepwise model
         self.stepwise_model = None
@@ -72,6 +100,23 @@ class SARIMAXPipeline:
         return inv_series
 
     def transform(self):
+       
+        # Load the data
+        self.y = self.data[[self.y_var]]
+        self.exog = self.data[self.exog_var]
+        self.total_size = len(self.data)
+        self.training_size = int(self.training_ratio * self.total_size)
+        self.test_size = self.total_size - self.training_size
+        
+        
+        if self.data["date"][self.training_size-1] <= pd.Timestamp(2020, 3, 11):
+            print("Training samples do not cover covid-19 periods. Instead, Run All Samples.")
+            self.training_size = self.total_size
+            self.test_size = 0
+              
+        print("training size : {}, testing size : {}".format(
+            self.training_size, self.test_size))
+        
         if self.transform_method == "scaledlogit":
             self.transformed_y = self.scaledlogit_transform(self.y)
         elif self.transform_method == "minmax":
@@ -80,6 +125,21 @@ class SARIMAXPipeline:
             self.transformed_y = minmax.fit_transform(self.y)
         else:
             self.transformed_y = self.y
+            
+    def get_benchmark_evaluation(self):
+        
+        naive_pred = naive_method(self.data[self.y_var])
+        mean_pred = mean_method(self.data[self.y_var])
+        snaive_pred = seasonal_naive_method(self.data[self.y_var])
+        benchmark = pd.DataFrame()
+
+        for idx, method in enumerate([naive_pred, mean_pred, snaive_pred]):
+            metrics = calculate_evaluation(self.data[self.y_var], method)
+            metrics_df = pd.DataFrame(metrics, index=[idx])
+            benchmark = pd.concat([benchmark, metrics_df], axis=0)
+        benchmark.index = ["naive", "mean", "seasonal naive"]
+        
+        self.benchmark = benchmark
 
     def stepwise_search(self, d: int = None, D: int= None) -> dict:
         """
@@ -97,7 +157,7 @@ class SARIMAXPipeline:
                                   start_p=0, start_q=0,
                                   max_p=5, max_q=5, m=12,
                                   start_P=0, seasonal=True,
-                                  d=d, D=D, trace=True,
+                                  d=d, D=D, trace=self.verbose,
                                   error_action='ignore',
                                   suppress_warnings=True,
                                   stepwise=True)
@@ -107,7 +167,7 @@ class SARIMAXPipeline:
         self.stepwise_model = self.stepwise_fit.get_params()
 
         return self.stepwise_model
-
+    
     def manual_search(self, params):
         self.manual_search_results = []
         for param in params:
@@ -118,8 +178,9 @@ class SARIMAXPipeline:
                               seasonal_order=param[1])
                 res = mod.fit(disp=False)
                 self.manual_search_results.append((res, res.aic, param))
-                print(
-                    'Tried out SARIMAX{}x{} - AIC:{}'.format(param[0], param[1], round(res.aic, 2)))
+                if self.verbose:
+                    print(
+                        'Tried out SARIMAX{}x{} - AIC:{}'.format(param[0], param[1], round(res.aic, 2)))
             except Exception as e:
                 print(e)
                 continue
@@ -142,7 +203,8 @@ class SARIMAXPipeline:
     def compare_models(y, exog,
                        models: list,
                        scoring="smape",
-                       hyper_params=None):
+                       hyper_params=None,
+                       verbose=0):
 
         from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
 
@@ -165,36 +227,10 @@ class SARIMAXPipeline:
 
         for model in models:
             model_cv_scores = cross_val_score(
-                model, y, exog, scoring=scoring, cv=cv, verbose=2)
-            model_avg_error = np.average(model_cv_scores)
+                model, y, exog, scoring=scoring, cv=cv, verbose=verbose)
+            model_avg_error = np.nanmean(model_cv_scores)
             comparison_result["model"].append(model)
             comparison_result["cv_scores"].append(model_cv_scores)
             comparison_result["avg_error"].append(model_avg_error)
 
         return comparison_result
-    
-
-def varma_search(data: pd.DataFrame, var_name: list, exog: pd.DataFrame):
-
-    from statsmodels.tsa.api import VARMAX
-    from sklearn.model_selection import ParameterGrid
-
-    param_grid = {'p': [1, 2, 3], 'q': [1, 2, 3], 'tr': ['n', 'c', 't', 'ct']}
-    pg = list(ParameterGrid(param_grid))
-
-    model_res = {
-        "model": [],
-        "result": []
-    }
-    for idx, params in enumerate(pg):
-        print(f' Running for {params}')
-        p = params.get('p')
-        q = params.get('q')
-        tr = params.get('tr')
-        model = VARMAX(data[var_name],
-                       exog=exog,
-                       order=(p, q), trend=tr).fit(disp=False)
-        model_res["model"].append((p, q, tr))
-        model_res["result"].append(model.aic)
-
-    return model_res

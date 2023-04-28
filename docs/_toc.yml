@@ -24,7 +24,7 @@ parts:
         - file: tourism/googletrends
       - file: tourism/utsa
         sections:
-        - file: tourism/palau_display
+        - file: tourism/utsa_display
       - file: tourism/mtsa
         sections:
         - file: tourism/palau_mtsa
