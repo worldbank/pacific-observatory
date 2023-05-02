@@ -42,7 +42,7 @@ class MultiTSData(SARIMAXData):
         display(self.data.head(5))
 
 
-class VARPipleline(MultiTSData):
+class VARPipeline(MultiTSData):
     def __init__(self, country, var_name, data=None):
         super().__init__(country, data)
         self.var_name = var_name
@@ -92,3 +92,28 @@ class VARPipleline(MultiTSData):
             model_res["result"].append(model.aic)
 
         return model_res
+    
+
+class RatioPipe(MultiTSData):
+    def __init__(self, country, var_name, data=None):
+        super().__init__(country, data)
+        self.var_name = var_name
+
+    def transform(self):
+        ratios = (self.data[self.var_name[0]])/(self.data[self.var_name[-1]])
+        for idx, ratio in enumerate(ratios):
+            if ratio >= 1 or ratio == 0:
+                print("Abnormal value produced.")
+                ratios[idx] = ((ratios[idx-1] + ratios[idx+1]))/2
+        self.data["ratio"] = ratios
+
+    def fit(self):
+        import statsmodels.formula.api as smf
+        self.data["quarter"] = self.data["date"].dt.quarter
+        self.model_df = self.data[["date", "ratio", "covid", "quarter",
+                                   "stringency_index", str(self.country) + "_travel"]]
+        self.res = smf.wls(
+            "ratio~covid * stringency_index + C(quarter) +" +
+            str(self.country) + "_travel",
+            data=self.model_df).fit()
+        print(self.res.summary())

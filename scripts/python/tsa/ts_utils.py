@@ -104,4 +104,13 @@ def grangers_causation_matrix(data, variables,
     df.index = [var + '_y' for var in variables]
     return df
 
+def scaledlogit_transform(series):
+    upper, lower = series.max() + 1, series.min() - 1
+    scaled_logit = np.log((series - lower)/(upper - series))
 
+    return scaled_logit
+
+def inverse_scaledlogit(trans_series, upper, lower):
+    exp = np.exp(trans_series)
+    inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
+    return inv_series
