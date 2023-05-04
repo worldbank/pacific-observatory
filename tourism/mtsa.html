@@ -418,8 +418,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var">Vector AutoRegressive (VAR)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-error-correction-model-vecm">Vector Error-Correction Model (VECM)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var-and-vector-error-correction-model-vecm">Vector AutoRegressive (VAR) and Vector Error-Correction Model (VECM)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach-temporarily">Ratio Approach [Temporarily]</a></li>
 </ul>
             </nav>
@@ -434,8 +433,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="multivariate-time-series-analaysis">
 <h1>Multivariate Time Series Analaysis<a class="headerlink" href="#multivariate-time-series-analaysis" title="Permalink to this heading">#</a></h1>
-<section id="vector-autoregressive-var">
-<h2>Vector AutoRegressive (VAR)<a class="headerlink" href="#vector-autoregressive-var" title="Permalink to this heading">#</a></h2>
+<section id="vector-autoregressive-var-and-vector-error-correction-model-vecm">
+<h2>Vector AutoRegressive (VAR) and Vector Error-Correction Model (VECM)<a class="headerlink" href="#vector-autoregressive-var-and-vector-error-correction-model-vecm" title="Permalink to this heading">#</a></h2>
 <p>Classical VAR would improve the univariate time series modeling by considering the linkages between ISA data from the GAD and the official VA data. A VAR(p) model is formally expressed as:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -443,10 +442,8 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
 + \beta_{11}SAI_{t-1} + \cdots + \beta_{1p}SAI_{t-p} + Covid_{t} + \varepsilon_{t} 
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(VA_t\)</span> is the visitor arrivals by the official statistics at time <span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(SAI_t\)</span> is the international seat arrivals at time <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(Covid_t\)</span> is a dummy variable to be one after the WHO announced Covid-19 as the global pandemic. Each equation is estimated via Ordinary Least Squares (OLS). The standard approach for the selection of order p is the Akaike information criterion (AIC).</p>
-<p>Impulse Response Analysis (IRA), which describes the evolution of a model’s variables in reaction to a shock in one or more variables, would also be employed to examine how ISA’s changes would affect VA. To further check the model’s robustness, pairwise Granger causality tests after VAR and the autocorrelation check of the residuals would be employed.</p>
-</section>
-<section id="vector-error-correction-model-vecm">
-<h2>Vector Error-Correction Model (VECM)<a class="headerlink" href="#vector-error-correction-model-vecm" title="Permalink to this heading">#</a></h2>
+<p>Impulse Response Analysis (IRA), which describes the evolution of a model’s variables in reaction to a shock in one or more variables, would also be employed to examine how ISA’s changes would affect VA. To further check the model’s robustness, pairwise Granger causality tests after VAR and the autocorrelation check of the residuals would be employed.
+S</p>
 </section>
 <section id="ratio-approach-temporarily">
 <h2>Ratio Approach [Temporarily]<a class="headerlink" href="#ratio-approach-temporarily" title="Permalink to this heading">#</a></h2>
@@ -540,8 +537,7 @@ Ratio_t = TravelIndex_t + Quarter_t + (Covid * StringencyIndex_t) + NumOfCruise_
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var">Vector AutoRegressive (VAR)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-error-correction-model-vecm">Vector Error-Correction Model (VECM)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var-and-vector-error-correction-model-vecm">Vector AutoRegressive (VAR) and Vector Error-Correction Model (VECM)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach-temporarily">Ratio Approach [Temporarily]</a></li>
 </ul>
   </nav></div>

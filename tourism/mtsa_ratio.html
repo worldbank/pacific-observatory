@@ -67,6 +67,8 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/tourism/mtsa_ratio.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Automatic Identification System" href="../ais_intro.html" />
+    <link rel="prev" title="Palau" href="palau_mtsa.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -442,15 +444,36 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">RatioPipe</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                 <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">])</span>
-<span class="n">test</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
-<span class="n">test</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
-<span class="n">test</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">]:</span>
+    
+    
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">RatioPipe</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;s Official and Avaition Data.&quot;</span><span class="p">)</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Create Loaded Factor for </span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> Regression </span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="n">pred_df</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">get_prediction_df</span><span class="p">()</span>
+
+    <span class="n">mean_pred</span><span class="p">,</span> <span class="n">naive_pred</span> <span class="o">=</span> \
+        <span class="n">mean_method</span><span class="p">(</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]),</span> <span class="n">naive_method</span><span class="p">(</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">])</span>
+    
+    <span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">eval_name</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span> <span class="s2">&quot;naive&quot;</span><span class="p">,</span> <span class="s2">&quot;ratio&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">eval_name</span><span class="p">,</span> <span class="p">[</span><span class="n">mean_pred</span><span class="p">,</span> <span class="n">naive_pred</span><span class="p">,</span> <span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;pred_mean&quot;</span><span class="p">]]):</span>
+        <span class="n">eval_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">pred</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">eval_df</span><span class="p">])</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">benchmark</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PALAU&#39;s Official and Avaition Data.
+</pre></div>
+</div>
 <div class="output text_html"><div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -490,7 +513,7 @@ document.write(`
   <tbody>
     <tr>
       <th>0</th>
-      <td>2007-06-01</td>
+      <td>2007-05-01</td>
       <td>856.0</td>
       <td>1291.0</td>
       <td>3245.0</td>
@@ -499,6 +522,25 @@ document.write(`
       <td>99.0</td>
       <td>463.0</td>
       <td>6709.0</td>
+      <td>0.363144</td>
+      <td>7.430694</td>
+      <td>1.593284</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2007-06-01</td>
+      <td>2119.0</td>
+      <td>1366.0</td>
+      <td>3269.0</td>
+      <td>33.0</td>
+      <td>653.0</td>
+      <td>144.0</td>
+      <td>437.0</td>
+      <td>8021.0</td>
       <td>1.068426</td>
       <td>8.334537</td>
       <td>0.320004</td>
@@ -508,16 +550,16 @@ document.write(`
       <td>0</td>
     </tr>
     <tr>
-      <th>1</th>
+      <th>2</th>
       <td>2007-07-01</td>
-      <td>2119.0</td>
-      <td>1366.0</td>
-      <td>3269.0</td>
-      <td>33.0</td>
-      <td>653.0</td>
-      <td>144.0</td>
-      <td>437.0</td>
-      <td>8021.0</td>
+      <td>3476.0</td>
+      <td>1354.0</td>
+      <td>3046.0</td>
+      <td>46.0</td>
+      <td>580.0</td>
+      <td>256.0</td>
+      <td>438.0</td>
+      <td>9196.0</td>
       <td>0.000000</td>
       <td>9.667343</td>
       <td>0.952482</td>
@@ -527,16 +569,16 @@ document.write(`
       <td>0</td>
     </tr>
     <tr>
-      <th>2</th>
+      <th>3</th>
       <td>2007-08-01</td>
-      <td>3476.0</td>
-      <td>1354.0</td>
-      <td>3046.0</td>
-      <td>46.0</td>
-      <td>580.0</td>
-      <td>256.0</td>
-      <td>438.0</td>
-      <td>9196.0</td>
+      <td>3022.0</td>
+      <td>910.0</td>
+      <td>2497.0</td>
+      <td>61.0</td>
+      <td>559.0</td>
+      <td>145.0</td>
+      <td>401.0</td>
+      <td>7595.0</td>
       <td>0.704914</td>
       <td>6.906282</td>
       <td>0.453967</td>
@@ -546,27 +588,8 @@ document.write(`
       <td>0</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>2007-09-01</td>
-      <td>3022.0</td>
-      <td>910.0</td>
-      <td>2497.0</td>
-      <td>61.0</td>
-      <td>559.0</td>
-      <td>145.0</td>
-      <td>401.0</td>
-      <td>7595.0</td>
-      <td>0.798284</td>
-      <td>3.591027</td>
-      <td>0.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0</td>
-    </tr>
-    <tr>
       <th>4</th>
-      <td>2007-10-01</td>
+      <td>2007-09-01</td>
       <td>1807.0</td>
       <td>1082.0</td>
       <td>2298.0</td>
@@ -575,8 +598,8 @@ document.write(`
       <td>390.0</td>
       <td>395.0</td>
       <td>6795.0</td>
-      <td>0.431326</td>
-      <td>4.111283</td>
+      <td>0.798284</td>
+      <td>3.591027</td>
       <td>0.000000</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -633,29 +656,6 @@ document.write(`
       <td>13048</td>
       <td>75</td>
       <td>75</td>
-      <td>1953.0</td>
-      <td>1169.0</td>
-      <td>919.0</td>
-      <td>2072.0</td>
-      <td>626.0</td>
-      <td>310.0</td>
-      <td>280.0</td>
-      <td>7329.0</td>
-      <td>0.493228</td>
-      <td>2.559978</td>
-      <td>0.194222</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2019-02-01</td>
-      <td>13281</td>
-      <td>13281</td>
-      <td>74</td>
-      <td>74</td>
       <td>2055.0</td>
       <td>1035.0</td>
       <td>1092.0</td>
@@ -664,21 +664,21 @@ document.write(`
       <td>438.0</td>
       <td>371.0</td>
       <td>9752.0</td>
-      <td>0.310671</td>
-      <td>2.841414</td>
-      <td>0.282245</td>
+      <td>0.493228</td>
+      <td>2.559978</td>
+      <td>0.194222</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>2019-03-01</td>
-      <td>12870</td>
-      <td>12870</td>
-      <td>73</td>
-      <td>73</td>
+      <th>1</th>
+      <td>2019-02-01</td>
+      <td>13281</td>
+      <td>13281</td>
+      <td>74</td>
+      <td>74</td>
       <td>2434.0</td>
       <td>1090.0</td>
       <td>1190.0</td>
@@ -687,21 +687,21 @@ document.write(`
       <td>483.0</td>
       <td>461.0</td>
       <td>9033.0</td>
-      <td>0.386389</td>
-      <td>2.921431</td>
-      <td>0.286529</td>
+      <td>0.310671</td>
+      <td>2.841414</td>
+      <td>0.282245</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>2019-04-01</td>
-      <td>10806</td>
-      <td>10806</td>
-      <td>64</td>
-      <td>64</td>
+      <th>2</th>
+      <td>2019-03-01</td>
+      <td>12870</td>
+      <td>12870</td>
+      <td>73</td>
+      <td>73</td>
       <td>1756.0</td>
       <td>808.0</td>
       <td>1099.0</td>
@@ -710,21 +710,21 @@ document.write(`
       <td>368.0</td>
       <td>415.0</td>
       <td>8405.0</td>
-      <td>0.293529</td>
-      <td>2.981907</td>
-      <td>0.338945</td>
+      <td>0.386389</td>
+      <td>2.921431</td>
+      <td>0.286529</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>2019-05-01</td>
-      <td>11472</td>
-      <td>11472</td>
-      <td>67</td>
-      <td>67</td>
+      <th>3</th>
+      <td>2019-04-01</td>
+      <td>10806</td>
+      <td>10806</td>
+      <td>64</td>
+      <td>64</td>
       <td>1288.0</td>
       <td>1095.0</td>
       <td>1393.0</td>
@@ -733,9 +733,371 @@ document.write(`
       <td>185.0</td>
       <td>421.0</td>
       <td>7478.0</td>
+      <td>0.293529</td>
+      <td>2.981907</td>
+      <td>0.338945</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-05-01</td>
+      <td>11472</td>
+      <td>11472</td>
+      <td>67</td>
+      <td>67</td>
+      <td>650.0</td>
+      <td>655.0</td>
+      <td>1399.0</td>
+      <td>2321.0</td>
+      <td>622.0</td>
+      <td>119.0</td>
+      <td>305.0</td>
+      <td>6071.0</td>
       <td>0.306351</td>
       <td>3.537987</td>
       <td>0.168664</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Create Loaded Factor for PALAU:
+Abnormal value produced with a value of inf.
+Abnormal value produced with a value of 1.7439759036144578.
+
+ Regression PALAU:
+                            WLS Regression Results                            
+==============================================================================
+Dep. Variable:                  ratio   R-squared:                       0.553
+Model:                            WLS   Adj. R-squared:                  0.466
+Method:                 Least Squares   F-statistic:                     6.366
+Date:                Thu, 04 May 2023   Prob (F-statistic):           6.66e-05
+Time:                        15:44:46   Log-Likelihood:                 13.430
+No. Observations:                  44   AIC:                            -10.86
+Df Residuals:                      36   BIC:                             3.414
+Df Model:                           7                                         
+Covariance Type:            nonrobust                                         
+==========================================================================================
+                             coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------
+Intercept                  0.4446      0.116      3.820      0.001       0.209       0.681
+C(quarter)[T.2]           -0.1233      0.086     -1.428      0.162      -0.299       0.052
+C(quarter)[T.3]           -0.0523      0.090     -0.583      0.564      -0.234       0.130
+C(quarter)[T.4]           -0.0017      0.093     -0.019      0.985      -0.190       0.186
+covid                     -0.4025      0.177     -2.272      0.029      -0.762      -0.043
+stringency_index          -0.0185      0.005     -3.816      0.001      -0.028      -0.009
+covid:stringency_index     0.0197      0.006      3.325      0.002       0.008       0.032
+palau_travel               0.7287      0.281      2.589      0.014       0.158       1.300
+==============================================================================
+Omnibus:                        6.231   Durbin-Watson:                   1.619
+Prob(Omnibus):                  0.044   Jarque-Bera (JB):                5.245
+Skew:                           0.824   Prob(JB):                       0.0726
+Kurtosis:                       3.376   Cond. No.                         572.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>ratio</th>
+      <th>total</th>
+      <th>seats_arrivals_intl</th>
+      <th>mean</th>
+      <th>mean_se</th>
+      <th>mean_ci_lower</th>
+      <th>mean_ci_upper</th>
+      <th>obs_ci_lower</th>
+      <th>obs_ci_upper</th>
+      <th>pred_mean</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-01</td>
+      <td>0.747394</td>
+      <td>9752.0</td>
+      <td>13048</td>
+      <td>0.586118</td>
+      <td>0.082216</td>
+      <td>0.419377</td>
+      <td>0.752860</td>
+      <td>0.152919</td>
+      <td>1.019317</td>
+      <td>7647.672011</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-02-01</td>
+      <td>0.680145</td>
+      <td>9033.0</td>
+      <td>13281</td>
+      <td>0.650264</td>
+      <td>0.075176</td>
+      <td>0.497800</td>
+      <td>0.802728</td>
+      <td>0.222358</td>
+      <td>1.078171</td>
+      <td>8636.159406</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-03-01</td>
+      <td>0.653069</td>
+      <td>8405.0</td>
+      <td>12870</td>
+      <td>0.653386</td>
+      <td>0.075026</td>
+      <td>0.501227</td>
+      <td>0.805545</td>
+      <td>0.225588</td>
+      <td>1.081184</td>
+      <td>8409.074189</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-04-01</td>
+      <td>0.692023</td>
+      <td>7478.0</td>
+      <td>10806</td>
+      <td>0.568263</td>
+      <td>0.076326</td>
+      <td>0.413466</td>
+      <td>0.723060</td>
+      <td>0.139519</td>
+      <td>0.997006</td>
+      <td>6140.645641</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-05-01</td>
+      <td>0.529202</td>
+      <td>6071.0</td>
+      <td>11472</td>
+      <td>0.444172</td>
+      <td>0.093864</td>
+      <td>0.253807</td>
+      <td>0.634536</td>
+      <td>0.001343</td>
+      <td>0.887000</td>
+      <td>5095.536158</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mean</th>
+      <td>1.198414e+07</td>
+      <td>3461.811598</td>
+      <td>3054.239669</td>
+      <td>131.748643</td>
+    </tr>
+    <tr>
+      <th>naive</th>
+      <td>1.192288e+06</td>
+      <td>1091.919475</td>
+      <td>636.883721</td>
+      <td>54.461211</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>1.381506e+06</td>
+      <td>1175.374983</td>
+      <td>636.212758</td>
+      <td>55.636188</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SAMOA&#39;s Official and Avaition Data.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>total</th>
+      <th>american_samoa</th>
+      <th>australia</th>
+      <th>europe</th>
+      <th>new_zealand</th>
+      <th>usa</th>
+      <th>other_countries</th>
+      <th>cruise_ships</th>
+      <th>year_x</th>
+      <th>month_x</th>
+      <th>samoa_flights</th>
+      <th>samoa_hotel</th>
+      <th>samoa_travel</th>
+      <th>year_y</th>
+      <th>month_y</th>
+      <th>stringency_index</th>
+      <th>covid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2002-08-01</td>
+      <td>8260.0</td>
+      <td>2877.0</td>
+      <td>1115.0</td>
+      <td>429.0</td>
+      <td>2035.0</td>
+      <td>933.0</td>
+      <td>871.0</td>
+      <td>0.0</td>
+      <td>2002.0</td>
+      <td>8.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2002-09-01</td>
+      <td>6708.0</td>
+      <td>2119.0</td>
+      <td>972.0</td>
+      <td>372.0</td>
+      <td>1879.0</td>
+      <td>612.0</td>
+      <td>754.0</td>
+      <td>0.0</td>
+      <td>2002.0</td>
+      <td>9.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2002-10-01</td>
+      <td>5737.0</td>
+      <td>1892.0</td>
+      <td>737.0</td>
+      <td>468.0</td>
+      <td>1492.0</td>
+      <td>577.0</td>
+      <td>571.0</td>
+      <td>0.0</td>
+      <td>2002.0</td>
+      <td>10.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2002-11-01</td>
+      <td>6653.0</td>
+      <td>2530.0</td>
+      <td>864.0</td>
+      <td>393.0</td>
+      <td>1675.0</td>
+      <td>483.0</td>
+      <td>708.0</td>
+      <td>0.0</td>
+      <td>2002.0</td>
+      <td>11.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2002-12-01</td>
+      <td>13042.0</td>
+      <td>4678.0</td>
+      <td>1918.0</td>
+      <td>272.0</td>
+      <td>4401.0</td>
+      <td>1007.0</td>
+      <td>766.0</td>
+      <td>0.0</td>
+      <td>2002.0</td>
+      <td>12.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
@@ -743,41 +1105,840 @@ document.write(`
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Abnormal value produced.
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>seats_arrivals_total</th>
+      <th>seats_arrivals_intl</th>
+      <th>number_of_flights_total</th>
+      <th>number_of_flights_intl</th>
+      <th>total</th>
+      <th>american_samoa</th>
+      <th>australia</th>
+      <th>europe</th>
+      <th>new_zealand</th>
+      <th>...</th>
+      <th>cruise_ships</th>
+      <th>year_x</th>
+      <th>month_x</th>
+      <th>samoa_flights</th>
+      <th>samoa_hotel</th>
+      <th>samoa_travel</th>
+      <th>year_y</th>
+      <th>month_y</th>
+      <th>stringency_index</th>
+      <th>covid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-01</td>
+      <td>26389</td>
+      <td>26332</td>
+      <td>93</td>
+      <td>90</td>
+      <td>13755.0</td>
+      <td>1116.0</td>
+      <td>3434.0</td>
+      <td>612.0</td>
+      <td>6290.0</td>
+      <td>...</td>
+      <td>500.0</td>
+      <td>2019.0</td>
+      <td>1.0</td>
+      <td>2.710557</td>
+      <td>1.989624</td>
+      <td>0.978500</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-02-01</td>
+      <td>17681</td>
+      <td>17320</td>
+      <td>84</td>
+      <td>71</td>
+      <td>9044.0</td>
+      <td>968.0</td>
+      <td>1820.0</td>
+      <td>458.0</td>
+      <td>3645.0</td>
+      <td>...</td>
+      <td>2180.0</td>
+      <td>2019.0</td>
+      <td>2.0</td>
+      <td>2.282447</td>
+      <td>1.710969</td>
+      <td>0.713992</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-03-01</td>
+      <td>21546</td>
+      <td>20843</td>
+      <td>109</td>
+      <td>85</td>
+      <td>11163.0</td>
+      <td>1089.0</td>
+      <td>2481.0</td>
+      <td>716.0</td>
+      <td>4400.0</td>
+      <td>...</td>
+      <td>6730.0</td>
+      <td>2019.0</td>
+      <td>3.0</td>
+      <td>1.909826</td>
+      <td>1.528696</td>
+      <td>0.648102</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-04-01</td>
+      <td>21751</td>
+      <td>20801</td>
+      <td>117</td>
+      <td>84</td>
+      <td>14413.0</td>
+      <td>1204.0</td>
+      <td>3122.0</td>
+      <td>658.0</td>
+      <td>6887.0</td>
+      <td>...</td>
+      <td>2519.0</td>
+      <td>2019.0</td>
+      <td>4.0</td>
+      <td>2.071637</td>
+      <td>1.836865</td>
+      <td>0.668381</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-05-01</td>
+      <td>21679</td>
+      <td>20843</td>
+      <td>115</td>
+      <td>85</td>
+      <td>13565.0</td>
+      <td>1215.0</td>
+      <td>3143.0</td>
+      <td>492.0</td>
+      <td>5742.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>2019.0</td>
+      <td>5.0</td>
+      <td>1.872448</td>
+      <td>2.144589</td>
+      <td>0.979695</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 22 columns</p>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Create Loaded Factor for SAMOA:
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+
+ Regression SAMOA:
                             WLS Regression Results                            
 ==============================================================================
-Dep. Variable:                  ratio   R-squared:                       0.762
-Model:                            WLS   Adj. R-squared:                  0.717
-Method:                 Least Squares   F-statistic:                     16.95
-Date:                Tue, 02 May 2023   Prob (F-statistic):           8.36e-10
-Time:                        17:06:46   Log-Likelihood:                 34.253
-No. Observations:                  45   AIC:                            -52.51
-Df Residuals:                      37   BIC:                            -38.05
+Dep. Variable:                  ratio   R-squared:                       0.827
+Model:                            WLS   Adj. R-squared:                  0.795
+Method:                 Least Squares   F-statistic:                     25.36
+Date:                Thu, 04 May 2023   Prob (F-statistic):           2.70e-12
+Time:                        15:44:47   Log-Likelihood:                 28.577
+No. Observations:                  45   AIC:                            -41.15
+Df Residuals:                      37   BIC:                            -26.70
 Df Model:                           7                                         
 Covariance Type:            nonrobust                                         
 ==========================================================================================
                              coef    std err          t      P&gt;|t|      [0.025      0.975]
 ------------------------------------------------------------------------------------------
-Intercept                  0.4637      0.074      6.305      0.000       0.315       0.613
-C(quarter)[T.2]           -0.0496      0.055     -0.908      0.370      -0.160       0.061
-C(quarter)[T.3]            0.0487      0.056      0.865      0.392      -0.065       0.163
-C(quarter)[T.4]            0.0115      0.059      0.196      0.846      -0.107       0.130
-covid                     -0.5484      0.105     -5.240      0.000      -0.760      -0.336
-stringency_index          -0.0087      0.003     -2.855      0.007      -0.015      -0.003
-covid:stringency_index     0.0116      0.004      3.184      0.003       0.004       0.019
-palau_travel               0.5390      0.178      3.029      0.004       0.178       0.900
+Intercept                  0.3683      0.139      2.650      0.012       0.087       0.650
+C(quarter)[T.2]            0.0728      0.065      1.121      0.270      -0.059       0.204
+C(quarter)[T.3]            0.1770      0.065      2.710      0.010       0.045       0.309
+C(quarter)[T.4]            0.0504      0.065      0.771      0.445      -0.082       0.183
+covid                     -0.3149      0.121     -2.600      0.013      -0.560      -0.069
+stringency_index          -0.0087      0.005     -1.871      0.069      -0.018       0.001
+covid:stringency_index     0.0038      0.006      0.646      0.522      -0.008       0.016
+samoa_travel               0.2368      0.158      1.500      0.142      -0.083       0.557
 ==============================================================================
-Omnibus:                        6.243   Durbin-Watson:                   0.575
-Prob(Omnibus):                  0.044   Jarque-Bera (JB):                5.029
-Skew:                           0.686   Prob(JB):                       0.0809
-Kurtosis:                       3.894   Cond. No.                         574.
+Omnibus:                       17.501   Durbin-Watson:                   0.799
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               23.780
+Skew:                           1.246   Prob(JB):                     6.86e-06
+Kurtosis:                       5.544   Cond. No.                         562.
 ==============================================================================
 
 Notes:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 </pre></div>
 </div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>ratio</th>
+      <th>total</th>
+      <th>seats_arrivals_intl</th>
+      <th>mean</th>
+      <th>mean_se</th>
+      <th>mean_ci_lower</th>
+      <th>mean_ci_upper</th>
+      <th>obs_ci_lower</th>
+      <th>obs_ci_upper</th>
+      <th>pred_mean</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-01</td>
+      <td>0.522368</td>
+      <td>13755.0</td>
+      <td>26332</td>
+      <td>0.600028</td>
+      <td>0.059447</td>
+      <td>0.479577</td>
+      <td>0.720480</td>
+      <td>0.289220</td>
+      <td>0.910836</td>
+      <td>15799.946168</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-02-01</td>
+      <td>0.522171</td>
+      <td>9044.0</td>
+      <td>17320</td>
+      <td>0.537394</td>
+      <td>0.055652</td>
+      <td>0.424632</td>
+      <td>0.650156</td>
+      <td>0.229484</td>
+      <td>0.845303</td>
+      <td>9307.660839</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-03-01</td>
+      <td>0.535575</td>
+      <td>11163.0</td>
+      <td>20843</td>
+      <td>0.521791</td>
+      <td>0.059419</td>
+      <td>0.401397</td>
+      <td>0.642186</td>
+      <td>0.211005</td>
+      <td>0.832577</td>
+      <td>10875.698160</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-04-01</td>
+      <td>0.692899</td>
+      <td>14413.0</td>
+      <td>20801</td>
+      <td>0.599349</td>
+      <td>0.070321</td>
+      <td>0.456866</td>
+      <td>0.741832</td>
+      <td>0.279358</td>
+      <td>0.919340</td>
+      <td>12467.058117</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-05-01</td>
+      <td>0.650818</td>
+      <td>13565.0</td>
+      <td>20843</td>
+      <td>0.673067</td>
+      <td>0.054695</td>
+      <td>0.562244</td>
+      <td>0.783890</td>
+      <td>0.365862</td>
+      <td>0.980272</td>
+      <td>14028.734074</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mean</th>
+      <td>4.747392e+07</td>
+      <td>6890.131975</td>
+      <td>6027.062716</td>
+      <td>155.537953</td>
+    </tr>
+    <tr>
+      <th>naive</th>
+      <td>7.970104e+06</td>
+      <td>2823.137282</td>
+      <td>1518.795455</td>
+      <td>49.120902</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>1.691725e+06</td>
+      <td>1300.663429</td>
+      <td>716.675832</td>
+      <td>130.573291</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TONGA&#39;s Official and Avaition Data.
+</pre></div>
 </div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year_x</th>
+      <th>air</th>
+      <th>ship</th>
+      <th>yacht</th>
+      <th>total</th>
+      <th>date</th>
+      <th>tonga_flights</th>
+      <th>tonga_hotel</th>
+      <th>tonga_travel</th>
+      <th>year_y</th>
+      <th>month</th>
+      <th>stringency_index</th>
+      <th>covid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2010</td>
+      <td>3158</td>
+      <td>646.0</td>
+      <td>4.0</td>
+      <td>3808</td>
+      <td>2009-12-01</td>
+      <td>0.791200</td>
+      <td>0.902695</td>
+      <td>1.008085</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2010</td>
+      <td>2379</td>
+      <td>0.0</td>
+      <td>5.0</td>
+      <td>2384</td>
+      <td>2010-01-01</td>
+      <td>1.118195</td>
+      <td>1.296399</td>
+      <td>0.212187</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2010</td>
+      <td>3134</td>
+      <td>853.0</td>
+      <td>5.0</td>
+      <td>3992</td>
+      <td>2010-02-01</td>
+      <td>0.811451</td>
+      <td>1.013375</td>
+      <td>0.480398</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2010</td>
+      <td>2818</td>
+      <td>2802.0</td>
+      <td>30.0</td>
+      <td>5650</td>
+      <td>2010-03-01</td>
+      <td>0.872967</td>
+      <td>1.359485</td>
+      <td>0.233651</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2010</td>
+      <td>3670</td>
+      <td>5303.0</td>
+      <td>177.0</td>
+      <td>9150</td>
+      <td>2010-04-01</td>
+      <td>0.583649</td>
+      <td>1.142021</td>
+      <td>0.400232</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>seats_arrivals_total</th>
+      <th>seats_arrivals_intl</th>
+      <th>number_of_flights_total</th>
+      <th>number_of_flights_intl</th>
+      <th>year_x</th>
+      <th>air</th>
+      <th>ship</th>
+      <th>yacht</th>
+      <th>total</th>
+      <th>tonga_flights</th>
+      <th>tonga_hotel</th>
+      <th>tonga_travel</th>
+      <th>year_y</th>
+      <th>month</th>
+      <th>stringency_index</th>
+      <th>covid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-01</td>
+      <td>17698</td>
+      <td>14706</td>
+      <td>102</td>
+      <td>68</td>
+      <td>2019.0</td>
+      <td>2709.0</td>
+      <td>3448.0</td>
+      <td>0.0</td>
+      <td>6157.0</td>
+      <td>1.075798</td>
+      <td>0.980824</td>
+      <td>0.203206</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-02-01</td>
+      <td>11440</td>
+      <td>9740</td>
+      <td>80</td>
+      <td>45</td>
+      <td>2019.0</td>
+      <td>3109.0</td>
+      <td>5570.0</td>
+      <td>7.0</td>
+      <td>8686.0</td>
+      <td>0.940670</td>
+      <td>0.926124</td>
+      <td>0.230846</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-03-01</td>
+      <td>12662</td>
+      <td>10236</td>
+      <td>107</td>
+      <td>55</td>
+      <td>2019.0</td>
+      <td>4183.0</td>
+      <td>3508.0</td>
+      <td>13.0</td>
+      <td>7704.0</td>
+      <td>0.852194</td>
+      <td>1.218091</td>
+      <td>0.268547</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-04-01</td>
+      <td>10919</td>
+      <td>10615</td>
+      <td>78</td>
+      <td>53</td>
+      <td>2019.0</td>
+      <td>5166.0</td>
+      <td>1506.0</td>
+      <td>128.0</td>
+      <td>6800.0</td>
+      <td>0.793732</td>
+      <td>1.198991</td>
+      <td>0.132975</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-05-01</td>
+      <td>12226</td>
+      <td>11858</td>
+      <td>87</td>
+      <td>64</td>
+      <td>2019.0</td>
+      <td>6647.0</td>
+      <td>1798.0</td>
+      <td>489.0</td>
+      <td>8934.0</td>
+      <td>0.976347</td>
+      <td>1.162232</td>
+      <td>0.247394</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> Create Loaded Factor for TONGA:
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+Abnormal value produced with a value of 0.0.
+
+ Regression TONGA:
+                            WLS Regression Results                            
+==============================================================================
+Dep. Variable:                  ratio   R-squared:                       0.887
+Model:                            WLS   Adj. R-squared:                  0.859
+Method:                 Least Squares   F-statistic:                     31.50
+Date:                Thu, 04 May 2023   Prob (F-statistic):           1.19e-11
+Time:                        15:44:48   Log-Likelihood:                 30.796
+No. Observations:                  36   AIC:                            -45.59
+Df Residuals:                      28   BIC:                            -32.92
+Df Model:                           7                                         
+Covariance Type:            nonrobust                                         
+==========================================================================================
+                             coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------------------
+Intercept                  0.6649      0.086      7.715      0.000       0.488       0.841
+C(quarter)[T.2]            0.0285      0.062      0.456      0.652      -0.099       0.156
+C(quarter)[T.3]           -0.0070      0.061     -0.114      0.910      -0.132       0.118
+C(quarter)[T.4]           -0.0096      0.063     -0.154      0.879      -0.138       0.119
+covid                     -0.5989      0.139     -4.305      0.000      -0.884      -0.314
+stringency_index          -0.0157      0.003     -5.306      0.000      -0.022      -0.010
+covid:stringency_index     0.0153      0.004      3.613      0.001       0.007       0.024
+tonga_travel              -0.1739      0.239     -0.728      0.473      -0.663       0.315
+==============================================================================
+Omnibus:                        5.475   Durbin-Watson:                   2.249
+Prob(Omnibus):                  0.065   Jarque-Bera (JB):                5.990
+Skew:                           0.247   Prob(JB):                       0.0500
+Kurtosis:                       4.936   Cond. No.                         711.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>ratio</th>
+      <th>total</th>
+      <th>seats_arrivals_intl</th>
+      <th>mean</th>
+      <th>mean_se</th>
+      <th>mean_ci_lower</th>
+      <th>mean_ci_upper</th>
+      <th>obs_ci_lower</th>
+      <th>obs_ci_upper</th>
+      <th>pred_mean</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-01</td>
+      <td>0.418673</td>
+      <td>6157.0</td>
+      <td>14706</td>
+      <td>0.629559</td>
+      <td>0.053745</td>
+      <td>0.519467</td>
+      <td>0.739652</td>
+      <td>0.366501</td>
+      <td>0.892618</td>
+      <td>9258.301869</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-02-01</td>
+      <td>0.891786</td>
+      <td>8686.0</td>
+      <td>9740</td>
+      <td>0.624753</td>
+      <td>0.051336</td>
+      <td>0.519597</td>
+      <td>0.729909</td>
+      <td>0.363722</td>
+      <td>0.885784</td>
+      <td>6085.091917</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-03-01</td>
+      <td>0.752638</td>
+      <td>7704.0</td>
+      <td>10236</td>
+      <td>0.618197</td>
+      <td>0.049301</td>
+      <td>0.517209</td>
+      <td>0.719184</td>
+      <td>0.358817</td>
+      <td>0.877577</td>
+      <td>6327.860469</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-04-01</td>
+      <td>0.640603</td>
+      <td>6800.0</td>
+      <td>10615</td>
+      <td>0.670236</td>
+      <td>0.060432</td>
+      <td>0.546448</td>
+      <td>0.794025</td>
+      <td>0.401158</td>
+      <td>0.939315</td>
+      <td>7114.559876</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-05-01</td>
+      <td>0.753415</td>
+      <td>8934.0</td>
+      <td>11858</td>
+      <td>0.650339</td>
+      <td>0.049443</td>
+      <td>0.549059</td>
+      <td>0.751618</td>
+      <td>0.390845</td>
+      <td>0.909832</td>
+      <td>7711.714436</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mean</th>
+      <td>1.395667e+07</td>
+      <td>3735.862783</td>
+      <td>3458.520088</td>
+      <td>157.537361</td>
+    </tr>
+    <tr>
+      <th>naive</th>
+      <td>1.765922e+06</td>
+      <td>1328.880074</td>
+      <td>625.138889</td>
+      <td>64.875571</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>1.690720e+06</td>
+      <td>1300.277050</td>
+      <td>687.109494</td>
+      <td>98.439777</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -811,6 +1972,24 @@ Notes:
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="palau_mtsa.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Palau</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../ais_intro.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Automatic Identification System</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div></div>
   
 </div>

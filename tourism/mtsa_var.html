@@ -444,7 +444,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">VARPipleline</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">VARPipeline</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">])</span>
 <span class="n">test</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
 <span class="n">test</span><span class="o">.</span><span class="n">test_stationarity</span><span class="p">()</span>
 </pre></div>
@@ -798,6 +798,37 @@ order = 1: stationarity obtained.
   </tbody>
 </table>
 </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.vector_ar.vecm</span> <span class="kn">import</span> <span class="n">coint_johansen</span><span class="p">,</span> <span class="n">select_coint_rank</span><span class="p">,</span> <span class="n">VECM</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.vector_ar.var_model</span> <span class="kn">import</span> <span class="n">VAR</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.statespace.varmax</span> <span class="kn">import</span> <span class="n">VARMAX</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vec_rank</span> <span class="o">=</span> <span class="n">select_coint_rank</span><span class="p">(</span>
+    <span class="n">c</span><span class="p">[[</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">]],</span> <span class="n">det_order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k_ar_diff</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;trace&#39;</span><span class="p">,</span> <span class="n">signif</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vec_rank</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Johansen cointegration test using trace test statistic with 1% significance level
+=====================================
+r_0 r_1 test statistic critical value
+-------------------------------------
+  0   2          26.72          23.15
+  1   2          5.458          6.635
+-------------------------------------
+</pre></div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
