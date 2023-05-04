@@ -31,6 +31,7 @@ class SARIMAXData:
                 .drop("Unnamed: 0", axis=1))
         data.columns = [col.lower().replace(" ", "_") for col in data.columns]
         data["date"] = pd.to_datetime(data["date"])
+        data["date"] = data["date"] - pd.offsets.MonthBegin()
 
         trends = (pd.read_csv(self.trends_data_folder + "/trends_" +
                               str(self.country) + ".csv")

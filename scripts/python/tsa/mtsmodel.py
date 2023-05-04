@@ -95,15 +95,19 @@ class VARPipeline(MultiTSData):
     
 
 class RatioPipe(MultiTSData):
-    def __init__(self, country, var_name, data=None):
+    def __init__(self, country, 
+                 x1: str = "total",
+                 x2: str = "seats_arrivals_intl",
+                 data=None):
         super().__init__(country, data)
-        self.var_name = var_name
+        self.x1 = x1 
+        self.x2 = x2
 
     def transform(self):
-        ratios = (self.data[self.var_name[0]])/(self.data[self.var_name[-1]])
+        ratios = (self.data[self.x1])/(self.data[self.x2])
         for idx, ratio in enumerate(ratios):
             if ratio >= 1 or ratio == 0:
-                print("Abnormal value produced.")
+                print(f"Abnormal value produced with a value of {ratio}.")
                 ratios[idx] = ((ratios[idx-1] + ratios[idx+1]))/2
         self.data["ratio"] = ratios
 
@@ -116,4 +120,14 @@ class RatioPipe(MultiTSData):
             "ratio~covid * stringency_index + C(quarter) +" +
             str(self.country) + "_travel",
             data=self.model_df).fit()
+        
         print(self.res.summary())
+
+    def get_prediction_df(self):
+        pred_df = self.res.get_prediction().summary_frame()
+        select_cols = ["date", "ratio", self.x1, self.x2]
+        self.pred_df = pd.concat([self.data[select_cols], pred_df], axis=1)
+        self.pred_df["pred_mean"] = self.pred_df["mean"] * self.pred_df[self.x2]
+        display(self.pred_df.head(5))
+        
+        return self.pred_df
