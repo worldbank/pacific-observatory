@@ -5,7 +5,7 @@ import sklearn
 import os
 from scripts.python.tsa.utsmodel import SARIMAXData
 from scripts.python.tsa.ts_eval import *
-
+from .ts_utils import *
 
 class MultiTSData(SARIMAXData):
     SELECT_COLS = ["seats_arrivals_total", "seats_arrivals_intl",
@@ -45,24 +45,28 @@ class MultiTSData(SARIMAXData):
 class VARPipeline(MultiTSData):
     def __init__(self, country, var_name, data=None):
         super().__init__(country, data)
-        self.var_name = var_name
+        self.x1, self.x2 = var_name
 
     def test_stationarity(self):
         from .ts_utils import get_adf_df
         adf_df = get_adf_df(self.data[self.var_name], self.var_name)
         
         order = 0
-        while np.average(adf_df["p-value"]) > 0.05:
+        while np.average(adf_df["p-value"]) > 0.05 and order < 2:
             self.stationary_data = self.data[self.var_name].diff().dropna()
             adf_df = get_adf_df(self.stationary_data, self.var_name)
             print(f"order = {order}: no stationarity obtained.")
             order += 1
+            if order >= 2:
+                break
         else:
            print(f"order = {order}: stationarity obtained.")
            display(adf_df)
 
-    def transform(self):
-        print("Transformation has finished.")
+    def transform(self, scaled_logit=True):
+        if scaled_logit:
+            scaledlogit_transform() 
+            
 
     def varma_search(self, exog: pd.DataFrame):
 

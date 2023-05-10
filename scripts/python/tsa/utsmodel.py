@@ -25,30 +25,48 @@ class SARIMAXData:
         self.trends_data_folder = os.getcwd() + "/data/tourism/trends"
         self.covid_idx_path = os.getcwd() + "/data/tourism/oceania_covid_stringency.csv"
 
-    def read_and_merge(self):
-        data = (pd.read_csv(self.country_data_folder + "/intermediate/" +
-                            str(self.country) + "_monthly_visitor.csv")
-                .drop("Unnamed: 0", axis=1))
-        data.columns = [col.lower().replace(" ", "_") for col in data.columns]
-        data["date"] = pd.to_datetime(data["date"])
-        data["date"] = data["date"] - pd.offsets.MonthBegin()
+    def read_country_data(self):
+        country = (pd.read_csv(self.country_data_folder + "/intermediate/" +
+                        str(self.country) + "_monthly_visitor.csv")
+                  .drop("Unnamed: 0", axis=1))
+        country.columns = [col.lower().replace(" ", "_") for col in country.columns]
+        country["date"] = pd.to_datetime(country["date"])
+        country["date"] = country["date"] - pd.offsets.MonthBegin()
+        return country 
 
+    def read_trends_data(self):
         trends = (pd.read_csv(self.trends_data_folder + "/trends_" +
                               str(self.country) + ".csv")
                   .drop("Unnamed: 0", axis=1))
         trends["date"] = pd.to_datetime(trends["date"])
-        data = data.merge(trends.iloc[:, [0, -3, -2, -1]],
-                          how="left", on="date")
+        return trends 
 
+    def read_covid_data(self):
         covid_idx = pd.read_csv(self.covid_idx_path).drop("Unnamed: 0", axis=1)
         covid_idx["date"] = pd.to_datetime(covid_idx["date"])
-        data = data.merge(covid_idx, how="left", on="date").fillna(0)
+        covid_idx["covid"] = (covid_idx.date >= "2020-03-11").astype(int)
+        return covid_idx
+    
+    def read_and_merge(self):
+        country = self.read_country_data()
+        trends = self.read_trends_data()
+        covid_idx = self.read_covid_data()
 
-        data["covid"] = (data.date >= "2020-03-11").astype(int)
-        data.columns = [col.replace(" ", "_") for col in data.columns]
-
+        data = country.merge(covid_idx, how="left", on="date").fillna(0)
+        data = data.merge(trends.iloc[:, [0, -3, -2, -1]],
+                          how="left", on="date")
+        data.columns = [col.lower().replace(" ", "_") for col in data.columns]       
+        dropped_date_cols = [col for col in data.columns 
+                             if col.startswith("year") or col.startswith("month")]
+        dropped_idx = data[data["date"].diff() >= "32 days"].index - 1
+        data = (data.drop(dropped_date_cols, axis=1)
+                    .drop(dropped_idx, axis=0)
+                    .reset_index()
+                    .drop("index", axis=1)
+                    .fillna(0))
+        first_col = data.pop("date")
+        data.insert(0, "date", first_col)
         self.data = data
-        display(data.head(5))
 
 class SARIMAXPipeline(SARIMAXData):
     def __init__(self,
@@ -192,11 +210,14 @@ class SARIMAXPipeline(SARIMAXData):
 
         pred = (mod.get_prediction().summary_frame(alpha=0.05)
                 .rename({"mean": "train_pred"}, axis=1))
-        forecast = (mod.get_forecast(
-            steps=steps, exog=exog, dynamic=True).summary_frame(alpha=0.05).
-            rename({"mean": "test_pred"}, axis=1))
+        if steps != 0:
+            forecast = (mod.get_forecast(
+                steps=steps, exog=exog, dynamic=True).summary_frame(alpha=0.05).
+                rename({"mean": "test_pred"}, axis=1))
 
-        pred_stats = pd.concat([pred, forecast], axis=0)
+            pred_stats = pd.concat([pred, forecast], axis=0)
+        else:
+            pred_stats = pred
 
         return pred_stats
 
