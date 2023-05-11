@@ -26,7 +26,7 @@ class MultiTSData(SARIMAXData):
         avi = pd.read_excel(self.aviation_path)
         avi.columns = [col.lower().replace(" ", "") for col in avi.columns]
         avi["date"] = pd.to_datetime(avi["date"])
-        avi["country"] = avi["country"].str.lower()
+        avi["country"] = avi["country"].str.lower().str.replace(" ", "_")
         avi = (avi[(avi.country == str(self.country)) & (avi.aircraft_type == str(avi_type))]
                .reset_index()
                .drop("index", axis=1))
@@ -38,14 +38,17 @@ class MultiTSData(SARIMAXData):
         avi = avi.reset_index().iloc[:-1, :]
         avi["date"] = avi["date"] - pd.offsets.MonthBegin()
         
-        self.data = avi.merge(self.data, how="left", on="date")
-        display(self.data.head(5))
-
+        self.data = (self.data.merge(avi, how="left", on="date")
+                        .dropna()
+                        .reset_index()
+                        .drop("index", axis=1))
 
 class VARPipeline(MultiTSData):
-    def __init__(self, country, var_name, data=None):
+    def __init__(self, country, var_name, exog, data=None):
         super().__init__(country, data)
+        self.var_name = var_name
         self.x1, self.x2 = var_name
+        self.exog = exog
 
     def test_stationarity(self):
         from .ts_utils import get_adf_df
@@ -60,15 +63,15 @@ class VARPipeline(MultiTSData):
             if order >= 2:
                 break
         else:
-           print(f"order = {order}: stationarity obtained.")
            display(adf_df)
+           print(f"order = {order}: stationarity obtained.")
 
     def transform(self, scaled_logit=True):
         if scaled_logit:
-            scaledlogit_transform() 
-            
+            self.x1_trans = scaledlogit_transform(self.data[self.x1])
+            self.x2_trans = scaledlogit_transform(self.data[self.x2])
 
-    def varma_search(self, exog: pd.DataFrame):
+    def varma_search(self):
 
         from statsmodels.tsa.api import VARMAX
         from sklearn.model_selection import ParameterGrid
@@ -110,7 +113,7 @@ class RatioPipe(MultiTSData):
     def transform(self):
         ratios = (self.data[self.x1])/(self.data[self.x2])
         for idx, ratio in enumerate(ratios):
-            if ratio >= 1 or ratio == 0:
+            if ratio >= 1:
                 print(f"Abnormal value produced with a value of {ratio}.")
                 ratios[idx] = ((ratios[idx-1] + ratios[idx+1]))/2
         self.data["ratio"] = ratios

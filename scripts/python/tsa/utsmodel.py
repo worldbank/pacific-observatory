@@ -14,6 +14,7 @@ import pmdarima as pm
 from pmdarima import model_selection
 from pmdarima import auto_arima
 from .ts_eval import *
+from .ts_utils import *
 
 
 class SARIMAXData:
@@ -30,8 +31,8 @@ class SARIMAXData:
                         str(self.country) + "_monthly_visitor.csv")
                   .drop("Unnamed: 0", axis=1))
         country.columns = [col.lower().replace(" ", "_") for col in country.columns]
-        country["date"] = pd.to_datetime(country["date"])
-        country["date"] = country["date"] - pd.offsets.MonthBegin()
+        country["date"] = pd.to_datetime(country["date"])  
+        country["date"] = [check_and_modify_date(date) for date in country["date"]]
         return country 
 
     def read_trends_data(self):

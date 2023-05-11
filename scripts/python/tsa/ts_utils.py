@@ -114,3 +114,12 @@ def inverse_scaledlogit(trans_series, upper, lower):
     exp = np.exp(trans_series)
     inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
     return inv_series
+
+
+def check_and_modify_date(date):
+
+    if date.day != 1:
+            # Modify the date to the first day of the same month
+            modified_date = date.replace(day=1)
+            return modified_date
+    return date
