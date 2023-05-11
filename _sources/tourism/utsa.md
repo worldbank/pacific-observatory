@@ -23,4 +23,8 @@ To evaluate the model's performance, benchmark results will be provided.[^1] Thr
 - Naïve method, setting all forecasts to be the value of the last observation.
 - Drift method, $\hat{y}_{T+h|T} = y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1}) = y_{T} + h \left( \frac{y_{T} -y_{1}}{T-1}\right).$, which is equivalent to drawing a line between the first and last observations, and extrapolating it into the future.
 
+For each method, Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and Symmetric Mean Absolute Percentage Error (SMAPE) are provided. [^2]
+
+
 [^1]: Rob J Hyndman and George Athanasopoulos, Forecasting: principles and practice (OTexts, 2018). See more [here](https://otexts.com/fpp3/simple-methods.html).
+[^2]: Mean Absolute Percentage Error (MAPE) is also a frequent calculation, but given there exists some zero values in the actual value, and the result would lead to $+\infty$ considering $MAPE(y, \hat{y})= \frac{100\%}{N} \sum_{i=0}^{N - 1} \frac{|y_i - \hat{y}_i|}{|y_i|}$.

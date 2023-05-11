@@ -450,16 +450,20 @@ document.write(`
 <li><p><span class="math notranslate nohighlight">\(\Delta^{d}\)</span> is the integration operator and <span class="math notranslate nohighlight">\(\Delta_{s}^{D}\)</span> takes the seasonal differences of the series</p></li>
 </ul>
 <p>The model employs the scaled logit transformation to avoid negative predictions, transforming <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(\log(\frac{x-a}{b-x})\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> is the lower bound and <span class="math notranslate nohighlight">\(b\)</span> is the upper bound. Further, to prevent -<span class="math notranslate nohighlight">\(\infty\)</span>, <span class="math notranslate nohighlight">\(a\)</span> is set to be slightly smaller than the minimum of the series, and <span class="math notranslate nohighlight">\(b\)</span> is slightly larger than the maximum.</p>
-<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id2" id="id1">1</a> Three benchmark methods are employed:</p>
+<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id3" id="id1">1</a> Three benchmark methods are employed:</p>
 <ul class="simple">
 <li><p>Average method, where the forecasts of all future values are equal to the average (or “mean”) of the historical data.</p></li>
 <li><p>Naïve method, setting all forecasts to be the value of the last observation.</p></li>
 <li><p>Drift method, <span class="math notranslate nohighlight">\(\hat{y}_{T+h|T} = y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1}) = y_{T} + h \left( \frac{y_{T} -y_{1}}{T-1}\right).\)</span>, which is equivalent to drawing a line between the first and last observations, and extrapolating it into the future.</p></li>
 </ul>
+<p>For each method, Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and Symmetric Mean Absolute Percentage Error (SMAPE) are provided. <a class="footnote-reference brackets" href="#id4" id="id2">2</a></p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>Rob J Hyndman and George Athanasopoulos, Forecasting: principles and practice (OTexts, 2018). See more <a class="reference external" href="https://otexts.com/fpp3/simple-methods.html">here</a>.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Mean Absolute Percentage Error (MAPE) is also a frequent calculation, but given there exists some zero values in the actual value, and the result would lead to <span class="math notranslate nohighlight">\(+\infty\)</span> considering <span class="math notranslate nohighlight">\(MAPE(y, \hat{y})= \frac{100\%}{N} \sum_{i=0}^{N - 1} \frac{|y_i - \hat{y}_i|}{|y_i|}\)</span>.</p>
 </dd>
 </dl>
 </section>
