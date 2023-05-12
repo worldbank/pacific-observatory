@@ -3,6 +3,7 @@ import numpy as np
 import statsmodels
 import sklearn
 import os
+from statsmodels.tsa.api import VARMAX
 from scripts.python.tsa.utsmodel import SARIMAXData
 from scripts.python.tsa.ts_eval import *
 from .ts_utils import *
@@ -70,10 +71,10 @@ class VARPipeline(MultiTSData):
         if scaled_logit:
             self.x1_trans = scaledlogit_transform(self.data[self.x1])
             self.x2_trans = scaledlogit_transform(self.data[self.x2])
+            self.scaled = pd.DataFrame([self.x1_trans, self.x2_trans]).T
 
     def varma_search(self):
 
-        from statsmodels.tsa.api import VARMAX
         from sklearn.model_selection import ParameterGrid
 
         param_grid = {'p': [1, 2, 3],
@@ -91,15 +92,47 @@ class VARPipeline(MultiTSData):
             p = params.get('p')
             q = params.get('q')
             tr = params.get('tr')
-            model = VARMAX(self.data[self.var_name],
+            model = VARMAX(self.scaled,
                            exog=self.data[self.exog],
                            order=(p, q),
                            trend=tr).fit(disp=False)
             model_res["model"].append((p, q, tr))
             model_res["result"].append(model.aic)
 
-        return model_res
+        self.model_res_df = (pd.DataFrame(model_res)
+                        .sort_values(by="result", ascending=True))
+        self.p, self.q, self.tr = self.model_res_df.iloc[0, 0]
+        print(f"Best P, Q, Trend Combination: {self.p, self.q, self.tr}")
     
+    def fit(self):
+        self.mod = VARMAX(self.scaled,
+                    exog=self.data[self.exog],
+                    order=(self.p, self.q),
+                    trend=self.tr).fit(disp=False)
+        print(self.mod.summary())
+
+    def get_fittedvalues(self):
+        self.fittedvalues = self.mod.fittedvalues
+        rev_vals = []
+        for raw_val in self.fittedvalues[self.x1]:
+            rev_val = inverse_scaledlogit(
+                raw_val, upper=self.data[self.x1].max()+1,
+                lower=self.data[self.x1].min()-1
+            )
+            rev_vals.append(rev_val)
+        self.data["pred_total"] = rev_vals
+
+    def evaluate_models(self):
+        naive_pred = naive_method(self.data[self.x1])
+        mean_pred = mean_method(self.data[self.x1])
+        
+        benchmark = pd.DataFrame()
+        for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, self.data.pred_total]):
+            eval = calculate_evaluation(self.data[self.x1], pred)
+            eval_df = pd.DataFrame(eval, index=[name])
+            benchmark = pd.concat([benchmark, eval_df], axis=0)
+        display(benchmark)
+
 
 class RatioPipe(MultiTSData):
     def __init__(self, country, 

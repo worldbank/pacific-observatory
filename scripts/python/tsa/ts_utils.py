@@ -115,7 +115,6 @@ def inverse_scaledlogit(trans_series, upper, lower):
     inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
     return inv_series
 
-
 def check_and_modify_date(date):
 
     if date.day != 1:
