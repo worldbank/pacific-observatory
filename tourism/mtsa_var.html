@@ -447,164 +447,22 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">VARPipeline</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
-                   <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">],</span>
-                   <span class="n">exog</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">,</span> <span class="s2">&quot;stringency_index&quot;</span><span class="p">,</span> <span class="s2">&quot;covid&quot;</span><span class="p">])</span>
-<span class="n">test</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
-<span class="n">test</span><span class="o">.</span><span class="n">test_stationarity</span><span class="p">()</span>
-<span class="n">test</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
-<span class="n">t_search</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">varma_search</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]:</span>
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">VARPipeline</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">],</span>
+                      <span class="n">exog</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">,</span> <span class="s2">&quot;stringency_index&quot;</span><span class="p">,</span> <span class="s2">&quot;covid&quot;</span><span class="p">])</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">test_stationarity</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">varma_search</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">get_fittedvalues</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">evaluate_models</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>date</th>
-      <th>seats_arrivals_total</th>
-      <th>seats_arrivals_intl</th>
-      <th>number_of_flights_total</th>
-      <th>number_of_flights_intl</th>
-      <th>japan</th>
-      <th>south_korea</th>
-      <th>taiwan</th>
-      <th>china</th>
-      <th>usa/canada</th>
-      <th>europe</th>
-      <th>others</th>
-      <th>total</th>
-      <th>stringency_index</th>
-      <th>covid</th>
-      <th>palau_flights</th>
-      <th>palau_hotel</th>
-      <th>palau_travel</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2019-01-01</td>
-      <td>13048</td>
-      <td>13048</td>
-      <td>75</td>
-      <td>75</td>
-      <td>2055.0</td>
-      <td>1035.0</td>
-      <td>1092.0</td>
-      <td>4059.0</td>
-      <td>702.0</td>
-      <td>438.0</td>
-      <td>371.0</td>
-      <td>9752.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.493228</td>
-      <td>2.559978</td>
-      <td>0.194222</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2019-02-01</td>
-      <td>13281</td>
-      <td>13281</td>
-      <td>74</td>
-      <td>74</td>
-      <td>2434.0</td>
-      <td>1090.0</td>
-      <td>1190.0</td>
-      <td>2549.0</td>
-      <td>826.0</td>
-      <td>483.0</td>
-      <td>461.0</td>
-      <td>9033.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.310671</td>
-      <td>2.841414</td>
-      <td>0.282245</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2019-03-01</td>
-      <td>12870</td>
-      <td>12870</td>
-      <td>73</td>
-      <td>73</td>
-      <td>1756.0</td>
-      <td>808.0</td>
-      <td>1099.0</td>
-      <td>3182.0</td>
-      <td>777.0</td>
-      <td>368.0</td>
-      <td>415.0</td>
-      <td>8405.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.386389</td>
-      <td>2.921431</td>
-      <td>0.286529</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2019-04-01</td>
-      <td>10806</td>
-      <td>10806</td>
-      <td>64</td>
-      <td>64</td>
-      <td>1288.0</td>
-      <td>1095.0</td>
-      <td>1393.0</td>
-      <td>2489.0</td>
-      <td>607.0</td>
-      <td>185.0</td>
-      <td>421.0</td>
-      <td>7478.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.293529</td>
-      <td>2.981907</td>
-      <td>0.338945</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2019-05-01</td>
-      <td>11472</td>
-      <td>11472</td>
-      <td>67</td>
-      <td>67</td>
-      <td>650.0</td>
-      <td>655.0</td>
-      <td>1399.0</td>
-      <td>2321.0</td>
-      <td>622.0</td>
-      <td>119.0</td>
-      <td>305.0</td>
-      <td>6071.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.306351</td>
-      <td>3.537987</td>
-      <td>0.168664</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -637,23 +495,23 @@ document.write(`
   <tbody>
     <tr>
       <th>total</th>
-      <td>-2.752038</td>
-      <td>0.065458</td>
+      <td>-2.622492</td>
+      <td>0.088437</td>
       <td>5.0</td>
-      <td>37.0</td>
-      <td>-3.620918</td>
-      <td>-2.943539</td>
-      <td>-2.610400</td>
+      <td>38.0</td>
+      <td>-3.615509</td>
+      <td>-2.941262</td>
+      <td>-2.609200</td>
     </tr>
     <tr>
       <th>seats_arrivals_intl</th>
-      <td>-5.394519</td>
-      <td>0.000003</td>
+      <td>-5.476862</td>
+      <td>0.000002</td>
       <td>0.0</td>
-      <td>42.0</td>
-      <td>-3.596636</td>
-      <td>-2.933297</td>
-      <td>-2.604991</td>
+      <td>43.0</td>
+      <td>-3.592504</td>
+      <td>-2.931550</td>
+      <td>-2.604066</td>
     </tr>
   </tbody>
 </table>
@@ -694,9 +552,847 @@ document.write(`
  Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
  Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
  Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+Best P, Q, Trend Combination: (3, 1, &#39;t&#39;)
+                                  Statespace Model Results                                  
+============================================================================================
+Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   45
+Model:                                  VARMAX(3,1)   Log Likelihood                -124.461
+                                        + intercept   AIC                            302.923
+Date:                              Thu, 11 May 2023   BIC                            351.703
+Time:                                      17:49:54   HQIC                           321.108
+Sample:                                           0                                         
+                                               - 45                                         
+Covariance Type:                                opg                                         
+===================================================================================
+Ljung-Box (L1) (Q):             0.30, 0.06   Jarque-Bera (JB):        233.13, 35.28
+Prob(Q):                        0.58, 0.81   Prob(JB):                   0.00, 0.00
+Heteroskedasticity (H):         0.06, 0.12   Skew:                      2.77, -0.34
+Prob(H) (two-sided):            0.00, 0.00   Kurtosis:                  12.68, 7.28
+                                  Results for equation total                                 
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+drift                         0.1532      0.152      1.008      0.313      -0.145       0.451
+L1.total                      0.6935      2.006      0.346      0.730      -3.238       4.625
+L1.seats_arrivals_intl        0.0215      2.741      0.008      0.994      -5.352       5.394
+L2.total                     -0.2521      2.208     -0.114      0.909      -4.580       4.076
+L2.seats_arrivals_intl       -0.2135      1.964     -0.109      0.913      -4.064       3.637
+L3.total                     -0.0565      1.070     -0.053      0.958      -2.154       2.041
+L3.seats_arrivals_intl       -0.1320      0.925     -0.143      0.887      -1.945       1.681
+L1.e(total)                   0.0196      2.055      0.010      0.992      -4.008       4.047
+L1.e(seats_arrivals_intl)    -0.8520      2.658     -0.321      0.749      -6.062       4.358
+beta.covid                   -4.5075      4.081     -1.105      0.269     -12.506       3.491
+beta.stringency_index         0.0191      0.059      0.322      0.747      -0.097       0.136
+beta.covid                   -4.5075      4.081     -1.105      0.269     -12.506       3.491
+                           Results for equation seats_arrivals_intl                          
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+drift                         0.2071      0.299      0.692      0.489      -0.380       0.794
+L1.total                      0.3064      0.731      0.419      0.675      -1.126       1.738
+L1.seats_arrivals_intl       -0.3916      1.027     -0.381      0.703      -2.405       1.622
+L2.total                      0.0982      1.310      0.075      0.940      -2.469       2.665
+L2.seats_arrivals_intl       -0.1935      1.288     -0.150      0.881      -2.717       2.330
+L3.total                     -0.2270      0.373     -0.609      0.543      -0.957       0.503
+L3.seats_arrivals_intl        0.0267      0.361      0.074      0.941      -0.681       0.735
+L1.e(total)                  -0.0826      0.683     -0.121      0.904      -1.421       1.256
+L1.e(seats_arrivals_intl)     0.1944      1.317      0.148      0.883      -2.386       2.775
+beta.covid                   -4.9146      8.130     -0.605      0.546     -20.849      11.020
+beta.stringency_index        -0.0049      0.057     -0.085      0.932      -0.117       0.107
+beta.covid                   -4.9146      8.130     -0.605      0.546     -20.849      11.020
+                                       Error covariance matrix                                        
+======================================================================================================
+                                         coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+sqrt.var.total                         1.3587      0.529      2.568      0.010       0.322       2.396
+sqrt.cov.total.seats_arrivals_intl     1.1035      0.298      3.704      0.000       0.520       1.687
+sqrt.var.seats_arrivals_intl           0.6617      0.332      1.991      0.047       0.010       1.313
+======================================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+[2] Covariance matrix is singular or near-singular, with condition number 1.24e+17. Standard errors may be unstable.
 </pre></div>
 </div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>1.298621e+06</td>
+      <td>1139.570483</td>
+      <td>677.477273</td>
+      <td>53.868245</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.219030e+07</td>
+      <td>3491.460526</td>
+      <td>3125.890370</td>
+      <td>130.888109</td>
+    </tr>
+    <tr>
+      <th>VAR (scaled)</th>
+      <td>1.127006e+06</td>
+      <td>1061.605449</td>
+      <td>554.935555</td>
+      <td>38.243616</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
+order = 1: no stationarity obtained.
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+Best P, Q, Trend Combination: (1, 1, &#39;c&#39;)
+                                  Statespace Model Results                                  
+============================================================================================
+Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   45
+Model:                                  VARMAX(1,1)   Log Likelihood                -150.021
+                                        + intercept   AIC                            338.041
+Date:                              Thu, 11 May 2023   BIC                            372.368
+Time:                                      17:51:23   HQIC                           350.838
+Sample:                                           0                                         
+                                               - 45                                         
+Covariance Type:                                opg                                         
+===================================================================================
+Ljung-Box (L1) (Q):             0.26, 0.21   Jarque-Bera (JB):        303.19, 83.91
+Prob(Q):                        0.61, 0.65   Prob(JB):                   0.00, 0.00
+Heteroskedasticity (H):         0.60, 1.22   Skew:                      3.16, -0.89
+Prob(H) (two-sided):            0.33, 0.70   Kurtosis:                  14.03, 9.45
+                                  Results for equation total                                 
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+intercept                     0.7106      2.797      0.254      0.799      -4.771       6.192
+L1.total                      0.4323      0.911      0.475      0.635      -1.353       2.218
+L1.seats_arrivals_intl        0.0696      0.881      0.079      0.937      -1.658       1.797
+L1.e(total)                   0.4995      0.887      0.563      0.573      -1.239       2.238
+L1.e(seats_arrivals_intl)    -0.9557      1.397     -0.684      0.494      -3.694       1.783
+beta.covid                   -0.8085      4.216     -0.192      0.848      -9.071       7.454
+beta.stringency_index        -0.0890      0.120     -0.741      0.459      -0.324       0.146
+beta.covid                   -0.8085      4.216     -0.192      0.848      -9.071       7.454
+                           Results for equation seats_arrivals_intl                          
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+intercept                     3.0195      1.317      2.293      0.022       0.439       5.600
+L1.total                     -0.1394      0.746     -0.187      0.852      -1.602       1.323
+L1.seats_arrivals_intl       -0.3394      0.709     -0.479      0.632      -1.729       1.050
+L1.e(total)                   0.2423      0.605      0.400      0.689      -0.944       1.429
+L1.e(seats_arrivals_intl)     0.2607      0.714      0.365      0.715      -1.138       1.659
+beta.covid                   -1.5307      2.774     -0.552      0.581      -6.968       3.906
+beta.stringency_index        -0.1142      0.079     -1.450      0.147      -0.268       0.040
+beta.covid                   -1.5307      2.774     -0.552      0.581      -6.968       3.906
+                                       Error covariance matrix                                        
+======================================================================================================
+                                         coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+sqrt.var.total                         2.0024      0.816      2.453      0.014       0.403       3.602
+sqrt.cov.total.seats_arrivals_intl     1.2602      0.397      3.177      0.001       0.483       2.038
+sqrt.var.seats_arrivals_intl           0.8412      0.346      2.435      0.015       0.164       1.518
+======================================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+[2] Covariance matrix is singular or near-singular, with condition number 2.04e+17. Standard errors may be unstable.
+</pre></div>
 </div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>7.970104e+06</td>
+      <td>2823.137282</td>
+      <td>1518.795455</td>
+      <td>49.120902</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>4.747392e+07</td>
+      <td>6890.131975</td>
+      <td>6027.062716</td>
+      <td>155.537953</td>
+    </tr>
+    <tr>
+      <th>VAR (scaled)</th>
+      <td>1.029089e+07</td>
+      <td>3207.941282</td>
+      <td>1757.557409</td>
+      <td>141.614714</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>total</th>
+      <td>-2.948185</td>
+      <td>0.040025</td>
+      <td>10.0</td>
+      <td>26.0</td>
+      <td>-3.711212</td>
+      <td>-2.981247</td>
+      <td>-2.630095</td>
+    </tr>
+    <tr>
+      <th>seats_arrivals_intl</th>
+      <td>-2.825820</td>
+      <td>0.054679</td>
+      <td>4.0</td>
+      <td>32.0</td>
+      <td>-3.653520</td>
+      <td>-2.957219</td>
+      <td>-2.617588</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 1: stationarity obtained.
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+Best P, Q, Trend Combination: (2, 1, &#39;c&#39;)
+                                  Statespace Model Results                                  
+============================================================================================
+Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   38
+Model:                                  VARMAX(2,1)   Log Likelihood                -140.022
+                                        + intercept   AIC                            326.044
+Date:                              Thu, 11 May 2023   BIC                            363.709
+Time:                                      17:52:43   HQIC                           339.445
+Sample:                                           0                                         
+                                               - 38                                         
+Covariance Type:                                opg                                         
+===================================================================================
+Ljung-Box (L1) (Q):             0.42, 2.05   Jarque-Bera (JB):       420.51, 103.96
+Prob(Q):                        0.52, 0.15   Prob(JB):                   0.00, 0.00
+Heteroskedasticity (H):         0.18, 0.09   Skew:                       3.25, 1.97
+Prob(H) (two-sided):            0.00, 0.00   Kurtosis:                 17.94, 10.08
+                                  Results for equation total                                 
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+intercept                     1.3777      3.471      0.397      0.691      -5.425       8.181
+L1.total                     -0.0297      4.082     -0.007      0.994      -8.029       7.970
+L1.seats_arrivals_intl        0.3661      3.051      0.120      0.904      -5.613       6.346
+L2.total                     -0.0434      0.954     -0.045      0.964      -1.913       1.826
+L2.seats_arrivals_intl       -0.1236      0.847     -0.146      0.884      -1.784       1.536
+L1.e(total)                   0.1170      4.614      0.025      0.980      -8.927       9.161
+L1.e(seats_arrivals_intl)    -0.3579      3.060     -0.117      0.907      -6.355       5.640
+beta.covid                   -2.3416     10.479     -0.223      0.823     -22.880      18.197
+beta.stringency_index        -0.0717      0.275     -0.261      0.794      -0.610       0.467
+beta.covid                   -2.3416     10.479     -0.223      0.823     -22.880      18.197
+                           Results for equation seats_arrivals_intl                          
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+intercept                     1.2482      1.433      0.871      0.384      -1.560       4.057
+L1.total                      0.1544      1.350      0.114      0.909      -2.491       2.799
+L1.seats_arrivals_intl        0.8603      0.633      1.360      0.174      -0.380       2.100
+L2.total                     -0.3030      0.602     -0.503      0.615      -1.483       0.877
+L2.seats_arrivals_intl       -0.4030      0.264     -1.526      0.127      -0.921       0.115
+L1.e(total)                  -0.0023      1.497     -0.002      0.999      -2.937       2.933
+L1.e(seats_arrivals_intl)    -0.7844      0.798     -0.983      0.326      -2.349       0.780
+beta.covid                   -0.8908      3.482     -0.256      0.798      -7.716       5.934
+beta.stringency_index        -0.0452      0.088     -0.514      0.607      -0.218       0.127
+beta.covid                   -0.8908      3.482     -0.256      0.798      -7.716       5.934
+                                       Error covariance matrix                                        
+======================================================================================================
+                                         coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+sqrt.var.total                         1.6869      0.305      5.528      0.000       1.089       2.285
+sqrt.cov.total.seats_arrivals_intl     0.2088      1.597      0.131      0.896      -2.921       3.338
+sqrt.var.seats_arrivals_intl           1.5215      0.293      5.187      0.000       0.947       2.096
+======================================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+[2] Covariance matrix is singular or near-singular, with condition number 3.77e+17. Standard errors may be unstable.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>1.776518e+06</td>
+      <td>1332.860792</td>
+      <td>647.945946</td>
+      <td>63.764255</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.368747e+07</td>
+      <td>3699.657587</td>
+      <td>3432.540166</td>
+      <td>154.297982</td>
+    </tr>
+    <tr>
+      <th>VAR (scaled)</th>
+      <td>1.614325e+06</td>
+      <td>1270.560819</td>
+      <td>619.302843</td>
+      <td>58.747890</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>total</th>
+      <td>-4.859232</td>
+      <td>0.000042</td>
+      <td>0.0</td>
+      <td>22.0</td>
+      <td>-3.769733</td>
+      <td>-3.005426</td>
+      <td>-2.642501</td>
+    </tr>
+    <tr>
+      <th>seats_arrivals_intl</th>
+      <td>-2.697932</td>
+      <td>0.074397</td>
+      <td>9.0</td>
+      <td>13.0</td>
+      <td>-4.068854</td>
+      <td>-3.127149</td>
+      <td>-2.701730</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 1: stationarity obtained.
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+Best P, Q, Trend Combination: (1, 1, &#39;ct&#39;)
+                                  Statespace Model Results                                  
+============================================================================================
+Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   24
+Model:                                  VARMAX(1,1)   Log Likelihood                 -61.690
+                                        + intercept   AIC                            165.380
+Date:                              Thu, 11 May 2023   BIC                            190.119
+Time:                                      17:53:42   HQIC                           171.943
+Sample:                                           0                                         
+                                               - 24                                         
+Covariance Type:                                opg                                         
+===================================================================================
+Ljung-Box (L1) (Q):             1.75, 0.35   Jarque-Bera (JB):          0.37, 91.71
+Prob(Q):                        0.19, 0.55   Prob(JB):                   0.83, 0.00
+Heteroskedasticity (H):         0.83, 3.04   Skew:                       0.28, 2.41
+Prob(H) (two-sided):            0.80, 0.14   Kurtosis:                  2.75, 11.28
+                                  Results for equation total                                 
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+intercept                     0.9646      7.078      0.136      0.892     -12.908      14.837
+intercept                     0.7162      8.942      0.080      0.936     -16.810      18.243
+L1.total                      0.0850      1.861      0.046      0.964      -3.563       3.733
+L1.seats_arrivals_intl       -0.1824      1.777     -0.103      0.918      -3.665       3.300
+L1.e(total)                   0.1519      2.814      0.054      0.957      -5.364       5.668
+L1.e(seats_arrivals_intl)     1.0805      2.247      0.481      0.631      -3.323       5.484
+beta.covid                   -1.4308      2.244     -0.638      0.524      -5.828       2.967
+beta.stringency_index        -0.1115      0.193     -0.579      0.562      -0.489       0.266
+beta.covid                   -1.4308      2.244     -0.638      0.524      -5.828       2.967
+                           Results for equation seats_arrivals_intl                          
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+drift                         0.1455      0.969      0.150      0.881      -1.754       2.045
+drift                         0.3453      0.964      0.358      0.720      -1.545       2.235
+L1.total                      0.4916      0.740      0.664      0.506      -0.959       1.942
+L1.seats_arrivals_intl       -0.6662      0.520     -1.281      0.200      -1.686       0.353
+L1.e(total)                  -0.3073      0.941     -0.327      0.744      -2.152       1.537
+L1.e(seats_arrivals_intl)     0.8599      1.688      0.509      0.611      -2.449       4.169
+beta.covid                   -1.3231      1.910     -0.693      0.488      -5.067       2.420
+beta.stringency_index        -0.1592      0.201     -0.791      0.429      -0.554       0.235
+beta.covid                   -1.3231      1.910     -0.693      0.488      -5.067       2.420
+                                       Error covariance matrix                                        
+======================================================================================================
+                                         coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+sqrt.var.total                         0.5525      0.456      1.212      0.225      -0.341       1.446
+sqrt.cov.total.seats_arrivals_intl    -0.3034      3.635     -0.083      0.933      -7.427       6.820
+sqrt.var.seats_arrivals_intl           1.3951      0.885      1.576      0.115      -0.339       3.130
+======================================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+[2] Covariance matrix is singular or near-singular, with condition number 1.55e+17. Standard errors may be unstable.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>1.721267e+05</td>
+      <td>414.881597</td>
+      <td>268.478261</td>
+      <td>46.835106</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.290167e+06</td>
+      <td>1135.855000</td>
+      <td>1065.215278</td>
+      <td>100.969388</td>
+    </tr>
+    <tr>
+      <th>VAR (scaled)</th>
+      <td>6.502167e+04</td>
+      <td>254.993470</td>
+      <td>154.338247</td>
+      <td>17.694166</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>total</th>
+      <td>-4.688995</td>
+      <td>0.000088</td>
+      <td>0.0</td>
+      <td>41.0</td>
+      <td>-3.600983</td>
+      <td>-2.935135</td>
+      <td>-2.605963</td>
+    </tr>
+    <tr>
+      <th>seats_arrivals_intl</th>
+      <td>-5.319799</td>
+      <td>0.000005</td>
+      <td>0.0</td>
+      <td>41.0</td>
+      <td>-3.600983</td>
+      <td>-2.935135</td>
+      <td>-2.605963</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 1: stationarity obtained.
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 1, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 2, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 1, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 2, &#39;tr&#39;: &#39;ct&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;n&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
+ Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
+Best P, Q, Trend Combination: (2, 2, &#39;c&#39;)
+                                  Statespace Model Results                                  
+============================================================================================
+Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   43
+Model:                                  VARMAX(2,2)   Log Likelihood                -156.966
+                                        + intercept   AIC                            367.932
+Date:                              Thu, 11 May 2023   BIC                            415.485
+Time:                                      17:55:08   HQIC                           385.468
+Sample:                                           0                                         
+                                               - 43                                         
+Covariance Type:                                opg                                         
+===================================================================================
+Ljung-Box (L1) (Q):             0.38, 1.22   Jarque-Bera (JB):         43.45, 85.76
+Prob(Q):                        0.54, 0.27   Prob(JB):                   0.00, 0.00
+Heteroskedasticity (H):         0.23, 0.85   Skew:                      1.25, -0.85
+Prob(H) (two-sided):            0.01, 0.76   Kurtosis:                   7.24, 9.71
+                                  Results for equation total                                 
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+intercept                     2.7879      1.539      1.811      0.070      -0.229       5.805
+L1.total                      0.1296      0.453      0.286      0.775      -0.758       1.017
+L1.seats_arrivals_intl       -0.0458      0.782     -0.059      0.953      -1.579       1.487
+L2.total                     -0.0978      0.427     -0.229      0.819      -0.936       0.740
+L2.seats_arrivals_intl       -0.0299      0.594     -0.050      0.960      -1.194       1.134
+L1.e(total)                  -0.0571      0.491     -0.116      0.907      -1.020       0.906
+L1.e(seats_arrivals_intl)     0.0051      0.687      0.007      0.994      -1.341       1.351
+L2.e(total)                  -0.2549      0.350     -0.728      0.467      -0.941       0.431
+L2.e(seats_arrivals_intl)    -0.6611      0.605     -1.093      0.274      -1.847       0.524
+beta.covid                   -4.3852      1.703     -2.575      0.010      -7.723      -1.047
+beta.stringency_index        -0.0641      0.029     -2.242      0.025      -0.120      -0.008
+beta.covid                   -4.3852      1.703     -2.575      0.010      -7.723      -1.047
+                           Results for equation seats_arrivals_intl                          
+=============================================================================================
+                                coef    std err          z      P&gt;|z|      [0.025      0.975]
+---------------------------------------------------------------------------------------------
+intercept                     2.2902      2.130      1.075      0.282      -1.884       6.464
+L1.total                      0.4332      0.457      0.949      0.343      -0.462       1.328
+L1.seats_arrivals_intl        0.4219      0.582      0.725      0.469      -0.719       1.563
+L2.total                     -0.6276      0.383     -1.637      0.102      -1.379       0.124
+L2.seats_arrivals_intl       -0.0903      0.357     -0.253      0.800      -0.790       0.609
+L1.e(total)                  -0.3777      0.570     -0.663      0.507      -1.494       0.739
+L1.e(seats_arrivals_intl)     0.2111      0.628      0.336      0.737      -1.019       1.441
+L2.e(total)                   0.1953      0.699      0.279      0.780      -1.175       1.565
+L2.e(seats_arrivals_intl)    -0.1561      0.455     -0.343      0.732      -1.048       0.736
+beta.covid                   -2.1837      3.363     -0.649      0.516      -8.776       4.408
+beta.stringency_index        -0.0263      0.082     -0.321      0.748      -0.187       0.134
+beta.covid                   -2.1837      3.363     -0.649      0.516      -8.776       4.408
+                                       Error covariance matrix                                        
+======================================================================================================
+                                         coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+sqrt.var.total                         1.1858      0.351      3.376      0.001       0.497       1.874
+sqrt.cov.total.seats_arrivals_intl     0.1719      0.856      0.201      0.841      -1.506       1.850
+sqrt.var.seats_arrivals_intl           1.5067      0.289      5.218      0.000       0.941       2.073
+======================================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+[2] Covariance matrix is singular or near-singular, with condition number  7e+18. Standard errors may be unstable.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>2.446383e+06</td>
+      <td>1564.091833</td>
+      <td>808.452381</td>
+      <td>45.153360</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.273834e+07</td>
+      <td>4768.473803</td>
+      <td>4264.861006</td>
+      <td>156.566459</td>
+    </tr>
+    <tr>
+      <th>VAR (scaled)</th>
+      <td>1.600258e+06</td>
+      <td>1265.013157</td>
+      <td>554.204122</td>
+      <td>134.493067</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -714,13 +1410,6 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;MSE&#39;: 1192288.1395348837, &#39;RMSE&#39;: 1091.9194748400103, &#39;MAE&#39;: 636.8837209302326, &#39;SMAPE&#39;: 54.46121058732388}
 {&#39;MSE&#39;: 730352.211616988, &#39;RMSE&#39;: 854.6064659344604, &#39;MAE&#39;: 694.8881523051377, &#39;SMAPE&#39;: 86.16022388069882}
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -842,36 +1531,6 @@ document.write(`
  Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;c&#39;}
  Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;t&#39;}
  Running for {&#39;p&#39;: 3, &#39;q&#39;: 3, &#39;tr&#39;: &#39;ct&#39;}
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod_scaled</span> <span class="o">=</span> <span class="n">VARMAX</span><span class="p">(</span><span class="n">scaled</span><span class="p">,</span>
-             <span class="n">exog</span><span class="o">=</span><span class="n">test</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">test</span><span class="o">.</span><span class="n">exog</span><span class="p">],</span>
-             <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-             <span class="n">trend</span><span class="o">=</span><span class="s2">&quot;t&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">disp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-<span class="n">fit_revs</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">mod</span><span class="o">.</span><span class="n">fittedvalues</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]:</span>
-    <span class="n">rev_val</span> <span class="o">=</span> <span class="n">inverse_scaledlogit</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">fit_revs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rev_val</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">fit_revs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;MSE&#39;: 1865480.8635396196,
- &#39;RMSE&#39;: 1365.8260736783507,
- &#39;MAE&#39;: 774.9586152686217,
- &#39;SMAPE&#39;: 55.81115325036844}
 </pre></div>
 </div>
 </div>
