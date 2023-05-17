@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Ratio Approach &#8212; Pacific Observatory</title>
+    <title>Ratio Approach (Load Factor) &#8212; Pacific Observatory</title>
   
   
   
@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Automatic Identification System" href="../ais_intro.html" />
-    <link rel="prev" title="Palau" href="palau_mtsa.html" />
+    <link rel="prev" title="VAR" href="mtsa_var.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -182,13 +182,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="googletrends.html">Google Trends</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="utsa.html">Univaraite Time Series Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="utsa.html">Analysis I</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="utsa_display.html">SARIMAX</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="mtsa.html">Multivariate Time Series Analaysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="palau_mtsa.html">Palau</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Ratio Approach</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="mtsa.html">Analysis II</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mtsa_var.html">VAR</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Ratio Approach (Load Factor)</a></li>
 </ul>
 </li>
 </ul>
@@ -405,7 +405,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Ratio Approach</h1>
+    <h1>Ratio Approach (Load Factor)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -419,8 +419,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="ratio-approach">
-<h1>Ratio Approach<a class="headerlink" href="#ratio-approach" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="ratio-approach-load-factor">
+<h1>Ratio Approach (Load Factor)<a class="headerlink" href="#ratio-approach-load-factor" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -431,9 +431,120 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">scripts.python.tsa.mtsmodel</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">scripts.python.tsa.ts_eval</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trends</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/trends/trends_vanuatu.csv&quot;</span><span class="p">)</span>
+          <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;Unnamed: 0&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">trends</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">trends</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+<span class="n">trends</span> <span class="o">=</span> <span class="n">trends</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod</span><span class="o">.</span><span class="n">res</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="nn">Input In [40],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mod</span><span class="o">.</span><span class="n">res</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+<span class="ne">TypeError</span>: save() missing 1 required positional argument: &#39;fname&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">&quot;2022-08-01&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;2023-01-01&quot;</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">&quot;MS&quot;</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">])</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">trends</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+<span class="n">test</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>vanuatu flights</th>
+      <th>vanuatu hotel</th>
+      <th>vanuatu travel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2022-08-01</td>
+      <td>1.172312</td>
+      <td>0.558671</td>
+      <td>0.922714</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2022-09-01</td>
+      <td>1.169451</td>
+      <td>0.297855</td>
+      <td>0.537381</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2022-10-01</td>
+      <td>1.131656</td>
+      <td>0.508927</td>
+      <td>0.538444</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2022-11-01</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2022-12-01</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2023-01-01</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -459,6 +570,13 @@ document.write(`
         <span class="n">eval_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">pred</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
         <span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">eval_df</span><span class="p">])</span>
     <span class="n">display</span><span class="p">(</span><span class="n">benchmark</span><span class="p">)</span>
+
+    <span class="n">ratio_viz_df</span> <span class="o">=</span> <span class="n">pred_df</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;pred_mean&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ratio_viz_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Number&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    
 </pre></div>
 </div>
 </div>
@@ -474,8 +592,8 @@ Abnormal value produced with a value of inf.
 Dep. Variable:                  ratio   R-squared:                       0.762
 Model:                            WLS   Adj. R-squared:                  0.717
 Method:                 Least Squares   F-statistic:                     16.95
-Date:                Thu, 11 May 2023   Prob (F-statistic):           8.36e-10
-Time:                        15:37:50   Log-Likelihood:                 34.253
+Date:                Fri, 12 May 2023   Prob (F-statistic):           8.36e-10
+Time:                        14:46:10   Log-Likelihood:                 34.253
 No. Observations:                  45   AIC:                            -52.51
 Df Residuals:                      37   BIC:                            -38.05
 Df Model:                           7                                         
@@ -654,7 +772,8 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SAMOA&#39;s Official and Avaition Data.
+</div></div><img alt="../_images/4b5aefa40592f193f6ecf933389f0c6833b3caaf2a7f20e5f15cc315ee27ece4.png" src="../_images/4b5aefa40592f193f6ecf933389f0c6833b3caaf2a7f20e5f15cc315ee27ece4.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SAMOA&#39;s Official and Avaition Data.
 
  Create Loaded Factor for SAMOA:
 
@@ -664,8 +783,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.850
 Model:                            WLS   Adj. R-squared:                  0.822
 Method:                 Least Squares   F-statistic:                     29.93
-Date:                Thu, 11 May 2023   Prob (F-statistic):           2.19e-13
-Time:                        15:37:51   Log-Likelihood:                 30.672
+Date:                Fri, 12 May 2023   Prob (F-statistic):           2.19e-13
+Time:                        14:46:12   Log-Likelihood:                 30.672
 No. Observations:                  45   AIC:                            -45.34
 Df Residuals:                      37   BIC:                            -30.89
 Df Model:                           7                                         
@@ -844,7 +963,8 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TONGA&#39;s Official and Avaition Data.
+</div></div><img alt="../_images/0a7fbb2fdab7772bab6c13039166b4e6b2d0efb440bc18e0e687cf00825a0554.png" src="../_images/0a7fbb2fdab7772bab6c13039166b4e6b2d0efb440bc18e0e687cf00825a0554.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TONGA&#39;s Official and Avaition Data.
 
  Create Loaded Factor for TONGA:
 
@@ -854,8 +974,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.939
 Model:                            WLS   Adj. R-squared:                  0.924
 Method:                 Least Squares   F-statistic:                     65.47
-Date:                Thu, 11 May 2023   Prob (F-statistic):           1.99e-16
-Time:                        15:37:51   Log-Likelihood:                 45.748
+Date:                Fri, 12 May 2023   Prob (F-statistic):           1.99e-16
+Time:                        14:46:13   Log-Likelihood:                 45.748
 No. Observations:                  38   AIC:                            -75.50
 Df Residuals:                      30   BIC:                            -62.40
 Df Model:                           7                                         
@@ -1034,7 +1154,8 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SOLOMON_ISLANDS&#39;s Official and Avaition Data.
+</div></div><img alt="../_images/2101d48e8e4b2ea3d0637f933fa9d65364041118bcd736bf54802bd72cadb804.png" src="../_images/2101d48e8e4b2ea3d0637f933fa9d65364041118bcd736bf54802bd72cadb804.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SOLOMON_ISLANDS&#39;s Official and Avaition Data.
 
  Create Loaded Factor for SOLOMON_ISLANDS:
 
@@ -1044,8 +1165,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.939
 Model:                            WLS   Adj. R-squared:                  0.913
 Method:                 Least Squares   F-statistic:                     35.46
-Date:                Thu, 11 May 2023   Prob (F-statistic):           1.40e-08
-Time:                        15:37:52   Log-Likelihood:                 54.264
+Date:                Fri, 12 May 2023   Prob (F-statistic):           1.40e-08
+Time:                        14:46:14   Log-Likelihood:                 54.264
 No. Observations:                  24   AIC:                            -92.53
 Df Residuals:                      16   BIC:                            -83.10
 Df Model:                           7                                         
@@ -1224,7 +1345,8 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VANUATU&#39;s Official and Avaition Data.
+</div></div><img alt="../_images/1008060f3ca66cfc30cd16825d873b352a8eca4bb3f8e59d588fd3d3554f953d.png" src="../_images/1008060f3ca66cfc30cd16825d873b352a8eca4bb3f8e59d588fd3d3554f953d.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VANUATU&#39;s Official and Avaition Data.
 
  Create Loaded Factor for VANUATU:
 
@@ -1234,8 +1356,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.951
 Model:                            WLS   Adj. R-squared:                  0.941
 Method:                 Least Squares   F-statistic:                     91.83
-Date:                Thu, 11 May 2023   Prob (F-statistic):           8.77e-20
-Time:                        15:37:53   Log-Likelihood:                 51.937
+Date:                Fri, 12 May 2023   Prob (F-statistic):           8.77e-20
+Time:                        14:46:15   Log-Likelihood:                 51.937
 No. Observations:                  41   AIC:                            -87.87
 Df Residuals:                      33   BIC:                            -74.17
 Df Model:                           7                                         
@@ -1414,7 +1536,8 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div></div>
+</div></div><img alt="../_images/a1fba90c90a679bfb554a7a00e90c2b5cb9c14fc90d4cd5fb371b66aa034fc0a.png" src="../_images/a1fba90c90a679bfb554a7a00e90c2b5cb9c14fc90d4cd5fb371b66aa034fc0a.png" />
+</div>
 </div>
 </section>
 
@@ -1450,12 +1573,12 @@ Notes:
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="palau_mtsa.html"
+       href="mtsa_var.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Palau</p>
+        <p class="prev-next-title">VAR</p>
       </div>
     </a>
     <a class="right-next"

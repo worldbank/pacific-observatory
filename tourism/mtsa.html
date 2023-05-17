@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Multivariate Time Series Analaysis &#8212; Pacific Observatory</title>
+    <title>Analysis II &#8212; Pacific Observatory</title>
   
   
   
@@ -69,7 +69,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/tourism/mtsa.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Palau" href="palau_mtsa.html" />
+    <link rel="next" title="VAR" href="mtsa_var.html" />
     <link rel="prev" title="SARIMAX" href="utsa_display.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -184,13 +184,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="googletrends.html">Google Trends</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="utsa.html">Univaraite Time Series Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="utsa.html">Analysis I</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="utsa_display.html">SARIMAX</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Multivariate Time Series Analaysis</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="palau_mtsa.html">Palau</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mtsa_ratio.html">Ratio Approach</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Analysis II</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="mtsa_var.html">VAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mtsa_ratio.html">Ratio Approach (Load Factor)</a></li>
 </ul>
 </li>
 </ul>
@@ -409,7 +409,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Multivariate Time Series Analaysis</h1>
+    <h1>Analysis II</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -419,7 +419,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var-and-vector-error-correction-model-vecm">Vector AutoRegressive (VAR) and Vector Error-Correction Model (VECM)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-and-moving-average-model-varma">Vector AutoRegressive and Moving Average Model (VARMA)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach">Ratio Approach</a></li>
 </ul>
             </nav>
@@ -432,12 +432,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="multivariate-time-series-analaysis">
-<h1>Multivariate Time Series Analaysis<a class="headerlink" href="#multivariate-time-series-analaysis" title="Permalink to this heading">#</a></h1>
-<section id="vector-autoregressive-var-and-vector-error-correction-model-vecm">
-<h2>Vector AutoRegressive (VAR) and Vector Error-Correction Model (VECM)<a class="headerlink" href="#vector-autoregressive-var-and-vector-error-correction-model-vecm" title="Permalink to this heading">#</a></h2>
-<p>Given the potential relationship between offical VA and GAD data, VAR model</p>
-<p>VAR model would improve the univariate time series modeling by considering the linkages between ISA data from the GAD and the official VA data. A VAR(p) model with exogenous variables is formally expressed as:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="analysis-ii">
+<h1>Analysis II<a class="headerlink" href="#analysis-ii" title="Permalink to this heading">#</a></h1>
+<section id="vector-autoregressive-and-moving-average-model-varma">
+<h2>Vector AutoRegressive and Moving Average Model (VARMA)<a class="headerlink" href="#vector-autoregressive-and-moving-average-model-varma" title="Permalink to this heading">#</a></h2>
+<p>Given the potential relationship between offical VA and GAD data, VARMA model COULD improve the univariate time series modeling by considering the linkages between ISA from the GAD and the official VA data. A VAR(p) model with exogenous variables is formally expressed as:</p>
 <div class="math notranslate nohighlight">
 \[
 VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p} 
@@ -513,11 +512,11 @@ Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + NumOfCruis
       </div>
     </a>
     <a class="right-next"
-       href="palau_mtsa.html"
+       href="mtsa_var.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Palau</p>
+        <p class="prev-next-title">VAR</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -539,7 +538,7 @@ Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + NumOfCruis
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-var-and-vector-error-correction-model-vecm">Vector AutoRegressive (VAR) and Vector Error-Correction Model (VECM)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-and-moving-average-model-varma">Vector AutoRegressive and Moving Average Model (VARMA)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach">Ratio Approach</a></li>
 </ul>
   </nav></div>
