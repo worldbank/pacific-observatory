@@ -6,11 +6,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from scripts.SupportFunc import download_files
+from scripts.python.utils import download_files
+
 
 # Config the chromedriver
 chrome_options = webdriver.ChromeOptions()
-prefs = {'download.default_directory': os.getcwd() + '/data/fiji'}
+prefs = {'download.default_directory': os.getcwd() + '/data/tourism/fiji'}
 chrome_options.add_experimental_option('prefs', prefs)
 driver = webdriver.Chrome(os.getcwd() + "/scripts/chromedriver",
                           chrome_options=chrome_options)

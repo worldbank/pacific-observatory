@@ -1,10 +1,7 @@
-# Multivariate Time Series Analaysis
-## Vector AutoRegressive (VAR) and Vector Error-Correction Model (VECM)
+# Analysis II
+## Vector AutoRegressive and Moving Average Model (VARMA)
 
-
-Given the potential relationship between offical VA and GAD data, VAR model 
-
-VAR model would improve the univariate time series modeling by considering the linkages between ISA data from the GAD and the official VA data. A VAR(p) model with exogenous variables is formally expressed as:
+Given the potential relationship between offical VA and GAD data, VARMA model COULD improve the univariate time series modeling by considering the linkages between ISA from the GAD and the official VA data. A VAR(p) model with exogenous variables is formally expressed as:
 
 $$
 VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p} 

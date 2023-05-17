@@ -27,8 +27,9 @@ parts:
         - file: tourism/utsa_display
       - file: tourism/mtsa
         sections:
-        - file: tourism/palau_mtsa
+        - file: tourism/mtsa_var
         - file: tourism/mtsa_ratio
+      - file: tourism/other
   - caption: Automatic Identification System
     chapters:
       - file: ais_intro

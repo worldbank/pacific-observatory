@@ -73,7 +73,7 @@ class VARPipeline(MultiTSData):
             self.x2_trans = scaledlogit_transform(self.data[self.x2])
             self.scaled = pd.DataFrame([self.x1_trans, self.x2_trans]).T
 
-    def varma_search(self):
+    def varma_search(self, verbose=False):
 
         from sklearn.model_selection import ParameterGrid
 
@@ -88,7 +88,8 @@ class VARPipeline(MultiTSData):
         }
         
         for idx, params in enumerate(pg):
-            print(f' Running for {params}')
+            if verbose: 
+                print(f' Running for {params}')
             p = params.get('p')
             q = params.get('q')
             tr = params.get('tr')
