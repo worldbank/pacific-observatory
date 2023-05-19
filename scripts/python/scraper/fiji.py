@@ -40,5 +40,5 @@ while start < 136:
 
 # Download pdf files
 for url in download_urls:
-    path = os.getcwd() + "/data/tourism/fiji/scraping/" + url.split("/")[-1]
+    path = os.getcwd() + "/data/tourism/fiji/scraping/updated/" + url.split("/")[-1]
     download_files(url, path=path)
