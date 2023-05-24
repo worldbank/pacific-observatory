@@ -542,6 +542,9 @@ document.write(`
             <span class="n">best_mod_pred</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">pred_series</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;SARIMAX&quot;</span><span class="p">]))</span>
         <span class="n">mod_eval</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">mod</span><span class="o">.</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">mod_eval</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">display</span><span class="p">(</span><span class="n">mod_eval</span><span class="p">)</span>
+        
+        <span class="n">mod_eval</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">country_data_folder</span> <span class="o">+</span> <span class="s2">&quot;/model/sarimax_eval_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span><span class="p">,</span>
+                        <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -637,7 +640,7 @@ STARTED TO CONDUCT STEPWISE SEARCHING FOR SOLOMON_ISLANDS
 Dep. Variable:                                    y   No. Observations:                  144
 Model:             SARIMAX(2, 1, 2)x(1, 0, [1], 12)   Log Likelihood                -170.543
 Date:                              Wed, 24 May 2023   AIC                            361.087
-Time:                                      15:03:23   BIC                            390.715
+Time:                                      17:29:43   BIC                            390.715
 Sample:                                           0   HQIC                           373.126
                                               - 144                                         
 Covariance Type:                                opg                                         
@@ -860,7 +863,7 @@ STARTED TO CONDUCT STEPWISE SEARCHING FOR PALAU
 Dep. Variable:                                  y   No. Observations:                  184
 Model:             SARIMAX(1, 0, 1)x(1, 0, 1, 12)   Log Likelihood                -231.068
 Date:                            Wed, 24 May 2023   AIC                            478.136
-Time:                                    15:08:19   BIC                            503.855
+Time:                                    17:35:03   BIC                            503.855
 Sample:                                         0   HQIC                           488.560
                                             - 184                                         
 Covariance Type:                              opg                                         
@@ -1081,7 +1084,7 @@ STARTED TO CONDUCT STEPWISE SEARCHING FOR SAMOA
 Dep. Variable:                                    y   No. Observations:                  242
 Model:             SARIMAX(0, 1, 2)x(2, 0, [1], 12)   Log Likelihood                -335.391
 Date:                              Wed, 24 May 2023   AIC                            690.782
-Time:                                      15:13:41   BIC                            725.630
+Time:                                      17:40:39   BIC                            725.630
 Sample:                                           0   HQIC                           704.822
                                               - 242                                         
 Covariance Type:                                opg                                         
@@ -1328,7 +1331,7 @@ STARTED TO CONDUCT STEPWISE SEARCHING FOR VANUATU
 Dep. Variable:                                  y   No. Observations:                  224
 Model:             SARIMAX(1, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -278.286
 Date:                            Wed, 24 May 2023   AIC                            572.571
-Time:                                    15:21:25   BIC                            599.829
+Time:                                    17:51:17   BIC                            599.829
 Sample:                                         0   HQIC                           583.575
                                             - 224                                         
 Covariance Type:                              opg                                         
@@ -1525,7 +1528,7 @@ STARTED TO CONDUCT STEPWISE SEARCHING FOR TONGA
 Dep. Variable:                                    y   No. Observations:                  146
 Model:             SARIMAX(2, 0, 0)x(1, 0, [1], 12)   Log Likelihood                -209.033
 Date:                              Wed, 24 May 2023   AIC                            434.066
-Time:                                      15:27:27   BIC                            457.935
+Time:                                      17:58:04   BIC                            457.935
 Sample:                                           0   HQIC                           443.764
                                               - 146                                         
 Covariance Type:                                opg                                         
@@ -1559,62 +1562,7 @@ STARTED TO CONDUCT CROSS-VALIDATION FOR TONGA
 Best Models from Cross-validation is  ARIMA(2,0,0)(0,1,1)[12] intercept 
 </pre></div>
 </div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>MSE</th>
-      <th>RMSE</th>
-      <th>MAE</th>
-      <th>SMAPE</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>naive</th>
-      <td>6.627790e+06</td>
-      <td>2574.449367</td>
-      <td>1881.917241</td>
-      <td>43.665478</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>8.416698e+06</td>
-      <td>2901.154580</td>
-      <td>2238.220961</td>
-      <td>55.343479</td>
-    </tr>
-    <tr>
-      <th>seasonal naive</th>
-      <td>1.161364e+07</td>
-      <td>3407.879253</td>
-      <td>2355.589041</td>
-      <td>64.674604</td>
-    </tr>
-    <tr>
-      <th>SARIMAX</th>
-      <td>3.866082e+06</td>
-      <td>1966.235433</td>
-      <td>1332.350475</td>
-      <td>39.000051</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+</div>
 </div>
 </section>
 
