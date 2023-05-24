@@ -456,7 +456,7 @@ document.write(`
 <span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">]</span>
 <span class="c1"># Set parameter range</span>
 <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">P</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="mi">12</span><span class="p">]</span>
@@ -473,7 +473,7 @@ document.write(`
                           <span class="n">exog_var</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">,</span> <span class="s2">&quot;stringency_index&quot;</span><span class="p">,</span>
                                     <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;_travel&quot;</span><span class="p">],</span>
                           <span class="n">transform_method</span><span class="o">=</span><span class="s2">&quot;scaledlogit&quot;</span><span class="p">,</span>
-                          <span class="n">training_ratio</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                          <span class="n">training_ratio</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                           <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">mod</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
     <span class="n">display</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
@@ -528,6 +528,9 @@ document.write(`
         <span class="n">best_mod_pred</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">best_mod_pred</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
             <span class="p">[</span><span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">]],</span> <span class="n">best_mod_pred</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="n">save_pred_path</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">country_data_folder</span> <span class="o">+</span> <span class="s2">&quot;/model/sarimax_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
+        <span class="n">best_mod_pred</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">save_pred_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">mod</span><span class="o">.</span><span class="n">test_size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">pred_series</span> <span class="o">=</span> <span class="p">(</span><span class="n">best_mod_pred</span><span class="p">[</span><span class="s2">&quot;train_pred&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -574,98 +577,100 @@ document.write(`
   <tbody>
     <tr>
       <th>0</th>
-      <td>2008-12-01</td>
+      <td>2009-01-01</td>
       <td>1602</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.515189</td>
-      <td>0.235062</td>
+      <td>0.000000</td>
+      <td>0.0</td>
       <td>0.000000</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2009-01-01</td>
+      <td>2009-02-01</td>
       <td>1422</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2009-02-01</td>
-      <td>1249</td>
-      <td>0.0</td>
-      <td>0.0</td>
       <td>0.484667</td>
-      <td>0.000000</td>
+      <td>0.0</td>
       <td>0.203672</td>
     </tr>
     <tr>
-      <th>3</th>
+      <th>2</th>
       <td>2009-03-01</td>
+      <td>1249</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2009-04-01</td>
       <td>1499</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.000000</td>
-      <td>0.000000</td>
+      <td>0.0</td>
       <td>0.000000</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2009-04-01</td>
+      <td>2009-05-01</td>
       <td>1393</td>
       <td>0.0</td>
       <td>0.0</td>
       <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
+      <td>0.0</td>
+      <td>0.478020</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training samples do not cover covid-19 periods. Instead, Run All Samples.
-training size : 144, testing size : 0
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 144, testing size : 0
 THE BENCHMARK EVALUATION FOR SOLOMON_ISLANDS 
 
 STARTED TO CONDUCT STEPWISE SEARCHING FOR SOLOMON_ISLANDS 
 
-                                     SARIMAX Results                                      
-==========================================================================================
-Dep. Variable:                                  y   No. Observations:                  144
-Model:             SARIMAX(0, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -194.135
-Date:                            Tue, 09 May 2023   AIC                            402.271
-Time:                                    16:53:22   BIC                            423.011
-Sample:                                         0   HQIC                           410.699
-                                            - 144                                         
-Covariance Type:                              opg                                         
+                                      SARIMAX Results                                       
+============================================================================================
+Dep. Variable:                                    y   No. Observations:                  144
+Model:             SARIMAX(2, 1, 2)x(1, 0, [1], 12)   Log Likelihood                -170.543
+Date:                              Wed, 24 May 2023   AIC                            361.087
+Time:                                      15:03:23   BIC                            390.715
+Sample:                                           0   HQIC                           373.126
+                                              - 144                                         
+Covariance Type:                                opg                                         
 ==========================================================================================
                              coef    std err          z      P&gt;|z|      [0.025      0.975]
 ------------------------------------------------------------------------------------------
-covid                      1.9415      0.566      3.430      0.001       0.832       3.051
-stringency_index          -0.1321      0.006    -22.442      0.000      -0.144      -0.121
-solomon_islands_travel    -0.3312      1.171     -0.283      0.777      -2.626       1.963
-ma.L1                     -0.8866      0.059    -14.905      0.000      -1.003      -0.770
-ar.S.L12                   0.9566      0.160      5.965      0.000       0.642       1.271
-ma.S.L12                  -0.8656      0.296     -2.926      0.003      -1.445      -0.286
-sigma2                     0.8512      0.077     11.042      0.000       0.700       1.002
+covid                     -3.0401      1.491     -2.039      0.041      -5.962      -0.118
+stringency_index          -0.0648      0.026     -2.497      0.013      -0.116      -0.014
+solomon_islands_travel    -0.3945      1.574     -0.251      0.802      -3.479       2.690
+ar.L1                     -0.7511      0.172     -4.375      0.000      -1.088      -0.415
+ar.L2                      0.1471      0.125      1.180      0.238      -0.097       0.391
+ma.L1                      0.0672      0.105      0.640      0.522      -0.138       0.273
+ma.L2                     -0.8797      0.082    -10.683      0.000      -1.041      -0.718
+ar.S.L12                   0.9434      0.127      7.457      0.000       0.695       1.191
+ma.S.L12                  -0.8220      0.243     -3.383      0.001      -1.298      -0.346
+sigma2                     0.6149      0.054     11.411      0.000       0.509       0.721
 ===================================================================================
-Ljung-Box (L1) (Q):                   0.34   Jarque-Bera (JB):              5681.72
-Prob(Q):                              0.56   Prob(JB):                         0.00
-Heteroskedasticity (H):               0.76   Skew:                             3.37
-Prob(H) (two-sided):                  0.35   Kurtosis:                        33.14
+Ljung-Box (L1) (Q):                   0.07   Jarque-Bera (JB):             16100.35
+Prob(Q):                              0.79   Prob(JB):                         0.00
+Heteroskedasticity (H):               0.33   Skew:                             5.80
+Prob(H) (two-sided):                  0.00   Kurtosis:                        53.67
 ===================================================================================
 
 Warnings:
 [1] Covariance matrix calculated using the outer product of gradients (complex-step).
 </pre></div>
 </div>
-<img alt="../_images/bc968008102dc69dd3f914d341e30361129cb8e4aae7a21eb0019fc11e2833ea.png" src="../_images/bc968008102dc69dd3f914d341e30361129cb8e4aae7a21eb0019fc11e2833ea.png" />
+<img alt="../_images/ba79e2e0401cccdc68cf0d2acd7a6171b91a6fbd825be7a0733ccff8ffdc4c15.png" src="../_images/ba79e2e0401cccdc68cf0d2acd7a6171b91a6fbd825be7a0733ccff8ffdc4c15.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STARTED TO CONDUCT GRID SEARCHING FOR SOLOMON_ISLANDS 
 
 STARTED TO CONDUCT CROSS-VALIDATION FOR SOLOMON_ISLANDS 
 
-Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept 
+Best Models from Cross-validation is  ARIMA(1,1,1)(0,1,1)[12] intercept 
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -716,10 +721,10 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
     </tr>
     <tr>
       <th>SARIMAX</th>
-      <td>97272.641407</td>
-      <td>311.885622</td>
-      <td>231.244647</td>
-      <td>18.720530</td>
+      <td>87084.324016</td>
+      <td>295.100532</td>
+      <td>213.142277</td>
+      <td>15.277422</td>
     </tr>
   </tbody>
 </table>
@@ -760,7 +765,7 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
   <tbody>
     <tr>
       <th>0</th>
-      <td>2007-05-01</td>
+      <td>2007-06-01</td>
       <td>856.0</td>
       <td>1291.0</td>
       <td>3245.0</td>
@@ -771,13 +776,13 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
       <td>6709.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.363144</td>
-      <td>7.430694</td>
-      <td>1.593284</td>
+      <td>1.068426</td>
+      <td>8.334537</td>
+      <td>0.320004</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>2007-06-01</td>
+      <td>2007-07-01</td>
       <td>2119.0</td>
       <td>1366.0</td>
       <td>3269.0</td>
@@ -788,13 +793,13 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
       <td>8021.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>1.068426</td>
-      <td>8.334537</td>
-      <td>0.320004</td>
+      <td>0.000000</td>
+      <td>9.667343</td>
+      <td>0.952482</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2007-07-01</td>
+      <td>2007-08-01</td>
       <td>3476.0</td>
       <td>1354.0</td>
       <td>3046.0</td>
@@ -805,13 +810,13 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
       <td>9196.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.000000</td>
-      <td>9.667343</td>
-      <td>0.952482</td>
+      <td>0.704914</td>
+      <td>6.906282</td>
+      <td>0.453967</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2007-08-01</td>
+      <td>2007-09-01</td>
       <td>3022.0</td>
       <td>910.0</td>
       <td>2497.0</td>
@@ -822,13 +827,13 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
       <td>7595.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.704914</td>
-      <td>6.906282</td>
-      <td>0.453967</td>
+      <td>0.798284</td>
+      <td>3.591027</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>2007-09-01</td>
+      <td>2007-10-01</td>
       <td>1807.0</td>
       <td>1082.0</td>
       <td>2298.0</td>
@@ -839,51 +844,51 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
       <td>6795.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.798284</td>
-      <td>3.591027</td>
+      <td>0.431326</td>
+      <td>4.111283</td>
       <td>0.000000</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 165, testing size : 19
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 184, testing size : 0
 THE BENCHMARK EVALUATION FOR PALAU 
 
 STARTED TO CONDUCT STEPWISE SEARCHING FOR PALAU 
 
                                      SARIMAX Results                                      
 ==========================================================================================
-Dep. Variable:                                  y   No. Observations:                  165
-Model:             SARIMAX(0, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -207.956
-Date:                            Tue, 09 May 2023   AIC                            429.912
-Time:                                    16:57:51   BIC                            451.611
-Sample:                                         0   HQIC                           438.721
-                                            - 165                                         
+Dep. Variable:                                  y   No. Observations:                  184
+Model:             SARIMAX(1, 0, 1)x(1, 0, 1, 12)   Log Likelihood                -231.068
+Date:                            Wed, 24 May 2023   AIC                            478.136
+Time:                                    15:08:19   BIC                            503.855
+Sample:                                         0   HQIC                           488.560
+                                            - 184                                         
 Covariance Type:                              opg                                         
 ====================================================================================
                        coef    std err          z      P&gt;|z|      [0.025      0.975]
 ------------------------------------------------------------------------------------
-covid                0.8340      0.670      1.245      0.213      -0.479       2.147
-stringency_index    -0.1302      0.010    -12.980      0.000      -0.150      -0.111
-palau_travel        -0.0333      0.762     -0.044      0.965      -1.526       1.460
-ma.L1               -0.7500      0.034    -22.330      0.000      -0.816      -0.684
-ar.S.L12             0.9527      0.246      3.872      0.000       0.470       1.435
-ma.S.L12            -0.8769      0.374     -2.344      0.019      -1.610      -0.144
-sigma2               0.7203      0.057     12.702      0.000       0.609       0.831
+covid               -5.9728      0.833     -7.170      0.000      -7.605      -4.340
+stringency_index    -0.0172      0.018     -0.950      0.342      -0.053       0.018
+palau_travel         0.3199      0.571      0.560      0.575      -0.800       1.439
+ar.L1                0.9569      0.033     28.662      0.000       0.891       1.022
+ma.L1               -0.5431      0.052    -10.518      0.000      -0.644      -0.442
+ar.S.L12             0.9414      0.132      7.137      0.000       0.683       1.200
+ma.S.L12            -0.8473      0.210     -4.026      0.000      -1.260      -0.435
+sigma2               0.7038      0.028     24.753      0.000       0.648       0.760
 ===================================================================================
-Ljung-Box (L1) (Q):                   0.01   Jarque-Bera (JB):             23217.56
-Prob(Q):                              0.91   Prob(JB):                         0.00
-Heteroskedasticity (H):               4.58   Skew:                             5.68
-Prob(H) (two-sided):                  0.00   Kurtosis:                        60.17
+Ljung-Box (L1) (Q):                   0.07   Jarque-Bera (JB):             19273.54
+Prob(Q):                              0.80   Prob(JB):                         0.00
+Heteroskedasticity (H):               6.06   Skew:                             4.88
+Prob(H) (two-sided):                  0.00   Kurtosis:                        52.18
 ===================================================================================
 
 Warnings:
 [1] Covariance matrix calculated using the outer product of gradients (complex-step).
 </pre></div>
 </div>
-<img alt="../_images/e182ac963fa8bb6017ce3699376c20fa3920f9f857b9fc6352a459dcebee5112.png" src="../_images/e182ac963fa8bb6017ce3699376c20fa3920f9f857b9fc6352a459dcebee5112.png" />
+<img alt="../_images/4027bf1f2eac20ce84caabccbb8172e44c632e3465fb87de462decc6b45e97f9.png" src="../_images/4027bf1f2eac20ce84caabccbb8172e44c632e3465fb87de462decc6b45e97f9.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STARTED TO CONDUCT GRID SEARCHING FOR PALAU 
 
-LU decomposition error.
 STARTED TO CONDUCT CROSS-VALIDATION FOR PALAU 
 
 Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept 
@@ -937,10 +942,10 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
     </tr>
     <tr>
       <th>SARIMAX</th>
-      <td>1.784154e+06</td>
-      <td>1335.722351</td>
-      <td>1006.163962</td>
-      <td>33.238669</td>
+      <td>1.826282e+06</td>
+      <td>1351.399848</td>
+      <td>947.467373</td>
+      <td>21.701883</td>
     </tr>
   </tbody>
 </table>
@@ -1066,53 +1071,50 @@ Best Models from Cross-validation is  ARIMA(0,1,1)(0,1,1)[12] intercept
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 217, testing size : 25
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 242, testing size : 0
 THE BENCHMARK EVALUATION FOR SAMOA 
 
 STARTED TO CONDUCT STEPWISE SEARCHING FOR SAMOA 
 
-                                      SARIMAX Results                                      
-===========================================================================================
-Dep. Variable:                                   y   No. Observations:                  217
-Model:             SARIMAX(5, 1, 2)x(2, 0, [], 12)   Log Likelihood                -229.794
-Date:                             Tue, 09 May 2023   AIC                            485.589
-Time:                                     17:03:35   BIC                            529.467
-Sample:                                          0   HQIC                           503.316
-                                             - 217                                         
-Covariance Type:                               opg                                         
+                                      SARIMAX Results                                       
+============================================================================================
+Dep. Variable:                                    y   No. Observations:                  242
+Model:             SARIMAX(0, 1, 2)x(2, 0, [1], 12)   Log Likelihood                -335.391
+Date:                              Wed, 24 May 2023   AIC                            690.782
+Time:                                      15:13:41   BIC                            725.630
+Sample:                                           0   HQIC                           704.822
+                                              - 242                                         
+Covariance Type:                                opg                                         
 ====================================================================================
                        coef    std err          z      P&gt;|z|      [0.025      0.975]
 ------------------------------------------------------------------------------------
-covid               -8.4907      1.289     -6.588      0.000     -11.017      -5.965
-stringency_index    -0.0638      0.017     -3.704      0.000      -0.098      -0.030
-samoa_travel        -0.0368      0.203     -0.181      0.856      -0.434       0.361
-ar.L1                0.4854      0.526      0.922      0.356      -0.546       1.517
-ar.L2               -0.1570      0.213     -0.736      0.462      -0.575       0.261
-ar.L3               -0.1343      0.206     -0.654      0.513      -0.537       0.268
-ar.L4               -0.1593      0.147     -1.081      0.280      -0.448       0.130
-ar.L5               -0.2538      0.335     -0.758      0.448      -0.910       0.402
-ma.L1               -1.4821      0.536     -2.764      0.006      -2.533      -0.431
-ma.L2                0.6181      0.478      1.293      0.196      -0.319       1.555
-ar.S.L12             0.1208      0.062      1.945      0.052      -0.001       0.242
-ar.S.L24             0.7090      0.129      5.508      0.000       0.457       0.961
-sigma2               0.4473      0.026     17.267      0.000       0.397       0.498
+intercept            0.0097      0.010      0.961      0.337      -0.010       0.029
+covid               -7.2406      0.737     -9.827      0.000      -8.685      -5.796
+stringency_index    -0.0750      0.010     -7.871      0.000      -0.094      -0.056
+samoa_travel        -0.0038      0.268     -0.014      0.989      -0.529       0.521
+ma.L1               -0.6578      0.037    -17.626      0.000      -0.731      -0.585
+ma.L2               -0.3261      0.067     -4.854      0.000      -0.458      -0.194
+ar.S.L12            -0.3483      0.400     -0.871      0.384      -1.132       0.435
+ar.S.L24             0.3509      0.118      2.975      0.003       0.120       0.582
+ma.S.L12             0.6056      0.406      1.492      0.136      -0.190       1.401
+sigma2               0.9498      0.045     21.045      0.000       0.861       1.038
 ===================================================================================
-Ljung-Box (L1) (Q):                   0.18   Jarque-Bera (JB):            102481.73
-Prob(Q):                              0.67   Prob(JB):                         0.00
-Heteroskedasticity (H):              22.01   Skew:                             8.84
-Prob(H) (two-sided):                  0.00   Kurtosis:                       108.23
+Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):             23312.56
+Prob(Q):                              0.96   Prob(JB):                         0.00
+Heteroskedasticity (H):              25.64   Skew:                             5.65
+Prob(H) (two-sided):                  0.00   Kurtosis:                        49.84
 ===================================================================================
 
 Warnings:
 [1] Covariance matrix calculated using the outer product of gradients (complex-step).
 </pre></div>
 </div>
-<img alt="../_images/2c442761974cb15b5a24547f51b20c02561cd1a4f008513a3cc03e88d2fa92e4.png" src="../_images/2c442761974cb15b5a24547f51b20c02561cd1a4f008513a3cc03e88d2fa92e4.png" />
+<img alt="../_images/e623aeed9e2756e5c55a0384198d8cbf6aa07dfe344f01cbf9b5feb4fa6a7866.png" src="../_images/e623aeed9e2756e5c55a0384198d8cbf6aa07dfe344f01cbf9b5feb4fa6a7866.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STARTED TO CONDUCT GRID SEARCHING FOR SAMOA 
 
 STARTED TO CONDUCT CROSS-VALIDATION FOR SAMOA 
 
-Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept 
+Best Models from Cross-validation is  ARIMA(2,1,1)(0,1,1)[12] intercept 
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1163,10 +1165,10 @@ Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept
     </tr>
     <tr>
       <th>SARIMAX</th>
-      <td>3.356381e+06</td>
-      <td>1832.042914</td>
-      <td>1142.803542</td>
-      <td>34.718754</td>
+      <td>2.952049e+06</td>
+      <td>1718.152711</td>
+      <td>1020.766988</td>
+      <td>33.573105</td>
     </tr>
   </tbody>
 </table>
@@ -1211,7 +1213,7 @@ Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept
   <tbody>
     <tr>
       <th>0</th>
-      <td>2003-11-01</td>
+      <td>2003-12-01</td>
       <td>2938.0</td>
       <td>580.0</td>
       <td>646.0</td>
@@ -1232,7 +1234,7 @@ Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept
     </tr>
     <tr>
       <th>1</th>
-      <td>2003-12-01</td>
+      <td>2004-01-01</td>
       <td>2864.0</td>
       <td>439.0</td>
       <td>717.0</td>
@@ -1247,13 +1249,13 @@ Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
+      <td>2.232933</td>
+      <td>3.102047</td>
+      <td>2.453441</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>2004-01-01</td>
+      <td>2004-02-01</td>
       <td>2158.0</td>
       <td>194.0</td>
       <td>416.0</td>
@@ -1268,13 +1270,13 @@ Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept
       <td>0.0</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>2.232933</td>
-      <td>3.102047</td>
-      <td>2.453441</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>2004-02-01</td>
+      <td>2004-03-01</td>
       <td>2733.0</td>
       <td>420.0</td>
       <td>255.0</td>
@@ -1295,7 +1297,7 @@ Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept
     </tr>
     <tr>
       <th>4</th>
-      <td>2004-03-01</td>
+      <td>2004-04-01</td>
       <td>2377.0</td>
       <td>438.0</td>
       <td>469.0</td>
@@ -1312,51 +1314,52 @@ Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,0)[12] intercept
       <td>0.0</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>0.000000</td>
+      <td>1.694580</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 201, testing size : 23
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 224, testing size : 0
 THE BENCHMARK EVALUATION FOR VANUATU 
 
 STARTED TO CONDUCT STEPWISE SEARCHING FOR VANUATU 
 
                                      SARIMAX Results                                      
 ==========================================================================================
-Dep. Variable:                                  y   No. Observations:                  201
-Model:             SARIMAX(0, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -259.959
-Date:                            Tue, 09 May 2023   AIC                            533.919
-Time:                                    17:11:11   BIC                            557.007
-Sample:                                         0   HQIC                           543.262
-                                            - 201                                         
+Dep. Variable:                                  y   No. Observations:                  224
+Model:             SARIMAX(1, 1, 1)x(1, 0, 1, 12)   Log Likelihood                -278.286
+Date:                            Wed, 24 May 2023   AIC                            572.571
+Time:                                    15:21:25   BIC                            599.829
+Sample:                                         0   HQIC                           583.575
+                                            - 224                                         
 Covariance Type:                              opg                                         
 ====================================================================================
                        coef    std err          z      P&gt;|z|      [0.025      0.975]
 ------------------------------------------------------------------------------------
-covid               -1.9130      0.476     -4.023      0.000      -2.845      -0.981
-stringency_index    -0.1524      0.006    -25.740      0.000      -0.164      -0.141
-vanuatu_travel       0.0173      0.238      0.073      0.942      -0.449       0.483
-ma.L1               -0.9257      0.042    -22.179      0.000      -1.008      -0.844
-ar.S.L12             0.9599      0.081     11.807      0.000       0.801       1.119
-ma.S.L12            -0.7895      0.172     -4.580      0.000      -1.127      -0.452
-sigma2               0.7499      0.036     21.094      0.000       0.680       0.820
+covid               -9.1747      0.708    -12.966      0.000     -10.562      -7.788
+stringency_index    -0.0419      0.011     -3.973      0.000      -0.063      -0.021
+vanuatu_travel       0.0298      0.213      0.140      0.888      -0.387       0.447
+ar.L1                0.0483      0.102      0.475      0.635      -0.151       0.248
+ma.L1               -0.8991      0.072    -12.570      0.000      -1.039      -0.759
+ar.S.L12             0.9723      0.042     22.969      0.000       0.889       1.055
+ma.S.L12            -0.8100      0.102     -7.956      0.000      -1.009      -0.610
+sigma2               0.6688      0.034     19.531      0.000       0.602       0.736
 ===================================================================================
-Ljung-Box (L1) (Q):                   0.37   Jarque-Bera (JB):             10386.37
-Prob(Q):                              0.54   Prob(JB):                         0.00
-Heteroskedasticity (H):              18.62   Skew:                             2.86
-Prob(H) (two-sided):                  0.00   Kurtosis:                        37.84
+Ljung-Box (L1) (Q):                   0.02   Jarque-Bera (JB):             18394.33
+Prob(Q):                              0.89   Prob(JB):                         0.00
+Heteroskedasticity (H):              17.69   Skew:                             5.20
+Prob(H) (two-sided):                  0.00   Kurtosis:                        46.26
 ===================================================================================
 
 Warnings:
 [1] Covariance matrix calculated using the outer product of gradients (complex-step).
 </pre></div>
 </div>
-<img alt="../_images/61cf5e125630a237a2f9f976ea06556f1907ff18a9be3372616e765d45f5249b.png" src="../_images/61cf5e125630a237a2f9f976ea06556f1907ff18a9be3372616e765d45f5249b.png" />
+<img alt="../_images/20cc1845f0360d20f6eaab25d62abb0c104e734153181fc0dc2563de4a4acd4f.png" src="../_images/20cc1845f0360d20f6eaab25d62abb0c104e734153181fc0dc2563de4a4acd4f.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STARTED TO CONDUCT GRID SEARCHING FOR VANUATU 
 
 STARTED TO CONDUCT CROSS-VALIDATION FOR VANUATU 
 
-Best Models from Cross-validation is  ARIMA(1,0,2)(2,1,2)[12] intercept 
+Best Models from Cross-validation is  ARIMA(1,0,1)(2,1,2)[12] intercept 
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1407,10 +1410,207 @@ Best Models from Cross-validation is  ARIMA(1,0,2)(2,1,2)[12] intercept
     </tr>
     <tr>
       <th>SARIMAX</th>
-      <td>1.298562e+06</td>
-      <td>1139.544745</td>
-      <td>836.339289</td>
-      <td>36.412055</td>
+      <td>1.238855e+06</td>
+      <td>1113.038657</td>
+      <td>795.607455</td>
+      <td>35.718702</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>air</th>
+      <th>ship</th>
+      <th>yacht</th>
+      <th>total</th>
+      <th>stringency_index</th>
+      <th>covid</th>
+      <th>tonga_flights</th>
+      <th>tonga_hotel</th>
+      <th>tonga_travel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2010-01-01</td>
+      <td>3158</td>
+      <td>646.0</td>
+      <td>4.0</td>
+      <td>3808</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.118195</td>
+      <td>1.296399</td>
+      <td>0.212187</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2010-02-01</td>
+      <td>2379</td>
+      <td>0.0</td>
+      <td>5.0</td>
+      <td>2384</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.811451</td>
+      <td>1.013375</td>
+      <td>0.480398</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2010-03-01</td>
+      <td>3134</td>
+      <td>853.0</td>
+      <td>5.0</td>
+      <td>3992</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.872967</td>
+      <td>1.359485</td>
+      <td>0.233651</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2010-04-01</td>
+      <td>2818</td>
+      <td>2802.0</td>
+      <td>30.0</td>
+      <td>5650</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.583649</td>
+      <td>1.142021</td>
+      <td>0.400232</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2010-05-01</td>
+      <td>3670</td>
+      <td>5303.0</td>
+      <td>177.0</td>
+      <td>9150</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.906579</td>
+      <td>1.746620</td>
+      <td>0.749327</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>training size : 146, testing size : 0
+THE BENCHMARK EVALUATION FOR TONGA 
+
+STARTED TO CONDUCT STEPWISE SEARCHING FOR TONGA 
+
+                                      SARIMAX Results                                       
+============================================================================================
+Dep. Variable:                                    y   No. Observations:                  146
+Model:             SARIMAX(2, 0, 0)x(1, 0, [1], 12)   Log Likelihood                -209.033
+Date:                              Wed, 24 May 2023   AIC                            434.066
+Time:                                      15:27:27   BIC                            457.935
+Sample:                                           0   HQIC                           443.764
+                                              - 146                                         
+Covariance Type:                                opg                                         
+====================================================================================
+                       coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------------
+covid               -4.7648      1.799     -2.649      0.008      -8.290      -1.239
+stringency_index    -0.0556      0.039     -1.420      0.156      -0.132       0.021
+tonga_travel        -0.3947      0.619     -0.638      0.523      -1.607       0.818
+ar.L1                0.1257      0.078      1.606      0.108      -0.028       0.279
+ar.L2                0.1731      0.068      2.548      0.011       0.040       0.306
+ar.S.L12             0.9006      0.292      3.080      0.002       0.328       1.474
+ma.S.L12            -0.7945      0.391     -2.031      0.042      -1.561      -0.028
+sigma2               1.0126      0.062     16.297      0.000       0.891       1.134
+===================================================================================
+Ljung-Box (L1) (Q):                   0.00   Jarque-Bera (JB):             10698.59
+Prob(Q):                              1.00   Prob(JB):                         0.00
+Heteroskedasticity (H):               1.73   Skew:                             4.74
+Prob(H) (two-sided):                  0.06   Kurtosis:                        43.85
+===================================================================================
+
+Warnings:
+[1] Covariance matrix calculated using the outer product of gradients (complex-step).
+</pre></div>
+</div>
+<img alt="../_images/42f168537bc832ed3ed8a25bd35d1ca9117a39aa61b9c81e638b4d8685f6134b.png" src="../_images/42f168537bc832ed3ed8a25bd35d1ca9117a39aa61b9c81e638b4d8685f6134b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STARTED TO CONDUCT GRID SEARCHING FOR TONGA 
+
+STARTED TO CONDUCT CROSS-VALIDATION FOR TONGA 
+
+Best Models from Cross-validation is  ARIMA(2,0,0)(0,1,1)[12] intercept 
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>6.627790e+06</td>
+      <td>2574.449367</td>
+      <td>1881.917241</td>
+      <td>43.665478</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>8.416698e+06</td>
+      <td>2901.154580</td>
+      <td>2238.220961</td>
+      <td>55.343479</td>
+    </tr>
+    <tr>
+      <th>seasonal naive</th>
+      <td>1.161364e+07</td>
+      <td>3407.879253</td>
+      <td>2355.589041</td>
+      <td>64.674604</td>
+    </tr>
+    <tr>
+      <th>SARIMAX</th>
+      <td>3.866082e+06</td>
+      <td>1966.235433</td>
+      <td>1332.350475</td>
+      <td>39.000051</td>
     </tr>
   </tbody>
 </table>

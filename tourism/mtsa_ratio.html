@@ -463,7 +463,10 @@ document.write(`
         <span class="n">eval_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">pred_df</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">pred</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
         <span class="n">benchmark</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">benchmark</span><span class="p">,</span> <span class="n">eval_df</span><span class="p">])</span>
     <span class="n">display</span><span class="p">(</span><span class="n">benchmark</span><span class="p">)</span>
-
+    
+    <span class="n">saved_pred_path</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">country_data_folder</span> <span class="o">+</span> <span class="s2">&quot;/model/lf_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
+    <span class="n">pred_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">saved_pred_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    
     <span class="n">ratio_viz_df</span> <span class="o">=</span> <span class="n">pred_df</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;pred_mean&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
     <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ratio_viz_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span>
@@ -485,8 +488,8 @@ Abnormal value produced with a value of inf.
 Dep. Variable:                  ratio   R-squared:                       0.762
 Model:                            WLS   Adj. R-squared:                  0.717
 Method:                 Least Squares   F-statistic:                     16.95
-Date:                Fri, 12 May 2023   Prob (F-statistic):           8.36e-10
-Time:                        14:46:10   Log-Likelihood:                 34.253
+Date:                Wed, 24 May 2023   Prob (F-statistic):           8.36e-10
+Time:                        16:35:14   Log-Likelihood:                 34.253
 No. Observations:                  45   AIC:                            -52.51
 Df Residuals:                      37   BIC:                            -38.05
 Df Model:                           7                                         
@@ -676,8 +679,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.850
 Model:                            WLS   Adj. R-squared:                  0.822
 Method:                 Least Squares   F-statistic:                     29.93
-Date:                Fri, 12 May 2023   Prob (F-statistic):           2.19e-13
-Time:                        14:46:12   Log-Likelihood:                 30.672
+Date:                Wed, 24 May 2023   Prob (F-statistic):           2.19e-13
+Time:                        16:35:15   Log-Likelihood:                 30.672
 No. Observations:                  45   AIC:                            -45.34
 Df Residuals:                      37   BIC:                            -30.89
 Df Model:                           7                                         
@@ -867,8 +870,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.939
 Model:                            WLS   Adj. R-squared:                  0.924
 Method:                 Least Squares   F-statistic:                     65.47
-Date:                Fri, 12 May 2023   Prob (F-statistic):           1.99e-16
-Time:                        14:46:13   Log-Likelihood:                 45.748
+Date:                Wed, 24 May 2023   Prob (F-statistic):           1.99e-16
+Time:                        16:35:16   Log-Likelihood:                 45.748
 No. Observations:                  38   AIC:                            -75.50
 Df Residuals:                      30   BIC:                            -62.40
 Df Model:                           7                                         
@@ -1058,8 +1061,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.939
 Model:                            WLS   Adj. R-squared:                  0.913
 Method:                 Least Squares   F-statistic:                     35.46
-Date:                Fri, 12 May 2023   Prob (F-statistic):           1.40e-08
-Time:                        14:46:14   Log-Likelihood:                 54.264
+Date:                Wed, 24 May 2023   Prob (F-statistic):           1.40e-08
+Time:                        16:35:17   Log-Likelihood:                 54.264
 No. Observations:                  24   AIC:                            -92.53
 Df Residuals:                      16   BIC:                            -83.10
 Df Model:                           7                                         
@@ -1249,8 +1252,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.951
 Model:                            WLS   Adj. R-squared:                  0.941
 Method:                 Least Squares   F-statistic:                     91.83
-Date:                Fri, 12 May 2023   Prob (F-statistic):           8.77e-20
-Time:                        14:46:15   Log-Likelihood:                 51.937
+Date:                Wed, 24 May 2023   Prob (F-statistic):           8.77e-20
+Time:                        16:35:18   Log-Likelihood:                 51.937
 No. Observations:                  41   AIC:                            -87.87
 Df Residuals:                      33   BIC:                            -74.17
 Df Model:                           7                                         
