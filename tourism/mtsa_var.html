@@ -442,82 +442,32 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]:</span>
-    <span class="n">mod</span> <span class="o">=</span> <span class="n">VARPipeline</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">VARPipeline</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">var_name</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">],</span>
                       <span class="n">exog</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">,</span> <span class="s2">&quot;stringency_index&quot;</span><span class="p">,</span> <span class="s2">&quot;covid&quot;</span><span class="p">])</span>
-    <span class="n">mod</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
-    <span class="n">mod</span><span class="o">.</span><span class="n">test_stationarity</span><span class="p">()</span>
-    <span class="n">mod</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
-    <span class="n">mod</span><span class="o">.</span><span class="n">varma_search</span><span class="p">()</span>
-    <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
-    <span class="n">mod</span><span class="o">.</span><span class="n">get_fittedvalues</span><span class="p">()</span>
-    <span class="n">mod</span><span class="o">.</span><span class="n">evaluate_models</span><span class="p">()</span>
+    <span class="n">var</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
+    <span class="n">var</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+    <span class="n">var</span><span class="o">.</span><span class="n">varma_search</span><span class="p">()</span>
+    <span class="n">var</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="n">var</span><span class="o">.</span><span class="n">get_fittedvalues</span><span class="p">()</span>
+    <span class="n">var</span><span class="o">.</span><span class="n">evaluate_models</span><span class="p">()</span>
+    
+    <span class="n">pred_df</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">data</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;pred_total&quot;</span><span class="p">]]</span>
+    
+    <span class="n">saved_pred_path</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">country_data_folder</span> <span class="o">+</span> <span class="s2">&quot;/model/var_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
+    <span class="n">pred_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">saved_pred_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Test Statistic</th>
-      <th>p-value</th>
-      <th># Lags Used</th>
-      <th>Number of Observations Used</th>
-      <th>Critical Value (1%)</th>
-      <th>Critical Value (5%)</th>
-      <th>Critical Value (10%)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>total</th>
-      <td>-2.622492</td>
-      <td>0.088437</td>
-      <td>5.0</td>
-      <td>38.0</td>
-      <td>-3.615509</td>
-      <td>-2.941262</td>
-      <td>-2.609200</td>
-    </tr>
-    <tr>
-      <th>seats_arrivals_intl</th>
-      <td>-5.476862</td>
-      <td>0.000002</td>
-      <td>0.0</td>
-      <td>43.0</td>
-      <td>-3.592504</td>
-      <td>-2.931550</td>
-      <td>-2.604066</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 1: stationarity obtained.
-Best P, Q, Trend Combination: (3, 1, &#39;t&#39;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best P, Q, Trend Combination: (3, 1, &#39;t&#39;)
                                   Statespace Model Results                                  
 ============================================================================================
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   45
 Model:                                  VARMAX(3,1)   Log Likelihood                -124.461
                                         + intercept   AIC                            302.923
-Date:                              Wed, 17 May 2023   BIC                            351.703
-Time:                                      16:17:43   HQIC                           321.108
+Date:                              Thu, 25 May 2023   BIC                            351.703
+Time:                                      16:34:07   HQIC                           321.108
 Sample:                                           0                                         
                                                - 45                                         
 Covariance Type:                                opg                                         
@@ -620,16 +570,14 @@ Warnings:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
-order = 1: no stationarity obtained.
-Best P, Q, Trend Combination: (1, 1, &#39;c&#39;)
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best P, Q, Trend Combination: (1, 1, &#39;c&#39;)
                                   Statespace Model Results                                  
 ============================================================================================
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   45
 Model:                                  VARMAX(1,1)   Log Likelihood                -150.021
                                         + intercept   AIC                            338.041
-Date:                              Wed, 17 May 2023   BIC                            372.368
-Time:                                      16:19:15   HQIC                           350.838
+Date:                              Thu, 25 May 2023   BIC                            372.368
+Time:                                      16:35:37   HQIC                           350.838
 Sample:                                           0                                         
                                                - 45                                         
 Covariance Type:                                opg                                         
@@ -724,68 +672,14 @@ Warnings:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Test Statistic</th>
-      <th>p-value</th>
-      <th># Lags Used</th>
-      <th>Number of Observations Used</th>
-      <th>Critical Value (1%)</th>
-      <th>Critical Value (5%)</th>
-      <th>Critical Value (10%)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>total</th>
-      <td>-2.948185</td>
-      <td>0.040025</td>
-      <td>10.0</td>
-      <td>26.0</td>
-      <td>-3.711212</td>
-      <td>-2.981247</td>
-      <td>-2.630095</td>
-    </tr>
-    <tr>
-      <th>seats_arrivals_intl</th>
-      <td>-2.825820</td>
-      <td>0.054679</td>
-      <td>4.0</td>
-      <td>32.0</td>
-      <td>-3.653520</td>
-      <td>-2.957219</td>
-      <td>-2.617588</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 1: stationarity obtained.
-Best P, Q, Trend Combination: (2, 1, &#39;c&#39;)
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best P, Q, Trend Combination: (2, 1, &#39;c&#39;)
                                   Statespace Model Results                                  
 ============================================================================================
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   38
 Model:                                  VARMAX(2,1)   Log Likelihood                -140.022
                                         + intercept   AIC                            326.044
-Date:                              Wed, 17 May 2023   BIC                            363.709
-Time:                                      16:20:40   HQIC                           339.445
+Date:                              Thu, 25 May 2023   BIC                            363.709
+Time:                                      16:36:59   HQIC                           339.445
 Sample:                                           0                                         
                                                - 38                                         
 Covariance Type:                                opg                                         
@@ -884,68 +778,14 @@ Warnings:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Test Statistic</th>
-      <th>p-value</th>
-      <th># Lags Used</th>
-      <th>Number of Observations Used</th>
-      <th>Critical Value (1%)</th>
-      <th>Critical Value (5%)</th>
-      <th>Critical Value (10%)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>total</th>
-      <td>-4.859232</td>
-      <td>0.000042</td>
-      <td>0.0</td>
-      <td>22.0</td>
-      <td>-3.769733</td>
-      <td>-3.005426</td>
-      <td>-2.642501</td>
-    </tr>
-    <tr>
-      <th>seats_arrivals_intl</th>
-      <td>-2.697932</td>
-      <td>0.074397</td>
-      <td>9.0</td>
-      <td>13.0</td>
-      <td>-4.068854</td>
-      <td>-3.127149</td>
-      <td>-2.701730</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 1: stationarity obtained.
-Best P, Q, Trend Combination: (1, 1, &#39;ct&#39;)
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best P, Q, Trend Combination: (1, 1, &#39;ct&#39;)
                                   Statespace Model Results                                  
 ============================================================================================
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   24
 Model:                                  VARMAX(1,1)   Log Likelihood                 -61.690
                                         + intercept   AIC                            165.380
-Date:                              Wed, 17 May 2023   BIC                            190.119
-Time:                                      16:21:41   HQIC                           171.943
+Date:                              Thu, 25 May 2023   BIC                            190.119
+Time:                                      16:37:58   HQIC                           171.943
 Sample:                                           0                                         
                                                - 24                                         
 Covariance Type:                                opg                                         
@@ -1042,68 +882,14 @@ Warnings:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 0: no stationarity obtained.
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Test Statistic</th>
-      <th>p-value</th>
-      <th># Lags Used</th>
-      <th>Number of Observations Used</th>
-      <th>Critical Value (1%)</th>
-      <th>Critical Value (5%)</th>
-      <th>Critical Value (10%)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>total</th>
-      <td>-4.688995</td>
-      <td>0.000088</td>
-      <td>0.0</td>
-      <td>41.0</td>
-      <td>-3.600983</td>
-      <td>-2.935135</td>
-      <td>-2.605963</td>
-    </tr>
-    <tr>
-      <th>seats_arrivals_intl</th>
-      <td>-5.319799</td>
-      <td>0.000005</td>
-      <td>0.0</td>
-      <td>41.0</td>
-      <td>-3.600983</td>
-      <td>-2.935135</td>
-      <td>-2.605963</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>order = 1: stationarity obtained.
-Best P, Q, Trend Combination: (2, 2, &#39;c&#39;)
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best P, Q, Trend Combination: (2, 2, &#39;c&#39;)
                                   Statespace Model Results                                  
 ============================================================================================
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   43
 Model:                                  VARMAX(2,2)   Log Likelihood                -156.966
                                         + intercept   AIC                            367.932
-Date:                              Wed, 17 May 2023   BIC                            415.485
-Time:                                      16:23:15   HQIC                           385.468
+Date:                              Thu, 25 May 2023   BIC                            415.485
+Time:                                      16:39:27   HQIC                           385.468
 Sample:                                           0                                         
                                                - 43                                         
 Covariance Type:                                opg                                         
