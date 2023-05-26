@@ -29,6 +29,7 @@ parts:
         sections:
         - file: tourism/mtsa_var
         - file: tourism/mtsa_ratio
+        - file: tourism/ensemble
       - file: tourism/other
   - caption: Automatic Identification System
     chapters:
