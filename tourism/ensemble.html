@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Ensemble &#8212; Pacific Observatory</title>
+    <title>Forecast Combination &#8212; Pacific Observatory</title>
   
   
   
@@ -63,6 +63,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tourism/ensemble';</script>
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/tourism/ensemble.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -189,7 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="mtsa.html">Analysis II</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="mtsa_var.html">VAR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mtsa_ratio.html">Ratio Approach (Load Factor)</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Ensemble</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Forecast Combination</a></li>
 </ul>
 </li>
 </ul>
@@ -406,7 +408,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Ensemble</h1>
+    <h1>Forecast Combination</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -420,8 +422,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="ensemble">
-<h1>Ensemble<a class="headerlink" href="#ensemble" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="forecast-combination">
+<h1>Forecast Combination<a class="headerlink" href="#forecast-combination" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -429,11 +431,9 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">statsmodels.tsa.vector_ar.vecm</span> <span class="kn">import</span> <span class="n">VECM</span>
-<span class="kn">from</span> <span class="nn">statsmodels.tsa.vector_ar.vecm</span> <span class="kn">import</span> <span class="n">select_order</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
 <span class="kn">from</span> <span class="nn">scripts.python.tsa.mtsmodel</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">scripts.python.tsa.ts_eval</span> <span class="kn">import</span> <span class="o">*</span>
-
 
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
@@ -444,6 +444,54 @@ document.write(`
 </pre></div>
 </div>
 </div>
+</div>
+<p>As <a class="reference external" href="https://doi.org/10.1016/S1574-0706(05)01004-9">Timmermann (2004)</a> summarizes Stock and Watson (2001)’s relative performance weights. Let <span class="math notranslate nohighlight">\(MSE_{t+h,t,i} = (1/v)\sum_{\tau=t-v}^{t} e^{2}_{\tau,\tau−h,i}\)</span> be the <span class="math notranslate nohighlight">\(i\)</span>th forecasting model’s MSE at time <span class="math notranslate nohighlight">\(t\)</span>, computed over a window of the previous <span class="math notranslate nohighlight">\(v\)</span> periods. Then</p>
+<div class="math notranslate nohighlight">
+\[ \hat{y}_{t+h,t} = \sum_{i=1}^{N} \hat{\omega}_{t+h,t,i} \hat{y}_{t+h,t,i}, \text{ where } \hat{\omega}_{t+h,t,i} = \frac{(1/MSE_{t+h,t,i})}{\sum_{j=1}^{N} (1/MSE_{t+h,t,j})}\]</div>
+<p>Below are the functions to calculate the relative performance weight where <span class="math notranslate nohighlight">\(i \in \{sarimax, lf, var\}\)</span>.</p>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calculate_mse</span><span class="p">(</span><span class="n">predictions_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">predictions_df</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">predictions_df</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">total</span> <span class="o">-</span> <span class="n">prediction</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">/</span> <span class="p">(</span><span class="n">predictions_df</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mse</span>
+
+
+<span class="k">def</span> <span class="nf">calculate_rpw</span><span class="p">(</span><span class="n">predictions_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">methods</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="n">mse_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">method</span><span class="p">:</span> <span class="n">calculate_mse</span><span class="p">(</span><span class="n">predictions_df</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">}</span>
+    <span class="n">denominator</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">mse_dict</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">)</span>
+    <span class="n">rpw_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="n">numerator</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">mse_dict</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">omega</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+        <span class="n">rpw_dict</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">=</span> <span class="n">omega</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">rpw_dict</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_rpw</span><span class="p">(</span><span class="n">pred_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> 
+            <span class="n">methods</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sarimax&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;lf&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="n">predictions_df</span> <span class="o">=</span> <span class="n">pred_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">rpw_series</span> <span class="o">=</span> <span class="n">calculate_rpw</span><span class="p">(</span><span class="n">predictions_df</span><span class="p">,</span> <span class="n">methods</span><span class="p">)</span>
+
+    <span class="n">combo_cols</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">method</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_weight&quot;</span>
+        <span class="n">predictions_df</span><span class="p">[</span><span class="n">weight</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions_df</span><span class="p">[</span><span class="n">method</span><span class="p">]</span> <span class="o">*</span> <span class="n">rpw_series</span><span class="p">[</span><span class="n">method</span><span class="p">]</span>
+        <span class="n">combo_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weight</span><span class="p">)</span>
+
+    <span class="n">rpw</span> <span class="o">=</span> <span class="n">predictions_df</span><span class="p">[</span><span class="n">combo_cols</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rpw</span>
+</pre></div>
+</div>
+</div>
+</details>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -466,340 +514,372 @@ document.write(`
         <span class="k">if</span> <span class="n">country_pred</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="n">country_pred</span> <span class="o">=</span> <span class="n">model_col</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">country_pred</span> <span class="o">=</span> <span class="n">country_pred</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">model_col</span><span class="p">)</span>
-    
-    <span class="c1"># Mean Ensemble</span>
+            <span class="n">country_pred</span> <span class="o">=</span> <span class="n">country_pred</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">model_col</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Mean</span>
     <span class="n">country_pred</span><span class="p">[</span><span class="s2">&quot;mean_ensemble&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">country_pred</span><span class="p">[[</span><span class="s2">&quot;sarimax&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;lf&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    
-    <span class="c1"># Stack</span>
-    <span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;total~sarimax+var+lf&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">country_pred</span><span class="p">)</span><span class="o">.</span><span class="n">fit_regularized</span><span class="p">()</span>
-    <span class="n">country_pred</span><span class="p">[</span><span class="s2">&quot;stack_ols&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">fittedvalues</span>
-    
+
+    <span class="c1"># Relative Performance Weights</span>
+    <span class="n">country_pred</span><span class="p">[</span><span class="s2">&quot;rpw&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_rpw</span><span class="p">(</span><span class="n">country_pred</span><span class="p">)</span>
+
+    <span class="c1"># OLS (regularized)</span>
+    <span class="n">ols</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s2">&quot;total~sarimax+var+lf&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">country_pred</span><span class="p">)</span>
+    <span class="n">ols_res</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="n">ols_reg</span> <span class="o">=</span> <span class="n">ols</span><span class="o">.</span><span class="n">fit_regularized</span><span class="p">()</span>
+    <span class="n">country_pred</span><span class="p">[</span><span class="s2">&quot;ols&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ols_res</span><span class="o">.</span><span class="n">fittedvalues</span>
+    <span class="n">country_pred</span><span class="p">[</span><span class="s2">&quot;ols_regularized&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ols_reg</span><span class="o">.</span><span class="n">fittedvalues</span>
+
     <span class="n">evals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sarimax&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;lf&quot;</span><span class="p">,</span> <span class="s2">&quot;mean_ensemble&quot;</span><span class="p">,</span> <span class="s2">&quot;stack_ols&quot;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;sarimax&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;lf&quot;</span><span class="p">,</span> <span class="s2">&quot;mean_ensemble&quot;</span><span class="p">,</span> <span class="s2">&quot;rpw&quot;</span><span class="p">,</span> <span class="s2">&quot;ols&quot;</span><span class="p">,</span> <span class="s2">&quot;ols_regularized&quot;</span><span class="p">]:</span>
         <span class="n">mod_eval</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">calculate_evaluation</span><span class="p">(</span><span class="n">country_pred</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">country_pred</span><span class="p">[</span><span class="n">col</span><span class="p">]),</span>
                                 <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
         <span class="n">evals</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">evals</span><span class="p">,</span> <span class="n">mod_eval</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="n">evals</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span>
+    <span class="n">evals</span> <span class="o">=</span> <span class="n">evals</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;background-color: yellow&#39;</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span>
     <span class="n">display</span><span class="p">(</span><span class="n">evals</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
+<div class="output text_html"><style type="text/css">
+#T_dac13_row4_col0, #T_dac13_row4_col1, #T_dac13_row4_col2, #T_dac13_row4_col3 {
+  background-color: yellow;
+}
 </style>
-<table border="1" class="dataframe">
+<table id="T_dac13">
   <thead>
-    <tr style="text-align: right;">
-      <th>palau</th>
-      <th>MSE</th>
-      <th>RMSE</th>
-      <th>MAE</th>
-      <th>SMAPE</th>
+    <tr>
+      <th class="index_name level0" >palau</th>
+      <th id="T_dac13_level0_col0" class="col_heading level0 col0" >MSE</th>
+      <th id="T_dac13_level0_col1" class="col_heading level0 col1" >RMSE</th>
+      <th id="T_dac13_level0_col2" class="col_heading level0 col2" >MAE</th>
+      <th id="T_dac13_level0_col3" class="col_heading level0 col3" >SMAPE</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>sarimax</th>
-      <td>1.586349e+06</td>
-      <td>1259.503308</td>
-      <td>701.765452</td>
-      <td>53.857541</td>
+      <th id="T_dac13_level0_row0" class="row_heading level0 row0" >sarimax</th>
+      <td id="T_dac13_row0_col0" class="data row0 col0" >1586348.581999</td>
+      <td id="T_dac13_row0_col1" class="data row0 col1" >1259.503308</td>
+      <td id="T_dac13_row0_col2" class="data row0 col2" >701.765452</td>
+      <td id="T_dac13_row0_col3" class="data row0 col3" >53.857541</td>
     </tr>
     <tr>
-      <th>var</th>
-      <td>1.127006e+06</td>
-      <td>1061.605449</td>
-      <td>554.935555</td>
-      <td>38.243616</td>
+      <th id="T_dac13_level0_row1" class="row_heading level0 row1" >var</th>
+      <td id="T_dac13_row1_col0" class="data row1 col0" >1127006.129408</td>
+      <td id="T_dac13_row1_col1" class="data row1 col1" >1061.605449</td>
+      <td id="T_dac13_row1_col2" class="data row1 col2" >554.935555</td>
+      <td id="T_dac13_row1_col3" class="data row1 col3" >38.243616</td>
     </tr>
     <tr>
-      <th>lf</th>
-      <td>4.945034e+05</td>
-      <td>703.209346</td>
-      <td>389.892735</td>
-      <td>40.776367</td>
+      <th id="T_dac13_level0_row2" class="row_heading level0 row2" >lf</th>
+      <td id="T_dac13_row2_col0" class="data row2 col0" >494503.384915</td>
+      <td id="T_dac13_row2_col1" class="data row2 col1" >703.209346</td>
+      <td id="T_dac13_row2_col2" class="data row2 col2" >389.892735</td>
+      <td id="T_dac13_row2_col3" class="data row2 col3" >40.776367</td>
     </tr>
     <tr>
-      <th>mean_ensemble</th>
-      <td>5.325200e+05</td>
-      <td>729.739653</td>
-      <td>412.870015</td>
-      <td>33.837139</td>
+      <th id="T_dac13_level0_row3" class="row_heading level0 row3" >mean_ensemble</th>
+      <td id="T_dac13_row3_col0" class="data row3 col0" >532519.961340</td>
+      <td id="T_dac13_row3_col1" class="data row3 col1" >729.739653</td>
+      <td id="T_dac13_row3_col2" class="data row3 col2" >412.870015</td>
+      <td id="T_dac13_row3_col3" class="data row3 col3" >33.837139</td>
     </tr>
     <tr>
-      <th>stack_ols</th>
-      <td>4.704221e+05</td>
-      <td>685.873218</td>
-      <td>388.073317</td>
-      <td>45.216361</td>
+      <th id="T_dac13_level0_row4" class="row_heading level0 row4" >rpw</th>
+      <td id="T_dac13_row4_col0" class="data row4 col0" >403353.773427</td>
+      <td id="T_dac13_row4_col1" class="data row4 col1" >635.101388</td>
+      <td id="T_dac13_row4_col2" class="data row4 col2" >346.938700</td>
+      <td id="T_dac13_row4_col3" class="data row4 col3" >33.486236</td>
+    </tr>
+    <tr>
+      <th id="T_dac13_level0_row5" class="row_heading level0 row5" >ols</th>
+      <td id="T_dac13_row5_col0" class="data row5 col0" >439753.349762</td>
+      <td id="T_dac13_row5_col1" class="data row5 col1" >663.139012</td>
+      <td id="T_dac13_row5_col2" class="data row5 col2" >387.886317</td>
+      <td id="T_dac13_row5_col3" class="data row5 col3" >52.265748</td>
+    </tr>
+    <tr>
+      <th id="T_dac13_level0_row6" class="row_heading level0 row6" >ols_regularized</th>
+      <td id="T_dac13_row6_col0" class="data row6 col0" >470422.071425</td>
+      <td id="T_dac13_row6_col1" class="data row6 col1" >685.873218</td>
+      <td id="T_dac13_row6_col2" class="data row6 col2" >388.073317</td>
+      <td id="T_dac13_row6_col3" class="data row6 col3" >45.216361</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
+</div><div class="output text_html"><style type="text/css">
+#T_f7690_row2_col3, #T_f7690_row4_col2, #T_f7690_row5_col0, #T_f7690_row5_col1 {
+  background-color: yellow;
+}
 </style>
-<table border="1" class="dataframe">
+<table id="T_f7690">
   <thead>
-    <tr style="text-align: right;">
-      <th>samoa</th>
-      <th>MSE</th>
-      <th>RMSE</th>
-      <th>MAE</th>
-      <th>SMAPE</th>
+    <tr>
+      <th class="index_name level0" >samoa</th>
+      <th id="T_f7690_level0_col0" class="col_heading level0 col0" >MSE</th>
+      <th id="T_f7690_level0_col1" class="col_heading level0 col1" >RMSE</th>
+      <th id="T_f7690_level0_col2" class="col_heading level0 col2" >MAE</th>
+      <th id="T_f7690_level0_col3" class="col_heading level0 col3" >SMAPE</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>sarimax</th>
-      <td>8.076302e+06</td>
-      <td>2841.883483</td>
-      <td>1410.434675</td>
-      <td>141.993878</td>
+      <th id="T_f7690_level0_row0" class="row_heading level0 row0" >sarimax</th>
+      <td id="T_f7690_row0_col0" class="data row0 col0" >8076301.733757</td>
+      <td id="T_f7690_row0_col1" class="data row0 col1" >2841.883483</td>
+      <td id="T_f7690_row0_col2" class="data row0 col2" >1410.434675</td>
+      <td id="T_f7690_row0_col3" class="data row0 col3" >141.993878</td>
     </tr>
     <tr>
-      <th>var</th>
-      <td>1.029089e+07</td>
-      <td>3207.941282</td>
-      <td>1757.557409</td>
-      <td>141.614714</td>
+      <th id="T_f7690_level0_row1" class="row_heading level0 row1" >var</th>
+      <td id="T_f7690_row1_col0" class="data row1 col0" >10290887.267182</td>
+      <td id="T_f7690_row1_col1" class="data row1 col1" >3207.941282</td>
+      <td id="T_f7690_row1_col2" class="data row1 col2" >1757.557409</td>
+      <td id="T_f7690_row1_col3" class="data row1 col3" >141.614714</td>
     </tr>
     <tr>
-      <th>lf</th>
-      <td>2.107651e+06</td>
-      <td>1451.775046</td>
-      <td>763.990597</td>
-      <td>131.108537</td>
+      <th id="T_f7690_level0_row2" class="row_heading level0 row2" >lf</th>
+      <td id="T_f7690_row2_col0" class="data row2 col0" >2107650.783058</td>
+      <td id="T_f7690_row2_col1" class="data row2 col1" >1451.775046</td>
+      <td id="T_f7690_row2_col2" class="data row2 col2" >763.990597</td>
+      <td id="T_f7690_row2_col3" class="data row2 col3" >131.108537</td>
     </tr>
     <tr>
-      <th>mean_ensemble</th>
-      <td>3.794369e+06</td>
-      <td>1947.913971</td>
-      <td>1093.282593</td>
-      <td>135.822954</td>
+      <th id="T_f7690_level0_row3" class="row_heading level0 row3" >mean_ensemble</th>
+      <td id="T_f7690_row3_col0" class="data row3 col0" >3794368.839523</td>
+      <td id="T_f7690_row3_col1" class="data row3 col1" >1947.913971</td>
+      <td id="T_f7690_row3_col2" class="data row3 col2" >1093.282593</td>
+      <td id="T_f7690_row3_col3" class="data row3 col3" >135.822954</td>
     </tr>
     <tr>
-      <th>stack_ols</th>
-      <td>2.003690e+06</td>
-      <td>1415.517615</td>
-      <td>835.530337</td>
-      <td>131.802550</td>
+      <th id="T_f7690_level0_row4" class="row_heading level0 row4" >rpw</th>
+      <td id="T_f7690_row4_col0" class="data row4 col0" >2242890.336299</td>
+      <td id="T_f7690_row4_col1" class="data row4 col1" >1497.628237</td>
+      <td id="T_f7690_row4_col2" class="data row4 col2" >746.332632</td>
+      <td id="T_f7690_row4_col3" class="data row4 col3" >131.773854</td>
+    </tr>
+    <tr>
+      <th id="T_f7690_level0_row5" class="row_heading level0 row5" >ols</th>
+      <td id="T_f7690_row5_col0" class="data row5 col0" >1960603.161880</td>
+      <td id="T_f7690_row5_col1" class="data row5 col1" >1400.215398</td>
+      <td id="T_f7690_row5_col2" class="data row5 col2" >801.094036</td>
+      <td id="T_f7690_row5_col3" class="data row5 col3" >131.276441</td>
+    </tr>
+    <tr>
+      <th id="T_f7690_level0_row6" class="row_heading level0 row6" >ols_regularized</th>
+      <td id="T_f7690_row6_col0" class="data row6 col0" >2003690.119502</td>
+      <td id="T_f7690_row6_col1" class="data row6 col1" >1415.517615</td>
+      <td id="T_f7690_row6_col2" class="data row6 col2" >835.530337</td>
+      <td id="T_f7690_row6_col3" class="data row6 col3" >131.802550</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
+</div><div class="output text_html"><style type="text/css">
+#T_d6e47_row1_col3, #T_d6e47_row5_col0, #T_d6e47_row5_col1, #T_d6e47_row6_col2 {
+  background-color: yellow;
+}
 </style>
-<table border="1" class="dataframe">
+<table id="T_d6e47">
   <thead>
-    <tr style="text-align: right;">
-      <th>tonga</th>
-      <th>MSE</th>
-      <th>RMSE</th>
-      <th>MAE</th>
-      <th>SMAPE</th>
+    <tr>
+      <th class="index_name level0" >tonga</th>
+      <th id="T_d6e47_level0_col0" class="col_heading level0 col0" >MSE</th>
+      <th id="T_d6e47_level0_col1" class="col_heading level0 col1" >RMSE</th>
+      <th id="T_d6e47_level0_col2" class="col_heading level0 col2" >MAE</th>
+      <th id="T_d6e47_level0_col3" class="col_heading level0 col3" >SMAPE</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>sarimax</th>
-      <td>7.767033e+05</td>
-      <td>881.307702</td>
-      <td>381.831288</td>
-      <td>80.236281</td>
+      <th id="T_d6e47_level0_row0" class="row_heading level0 row0" >sarimax</th>
+      <td id="T_d6e47_row0_col0" class="data row0 col0" >776703.265602</td>
+      <td id="T_d6e47_row0_col1" class="data row0 col1" >881.307702</td>
+      <td id="T_d6e47_row0_col2" class="data row0 col2" >381.831288</td>
+      <td id="T_d6e47_row0_col3" class="data row0 col3" >80.236281</td>
     </tr>
     <tr>
-      <th>var</th>
-      <td>1.226895e+06</td>
-      <td>1107.653092</td>
-      <td>472.092955</td>
-      <td>54.359031</td>
+      <th id="T_d6e47_level0_row1" class="row_heading level0 row1" >var</th>
+      <td id="T_d6e47_row1_col0" class="data row1 col0" >1226895.371895</td>
+      <td id="T_d6e47_row1_col1" class="data row1 col1" >1107.653092</td>
+      <td id="T_d6e47_row1_col2" class="data row1 col2" >472.092955</td>
+      <td id="T_d6e47_row1_col3" class="data row1 col3" >54.359031</td>
     </tr>
     <tr>
-      <th>lf</th>
-      <td>6.784511e+05</td>
-      <td>823.681430</td>
-      <td>319.198937</td>
-      <td>102.021722</td>
+      <th id="T_d6e47_level0_row2" class="row_heading level0 row2" >lf</th>
+      <td id="T_d6e47_row2_col0" class="data row2 col0" >678451.097550</td>
+      <td id="T_d6e47_row2_col1" class="data row2 col1" >823.681430</td>
+      <td id="T_d6e47_row2_col2" class="data row2 col2" >319.198937</td>
+      <td id="T_d6e47_row2_col3" class="data row2 col3" >102.021722</td>
     </tr>
     <tr>
-      <th>mean_ensemble</th>
-      <td>3.298571e+05</td>
-      <td>574.331844</td>
-      <td>223.279700</td>
-      <td>82.645615</td>
+      <th id="T_d6e47_level0_row3" class="row_heading level0 row3" >mean_ensemble</th>
+      <td id="T_d6e47_row3_col0" class="data row3 col0" >329857.066939</td>
+      <td id="T_d6e47_row3_col1" class="data row3 col1" >574.331844</td>
+      <td id="T_d6e47_row3_col2" class="data row3 col2" >223.279700</td>
+      <td id="T_d6e47_row3_col3" class="data row3 col3" >82.645615</td>
     </tr>
     <tr>
-      <th>stack_ols</th>
-      <td>1.938161e+05</td>
-      <td>440.245499</td>
-      <td>183.024479</td>
-      <td>60.651486</td>
+      <th id="T_d6e47_level0_row4" class="row_heading level0 row4" >rpw</th>
+      <td id="T_d6e47_row4_col0" class="data row4 col0" >219927.814390</td>
+      <td id="T_d6e47_row4_col1" class="data row4 col1" >468.964620</td>
+      <td id="T_d6e47_row4_col2" class="data row4 col2" >201.580152</td>
+      <td id="T_d6e47_row4_col3" class="data row4 col3" >91.059784</td>
+    </tr>
+    <tr>
+      <th id="T_d6e47_level0_row5" class="row_heading level0 row5" >ols</th>
+      <td id="T_d6e47_row5_col0" class="data row5 col0" >192916.538010</td>
+      <td id="T_d6e47_row5_col1" class="data row5 col1" >439.222652</td>
+      <td id="T_d6e47_row5_col2" class="data row5 col2" >183.856214</td>
+      <td id="T_d6e47_row5_col3" class="data row5 col3" >61.485168</td>
+    </tr>
+    <tr>
+      <th id="T_d6e47_level0_row6" class="row_heading level0 row6" >ols_regularized</th>
+      <td id="T_d6e47_row6_col0" class="data row6 col0" >193816.099256</td>
+      <td id="T_d6e47_row6_col1" class="data row6 col1" >440.245499</td>
+      <td id="T_d6e47_row6_col2" class="data row6 col2" >183.024479</td>
+      <td id="T_d6e47_row6_col3" class="data row6 col3" >60.651486</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
+</div><div class="output text_html"><style type="text/css">
+#T_09bee_row1_col3, #T_09bee_row4_col0, #T_09bee_row4_col1, #T_09bee_row4_col2 {
+  background-color: yellow;
+}
 </style>
-<table border="1" class="dataframe">
+<table id="T_09bee">
   <thead>
-    <tr style="text-align: right;">
-      <th>solomon_islands</th>
-      <th>MSE</th>
-      <th>RMSE</th>
-      <th>MAE</th>
-      <th>SMAPE</th>
+    <tr>
+      <th class="index_name level0" >solomon_islands</th>
+      <th id="T_09bee_level0_col0" class="col_heading level0 col0" >MSE</th>
+      <th id="T_09bee_level0_col1" class="col_heading level0 col1" >RMSE</th>
+      <th id="T_09bee_level0_col2" class="col_heading level0 col2" >MAE</th>
+      <th id="T_09bee_level0_col3" class="col_heading level0 col3" >SMAPE</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>sarimax</th>
-      <td>47538.016148</td>
-      <td>218.032145</td>
-      <td>149.903809</td>
-      <td>32.726110</td>
+      <th id="T_09bee_level0_row0" class="row_heading level0 row0" >sarimax</th>
+      <td id="T_09bee_row0_col0" class="data row0 col0" >47538.016148</td>
+      <td id="T_09bee_row0_col1" class="data row0 col1" >218.032145</td>
+      <td id="T_09bee_row0_col2" class="data row0 col2" >149.903809</td>
+      <td id="T_09bee_row0_col3" class="data row0 col3" >32.726110</td>
     </tr>
     <tr>
-      <th>var</th>
-      <td>65021.669854</td>
-      <td>254.993470</td>
-      <td>154.338247</td>
-      <td>17.694166</td>
+      <th id="T_09bee_level0_row1" class="row_heading level0 row1" >var</th>
+      <td id="T_09bee_row1_col0" class="data row1 col0" >65021.669854</td>
+      <td id="T_09bee_row1_col1" class="data row1 col1" >254.993470</td>
+      <td id="T_09bee_row1_col2" class="data row1 col2" >154.338247</td>
+      <td id="T_09bee_row1_col3" class="data row1 col3" >17.694166</td>
     </tr>
     <tr>
-      <th>lf</th>
-      <td>48753.426027</td>
-      <td>220.801780</td>
-      <td>150.232442</td>
-      <td>26.614403</td>
+      <th id="T_09bee_level0_row2" class="row_heading level0 row2" >lf</th>
+      <td id="T_09bee_row2_col0" class="data row2 col0" >48753.426027</td>
+      <td id="T_09bee_row2_col1" class="data row2 col1" >220.801780</td>
+      <td id="T_09bee_row2_col2" class="data row2 col2" >150.232442</td>
+      <td id="T_09bee_row2_col3" class="data row2 col3" >26.614403</td>
     </tr>
     <tr>
-      <th>mean_ensemble</th>
-      <td>33204.357994</td>
-      <td>182.220630</td>
-      <td>125.903946</td>
-      <td>23.072342</td>
+      <th id="T_09bee_level0_row3" class="row_heading level0 row3" >mean_ensemble</th>
+      <td id="T_09bee_row3_col0" class="data row3 col0" >33204.357994</td>
+      <td id="T_09bee_row3_col1" class="data row3 col1" >182.220630</td>
+      <td id="T_09bee_row3_col2" class="data row3 col2" >125.903946</td>
+      <td id="T_09bee_row3_col3" class="data row3 col3" >23.072342</td>
     </tr>
     <tr>
-      <th>stack_ols</th>
-      <td>38922.471964</td>
-      <td>197.287790</td>
-      <td>139.112394</td>
-      <td>44.268386</td>
+      <th id="T_09bee_level0_row4" class="row_heading level0 row4" >rpw</th>
+      <td id="T_09bee_row4_col0" class="data row4 col0" >29425.623378</td>
+      <td id="T_09bee_row4_col1" class="data row4 col1" >171.538985</td>
+      <td id="T_09bee_row4_col2" class="data row4 col2" >122.944008</td>
+      <td id="T_09bee_row4_col3" class="data row4 col3" >23.240392</td>
+    </tr>
+    <tr>
+      <th id="T_09bee_level0_row5" class="row_heading level0 row5" >ols</th>
+      <td id="T_09bee_row5_col0" class="data row5 col0" >32887.208317</td>
+      <td id="T_09bee_row5_col1" class="data row5 col1" >181.348307</td>
+      <td id="T_09bee_row5_col2" class="data row5 col2" >127.211580</td>
+      <td id="T_09bee_row5_col3" class="data row5 col3" >32.506166</td>
+    </tr>
+    <tr>
+      <th id="T_09bee_level0_row6" class="row_heading level0 row6" >ols_regularized</th>
+      <td id="T_09bee_row6_col0" class="data row6 col0" >38922.471964</td>
+      <td id="T_09bee_row6_col1" class="data row6 col1" >197.287790</td>
+      <td id="T_09bee_row6_col2" class="data row6 col2" >139.112394</td>
+      <td id="T_09bee_row6_col3" class="data row6 col3" >44.268386</td>
     </tr>
   </tbody>
 </table>
-</div></div><div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
+</div><div class="output text_html"><style type="text/css">
+#T_8425c_row2_col3, #T_8425c_row4_col0, #T_8425c_row4_col1, #T_8425c_row4_col2 {
+  background-color: yellow;
+}
 </style>
-<table border="1" class="dataframe">
+<table id="T_8425c">
   <thead>
-    <tr style="text-align: right;">
-      <th>vanuatu</th>
-      <th>MSE</th>
-      <th>RMSE</th>
-      <th>MAE</th>
-      <th>SMAPE</th>
+    <tr>
+      <th class="index_name level0" >vanuatu</th>
+      <th id="T_8425c_level0_col0" class="col_heading level0 col0" >MSE</th>
+      <th id="T_8425c_level0_col1" class="col_heading level0 col1" >RMSE</th>
+      <th id="T_8425c_level0_col2" class="col_heading level0 col2" >MAE</th>
+      <th id="T_8425c_level0_col3" class="col_heading level0 col3" >SMAPE</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>sarimax</th>
-      <td>6.692510e+05</td>
-      <td>818.077609</td>
-      <td>372.363525</td>
-      <td>133.369731</td>
+      <th id="T_8425c_level0_row0" class="row_heading level0 row0" >sarimax</th>
+      <td id="T_8425c_row0_col0" class="data row0 col0" >669250.974064</td>
+      <td id="T_8425c_row0_col1" class="data row0 col1" >818.077609</td>
+      <td id="T_8425c_row0_col2" class="data row0 col2" >372.363525</td>
+      <td id="T_8425c_row0_col3" class="data row0 col3" >133.369731</td>
     </tr>
     <tr>
-      <th>var</th>
-      <td>1.600258e+06</td>
-      <td>1265.013157</td>
-      <td>554.204122</td>
-      <td>134.493067</td>
+      <th id="T_8425c_level0_row1" class="row_heading level0 row1" >var</th>
+      <td id="T_8425c_row1_col0" class="data row1 col0" >1600258.286965</td>
+      <td id="T_8425c_row1_col1" class="data row1 col1" >1265.013157</td>
+      <td id="T_8425c_row1_col2" class="data row1 col2" >554.204122</td>
+      <td id="T_8425c_row1_col3" class="data row1 col3" >134.493067</td>
     </tr>
     <tr>
-      <th>lf</th>
-      <td>6.686460e+05</td>
-      <td>817.707761</td>
-      <td>520.156920</td>
-      <td>128.001919</td>
+      <th id="T_8425c_level0_row2" class="row_heading level0 row2" >lf</th>
+      <td id="T_8425c_row2_col0" class="data row2 col0" >637546.169465</td>
+      <td id="T_8425c_row2_col1" class="data row2 col1" >798.464883</td>
+      <td id="T_8425c_row2_col2" class="data row2 col2" >495.963575</td>
+      <td id="T_8425c_row2_col3" class="data row2 col3" >128.001919</td>
     </tr>
     <tr>
-      <th>mean_ensemble</th>
-      <td>4.951784e+05</td>
-      <td>703.689161</td>
-      <td>350.788402</td>
-      <td>131.534514</td>
+      <th id="T_8425c_level0_row3" class="row_heading level0 row3" >mean_ensemble</th>
+      <td id="T_8425c_row3_col0" class="data row3 col0" >495178.430077</td>
+      <td id="T_8425c_row3_col1" class="data row3 col1" >703.689157</td>
+      <td id="T_8425c_row3_col2" class="data row3 col2" >350.782283</td>
+      <td id="T_8425c_row3_col3" class="data row3 col3" >131.534514</td>
     </tr>
     <tr>
-      <th>stack_ols</th>
-      <td>4.401161e+05</td>
-      <td>663.412490</td>
-      <td>355.018492</td>
-      <td>128.216336</td>
+      <th id="T_8425c_level0_row4" class="row_heading level0 row4" >rpw</th>
+      <td id="T_8425c_row4_col0" class="data row4 col0" >332258.497424</td>
+      <td id="T_8425c_row4_col1" class="data row4 col1" >576.418682</td>
+      <td id="T_8425c_row4_col2" class="data row4 col2" >289.616720</td>
+      <td id="T_8425c_row4_col3" class="data row4 col3" >130.571867</td>
+    </tr>
+    <tr>
+      <th id="T_8425c_level0_row5" class="row_heading level0 row5" >ols</th>
+      <td id="T_8425c_row5_col0" class="data row5 col0" >392860.854657</td>
+      <td id="T_8425c_row5_col1" class="data row5 col1" >626.786132</td>
+      <td id="T_8425c_row5_col2" class="data row5 col2" >349.258667</td>
+      <td id="T_8425c_row5_col3" class="data row5 col3" >131.047249</td>
+    </tr>
+    <tr>
+      <th id="T_8425c_level0_row6" class="row_heading level0 row6" >ols_regularized</th>
+      <td id="T_8425c_row6_col0" class="data row6 col0" >419613.535471</td>
+      <td id="T_8425c_row6_col1" class="data row6 col1" >647.775837</td>
+      <td id="T_8425c_row6_col2" class="data row6 col2" >339.038167</td>
+      <td id="T_8425c_row6_col3" class="data row6 col3" >131.555661</td>
     </tr>
   </tbody>
 </table>
-</div></div></div>
+</div></div>
 </div>
 </section>
 
