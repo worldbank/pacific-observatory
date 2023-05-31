@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Analysis I &#8212; Pacific Observatory</title>
+    <title>Individual forecasting methods &#8212; Pacific Observatory</title>
   
   
   
@@ -184,13 +184,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="googletrends.html">Google Trends</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Analysis I</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Individual forecasting methods</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="utsa_display.html">SARIMAX</a></li>
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="mtsa.html">Analysis II</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="mtsa_var.html">VAR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mtsa_ratio.html">Ratio Approach (Load Factor)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="forecastcomb.html">Forecast Combination</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="ensemble.html">Forecast Combination</a></li>
 </ul>
 </li>
@@ -410,7 +410,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Analysis I</h1>
+    <h1>Individual forecasting methods</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -420,7 +420,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-modelling">Empirical Modelling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sarimax">SARIMAX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-and-moving-average-model-varma">Vector AutoRegressive and Moving Average Model (VARMA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach">Ratio Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation">Model Evaluation</a></li>
 </ul>
             </nav>
         </div>
@@ -432,10 +435,10 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="analysis-i">
-<h1>Analysis I<a class="headerlink" href="#analysis-i" title="Permalink to this heading">#</a></h1>
-<section id="empirical-modelling">
-<h2>Empirical Modelling<a class="headerlink" href="#empirical-modelling" title="Permalink to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="individual-forecasting-methods">
+<h1>Individual forecasting methods<a class="headerlink" href="#individual-forecasting-methods" title="Permalink to this heading">#</a></h1>
+<section id="sarimax">
+<h2>SARIMAX<a class="headerlink" href="#sarimax" title="Permalink to this heading">#</a></h2>
 <p>Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC’s VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX <span class="math notranslate nohighlight">\((p,d,q)(P,D,Q,s)\)</span> is defined as below:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -451,19 +454,50 @@ document.write(`
 <li><p><span class="math notranslate nohighlight">\(\Delta^{d}\)</span> is the integration operator and <span class="math notranslate nohighlight">\(\Delta_{s}^{D}\)</span> takes the seasonal differences of the series</p></li>
 </ul>
 <p>The model employs the scaled logit transformation to avoid negative predictions, transforming <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(\log(\frac{x-a}{b-x})\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> is the lower bound and <span class="math notranslate nohighlight">\(b\)</span> is the upper bound. Further, to prevent -<span class="math notranslate nohighlight">\(\infty\)</span>, <span class="math notranslate nohighlight">\(a\)</span> is set to be slightly smaller than the minimum of the series, and <span class="math notranslate nohighlight">\(b\)</span> is slightly larger than the maximum.</p>
-<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id3" id="id1">1</a> Three benchmark methods are employed:</p>
+</section>
+<section id="vector-autoregressive-and-moving-average-model-varma">
+<h2>Vector AutoRegressive and Moving Average Model (VARMA)<a class="headerlink" href="#vector-autoregressive-and-moving-average-model-varma" title="Permalink to this heading">#</a></h2>
+<p>Given the potential relationship between offical VA and GAD data, VARMA model COULD improve the univariate time series modeling by considering the linkages between ISA from the GAD and the official VA data. A VAR(p) model with exogenous variables is formally expressed as:</p>
+<div class="math notranslate nohighlight">
+\[
+VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p} 
++ \beta_{11}SAI_{t-1} + \cdots + \beta_{1p}SAI_{t-p} + Covid_{t} + TravelIndex_t + \varepsilon_{t} 
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(VA_t\)</span> is the visitor arrivals by the official statistics at time <span class="math notranslate nohighlight">\(t\)</span>, <span class="math notranslate nohighlight">\(SAI_t\)</span> is the international seat arrivals at time <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(Covid_t\)</span> is a dummy variable to be one after the WHO announced Covid-19 as the global pandemic. Each equation is estimated via Ordinary Least Squares (OLS). The standard approach for the selection of order p is the Akaike information criterion (AIC).</p>
+</section>
+<section id="ratio-approach">
+<h2>Ratio Approach<a class="headerlink" href="#ratio-approach" title="Permalink to this heading">#</a></h2>
+<p>Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting <span class="math notranslate nohighlight">\(VA_t\)</span> as the numerator and <span class="math notranslate nohighlight">\(ISA_t\)</span> as the denominator (<span class="math notranslate nohighlight">\(ratio_{t}=\frac{VA_t}{ISA_t}\)</span>). The produced ratio is similar to the load factor in aviation analysis, where <span class="math notranslate nohighlight">\( \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}\)</span>. By assuming the distance is fixed for each passenger, the available seats equal to <span class="math notranslate nohighlight">\(ISA_t\)</span> in our ratio formula, and we can treat <span class="math notranslate nohighlight">\(VA_t\)</span> as a proxy of the number of carried passengers.<a class="footnote-reference brackets" href="#id4" id="id1">1</a> Thus, we have the model:</p>
+<div class="math notranslate nohighlight">
+\[ 
+Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + NumOfCruise_t + \varepsilon_{t} 
+\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(TrvalIndex_t\)</span> is the Google Search Index data at time <span class="math notranslate nohighlight">\(t\)</span>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(Covid_t\)</span> is a dummy variable set to be 1 after WHO announced the Covid-19 as global pandemic;</p></li>
+<li><p><span class="math notranslate nohighlight">\(StringencyIndex_t\)</span> from the <a class="reference external" href="https://ourworldindata.org/covid-stringency-index">OWID Global Stringency Index</a>;</p></li>
+<li><p><span class="math notranslate nohighlight">\(NumOfCruise_t\)</span> is the number of cruises operating at time <span class="math notranslate nohighlight">\(t\)</span> to control the visitors by cruise;</p></li>
+</ul>
+</section>
+<section id="model-evaluation">
+<h2>Model Evaluation<a class="headerlink" href="#model-evaluation" title="Permalink to this heading">#</a></h2>
+<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id5" id="id2">2</a> Three benchmark methods are employed:</p>
 <ul class="simple">
 <li><p>Average method, where the forecasts of all future values are equal to the average (or “mean”) of the historical data.</p></li>
 <li><p>Naïve method, setting all forecasts to be the value of the last observation.</p></li>
 <li><p>Drift method, <span class="math notranslate nohighlight">\(\hat{y}_{T+h|T} = y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1}) = y_{T} + h \left( \frac{y_{T} -y_{1}}{T-1}\right).\)</span>, which is equivalent to drawing a line between the first and last observations, and extrapolating it into the future.</p></li>
 </ul>
-<p>For each method, Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and Symmetric Mean Absolute Percentage Error (SMAPE) are provided. <a class="footnote-reference brackets" href="#id4" id="id2">2</a></p>
+<p>For each method, Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and Symmetric Mean Absolute Percentage Error (SMAPE) are provided. <a class="footnote-reference brackets" href="#id6" id="id3">3</a></p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
-<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>A hideen assumption behind employing the ratio approach is the airline company would dynamically adjust the to choose the combination of fares, aircraft size, and load factor to maximize profits in each market. See more in <a class="reference external" href="https://www.jstor.org/stable/3003541">Graham, Kaplan, and Sibley (1983)</a></p>
+</dd>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd><p>Rob J Hyndman and George Athanasopoulos, Forecasting: principles and practice (OTexts, 2018). See more <a class="reference external" href="https://otexts.com/fpp3/simple-methods.html">here</a>.</p>
 </dd>
-<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd><p>Mean Absolute Percentage Error (MAPE) is also a frequent calculation, but given there exists some zero values in the actual value, and the result would lead to <span class="math notranslate nohighlight">\(+\infty\)</span> considering <span class="math notranslate nohighlight">\(MAPE(y, \hat{y})= \frac{100\%}{N} \sum_{i=0}^{N - 1} \frac{|y_i - \hat{y}_i|}{|y_i|}\)</span>.</p>
 </dd>
 </dl>
@@ -539,7 +573,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#empirical-modelling">Empirical Modelling</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sarimax">SARIMAX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vector-autoregressive-and-moving-average-model-varma">Vector AutoRegressive and Moving Average Model (VARMA)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ratio-approach">Ratio Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation">Model Evaluation</a></li>
 </ul>
   </nav></div>
 
