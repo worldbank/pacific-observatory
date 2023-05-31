@@ -30,6 +30,7 @@ parts:
       - file: tourism/forecastcomb
         sections:
         - file: tourism/ensemble
+        - file: tourism/combine_display
       - file: tourism/other
   - caption: Automatic Identification System
     chapters:
