@@ -25,10 +25,10 @@ parts:
       - file: tourism/utsa
         sections:
         - file: tourism/utsa_display
-      - file: tourism/mtsa
-        sections:
         - file: tourism/mtsa_var
         - file: tourism/mtsa_ratio
+      - file: tourism/forecastcomb
+        sections:
         - file: tourism/ensemble
       - file: tourism/other
   - caption: Automatic Identification System
