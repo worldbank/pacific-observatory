@@ -31,7 +31,7 @@ parts:
         sections:
         - file: tourism/ensemble
         - file: tourism/combine_display
-      - file: tourism/other
+      - file: tourism/discussion
   - caption: Automatic Identification System
     chapters:
       - file: ais_intro
