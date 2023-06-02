@@ -7,13 +7,17 @@ repository:
   url: https://github.com/worldbank/pacific-observatory
   branch: main
 
+exclude_patterns: [file-types/include-rst.rst]
+
+# Bibliography settings
 bibtex_bibfiles:
-  - references.bib"
+  - references.bib
 
 sphinx:
   config:
     bibtex_reference_style: author_year
     html_extra_path: ['images']
+
 
 html:
   home_page_in_navbar: true
