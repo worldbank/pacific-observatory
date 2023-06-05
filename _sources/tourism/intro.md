@@ -9,8 +9,9 @@ The report will be divided into five parts \[temporarily\]. The first part revie
 ## Literature Review
 
 ### Tourism and Growth
+
 Tourism has been recognized as a key driver of economic growth in developing countries. {cite:t}`seetanah2011assessing` examines 19 island economies, reveals a bi-causal relationship between tourist and growth, and confirms the fact that "tourism development on island economies may have comparatively higher growth effects."
- 
+
 Tourism has emerged as a crucial catalyst for economic development. {cite:t}`narayan2013does` found that a 1% increase in tourism exports leads to a 0.72% long-term increase in GDP and a 0.24% short-term increase in Pacific Islands countries. {cite:t}`kumar2021tourism` focused specifically on Fiji, Samoa, Solomon Islands, Tonga, and Vanuatu and found that tourism development is growth-enhancing for all five countries. These studies collectively provide compelling evidence of the significant contribution of tourism to economic growth and development in Pacific Islands countries.
 
 ### Indicators
@@ -25,15 +26,13 @@ Most tourism models employed in tourism forecasting can be classified as time se
 
 The classical one is the Vector AR (VAR) model, which assumes that “all of the variables affect each other intertemporally”. Despite the ANN model’s performance, the ”black box” model and requirement of a large amount of data makes ANN incompatible with the limited data we have.
 
-### Forecast Combination
-
-Beyond the individual forecast, there has been a trend to combine individual forecasts to improve accuracy. As {cite:ts}`timmermann2006forecast` reviews, forecast combinations have, on average, outperformed the single best forecasts, with the evidence from [M-3 Competition](https://forecasters.org/resources/time-series-data/m3-competition/) and {cite:ts}`stock1998comparison`. The explanations behind the superiority of combination are mainly from “incorporat\[ing\] partial (but incompletely overlapping) information” and mitigating the structural breaks and instabilities with varying degrees of misspecification and adaptability {cite:ps}`wang2022forecast`. 
+Beyond the individual forecast, there has been a trend to combine individual forecasts to improve accuracy. As {cite:ts}`timmermann2006forecast` reviews, forecast combinations have, on average, outperformed the single best forecasts, with the evidence from [M-3 Competition](https://forecasters.org/resources/time-series-data/m3-competition/) and {cite:ts}`stock1998comparison`. The explanations behind the superiority of combination are mainly from “incorporat\[ing\] partial (but incompletely overlapping) information” and mitigating the structural breaks and instabilities with varying degrees of misspecification and adaptability {cite:ps}`wang2022forecast`.
 
 In terms of the combination schemes, they can be linear or non-linear, static or time-varying, series-specific or cross-learning, and consider or ignore correlations among individual forecasts {cite:ps}`wang2022forecast`. The most straightforward one is the equally weighted average method, which can be easily implemented by calculating the simple arithmetic average of forecasts. Despite ignoring the precision of individual forecasts and correlations between errors, the method often works well compared to complex combination schemes, the phenomenon called “forecasting combination puzzle.”
 
-The linear combination scheme is built on the idea that greater weights should be assigned to the most accurate forecast method. The exemplary one is relative performance weights, which are based on each model’s relative MSE performance. Least-square estimator of the weights was introduced by {cite:ts}`granger1984improved`. In the seminal work, they recommended that weights can be estimated by the ordinary least squares (OLS) with past observations as the response variable and individual forecasts as the predictor variables. Researchers also relate the combination estimation to the shrinkage methods, aiming to strike a balance between information and noise/bias from individual forecasts or solving the estimation uncertainty under N>T, such as LASSO.
+The linear combination scheme is built on the idea that greater weights should be assigned to the most accurate forecast method. The exemplary one is relative performance weights, which are based on each model’s relative MSE performance. Least-square estimator of the weights was introduced by {cite:ts}`granger1984improved`. In the seminal work, teprohey recommended that weights can be estimated by the ordinary least squares (OLS) with past observations as the response variable and individual forecasts as the predictor variables. Researchers also relate the combination estimation to the shrinkage methods, aiming to strike a balance between information and noise/bias from individual forecasts or solving the estimation uncertainty under N\>T, such as LASSO and Ridge Regression {cite:ps}`diebold2019machine`.
 
-Despite that forecast combinations captured numerous attentions from 1980s, only 17 of a pool of 211 tourism studies involve the forecast combination, and most of them were conducted in late 2000s, like  {cite:ps}`wong2007tourism`.
+Despite that forecast combinations captured numerous attentions from 1980s, only 17 of a pool of 211 tourism studies involve the forecast combination, and most of them were conducted in late 2000s, like {cite:ps}`wong2007tourism`.
 
 [^1]: <https://www.ifc.org/wps/wcm/connect/region__ext_content/ifc_external_corporate_site/east+asia+and+the+pacific/resources/solomon+islands+tourism+industry+guides+for+investors+and+government>
 [^2]: See more in <https://www.statistics.gov.sb/statistics/visitor-arrivals#month>
