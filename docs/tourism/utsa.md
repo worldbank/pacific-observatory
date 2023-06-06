@@ -1,4 +1,5 @@
-# Individual forecasting methods
+# Individual forecasts
+
 ## SARIMAX
 
 Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC's VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX $(p,d,q)(P,D,Q,s)$ is defined as below:
