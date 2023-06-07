@@ -438,7 +438,6 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="forecast-combination">
 <h1>Forecast Combination<a class="headerlink" href="#forecast-combination" title="Permalink to this heading">#</a></h1>
-<p>In this study, several combination methods are used to test the performance of the different forecasting models.</p>
 <section id="linear-combination-weights">
 <h2>Linear Combination Weights<a class="headerlink" href="#linear-combination-weights" title="Permalink to this heading">#</a></h2>
 <p>Consistent with <a class="reference external" href="https://www.nber.org/system/files/working_papers/w6607/w6607.pdf">Stock and Waston (1998)</a>’s experiment on linear combination weights, the combined forecasts are the weighted averages of the single forecasts. Let <span class="math notranslate nohighlight">\(MSE_{t+h,t,i} = (1/v)\sum_{\tau=t-v}^{t} e^{2}_{\tau,\tau−h,i}\)</span> be the <span class="math notranslate nohighlight">\(i\)</span>th forecasting model’s MSE at time <span class="math notranslate nohighlight">\(t\)</span>, computed over a window of the previous <span class="math notranslate nohighlight">\(v\)</span> periods. Then</p>
@@ -455,6 +454,10 @@ document.write(`
 \[
 \hat{\omega}_{t+h,t} = (\sum_{\tau=1}^{t-h} \hat{y}_{\tau+h,\tau} \hat{y}_{\tau+h,\tau}')^{-1} \sum_{\tau=1}^{t-h} \hat{y}_{\tau+h,\tau} y_{\tau+h}
 \]</div>
+<p>Built on <span id="id1">Granger and Ramanathan [<a class="reference internal" href="references.html#id15" title="Clive WJ Granger and Ramu Ramanathan. Improved methods of combining forecasts. Journal of forecasting, 3(2):197–204, 1984.">1984</a>]</span>’s proposed methods (excluding the one with constant term) and shrinkage methods, three least square regressions are:</p>
+<p><span class="math notranslate nohighlight">\(\text{(1) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}\)</span></p>
+<p><span class="math notranslate nohighlight">\(\text{(2) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}, \text{ s.t } \omega_{h}^{'} \iota = 1\)</span></p>
+<p><span class="math notranslate nohighlight">\(\text{(3) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}\)</span></p>
 </section>
 <div class="toctree-wrapper compound">
 </div>

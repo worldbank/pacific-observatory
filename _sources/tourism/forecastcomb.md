@@ -1,7 +1,5 @@
 # Forecast Combination
 
-In this study, several combination methods are used to test the performance of the different forecasting models.
-
 ## Linear Combination Weights
 
 Consistent with [Stock and Waston (1998)](https://www.nber.org/system/files/working_papers/w6607/w6607.pdf)'s experiment on linear combination weights, the combined forecasts are the weighted averages of the single forecasts. Let $MSE_{t+h,t,i} = (1/v)\sum_{\tau=t-v}^{t} e^{2}_{\tau,\tau−h,i}$ be the $i$th forecasting model’s MSE at time $t$, computed over a window of the previous $v$ periods. Then
@@ -19,3 +17,11 @@ Least square estimators of the weights are computed by the ordinary least square
 $$
 \hat{\omega}_{t+h,t} = (\sum_{\tau=1}^{t-h} \hat{y}_{\tau+h,\tau} \hat{y}_{\tau+h,\tau}')^{-1} \sum_{\tau=1}^{t-h} \hat{y}_{\tau+h,\tau} y_{\tau+h}
 $$
+
+Built on {cite:ts}`granger1984improved`'s proposed methods (excluding the one with constant term) and shrinkage methods, three least square regressions are:
+
+$\text{(1) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}$
+
+$\text{(2) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}, \text{ s.t } \omega_{h}^{'} \iota = 1$
+
+$\text{(3) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}$
