@@ -8,7 +8,7 @@ The report will be divided into five parts \[temporarily\]. The first part revie
 
 ## Literature Review
 
-### Tourism and Growth 
+### Tourism and Growth
 
 Tourism has been recognized as a key driver of economic growth in developing countries. As {cite:t}`brida2016has` reviewed approximately 100 journal articles on tourism, tourism-led growth hypothesis has been supported by most studied countries with a few exceptions. {cite:t}`seetanah2011assessing` examines 19 island economies, reveals a bi-causal relationship between tourist and growth, and confirms the fact that "tourism development on island economies may have comparatively higher growth effects."
 
