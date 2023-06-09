@@ -24,4 +24,4 @@ $\text{(1) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}$
 
 $\text{(2) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}, \text{ s.t } \omega_{h}^{'} \iota = 1$
 
-$\text{(3) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}$
+$\text{(3) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h} + \lambda |\omega_{h}^{'}| $
