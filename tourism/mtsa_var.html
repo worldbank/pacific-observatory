@@ -470,8 +470,8 @@ document.write(`
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   45
 Model:                                  VARMAX(3,1)   Log Likelihood                -124.461
                                         + intercept   AIC                            302.923
-Date:                              Thu, 25 May 2023   BIC                            351.703
-Time:                                      16:34:07   HQIC                           321.108
+Date:                              Thu, 08 Jun 2023   BIC                            351.703
+Time:                                      20:22:04   HQIC                           321.108
 Sample:                                           0                                         
                                                - 45                                         
 Covariance Type:                                opg                                         
@@ -580,8 +580,8 @@ Warnings:
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   45
 Model:                                  VARMAX(1,1)   Log Likelihood                -150.021
                                         + intercept   AIC                            338.041
-Date:                              Thu, 25 May 2023   BIC                            372.368
-Time:                                      16:35:37   HQIC                           350.838
+Date:                              Thu, 08 Jun 2023   BIC                            372.368
+Time:                                      20:23:31   HQIC                           350.838
 Sample:                                           0                                         
                                                - 45                                         
 Covariance Type:                                opg                                         
@@ -676,62 +676,66 @@ Warnings:
     </tr>
   </tbody>
 </table>
-</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best P, Q, Trend Combination: (2, 1, &#39;c&#39;)
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best P, Q, Trend Combination: (2, 2, &#39;t&#39;)
                                   Statespace Model Results                                  
 ============================================================================================
-Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   38
-Model:                                  VARMAX(2,1)   Log Likelihood                -140.022
-                                        + intercept   AIC                            326.044
-Date:                              Thu, 25 May 2023   BIC                            363.709
-Time:                                      16:36:59   HQIC                           339.445
+Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   36
+Model:                                  VARMAX(2,2)   Log Likelihood                -114.995
+                                        + intercept   AIC                            283.990
+Date:                              Thu, 08 Jun 2023   BIC                            326.745
+Time:                                      20:24:49   HQIC                           298.913
 Sample:                                           0                                         
-                                               - 38                                         
+                                               - 36                                         
 Covariance Type:                                opg                                         
 ===================================================================================
-Ljung-Box (L1) (Q):             0.42, 2.05   Jarque-Bera (JB):       420.51, 103.96
-Prob(Q):                        0.52, 0.15   Prob(JB):                   0.00, 0.00
-Heteroskedasticity (H):         0.18, 0.09   Skew:                       3.25, 1.97
-Prob(H) (two-sided):            0.00, 0.00   Kurtosis:                 17.94, 10.08
+Ljung-Box (L1) (Q):             0.00, 0.55   Jarque-Bera (JB):         296.03, 0.50
+Prob(Q):                        0.97, 0.46   Prob(JB):                   0.00, 0.78
+Heteroskedasticity (H):         0.23, 1.42   Skew:                       2.89, 0.18
+Prob(H) (two-sided):            0.02, 0.55   Kurtosis:                  15.80, 2.54
                                   Results for equation total                                 
 =============================================================================================
                                 coef    std err          z      P&gt;|z|      [0.025      0.975]
 ---------------------------------------------------------------------------------------------
-intercept                     1.3777      3.471      0.397      0.691      -5.425       8.181
-L1.total                     -0.0297      4.082     -0.007      0.994      -8.029       7.970
-L1.seats_arrivals_intl        0.3661      3.051      0.120      0.904      -5.613       6.346
-L2.total                     -0.0434      0.954     -0.045      0.964      -1.913       1.826
-L2.seats_arrivals_intl       -0.1236      0.847     -0.146      0.884      -1.784       1.536
-L1.e(total)                   0.1170      4.614      0.025      0.980      -8.927       9.161
-L1.e(seats_arrivals_intl)    -0.3579      3.060     -0.117      0.907      -6.355       5.640
-beta.covid                   -2.3416     10.479     -0.223      0.823     -22.880      18.197
-beta.stringency_index        -0.0717      0.275     -0.261      0.794      -0.610       0.467
-beta.covid                   -2.3416     10.479     -0.223      0.823     -22.880      18.197
+drift                         0.0814      0.471      0.173      0.863      -0.842       1.005
+L1.total                      0.3433      1.638      0.210      0.834      -2.868       3.555
+L1.seats_arrivals_intl        0.0070      2.680      0.003      0.998      -5.246       5.260
+L2.total                     -0.0883      2.361     -0.037      0.970      -4.717       4.540
+L2.seats_arrivals_intl       -0.0139      2.239     -0.006      0.995      -4.402       4.375
+L1.e(total)                  -0.0268      8.060     -0.003      0.997     -15.823      15.770
+L1.e(seats_arrivals_intl)     0.1534      7.545      0.020      0.984     -14.634      14.940
+L2.e(total)                  -0.2397      6.816     -0.035      0.972     -13.599      13.120
+L2.e(seats_arrivals_intl)     0.3266      6.178      0.053      0.958     -11.782      12.435
+beta.covid                   -1.9506     12.650     -0.154      0.877     -26.745      22.844
+beta.stringency_index        -0.0681      0.214     -0.318      0.750      -0.487       0.351
+beta.covid                   -1.9506     12.650     -0.154      0.877     -26.745      22.844
                            Results for equation seats_arrivals_intl                          
 =============================================================================================
                                 coef    std err          z      P&gt;|z|      [0.025      0.975]
 ---------------------------------------------------------------------------------------------
-intercept                     1.2482      1.433      0.871      0.384      -1.560       4.057
-L1.total                      0.1544      1.350      0.114      0.909      -2.491       2.799
-L1.seats_arrivals_intl        0.8603      0.633      1.360      0.174      -0.380       2.100
-L2.total                     -0.3030      0.602     -0.503      0.615      -1.483       0.877
-L2.seats_arrivals_intl       -0.4030      0.264     -1.526      0.127      -0.921       0.115
-L1.e(total)                  -0.0023      1.497     -0.002      0.999      -2.937       2.933
-L1.e(seats_arrivals_intl)    -0.7844      0.798     -0.983      0.326      -2.349       0.780
-beta.covid                   -0.8908      3.482     -0.256      0.798      -7.716       5.934
-beta.stringency_index        -0.0452      0.088     -0.514      0.607      -0.218       0.127
-beta.covid                   -0.8908      3.482     -0.256      0.798      -7.716       5.934
+drift                         0.1251      0.377      0.332      0.740      -0.613       0.863
+L1.total                      0.3466      4.524      0.077      0.939      -8.520       9.214
+L1.seats_arrivals_intl        0.3757      2.121      0.177      0.859      -3.782       4.533
+L2.total                     -0.4958      3.786     -0.131      0.896      -7.916       6.925
+L2.seats_arrivals_intl       -0.0737      3.150     -0.023      0.981      -6.247       6.100
+L1.e(total)                  -0.0065     13.351     -0.000      1.000     -26.174      26.161
+L1.e(seats_arrivals_intl)    -0.4660     12.451     -0.037      0.970     -24.870      23.938
+L2.e(total)                   0.5867      9.535      0.062      0.951     -18.101      19.274
+L2.e(seats_arrivals_intl)    -0.1605      8.794     -0.018      0.985     -17.397      17.076
+beta.covid                   -2.3151     11.317     -0.205      0.838     -24.496      19.866
+beta.stringency_index        -0.0381      0.209     -0.183      0.855      -0.447       0.371
+beta.covid                   -2.3151     11.317     -0.205      0.838     -24.496      19.866
                                        Error covariance matrix                                        
 ======================================================================================================
                                          coef    std err          z      P&gt;|z|      [0.025      0.975]
 ------------------------------------------------------------------------------------------------------
-sqrt.var.total                         1.6869      0.305      5.528      0.000       1.089       2.285
-sqrt.cov.total.seats_arrivals_intl     0.2088      1.597      0.131      0.896      -2.921       3.338
-sqrt.var.seats_arrivals_intl           1.5215      0.293      5.187      0.000       0.947       2.096
+sqrt.var.total                         1.6572      0.897      1.847      0.065      -0.102       3.416
+sqrt.cov.total.seats_arrivals_intl     1.6108      2.921      0.551      0.581      -4.115       7.337
+sqrt.var.seats_arrivals_intl           0.9357      8.905      0.105      0.916     -16.518      18.389
 ======================================================================================================
 
 Warnings:
 [1] Covariance matrix calculated using the outer product of gradients (complex-step).
-[2] Covariance matrix is singular or near-singular, with condition number 3.77e+17. Standard errors may be unstable.
+[2] Covariance matrix is singular or near-singular, with condition number 6.73e+17. Standard errors may be unstable.
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -761,24 +765,24 @@ Warnings:
   <tbody>
     <tr>
       <th>naive</th>
-      <td>1.776518e+06</td>
-      <td>1332.860792</td>
-      <td>647.945946</td>
-      <td>63.764255</td>
+      <td>1.045461e+06</td>
+      <td>1022.477747</td>
+      <td>597.257143</td>
+      <td>69.556373</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>1.368747e+07</td>
-      <td>3699.657587</td>
-      <td>3432.540166</td>
-      <td>154.297982</td>
+      <td>7.898678e+06</td>
+      <td>2810.458659</td>
+      <td>2511.586420</td>
+      <td>147.552078</td>
     </tr>
     <tr>
       <th>VAR (scaled)</th>
-      <td>1.614325e+06</td>
-      <td>1270.560819</td>
-      <td>619.302843</td>
-      <td>58.747890</td>
+      <td>5.478471e+05</td>
+      <td>740.166954</td>
+      <td>354.330235</td>
+      <td>61.940427</td>
     </tr>
   </tbody>
 </table>
@@ -788,8 +792,8 @@ Warnings:
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   24
 Model:                                  VARMAX(1,1)   Log Likelihood                 -61.690
                                         + intercept   AIC                            165.380
-Date:                              Thu, 25 May 2023   BIC                            190.119
-Time:                                      16:37:58   HQIC                           171.943
+Date:                              Thu, 08 Jun 2023   BIC                            190.119
+Time:                                      20:25:46   HQIC                           171.943
 Sample:                                           0                                         
                                                - 24                                         
 Covariance Type:                                opg                                         
@@ -892,8 +896,8 @@ Warnings:
 Dep. Variable:     [&#39;total&#39;, &#39;seats_arrivals_intl&#39;]   No. Observations:                   43
 Model:                                  VARMAX(2,2)   Log Likelihood                -156.966
                                         + intercept   AIC                            367.932
-Date:                              Thu, 25 May 2023   BIC                            415.485
-Time:                                      16:39:27   HQIC                           385.468
+Date:                              Thu, 08 Jun 2023   BIC                            415.485
+Time:                                      20:27:14   HQIC                           385.468
 Sample:                                           0                                         
                                                - 43                                         
 Covariance Type:                                opg                                         
