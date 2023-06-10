@@ -18,10 +18,12 @@ $$
 \hat{\omega}_{t+h,t} = (\sum_{\tau=1}^{t-h} \hat{y}_{\tau+h,\tau} \hat{y}_{\tau+h,\tau}')^{-1} \sum_{\tau=1}^{t-h} \hat{y}_{\tau+h,\tau} y_{\tau+h}
 $$
 
-Built on {cite:ts}`granger1984improved`'s proposed methods (excluding the one with constant term) and shrinkage methods, three least square regressions are:
+Built on {cite:ts}`granger1984improved`'s proposed methods (excluding the one with constant term) and shrinkage methods, three specific formats are specified below:
 
 $\text{(1) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}$
 
 $\text{(2) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h}, \text{ s.t } \omega_{h}^{'} \iota = 1$
 
 $\text{(3) } y_{t+h}= \omega_{h}^{'} \hat{y}_{t+h, t}, + \epsilon_{t+h} + \lambda |\omega_{h}^{'}| $
+
+Equation 1 represents the ordinary least square estimation without intercept. Equation 2 is the constrained least square estimation, where estimates must be positive, and the sum of estimates will be 1. Equation 3 is the LASSO where $\lambda |\omega_{h}^{'}|$ would prevent the overfitting, and the procedure is not to perform variable selection.
