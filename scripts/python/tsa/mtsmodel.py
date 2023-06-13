@@ -151,24 +151,37 @@ class RatioPipe(MultiTSData):
                 print(f"Abnormal value produced with a value of {ratio}.")
                 ratios[idx] = ((ratios[idx-1] + ratios[idx+1]))/2
         self.data["ratio"] = ratios
+        self.data["log_ratio"] = np.log(self.data["ratio"]* 100)
 
-    def fit(self):
+    def fit(self,
+            formula: str,
+            maxlags: int):
         import statsmodels.formula.api as smf
         self.data["quarter"] = self.data["date"].dt.quarter
-        self.model_df = self.data[["date", "ratio", "covid", "quarter",
-                                   "stringency_index", str(self.country) + "_travel"]]
-        self.res = smf.wls(
-            "ratio~covid * stringency_index + C(quarter) +" +
-            str(self.country) + "_travel",
-            data=self.model_df).fit()
+        self.model_df = self.data[["date", "ratio", "log_ratio", "covid", "quarter",
+                                "stringency_index", str(self.country) + "_travel"]]
         
+        if "log_ratio" in formula:
+            self.log_ratio = True
+        else:
+            self.log_ratio = False
+
+        self.res = smf.ols(
+            formula,
+            data=self.model_df).fit(cov_type='HAC', cov_kwds={'maxlags': maxlags, 
+                                                              "use_correction": True})
+
         print(self.res.summary())
 
     def get_prediction_df(self):
         pred_df = self.res.get_prediction().summary_frame()
         select_cols = ["date", "ratio", self.x1, self.x2]
         self.pred_df = pd.concat([self.data[select_cols], pred_df], axis=1)
-        self.pred_df["pred_mean"] = self.pred_df["mean"] * self.pred_df[self.x2]
+
+        if self.log_ratio:
+            self.pred_df["pred_mean"] = (np.exp(self.pred_df["mean"])/100) * self.pred_df[self.x2]
+        else:
+            self.pred_df["pred_mean"] = self.pred_df["mean"] * self.pred_df[self.x2]
         display(self.pred_df.head(5))
         
         return self.pred_df

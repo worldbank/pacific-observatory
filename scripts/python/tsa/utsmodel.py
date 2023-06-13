@@ -249,11 +249,14 @@ class SARIMAXPipeline(SARIMAXData):
         }
 
         for model in models:
-            model_cv_scores = cross_val_score(
-                model, y, exog, scoring=scoring, cv=cv, verbose=verbose)
-            model_avg_error = np.nanmean(model_cv_scores)
-            comparison_result["model"].append(model)
-            comparison_result["cv_scores"].append(model_cv_scores)
-            comparison_result["avg_error"].append(model_avg_error)
+            try: 
+                model_cv_scores = cross_val_score(
+                    model, y, exog, scoring=scoring, cv=cv, verbose=verbose)
+                model_avg_error = np.nanmean(model_cv_scores)
+                comparison_result["model"].append(model)
+                comparison_result["cv_scores"].append(model_cv_scores)
+                comparison_result["avg_error"].append(model_avg_error)
+            except:
+                pass
 
         return comparison_result
