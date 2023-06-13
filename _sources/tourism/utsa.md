@@ -9,6 +9,7 @@ $$
 $$
 
 where: 
+
 - ${VA}_{t}$ is the Visitor Arrivals at time $t$
 - ${x}_{t}^{i}$ for $i <= n$ with coefficients $\beta_{i}$ denotes $n$ exogenous variables defined at each time step $t$
 - $L$ is the lag operator and $L^{s}$ is the seasonal lag operator 
@@ -30,18 +31,22 @@ $$
 where $VA_t$ is the visitor arrivals by the official statistics at time $t$, $SAI_t$ is the international seat arrivals at time $t$, and $Covid_t$ is a dummy variable to be one after the WHO announced Covid-19 as the global pandemic. Each equation is estimated via Ordinary Least Squares (OLS). The standard approach for the selection of order p is the Akaike information criterion (AIC).
 
 ## Ratio Approach
+
 Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting $VA_t$ as the numerator and $ISA_t$ as the denominator ($ratio_{t}=\frac{VA_t}{ISA_t}$). The produced ratio is similar to the load factor in aviation analysis, where $ \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}$. By assuming the distance is fixed for each passenger, the available seats equal to $ISA_t$ in our ratio formula, and we can treat $VA_t$ as a proxy of the number of carried passengers.[^1] Thus, we have the model:
 
-$$ 
-Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + NumOfCruise_t + \varepsilon_{t} 
 $$
-where: 
+Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + \varepsilon_{t} 
+$$
+where:
+
 - $TrvalIndex_t$ is the Google Search Index data at time $t$;
 - $Covid_t$ is a dummy variable set to be 1 after WHO announced the Covid-19 as global pandemic;
 - $StringencyIndex_t$ from the [OWID Global Stringency Index](https://ourworldindata.org/covid-stringency-index);
-- $NumOfCruise_t$ is the number of cruises operating at time $t$ to control the visitors by cruise;
+
+The limited sample size (smaller than 48) and potential autocorrelation would violate the homoskedasticity assumption by OLS but still produce an unbiased estimation. Thus, to correct the standard error, we employ the Heteroskedasticity- and Autocorrelation- Consistent estimator (HAC) and choose the lag same as Wooldridge suggests where $h = [4(T/100)^{2/9}] + 1$.
 
 ## Model Evaluation
+
 To evaluate the model's performance, benchmark results will be provided.[^2] Three benchmark methods are employed:
 
 - Average method, where the forecasts of all future values are equal to the average (or “mean”) of the historical data.

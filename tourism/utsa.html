@@ -472,16 +472,16 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
 <h2>Ratio Approach<a class="headerlink" href="#ratio-approach" title="Permalink to this heading">#</a></h2>
 <p>Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting <span class="math notranslate nohighlight">\(VA_t\)</span> as the numerator and <span class="math notranslate nohighlight">\(ISA_t\)</span> as the denominator (<span class="math notranslate nohighlight">\(ratio_{t}=\frac{VA_t}{ISA_t}\)</span>). The produced ratio is similar to the load factor in aviation analysis, where <span class="math notranslate nohighlight">\( \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}\)</span>. By assuming the distance is fixed for each passenger, the available seats equal to <span class="math notranslate nohighlight">\(ISA_t\)</span> in our ratio formula, and we can treat <span class="math notranslate nohighlight">\(VA_t\)</span> as a proxy of the number of carried passengers.<a class="footnote-reference brackets" href="#id4" id="id1">1</a> Thus, we have the model:</p>
 <div class="math notranslate nohighlight">
-\[ 
-Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + NumOfCruise_t + \varepsilon_{t} 
+\[
+Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + \varepsilon_{t} 
 \]</div>
 <p>where:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(TrvalIndex_t\)</span> is the Google Search Index data at time <span class="math notranslate nohighlight">\(t\)</span>;</p></li>
 <li><p><span class="math notranslate nohighlight">\(Covid_t\)</span> is a dummy variable set to be 1 after WHO announced the Covid-19 as global pandemic;</p></li>
 <li><p><span class="math notranslate nohighlight">\(StringencyIndex_t\)</span> from the <a class="reference external" href="https://ourworldindata.org/covid-stringency-index">OWID Global Stringency Index</a>;</p></li>
-<li><p><span class="math notranslate nohighlight">\(NumOfCruise_t\)</span> is the number of cruises operating at time <span class="math notranslate nohighlight">\(t\)</span> to control the visitors by cruise;</p></li>
 </ul>
+<p>The limited sample size (smaller than 48) and potential autocorrelation would violate the homoskedasticity assumption by OLS but still produce an unbiased estimation. Thus, to correct the standard error, we employ the Heteroskedasticity- and Autocorrelation- Consistent estimator (HAC) and choose the lag same as Wooldridge suggests where <span class="math notranslate nohighlight">\(h = [4(T/100)^{2/9}] + 1\)</span>.</p>
 </section>
 <section id="model-evaluation">
 <h2>Model Evaluation<a class="headerlink" href="#model-evaluation" title="Permalink to this heading">#</a></h2>
