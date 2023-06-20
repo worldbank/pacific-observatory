@@ -195,6 +195,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="combine_display.html">Combination vs. Individual Models</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="other_models.html">Other Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="discussion.html">Discussion and Conclusion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
@@ -440,6 +441,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="individual-forecasts">
 <h1>Individual forecasts<a class="headerlink" href="#individual-forecasts" title="Permalink to this heading">#</a></h1>
+<p>As \textcite{song2019review} illustrates, in tourism research, <em>time series</em> models forecast demands, while <em>econometric</em> models search for the causes and effects between economic factors and tourism demands. The empirical models include <em>time series</em> models, in which SARIMAX and VAR build uni- and multi-variate relationships, respectively, <em>econometric</em> model, which attempts to establish a relationship between the Google Trends index and invented ratio, and the forecast combination by linear and least square approaches.</p>
 <section id="sarimax">
 <h2>SARIMAX<a class="headerlink" href="#sarimax" title="Permalink to this heading">#</a></h2>
 <p>Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC’s VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX <span class="math notranslate nohighlight">\((p,d,q)(P,D,Q,s)\)</span> is defined as below:</p>
