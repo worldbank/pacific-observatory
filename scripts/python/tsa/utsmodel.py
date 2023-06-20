@@ -234,7 +234,7 @@ class SARIMAXPipeline(SARIMAXData):
         if hyper_params is None:
             hyper_params = {
                 "window_size": 12,
-                "step": 6,
+                "step": 1,
                 "h": 12
             }
 

@@ -51,16 +51,18 @@ def run_sarimax(country, y_vars,
 
             # Append top five GridSearch results
             for res in mod_msres[:5]:
-                order, seasonal_order = res[-1]
-                model = pm.ARIMA(order, seasonal_order,
-                                 exog=mod.exog[:mod.training_size])
-                cv_models.append(model)
+                ic = res[1]
+                if ic > 100: 
+                    order, seasonal_order = res[-1]
+                    model = pm.ARIMA(order, seasonal_order,
+                                     exog=mod.exog[:mod.training_size])
+                    cv_models.append(model)
 
             print(
                 f"Started to conduct Cross-validation for {y_var}".upper(), "\n")
             mod_cv_comp = mod.compare_models(
                 y=mod.transformed_y, exog=mod.exog, models=cv_models)
-            best_cv_idx = np.argmin(mod_cv_comp["avg_error"])
+            best_cv_idx = np.nanargmin(mod_cv_comp["avg_error"])
             print(
                 f"Best Models from Cross-validation is {cv_models[best_cv_idx]}", "\n")
 

@@ -145,13 +145,23 @@ class RatioPipe(MultiTSData):
         self.x2 = x2
 
     def transform(self):
-        ratios = (self.data[self.x1])/(self.data[self.x2])
+        ratios = []
+        for x1, x2 in zip(self.data[self.x1], self.data[self.x2]):
+            if x2 == 0:
+                ratio = 0
+            else:
+                ratio = x1/x2
+            ratios.append(ratio)
+        
+        # Adjust the ratio ex post
         for idx, ratio in enumerate(ratios):
             if ratio >= 1:
                 print(f"Abnormal value produced with a value of {ratio}.")
                 ratios[idx] = ((ratios[idx-1] + ratios[idx+1]))/2
         self.data["ratio"] = ratios
-        self.data["log_ratio"] = np.log(self.data["ratio"]* 100)
+        
+        self.data["log_ratio"] = np.where(self.data["ratio"]==0, 0, 
+                                          np.log(self.data["ratio"]* 100))
 
     def fit(self,
             formula: str,

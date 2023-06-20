@@ -1,5 +1,7 @@
 # Individual forecasts
 
+As \textcite{song2019review} illustrates, in tourism research, *time series* models forecast demands, while *econometric* models search for the causes and effects between economic factors and tourism demands. The empirical models include *time series* models, in which SARIMAX and VAR build uni- and multi-variate relationships, respectively, *econometric* model, which attempts to establish a relationship between the Google Trends index and invented ratio, and the forecast combination by linear and least square approaches.
+
 ## SARIMAX
 
 Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC's VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX $(p,d,q)(P,D,Q,s)$ is defined as below:
@@ -12,7 +14,7 @@ where:
 
 - ${VA}_{t}$ is the Visitor Arrivals at time $t$
 - ${x}_{t}^{i}$ for $i <= n$ with coefficients $\beta_{i}$ denotes $n$ exogenous variables defined at each time step $t$
-- $L$ is the lag operator and $L^{s}$ is the seasonal lag operator 
+- $L$ is the lag operator and $L^{s}$ is the seasonal lag operator
 - $p$ is the order of the AR part, $q$ is the order of the MA part, and $d$ is the degree of first differencing involved
 - $\Theta(L)^{p}$ is an order $p$ polynomial function of $L$ from the AR part, and $\phi$ is defined analogously to $\Theta$.
 - $\Delta^{d}$ is the integration operator and $\Delta_{s}^{D}$ takes the seasonal differences of the series
