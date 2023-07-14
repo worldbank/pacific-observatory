@@ -440,13 +440,48 @@ document.write(`
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="nn">az</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">bambi</span> <span class="k">as</span> <span class="nn">bmb</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="o">!{</span>sys.executable<span class="o">}</span><span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>bambi
+    <span class="kn">import</span> <span class="nn">bambi</span> <span class="k">as</span> <span class="nn">bmb</span>
+    
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING (pytensor.tensor.blas): Using NumPy C-API based implementation for BLAS functions.
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell tag_hide-input docutils container">
+<details class="hide above-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_observed</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)):</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Number of Tourists&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]:</span>
 
     <span class="n">mod</span> <span class="o">=</span> <span class="n">RatioPipe</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;s Official and Avaition Data.&quot;</span><span class="p">)</span>
@@ -479,210 +514,33 @@ document.write(`
         <span class="s2">&quot;/model/lf_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.csv&quot;</span>
     <span class="n">pred_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">saved_pred_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
 
-    <span class="n">ratio_viz_df</span> <span class="o">=</span> <span class="n">pred_df</span><span class="p">[[</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="s2">&quot;total&quot;</span><span class="p">,</span> <span class="s2">&quot;pred_mean&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ratio_viz_df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;variable&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">&quot;Number&quot;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">blr</span> <span class="o">=</span> <span class="n">bmb</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span>
+        <span class="s2">&quot;ratio ~ covid*stringency_index + C(quarter) +&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_travel&quot;</span><span class="p">,</span> <span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">blr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">az</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">round_to</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">az</span><span class="o">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+    
+    <span class="c1"># Bayesian Interval</span>
+    <span class="n">blr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;pps&quot;</span><span class="p">)</span>
+    <span class="n">posterior_stacked</span> <span class="o">=</span> <span class="n">az</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+    <span class="n">predicted</span> <span class="o">=</span> <span class="n">posterior_stacked</span><span class="p">[</span><span class="s2">&quot;ratio_mean&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Compute the mean of the predictions, plotted as a single line.</span>
+    <span class="n">predicted_mean</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">]</span>
+
+    <span class="c1"># Compute 94% credible intervals for the predictions, plotted as bands</span>
+    <span class="n">hdi_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.97</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">hdi_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">]</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="n">hdi_data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;seats_arrivals_intl&quot;</span><span class="p">]</span>
+    
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_observed</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">predicted_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">upper</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PALAU&#39;s Official and Avaition Data.
-
- Create Loaded Factor for PALAU:
-
- Regression PALAU:
-                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:                  ratio   R-squared:                       0.757
-Model:                            OLS   Adj. R-squared:                  0.712
-Method:                 Least Squares   F-statistic:                     13.44
-Date:                Wed, 14 Jun 2023   Prob (F-statistic):           1.75e-08
-Time:                        10:19:56   Log-Likelihood:                 33.066
-No. Observations:                  45   AIC:                            -50.13
-Df Residuals:                      37   BIC:                            -35.68
-Df Model:                           7                                         
-Covariance Type:                  HAC                                         
-==========================================================================================
-                             coef    std err          z      P&gt;|z|      [0.025      0.975]
-------------------------------------------------------------------------------------------
-Intercept                  0.4595      0.098      4.703      0.000       0.268       0.651
-C(quarter)[T.2]           -0.0601      0.057     -1.054      0.292      -0.172       0.052
-C(quarter)[T.3]            0.0420      0.089      0.473      0.636      -0.132       0.216
-C(quarter)[T.4]            0.0122      0.051      0.241      0.810      -0.087       0.111
-covid                     -0.4960      0.133     -3.736      0.000      -0.756      -0.236
-stringency_index          -0.0088      0.002     -5.145      0.000      -0.012      -0.005
-covid:stringency_index     0.0106      0.003      3.412      0.001       0.005       0.017
-palau_travel               0.5631      0.252      2.234      0.026       0.069       1.057
-==============================================================================
-Omnibus:                        6.958   Durbin-Watson:                   0.613
-Prob(Omnibus):                  0.031   Jarque-Bera (JB):                5.769
-Skew:                           0.759   Prob(JB):                       0.0559
-Kurtosis:                       3.880   Cond. No.                         574.
-==============================================================================
-
-Notes:
-[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 4 lags and with small sample correction
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/czhang/miniforge3/lib/python3.9/site-packages/pandas/core/arraylike.py:397: RuntimeWarning: divide by zero encountered in log
-  result = getattr(ufunc, method)(*inputs, **kwargs)
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>date</th>
-      <th>ratio</th>
-      <th>total</th>
-      <th>seats_arrivals_intl</th>
-      <th>mean</th>
-      <th>mean_se</th>
-      <th>mean_ci_lower</th>
-      <th>mean_ci_upper</th>
-      <th>obs_ci_lower</th>
-      <th>obs_ci_upper</th>
-      <th>pred_mean</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2019-01-01</td>
-      <td>0.561695</td>
-      <td>7329.0</td>
-      <td>13048.0</td>
-      <td>0.568892</td>
-      <td>0.063856</td>
-      <td>0.443738</td>
-      <td>0.694047</td>
-      <td>0.288562</td>
-      <td>0.849223</td>
-      <td>7422.908852</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2019-02-01</td>
-      <td>0.734282</td>
-      <td>9752.0</td>
-      <td>13281.0</td>
-      <td>0.618457</td>
-      <td>0.056377</td>
-      <td>0.507960</td>
-      <td>0.728954</td>
-      <td>0.344356</td>
-      <td>0.892558</td>
-      <td>8213.728390</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2019-03-01</td>
-      <td>0.701865</td>
-      <td>9033.0</td>
-      <td>12870.0</td>
-      <td>0.620869</td>
-      <td>0.056211</td>
-      <td>0.510697</td>
-      <td>0.731041</td>
-      <td>0.346899</td>
-      <td>0.894839</td>
-      <td>7990.583924</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2019-04-01</td>
-      <td>0.777809</td>
-      <td>8405.0</td>
-      <td>10806.0</td>
-      <td>0.590318</td>
-      <td>0.070420</td>
-      <td>0.452297</td>
-      <td>0.728340</td>
-      <td>0.304011</td>
-      <td>0.876625</td>
-      <td>6378.979940</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2019-05-01</td>
-      <td>0.651848</td>
-      <td>7478.0</td>
-      <td>11472.0</td>
-      <td>0.494435</td>
-      <td>0.098075</td>
-      <td>0.302212</td>
-      <td>0.686658</td>
-      <td>0.178411</td>
-      <td>0.810459</td>
-      <td>5672.158297</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>MSE</th>
-      <th>RMSE</th>
-      <th>MAE</th>
-      <th>SMAPE</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>mean</th>
-      <td>1.219030e+07</td>
-      <td>3491.460526</td>
-      <td>3125.890370</td>
-      <td>130.888109</td>
-    </tr>
-    <tr>
-      <th>naive</th>
-      <td>1.298621e+06</td>
-      <td>1139.570483</td>
-      <td>677.477273</td>
-      <td>53.868245</td>
-    </tr>
-    <tr>
-      <th>ratio</th>
-      <td>5.220592e+05</td>
-      <td>722.536632</td>
-      <td>403.159217</td>
-      <td>41.454946</td>
-    </tr>
-  </tbody>
-</table>
-</div></div><img alt="../_images/493eee32dc0d7a3c2775bd3c65fbbf2c9ae0933acfa77411b7c4018d62f07232.png" src="../_images/493eee32dc0d7a3c2775bd3c65fbbf2c9ae0933acfa77411b7c4018d62f07232.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SAMOA&#39;s Official and Avaition Data.
 
  Create Loaded Factor for SAMOA:
@@ -693,8 +551,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.850
 Model:                            OLS   Adj. R-squared:                  0.822
 Method:                 Least Squares   F-statistic:                     50.85
-Date:                Wed, 14 Jun 2023   Prob (F-statistic):           4.55e-17
-Time:                        10:19:57   Log-Likelihood:                 30.672
+Date:                Fri, 14 Jul 2023   Prob (F-statistic):           4.55e-17
+Time:                        16:30:44   Log-Likelihood:                 30.672
 No. Observations:                  45   AIC:                            -45.34
 Df Residuals:                      37   BIC:                            -30.89
 Df Model:                           7                                         
@@ -719,10 +577,6 @@ Kurtosis:                       6.108   Cond. No.                         562.
 
 Notes:
 [1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 4 lags and with small sample correction
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/czhang/miniforge3/lib/python3.9/site-packages/pandas/core/arraylike.py:397: RuntimeWarning: divide by zero encountered in log
-  result = getattr(ufunc, method)(*inputs, **kwargs)
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -877,8 +731,537 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><img alt="../_images/0a7fbb2fdab7772bab6c13039166b4e6b2d0efb440bc18e0e687cf00825a0554.png" src="../_images/0a7fbb2fdab7772bab6c13039166b4e6b2d0efb440bc18e0e687cf00825a0554.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TONGA&#39;s Official and Avaition Data.
+</div></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [ratio_sigma, Intercept, covid, stringency_index, covid:stringency_index, C(quarter), samoa_travel]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:11&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 11 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>0.347</td>
+      <td>0.136</td>
+      <td>0.086</td>
+      <td>0.599</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>4829.636</td>
+      <td>5526.037</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>covid</th>
+      <td>-0.303</td>
+      <td>0.119</td>
+      <td>-0.527</td>
+      <td>-0.078</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>5088.282</td>
+      <td>4956.939</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>stringency_index</th>
+      <td>-0.010</td>
+      <td>0.004</td>
+      <td>-0.018</td>
+      <td>-0.001</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3307.540</td>
+      <td>4263.178</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>covid:stringency_index</th>
+      <td>0.004</td>
+      <td>0.006</td>
+      <td>-0.007</td>
+      <td>0.015</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3076.624</td>
+      <td>3998.751</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[2]</th>
+      <td>0.042</td>
+      <td>0.064</td>
+      <td>-0.077</td>
+      <td>0.165</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>3984.563</td>
+      <td>5088.280</td>
+      <td>1.002</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[3]</th>
+      <td>0.140</td>
+      <td>0.065</td>
+      <td>0.017</td>
+      <td>0.261</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4145.464</td>
+      <td>5373.759</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[4]</th>
+      <td>0.052</td>
+      <td>0.064</td>
+      <td>-0.070</td>
+      <td>0.169</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4761.951</td>
+      <td>5324.729</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>samoa_travel</th>
+      <td>0.279</td>
+      <td>0.154</td>
+      <td>-0.003</td>
+      <td>0.576</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>3829.551</td>
+      <td>5045.903</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>ratio_sigma</th>
+      <td>0.139</td>
+      <td>0.017</td>
+      <td>0.109</td>
+      <td>0.170</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4232.992</td>
+      <td>4479.461</td>
+      <td>1.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PALAU&#39;s Official and Avaition Data.
+
+ Create Loaded Factor for PALAU:
+
+ Regression PALAU:
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  ratio   R-squared:                       0.757
+Model:                            OLS   Adj. R-squared:                  0.712
+Method:                 Least Squares   F-statistic:                     13.44
+Date:                Fri, 14 Jul 2023   Prob (F-statistic):           1.75e-08
+Time:                        16:31:00   Log-Likelihood:                 33.066
+No. Observations:                  45   AIC:                            -50.13
+Df Residuals:                      37   BIC:                            -35.68
+Df Model:                           7                                         
+Covariance Type:                  HAC                                         
+==========================================================================================
+                             coef    std err          z      P&gt;|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------
+Intercept                  0.4595      0.098      4.703      0.000       0.268       0.651
+C(quarter)[T.2]           -0.0601      0.057     -1.054      0.292      -0.172       0.052
+C(quarter)[T.3]            0.0420      0.089      0.473      0.636      -0.132       0.216
+C(quarter)[T.4]            0.0122      0.051      0.241      0.810      -0.087       0.111
+covid                     -0.4960      0.133     -3.736      0.000      -0.756      -0.236
+stringency_index          -0.0088      0.002     -5.145      0.000      -0.012      -0.005
+covid:stringency_index     0.0106      0.003      3.412      0.001       0.005       0.017
+palau_travel               0.5631      0.252      2.234      0.026       0.069       1.057
+==============================================================================
+Omnibus:                        6.958   Durbin-Watson:                   0.613
+Prob(Omnibus):                  0.031   Jarque-Bera (JB):                5.769
+Skew:                           0.759   Prob(JB):                       0.0559
+Kurtosis:                       3.880   Cond. No.                         574.
+==============================================================================
+
+Notes:
+[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 4 lags and with small sample correction
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>date</th>
+      <th>ratio</th>
+      <th>total</th>
+      <th>seats_arrivals_intl</th>
+      <th>mean</th>
+      <th>mean_se</th>
+      <th>mean_ci_lower</th>
+      <th>mean_ci_upper</th>
+      <th>obs_ci_lower</th>
+      <th>obs_ci_upper</th>
+      <th>pred_mean</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2019-01-01</td>
+      <td>0.561695</td>
+      <td>7329.0</td>
+      <td>13048.0</td>
+      <td>0.568892</td>
+      <td>0.063856</td>
+      <td>0.443738</td>
+      <td>0.694047</td>
+      <td>0.288562</td>
+      <td>0.849223</td>
+      <td>7422.908852</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2019-02-01</td>
+      <td>0.734282</td>
+      <td>9752.0</td>
+      <td>13281.0</td>
+      <td>0.618457</td>
+      <td>0.056377</td>
+      <td>0.507960</td>
+      <td>0.728954</td>
+      <td>0.344356</td>
+      <td>0.892558</td>
+      <td>8213.728390</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2019-03-01</td>
+      <td>0.701865</td>
+      <td>9033.0</td>
+      <td>12870.0</td>
+      <td>0.620869</td>
+      <td>0.056211</td>
+      <td>0.510697</td>
+      <td>0.731041</td>
+      <td>0.346899</td>
+      <td>0.894839</td>
+      <td>7990.583924</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2019-04-01</td>
+      <td>0.777809</td>
+      <td>8405.0</td>
+      <td>10806.0</td>
+      <td>0.590318</td>
+      <td>0.070420</td>
+      <td>0.452297</td>
+      <td>0.728340</td>
+      <td>0.304011</td>
+      <td>0.876625</td>
+      <td>6378.979940</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2019-05-01</td>
+      <td>0.651848</td>
+      <td>7478.0</td>
+      <td>11472.0</td>
+      <td>0.494435</td>
+      <td>0.098075</td>
+      <td>0.302212</td>
+      <td>0.686658</td>
+      <td>0.178411</td>
+      <td>0.810459</td>
+      <td>5672.158297</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>mean</th>
+      <td>1.219030e+07</td>
+      <td>3491.460526</td>
+      <td>3125.890370</td>
+      <td>130.888109</td>
+    </tr>
+    <tr>
+      <th>naive</th>
+      <td>1.298621e+06</td>
+      <td>1139.570483</td>
+      <td>677.477273</td>
+      <td>53.868245</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>5.220592e+05</td>
+      <td>722.536632</td>
+      <td>403.159217</td>
+      <td>41.454946</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [ratio_sigma, Intercept, covid, stringency_index, covid:stringency_index, C(quarter), palau_travel]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:08&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 9 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>0.458</td>
+      <td>0.079</td>
+      <td>0.314</td>
+      <td>0.612</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>6329.552</td>
+      <td>5813.643</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>covid</th>
+      <td>-0.488</td>
+      <td>0.111</td>
+      <td>-0.701</td>
+      <td>-0.284</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>5902.204</td>
+      <td>5141.634</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>stringency_index</th>
+      <td>-0.009</td>
+      <td>0.003</td>
+      <td>-0.014</td>
+      <td>-0.002</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4221.898</td>
+      <td>5373.154</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>covid:stringency_index</th>
+      <td>0.010</td>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>0.017</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3604.963</td>
+      <td>4509.327</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[2]</th>
+      <td>-0.059</td>
+      <td>0.057</td>
+      <td>-0.166</td>
+      <td>0.049</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4638.155</td>
+      <td>5017.895</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[3]</th>
+      <td>0.042</td>
+      <td>0.059</td>
+      <td>-0.074</td>
+      <td>0.149</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4821.238</td>
+      <td>5518.567</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[4]</th>
+      <td>0.013</td>
+      <td>0.062</td>
+      <td>-0.102</td>
+      <td>0.129</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4747.722</td>
+      <td>5060.986</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>palau_travel</th>
+      <td>0.559</td>
+      <td>0.190</td>
+      <td>0.220</td>
+      <td>0.937</td>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>6787.743</td>
+      <td>5645.252</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>ratio_sigma</th>
+      <td>0.132</td>
+      <td>0.016</td>
+      <td>0.103</td>
+      <td>0.160</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>5368.188</td>
+      <td>5631.830</td>
+      <td>1.000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TONGA&#39;s Official and Avaition Data.
 
  Create Loaded Factor for TONGA:
 
@@ -888,8 +1271,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.953
 Model:                            OLS   Adj. R-squared:                  0.941
 Method:                 Least Squares   F-statistic:                     81.33
-Date:                Wed, 14 Jun 2023   Prob (F-statistic):           6.54e-17
-Time:                        10:19:58   Log-Likelihood:                 60.571
+Date:                Fri, 14 Jul 2023   Prob (F-statistic):           6.54e-17
+Time:                        16:31:14   Log-Likelihood:                 60.571
 No. Observations:                  36   AIC:                            -105.1
 Df Residuals:                      28   BIC:                            -92.47
 Df Model:                           7                                         
@@ -914,10 +1297,6 @@ Kurtosis:                       2.826   Cond. No.                         691.
 
 Notes:
 [1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 4 lags and with small sample correction
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/czhang/miniforge3/lib/python3.9/site-packages/pandas/core/arraylike.py:397: RuntimeWarning: divide by zero encountered in log
-  result = getattr(ufunc, method)(*inputs, **kwargs)
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1072,8 +1451,177 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><img alt="../_images/5e1140e02203d1698e3a3b94f23016163805d021e830ca22a490a209c155e813.png" src="../_images/5e1140e02203d1698e3a3b94f23016163805d021e830ca22a490a209c155e813.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SOLOMON_ISLANDS&#39;s Official and Avaition Data.
+</div></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [ratio_sigma, Intercept, covid, stringency_index, covid:stringency_index, C(quarter), tonga_travel]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:09&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 10 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>0.346</td>
+      <td>0.040</td>
+      <td>0.272</td>
+      <td>0.421</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>5263.232</td>
+      <td>5249.449</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>covid</th>
+      <td>-0.350</td>
+      <td>0.065</td>
+      <td>-0.467</td>
+      <td>-0.226</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>3943.427</td>
+      <td>4480.263</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>stringency_index</th>
+      <td>-0.005</td>
+      <td>0.001</td>
+      <td>-0.007</td>
+      <td>-0.002</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3216.648</td>
+      <td>4314.146</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>covid:stringency_index</th>
+      <td>0.003</td>
+      <td>0.002</td>
+      <td>-0.001</td>
+      <td>0.007</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>2433.619</td>
+      <td>3743.127</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[2]</th>
+      <td>0.085</td>
+      <td>0.030</td>
+      <td>0.029</td>
+      <td>0.141</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>3441.445</td>
+      <td>4789.343</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[3]</th>
+      <td>0.113</td>
+      <td>0.029</td>
+      <td>0.058</td>
+      <td>0.167</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3637.176</td>
+      <td>4798.696</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[4]</th>
+      <td>0.075</td>
+      <td>0.028</td>
+      <td>0.020</td>
+      <td>0.125</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3669.125</td>
+      <td>5129.919</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>tonga_travel</th>
+      <td>0.065</td>
+      <td>0.109</td>
+      <td>-0.138</td>
+      <td>0.277</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>6903.663</td>
+      <td>5258.066</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>ratio_sigma</th>
+      <td>0.054</td>
+      <td>0.008</td>
+      <td>0.041</td>
+      <td>0.068</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4590.989</td>
+      <td>4917.614</td>
+      <td>1.001</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SOLOMON_ISLANDS&#39;s Official and Avaition Data.
 
  Create Loaded Factor for SOLOMON_ISLANDS:
 
@@ -1083,8 +1631,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.939
 Model:                            OLS   Adj. R-squared:                  0.913
 Method:                 Least Squares   F-statistic:                     239.4
-Date:                Wed, 14 Jun 2023   Prob (F-statistic):           5.56e-15
-Time:                        10:19:59   Log-Likelihood:                 54.264
+Date:                Fri, 14 Jul 2023   Prob (F-statistic):           5.56e-15
+Time:                        16:31:29   Log-Likelihood:                 54.264
 No. Observations:                  24   AIC:                            -92.53
 Df Residuals:                      16   BIC:                            -83.10
 Df Model:                           7                                         
@@ -1263,8 +1811,178 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><img alt="../_images/1008060f3ca66cfc30cd16825d873b352a8eca4bb3f8e59d588fd3d3554f953d.png" src="../_images/1008060f3ca66cfc30cd16825d873b352a8eca4bb3f8e59d588fd3d3554f953d.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VANUATU&#39;s Official and Avaition Data.
+</div></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [ratio_sigma, Intercept, covid, stringency_index, covid:stringency_index, C(quarter), solomon_islands_travel]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:11&lt;00:00 Sampling 4 chains, 28 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 11 seconds.
+There were 28 divergences after tuning. Increase `target_accept` or reparameterize.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>0.195</td>
+      <td>0.030</td>
+      <td>0.138</td>
+      <td>0.252</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3886.811</td>
+      <td>4420.692</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>covid</th>
+      <td>-0.210</td>
+      <td>0.063</td>
+      <td>-0.328</td>
+      <td>-0.092</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4461.749</td>
+      <td>4315.389</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>stringency_index</th>
+      <td>-0.002</td>
+      <td>0.001</td>
+      <td>-0.004</td>
+      <td>-0.000</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3717.781</td>
+      <td>4216.426</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>covid:stringency_index</th>
+      <td>0.002</td>
+      <td>0.002</td>
+      <td>-0.001</td>
+      <td>0.005</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3495.810</td>
+      <td>3955.784</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[2]</th>
+      <td>0.044</td>
+      <td>0.026</td>
+      <td>-0.004</td>
+      <td>0.095</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3837.976</td>
+      <td>4527.128</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[3]</th>
+      <td>0.068</td>
+      <td>0.024</td>
+      <td>0.022</td>
+      <td>0.112</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3661.785</td>
+      <td>4333.993</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[4]</th>
+      <td>0.049</td>
+      <td>0.025</td>
+      <td>0.002</td>
+      <td>0.095</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3638.269</td>
+      <td>4289.997</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>solomon_islands_travel</th>
+      <td>0.066</td>
+      <td>0.128</td>
+      <td>-0.181</td>
+      <td>0.305</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>4470.550</td>
+      <td>5018.329</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>ratio_sigma</th>
+      <td>0.033</td>
+      <td>0.007</td>
+      <td>0.023</td>
+      <td>0.045</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>2541.840</td>
+      <td>1907.280</td>
+      <td>1.001</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VANUATU&#39;s Official and Avaition Data.
 
  Create Loaded Factor for VANUATU:
 
@@ -1274,8 +1992,8 @@ Notes:
 Dep. Variable:                  ratio   R-squared:                       0.952
 Model:                            OLS   Adj. R-squared:                  0.943
 Method:                 Least Squares   F-statistic:                     61.08
-Date:                Wed, 14 Jun 2023   Prob (F-statistic):           9.75e-18
-Time:                        10:20:00   Log-Likelihood:                 55.431
+Date:                Fri, 14 Jul 2023   Prob (F-statistic):           9.75e-18
+Time:                        16:31:45   Log-Likelihood:                 55.431
 No. Observations:                  43   AIC:                            -94.86
 Df Residuals:                      35   BIC:                            -80.77
 Df Model:                           7                                         
@@ -1300,10 +2018,6 @@ Kurtosis:                       3.152   Cond. No.                         524.
 
 Notes:
 [1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 4 lags and with small sample correction
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/czhang/miniforge3/lib/python3.9/site-packages/pandas/core/arraylike.py:397: RuntimeWarning: divide by zero encountered in log
-  result = getattr(ufunc, method)(*inputs, **kwargs)
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1458,7 +2172,186 @@ Notes:
     </tr>
   </tbody>
 </table>
-</div></div><img alt="../_images/be98f0cc72c524a7eaa769d0e79e03f01d7b00921e6146282bc9bf07b6032a9d.png" src="../_images/be98f0cc72c524a7eaa769d0e79e03f01d7b00921e6146282bc9bf07b6032a9d.png" />
+</div></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Auto-assigning NUTS sampler...
+Initializing NUTS using jitter+adapt_diag...
+Multiprocess sampling (4 chains in 4 jobs)
+NUTS: [ratio_sigma, Intercept, covid, stringency_index, covid:stringency_index, C(quarter), vanuatu_travel]
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='16000' class='' max='16000' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [16000/16000 00:09&lt;00:00 Sampling 4 chains, 0 divergences]
+    </div>
+    </div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling 4 chains for 2_000 tune and 2_000 draw iterations (8_000 + 8_000 draws total) took 10 seconds.
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Intercept</th>
+      <td>0.436</td>
+      <td>0.064</td>
+      <td>0.314</td>
+      <td>0.555</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4404.522</td>
+      <td>4453.025</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>covid</th>
+      <td>-0.490</td>
+      <td>0.076</td>
+      <td>-0.636</td>
+      <td>-0.347</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>5494.506</td>
+      <td>5277.582</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>stringency_index</th>
+      <td>-0.005</td>
+      <td>0.002</td>
+      <td>-0.009</td>
+      <td>-0.001</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4516.922</td>
+      <td>4445.477</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>covid:stringency_index</th>
+      <td>0.004</td>
+      <td>0.003</td>
+      <td>-0.001</td>
+      <td>0.008</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>3860.069</td>
+      <td>3828.179</td>
+      <td>1.000</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[2]</th>
+      <td>0.015</td>
+      <td>0.034</td>
+      <td>-0.049</td>
+      <td>0.077</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>4298.172</td>
+      <td>4923.687</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[3]</th>
+      <td>0.112</td>
+      <td>0.035</td>
+      <td>0.048</td>
+      <td>0.178</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>4625.924</td>
+      <td>5347.582</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>C(quarter)[4]</th>
+      <td>0.093</td>
+      <td>0.039</td>
+      <td>0.016</td>
+      <td>0.162</td>
+      <td>0.001</td>
+      <td>0.000</td>
+      <td>4118.913</td>
+      <td>5027.651</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>vanuatu_travel</th>
+      <td>0.247</td>
+      <td>0.083</td>
+      <td>0.088</td>
+      <td>0.398</td>
+      <td>0.001</td>
+      <td>0.001</td>
+      <td>4796.347</td>
+      <td>4824.425</td>
+      <td>1.001</td>
+    </tr>
+    <tr>
+      <th>ratio_sigma</th>
+      <td>0.077</td>
+      <td>0.010</td>
+      <td>0.060</td>
+      <td>0.094</td>
+      <td>0.000</td>
+      <td>0.000</td>
+      <td>4138.785</td>
+      <td>4207.819</td>
+      <td>1.001</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><img alt="../_images/493ee35a9261eaee9eaffdb1822b811170229f1f23204d12b96148a46e7126de.png" src="../_images/493ee35a9261eaee9eaffdb1822b811170229f1f23204d12b96148a46e7126de.png" />
+<img alt="../_images/d7b71103e336e61a6d1885df262e8840e449e7bafb30228567f258a0b2ecdfda.png" src="../_images/d7b71103e336e61a6d1885df262e8840e449e7bafb30228567f258a0b2ecdfda.png" />
+<img alt="../_images/38e525e294fba503fd73350d6ce943b544a6df636aecb399dfcaba4c681dae56.png" src="../_images/38e525e294fba503fd73350d6ce943b544a6df636aecb399dfcaba4c681dae56.png" />
+<img alt="../_images/8746ac46ee1b8ed4d26b9ee7873d439d2ca6c9ddf885f4d8dc3d1b836b8803ea.png" src="../_images/8746ac46ee1b8ed4d26b9ee7873d439d2ca6c9ddf885f4d8dc3d1b836b8803ea.png" />
+<img alt="../_images/07afe4e33620759e8c484382a7b4a16b86a0493ce23dbd302300a4d6dbaf5845.png" src="../_images/07afe4e33620759e8c484382a7b4a16b86a0493ce23dbd302300a4d6dbaf5845.png" />
+<img alt="../_images/d72894e5c070a8e0981f4fe57a00bf2ab9fc0298d7c7dd019d8062e34f38a3e4.png" src="../_images/d72894e5c070a8e0981f4fe57a00bf2ab9fc0298d7c7dd019d8062e34f38a3e4.png" />
+<img alt="../_images/929d7b4732a2777d31ff485123fe7d816d3f5be229b5fbb5e1b735bb3021692e.png" src="../_images/929d7b4732a2777d31ff485123fe7d816d3f5be229b5fbb5e1b735bb3021692e.png" />
+<img alt="../_images/e3a395d161ca3ce703a7f0bab1893b35e29b0b7950d9bca9cb98149c7fc62d84.png" src="../_images/e3a395d161ca3ce703a7f0bab1893b35e29b0b7950d9bca9cb98149c7fc62d84.png" />
+<img alt="../_images/080145de782041fc466ca8e21533592329ad72a93c9d2bad4f327cd1ff06bb9b.png" src="../_images/080145de782041fc466ca8e21533592329ad72a93c9d2bad4f327cd1ff06bb9b.png" />
+<img alt="../_images/96cbbb9a810a4f6237fde04d32835026240d5513cb4caf001f43bab7c5473c6f.png" src="../_images/96cbbb9a810a4f6237fde04d32835026240d5513cb4caf001f43bab7c5473c6f.png" />
 </div>
 </div>
 </section>
