@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-
 from scripts.python.tsa.utsmodel import *
 
 def run_sarimax(country, y_vars,
@@ -94,4 +93,4 @@ def run_sarimax(country, y_vars,
             df = df.merge(best_mod_pred, how="left", on="date")
 
     df = df.drop_duplicates()
-    return df
+    return df, best_mod, best_mod_pred
