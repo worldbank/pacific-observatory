@@ -4,8 +4,8 @@ import statsmodels
 import sklearn
 import os
 from statsmodels.tsa.api import VARMAX
-from scripts.python.tsa.utsmodel import SARIMAXData
-from scripts.python.tsa.ts_eval import *
+from .utsmodel import SARIMAXData
+from .ts_eval import *
 from .ts_utils import *
 
 class MultiTSData(SARIMAXData):
@@ -57,7 +57,6 @@ class VARPipeline(MultiTSData):
         self.exog = exog
 
     def test_stationarity(self):
-        from .ts_utils import get_adf_df
         adf_df = get_adf_df(self.data[self.var_name], self.var_name)
         
         order = 0

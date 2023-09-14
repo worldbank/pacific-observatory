@@ -1,22 +1,22 @@
 import os
 import itertools
-import seaborn as sns
+import logging
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
-import scipy
 
 #!pip install pmdarima
 from statsmodels.tsa.seasonal import seasonal_decompose, STL
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.arima.model import ARIMA
 import pmdarima as pm
-from pmdarima import model_selection
 from pmdarima import auto_arima
+from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
 from .ts_eval import *
 from .ts_utils import *
 
-
+logging.basicConfig(filename='sarimax.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 class SARIMAXData:
     def __init__(self,
                  country: str,
@@ -140,9 +140,8 @@ class SARIMAXPipeline(SARIMAXData):
         if self.transform_method == "scaledlogit":
             self.transformed_y = self.scaledlogit_transform(self.y)
         elif self.transform_method == "minmax":
-            from sklearn.preprocessing import MinMaxScaler
             self.minmax = MinMaxScaler()
-            self.transformed_y = minmax.fit_transform(self.y)
+            self.transformed_y = self.minmax.fit_transform(self.y)
         else:
             self.transformed_y = self.y
             
@@ -229,7 +228,6 @@ class SARIMAXPipeline(SARIMAXData):
                        hyper_params=None,
                        verbose=0):
 
-        from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
 
         if hyper_params is None:
             hyper_params = {

@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
-
+import statsmodels
+from statsmodels.tsa.stattools import ccf
+from statsmodels.tsa.stattools import kpss
 
 def cross_corr_df(data: pd.DataFrame,
                   series_a: str,
                   series_b: str) -> pd.DataFrame:
-
-    from statsmodels.tsa.stattools import ccf
 
     sig_a, sig_b = data[series_a], data[series_b]
 
@@ -22,7 +22,7 @@ def cross_corr_df(data: pd.DataFrame,
 def kpss_test(data: pd.DataFrame,
               incl_columns: list) -> pd.DataFrame:
 
-    from statsmodels.tsa.stattools import kpss
+
     import warnings
     warnings.filterwarnings("ignore")
 
