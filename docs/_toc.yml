@@ -18,7 +18,7 @@ parts:
     chapters:
       - file: tourism/intro
       - file: tourism/data
-        sections:   
+        sections:
         - file: tourism/official_eda
         - file: tourism/aviation_eda
         - file: tourism/googletrends
