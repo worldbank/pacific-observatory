@@ -1,8 +1,8 @@
 import re
+import spacy
 import gensim
 import gensim.corpora as corpora
 from gensim.utils import simple_preprocess
-from gensim.models import CoherenceModel 
 
 def is_in_word_list(row: str, terms: list) -> bool:
     """
