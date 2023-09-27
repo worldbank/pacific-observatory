@@ -1,4 +1,4 @@
-from scripts.PdfParse import *
+from scripts.python.PdfParse import *
 import re
 
 tonga_lsts = os.listdir("data/tourism/tonga")
