@@ -8,7 +8,7 @@ if not os.path.exists(target_dir):
     os.mkdir(target_dir)
 
 host_url = "https://www.rnz.co.nz"
-countries = ["Papua New Guinea", "Fiji", "Samoa"]
+countries = ["Solomon Islands"]
 
 for country in countries:
     filename = country.replace(" ", "_").lower() + "_rnz_urls.csv"
