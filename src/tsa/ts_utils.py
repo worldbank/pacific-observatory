@@ -1,30 +1,40 @@
+import os
+import warnings
+
 import pandas as pd
 import numpy as np
+import scipy
 import statsmodels
-from statsmodels.tsa.stattools import ccf
-from statsmodels.tsa.stattools import kpss
+from statsmodels.tsa.stattools import (
+    grangercausalitytests,
+    kpss,
+    adfuller
+)
+from statsmodels.tsa.vector_ar.vecm import coint_johansen
 
-def cross_corr_df(data: pd.DataFrame,
-                  series_a: str,
-                  series_b: str) -> pd.DataFrame:
+warnings.filterwarnings("ignore")
 
-    sig_a, sig_b = data[series_a], data[series_b]
 
-    ccorr = ccf(sig_a, sig_b, adjusted=False)
+def cross_correlation(x, y) -> pd.DataFrame:
+    """
+    Computes the cross-correlation of two 1-dimensional sequences.
 
-    ccorr_df = (pd.DataFrame(ccorr)
-                .reset_index()
-                .rename({"index": "lag", 0: "cross_corr_coef"}, axis=1))
+    Args:
+        x: The first input sequence.
+        y: The second input sequence.
 
-    return ccorr_df
+    Returns:
+        pd.DataFrame: Cross-correlation of x and y with two columns 'lags' and 'ccf'.
+    """
+    x = (x - x.mean()) / (x.std() * len(x))
+    y = (y - y.mean()) / (y.std())
+    result = np.correlate(x, y, mode='full')
+    lags = scipy.signal.correlation_lags(len(x), len(y))
+    return pd.DataFrame([lags, result], index=["lags", "ccf"]).T
 
 
 def kpss_test(data: pd.DataFrame,
               incl_columns: list) -> pd.DataFrame:
-
-
-    import warnings
-    warnings.filterwarnings("ignore")
 
     test_stat, p_val = [], []
     cv_1, cv_5, cv_10 = [], [], []
@@ -49,8 +59,6 @@ def kpss_test(data: pd.DataFrame,
 
 
 def adf_test(ts: pd.Series) -> pd.Series:
-
-    from statsmodels.tsa.stattools import adfuller
 
     dftest = adfuller(ts, autolag="AIC")
     output = pd.Series(
@@ -82,11 +90,31 @@ def get_adf_df(data: pd.DataFrame,
     return test_result
 
 
+def cointegration_test(df, alpha=0.05):
+    """
+    Perform cointegration test using Johansen's test.
+
+    Parameters:
+    - df (pd.DataFrame): A DataFrame containing time series data for cointegration test.
+    - alpha (float, optional): Significance level for the test. Default is 0.05.
+
+    Returns:
+    dict: A dictionary containing the results of the cointegration test.
+    """
+    out = coint_johansen(df, -1, 5)
+    d = {'0.90': 0, '0.95': 1, '0.99': 2}
+    traces = out.lr1
+    cvts = out.cvt[:, d[str(1 - alpha)]]
+
+    results = {}
+    for col, trace, cvt in zip(df.columns, traces, cvts):
+        results[col] = {'Test Stat': round(trace, 2), 'C(95%)': cvt, 'Significance': trace > cvt}
+
+    return results
+
 
 def grangers_causation_matrix(data, variables,
                               maxlag=15, test='ssr_chi2test', verbose=False):
-
-    from statsmodels.tsa.stattools import grangercausalitytests
 
     df = pd.DataFrame(np.zeros((len(variables), len(variables))),
                       columns=variables, index=variables)
@@ -104,21 +132,15 @@ def grangers_causation_matrix(data, variables,
     df.index = [var + '_y' for var in variables]
     return df
 
+
 def scaledlogit_transform(series):
     upper, lower = series.max() + 1, series.min() - 1
     scaled_logit = np.log((series - lower)/(upper - series))
 
     return scaled_logit
 
+
 def inverse_scaledlogit(trans_series, upper, lower):
     exp = np.exp(trans_series)
     inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
     return inv_series
-
-def check_and_modify_date(date):
-
-    if date.day != 1:
-            # Modify the date to the first day of the same month
-            modified_date = date.replace(day=1)
-            return modified_date
-    return date

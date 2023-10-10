@@ -37,6 +37,17 @@ class WebScraper(object):
             }
 
     def request_url(self, url, timeout=5):
+        """
+        Sends an HTTP GET request to the specified URL.
+
+        Args:
+            url (str): The URL to send the request to.
+            timeout (int): The timeout value for the request in seconds (default is 5).
+
+        Returns:
+            bytes: The content of the HTTP response.
+        """
+
         try:
             response = requests.get(url, headers=self.headers, timeout=timeout)
             response.raise_for_status()
@@ -46,11 +57,32 @@ class WebScraper(object):
             pass
 
     def parse_content(self, content):
+        """
+         Parses the HTTP response content using the specified parser.
+
+        Args:
+            content (bytes): The content to be parsed.
+
+        Returns:
+            object: The parsed content object (either lxml.etree or BeautifulSoup).
+        """
+
         return etree.HTML(str(content)) if self.parser == "xpath" else BeautifulSoup(
             content, "html.parser")
 
     def extract_items(self, parsed_content,
                       expression: str):
+        """
+
+        Extracts items from the parsed content based on the specified expression.
+
+        Args:
+            parsed_content (object): The parsed content object.
+            expression (str): The expression used for extraction.
+
+        Returns:
+            list: A list of extracted items.
+        """
 
         if self.parser == "xpath":
             self.item_container = parsed_content.xpath(expression)
@@ -60,6 +92,7 @@ class WebScraper(object):
         return self.item_container
 
     def scrape_url(self, url, expression):
+
         try:
             content = self.request_url(url)
             parsed_content = self.parse_content(content)
