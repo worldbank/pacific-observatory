@@ -7,6 +7,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 # local import
 from scripts.python.config import GoogleAPIkey
+import logging
 
 SERVICE_NAME = 'trends'
 SERVICE_VERSION = 'v1beta'
@@ -14,7 +15,7 @@ _DISCOVERY_SERVICE_URL = 'https://www.googleapis.com/discovery/v1/apis/trends/v1
 
 
 class GT:
-    def __init__(self, _GOOGLE_API_KEY = GoogleAPIkey):
+    def __init__(self, _GOOGLE_API_KEY=GoogleAPIkey):
         self.service = build(
             serviceName=SERVICE_NAME,
             version=SERVICE_VERSION,
@@ -42,14 +43,12 @@ class GT:
                     date.today() + timedelta(days=1), dtime.min)
                 raise RuntimeError('%s: blocked until %s' %
                                    (reason, self.block_until))
-            import logging
             logging.warning(http_error)
             return []
 
-
     def get_graph(self, terms,
-                restrictions_geo,
-                restrictions_startDate="2004-01"):
+                  restrictions_geo,
+                  restrictions_startDate="2004-01"):
         graph = self.service.getGraph(
             terms=terms,
             restrictions_geo=restrictions_geo,
@@ -61,15 +60,28 @@ class GT:
             return response
 
         except HttpError as http_error:
-            import logging
             logging.warning(http_error)
-
             return []
 
+    def get_top_topics(self, term,
+                       restrictions_geo,
+                       restrictions_startDate="2004-01"):
+        graph = self.service.getTopTopics(
+            term=term,
+            restrictions_geo=restrictions_geo,
+            restrictions_startDate=restrictions_startDate
+        )
+        try:
+            response = graph.execute()
+            return response
+        except Exception as e:
+            logging.warning(e)
+            return []
 
     @staticmethod
-    def to_df(result:json) -> pd.DataFrame:
-        df = pd.json_normalize(result["lines"], meta=["term"], record_path=["points"])
+    def to_df(result: json) -> pd.DataFrame:
+        df = pd.json_normalize(result["lines"], meta=[
+                               "term"], record_path=["points"])
         if "date" in df.columns:
             df["date"] = pd.to_datetime(df["date"])
 
