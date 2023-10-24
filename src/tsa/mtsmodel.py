@@ -17,7 +17,7 @@ class MultiTSData(SARIMAXData):
         if aviation_path is None:
             self.aviation_path = os.getcwd() + "/data/tourism/aviation_seats_flights_pic.xlsx"
         else:
-           self.aviation_path = aviation_path 
+            self.aviation_path = aviation_path 
 
     def read_and_merge(self,
                        avi_type: str = "passenger",

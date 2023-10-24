@@ -6,7 +6,6 @@ import requests
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 # local import
-from scripts.python.config import GoogleAPIkey
 import logging
 
 SERVICE_NAME = 'trends'
@@ -15,7 +14,7 @@ _DISCOVERY_SERVICE_URL = 'https://www.googleapis.com/discovery/v1/apis/trends/v1
 
 
 class GT:
-    def __init__(self, _GOOGLE_API_KEY=GoogleAPIkey):
+    def __init__(self, _GOOGLE_API_KEY):
         self.service = build(
             serviceName=SERVICE_NAME,
             version=SERVICE_VERSION,

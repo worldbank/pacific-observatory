@@ -1,0 +1,277 @@
+,source,target,volume,source_idx,target_idx
+0,job,job,100,51,51
+1,job,job description,16,51,84
+2,job,job hunting,16,51,109
+3,job,letter,11,51,66
+4,job,seek,9,51,122
+5,job,workforce,7,51,103
+6,job,application for employment,7,51,113
+7,job,cover letter,5,51,90
+8,job,mining,5,51,102
+9,job,recruitment,4,51,58
+10,job,interview,3,51,46
+11,job,job interview,2,51,139
+12,job,résumé,2,51,145
+13,job,job vacancy,2,51,62
+14,job,ok tedi mining,2,51,125
+15,job,curriculum vitae,2,51,111
+16,job,officer,2,51,117
+17,job,current,2,51,140
+18,job,career,2,51,79
+19,job,lihir island,2,51,21
+20,unemployment,unemployment,100,4,4
+21,unemployment,unemployment rate,15,4,29
+22,unemployment,inflation,14,4,53
+23,unemployment,economy,13,4,31
+24,unemployment,economics,12,4,74
+25,unemployment,government,10,4,105
+26,unemployment,rate,8,4,40
+27,unemployment,employment,6,4,23
+28,unemployment,policy,6,4,54
+29,unemployment,poverty,5,4,95
+30,unemployment,wage,5,4,35
+31,unemployment,unemployment benefits,5,4,116
+32,unemployment,essay,5,4,20
+33,unemployment,youth,4,4,70
+34,unemployment,structural unemployment,4,4,106
+35,unemployment,gross domestic product,4,4,61
+36,unemployment,workforce,4,4,103
+37,unemployment,tax,3,4,63
+38,unemployment,cost,3,4,101
+39,unemployment,economic growth,3,4,89
+40,unemployment,frictional unemployment,3,4,10
+41,unemployment,youth unemployment,3,4,99
+42,unemployment,crime,3,4,82
+43,unemployment,cyclical unemployment,3,4,136
+44,unemployment,fiscal policy,3,4,27
+45,hiring,recruitment,100,34,58
+46,hiring,job,30,34,51
+47,hiring,philippines,8,34,123
+48,hiring,philippine overseas employment administration,5,34,69
+49,hiring,mechanic,4,34,120
+50,hiring,company,4,34,78
+51,hiring,filipino,4,34,12
+52,hiring,poea,3,34,9
+53,hiring,canada,3,34,114
+54,hiring,heavy equipment,3,34,75
+55,hiring,application for employment,2,34,113
+56,hiring,employee,2,34,3
+57,hiring,equipment,2,34,73
+58,hiring,welder,2,34,65
+59,hiring,cost,2,34,101
+60,hiring,car rental,2,34,33
+61,hiring,construction,2,34,60
+62,hiring,interview,2,34,46
+63,hiring,welding,2,34,2
+64,hiring,rent,2,34,129
+65,layoff,layoff,100,32,32
+66,layoff,letter,30,32,66
+67,layoff,employee,25,32,3
+68,job market,market,100,19,45
+69,job market,job,78,19,51
+70,job market,labour economics,13,19,127
+71,job market,workforce,11,19,103
+72,job market,job hunting,10,19,109
+73,job market,money,10,19,134
+74,job market,black market,8,19,130
+75,job market,marketplace,8,19,22
+76,job market,lae,7,19,39
+77,job market,production,6,19,18
+78,job market,role,5,19,121
+79,job market,job description,4,19,84
+80,job market,job evaluation,4,19,80
+81,job market,wage,4,19,35
+82,job opportunities,job,100,26,51
+83,job opportunities,mining,7,26,102
+84,job opportunities,employment,7,26,23
+85,job opportunities,career,7,26,79
+86,job opportunities,recruitment,5,26,58
+87,job opportunities,job hunting,4,26,109
+88,job opportunities,job description,4,26,84
+89,job opportunities,png power,4,26,81
+90,job opportunities,human resources,4,26,132
+91,job opportunities,institute,3,26,56
+92,job opportunities,engineering,3,26,112
+93,job opportunities,lihir island,3,26,21
+94,job opportunities,liquefied natural gas,3,26,41
+95,job opportunities,industry,3,26,59
+96,job opportunities,exxonmobil,3,26,47
+97,job opportunities,bank of papua new guinea,2,26,119
+98,job opportunities,engineer,2,26,118
+99,job opportunities,alien,2,26,5
+100,job vacancy,job,100,62,51
+101,job vacancy,job vacancy,46,62,62
+102,job vacancy,lae,12,62,39
+103,job vacancy,letter,10,62,66
+104,job vacancy,mining,8,62,102
+105,job vacancy,recruitment,7,62,58
+106,job vacancy,workforce,7,62,103
+107,job vacancy,application for employment,6,62,113
+108,job vacancy,cover letter,6,62,90
+109,job vacancy,job hunting,5,62,109
+110,job vacancy,current,4,62,140
+111,job vacancy,human resources,4,62,132
+112,job vacancy,advertising,3,62,148
+113,job vacancy,lihir island,3,62,21
+114,job vacancy,career,3,62,79
+115,job vacancy,seek,3,62,122
+116,job vacancy,oil search,3,62,42
+117,job vacancy,ok tedi mining,3,62,125
+118,job vacancies,job,100,135,51
+119,job vacancies,mining,13,135,102
+120,job vacancies,lae,11,135,39
+121,job vacancies,workforce,8,135,103
+122,job vacancies,ok tedi mining,7,135,125
+123,job vacancies,current,6,135,140
+124,job vacancies,recruitment,6,135,58
+125,job vacancies,lihir island,5,135,21
+126,job vacancies,job hunting,5,135,109
+127,job vacancies,seek,3,135,122
+128,job vacancies,oil search,3,135,42
+129,job vacancies,human resources,3,135,132
+130,job vacancies,gold mining,3,135,52
+131,job vacancies,newcrest mining,3,135,76
+132,job vacancies,customs,2,135,48
+133,job vacancies,career,2,135,79
+134,job vacancies,bank of papua new guinea,2,135,119
+135,job training,training,100,38,15
+136,job training,job,63,38,51
+137,job training,on-the-job training,24,38,98
+138,job training,job description,17,38,84
+139,job training,letter,12,38,66
+140,job training,course,9,38,83
+141,job training,apprenticeship,8,38,110
+142,job training,management,8,38,87
+143,job training,application for employment,7,38,113
+144,job training,college,7,38,43
+145,job training,computers and information technology,6,38,25
+146,job training,human resources,6,38,132
+147,job training,human resource development,6,38,107
+148,job training,cover letter,6,38,90
+149,job training,skill,5,38,92
+150,job training,mapex training institute,5,38,57
+151,job training,recruitment,5,38,58
+152,job training,aircraft pilot,5,38,124
+153,job training,scholarship,4,38,6
+154,job training,occupational safety and health,4,38,1
+155,job training,institute,4,38,56
+156,job training,job hunting,4,38,109
+157,job training,mining,4,38,102
+158,job training,organization,4,38,88
+159,job training,safety,3,38,91
+160,job application,application for employment,100,138,113
+161,job application,letter,64,138,66
+162,job application,job,49,138,51
+163,job application,cover letter,41,138,90
+164,job application,writing,21,138,7
+165,job application,form,14,138,141
+166,job application,curriculum vitae,12,138,111
+167,job application,résumé,11,138,145
+168,job application,computer application,11,138,8
+169,job application,recruitment,7,138,58
+170,job application,file format,5,138,49
+171,job application,mining,5,138,102
+172,job application,address,4,138,142
+173,job application,letter of intent,4,138,13
+174,job application,job hunting,4,138,109
+175,job application,police,4,138,44
+176,job application,job description,3,138,84
+177,job application,interest,3,138,50
+178,job application,experience,3,138,36
+179,job application,part-time job,3,138,93
+180,job application,ok tedi mining,3,138,125
+181,job application,template,3,138,131
+182,job application,institute,2,138,56
+183,job application,business letter,2,138,67
+184,unemployment rate,unemployment,100,29,4
+185,unemployment rate,unemployment rate,71,29,29
+186,unemployment rate,rate,32,29,40
+187,unemployment rate,inflation,18,29,53
+188,unemployment rate,economy,17,29,31
+189,unemployment rate,economics,13,29,74
+190,unemployment rate,government,12,29,105
+191,unemployment rate,gross domestic product,9,29,61
+192,unemployment rate,employment,9,29,23
+193,unemployment rate,policy,8,29,54
+194,unemployment rate,workforce,8,29,103
+195,unemployment rate,inflation rate,8,29,128
+196,unemployment rate,interest rate,8,29,28
+197,unemployment rate,wage,7,29,35
+198,unemployment rate,demand,6,29,149
+199,unemployment rate,life expectancy,6,29,143
+200,unemployment rate,essay,6,29,20
+201,unemployment rate,economic growth,6,29,89
+202,unemployment rate,balance of payments,5,29,104
+203,unemployment rate,population,5,29,85
+204,unemployment rate,poverty,5,29,95
+205,unemployment rate,formula,5,29,133
+206,unemployment rate,calculation,4,29,100
+207,unemployment rate,tax,4,29,63
+208,unemployment rate,interest,4,29,50
+209,job in port moresby,port moresby,100,115,55
+210,job in port moresby,job,54,115,51
+211,job in port moresby,hotel,8,115,16
+212,job in port moresby,job hunting,6,115,109
+213,job in port moresby,job vacancy,5,115,62
+214,job in port moresby,current,5,115,140
+215,job in port moresby,recruitment,4,115,58
+216,job in port moresby,seek,4,115,122
+217,job in port moresby,company,4,115,78
+218,job in port moresby,address,4,115,142
+219,job in port moresby,part-time job,4,115,93
+220,job in port moresby,workforce,3,115,103
+221,job in port moresby,job description,3,115,84
+222,job in port moresby,human resources,2,115,132
+223,job in port moresby,application for employment,2,115,113
+224,job in port moresby,hilton hotels & resorts,2,115,68
+225,job in port moresby,coca-cola,2,115,11
+226,job in port moresby,career,2,115,79
+227,job in port moresby,hilton,2,115,144
+228,job in port moresby,security,2,115,137
+229,job in lae,lae,100,96,39
+230,job in lae,job,55,96,51
+231,job in lae,morobe province,10,96,108
+232,job in lae,current,7,96,140
+233,job in lae,job vacancy,6,96,62
+234,job in lae,workforce,5,96,103
+235,job in lae,job hunting,5,96,109
+236,job in lae,address,4,96,142
+237,job in lae,mining,4,96,102
+238,job in lae,recruitment,4,96,58
+239,job in lae,seek,4,96,122
+240,job in lae,lae biscuit co. ltd,3,96,77
+241,job in lae,engineering,3,96,112
+242,job in lae,human resources,2,96,132
+243,job in lae,nestlé,2,96,126
+244,job in lae,wafi-golpu exploration camp(mugwafan),2,96,150
+245,job in lae,the coca-cola company,2,96,86
+246,job in lae,vacancy defect,2,96,147
+247,job in lae,trukai industries limited,2,96,24
+248,job in lae,logistics,2,96,71
+249,job in lae,part-time job,2,96,93
+250,job in lae,bank of papua new guinea,2,96,119
+251,job in lae,clerk,1,96,37
+252,job in lae,south pacific brewery ltd,1,96,94
+253,jobs in lae,lae,100,17,39
+254,jobs in lae,job,68,17,51
+255,jobs in lae,morobe province,10,17,108
+256,jobs in lae,workforce,10,17,103
+257,jobs in lae,mining,9,17,102
+258,jobs in lae,course,8,17,83
+259,jobs in lae,nestlé,6,17,126
+260,jobs in lae,recruitment,6,17,58
+261,jobs in lae,logistics,5,17,71
+262,jobs in lae,job hunting,5,17,109
+263,jobs in lae,part-time job,5,17,93
+264,jobs in lae,brewery,4,17,14
+265,jobs in lae,company,4,17,78
+266,jobs in lae,construction,4,17,60
+267,jobs in lae,science,4,17,146
+268,jobs in lae,seek,3,17,122
+269,jobs in lae,non-governmental organization,3,17,30
+270,jobs in lae,address,3,17,142
+271,jobs in lae,current,3,17,140
+272,jobs in lae,accounting,3,17,64
+273,jobs in lae,salary,3,17,97
+274,jobs in lae,lae biscuit co. ltd,3,17,77
+275,jobs in lae,port,2,17,72

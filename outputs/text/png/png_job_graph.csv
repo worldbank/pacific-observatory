@@ -1,0 +1,232 @@
+,source,target,volume,source_idx,target_idx
+0,inflation,inflation,100,37,37
+1,inflation,inflation rate,15,37,95
+2,inflation,economy,13,37,24
+3,inflation,economics,11,37,56
+4,inflation,unemployment,11,37,2
+5,inflation,rate,11,37,29
+6,inflation,policy,9,37,38
+7,inflation,government,9,37,79
+8,inflation,price,8,37,99
+9,inflation,demand,7,37,117
+10,inflation,money,7,37,104
+11,inflation,gross domestic product,6,37,44
+12,inflation,cost,6,37,77
+13,inflation,interest,6,37,34
+14,inflation,interest rate,5,37,21
+15,inflation,calculation,5,37,76
+16,inflation,supply,4,37,42
+17,inflation,trade,4,37,6
+18,inflation,tax,4,37,45
+19,inflation,cost-push inflation,4,37,80
+20,inflation,monetary policy,4,37,108
+21,inflation,wage,3,37,26
+22,inflation,goods,3,37,75
+23,inflation,consumer price index,3,37,116
+24,inflation,demand-pull inflation,3,37,82
+25,inflation rate,inflation,100,95,37
+26,inflation rate,inflation rate,66,95,95
+27,inflation rate,rate,38,95,29
+28,inflation rate,interest,16,95,34
+29,inflation rate,unemployment,15,95,2
+30,inflation rate,government,15,95,79
+31,inflation rate,interest rate,15,95,21
+32,inflation rate,economy,14,95,24
+33,inflation rate,gross domestic product,12,95,44
+34,inflation rate,economics,10,95,56
+35,inflation rate,policy,10,95,38
+36,inflation rate,price,9,95,99
+37,inflation rate,calculation,9,95,76
+38,inflation rate,exchange rate,9,95,107
+39,inflation rate,trade,8,95,6
+40,inflation rate,tax,8,95,45
+41,inflation rate,money,8,95,104
+42,inflation rate,cost,7,95,77
+43,inflation rate,consumer price index,7,95,116
+44,inflation rate,formula,7,95,103
+45,inflation rate,cut,7,95,14
+46,inflation rate,monetary policy,7,95,108
+47,inflation rate,money supply,6,95,87
+48,inflation rate,bank of papua new guinea,6,95,84
+49,inflation rate,country,6,95,11
+50,CPI,consumer price index,100,70,116
+51,CPI,calculation,14,70,76
+52,CPI,price,9,70,99
+53,CPI,inflation,8,70,37
+54,CPI,index,7,70,98
+55,CPI,price index,7,70,69
+56,CPI,bank of papua new guinea,7,70,84
+57,CPI,consumer,6,70,49
+58,CPI,inflation rate,5,70,95
+59,CPI,economics,4,70,56
+60,CPI,statistics,4,70,48
+61,CPI,wage,4,70,26
+62,CPI,salary,4,70,72
+63,CPI,payment,4,70,93
+64,CPI,economy,3,70,24
+65,CPI,gross domestic product,3,70,44
+66,CPI,percentage,3,70,68
+67,CPI,policy,3,70,38
+68,CPI,measurement,2,70,110
+69,CPI,cost,2,70,77
+70,CPI,public servant,2,70,52
+71,CPI,december,1,70,15
+72,CPI,tax,1,70,45
+73,prices,price,100,27,99
+74,prices,house,6,27,81
+75,prices,gold,5,27,83
+76,prices,stock,4,27,22
+77,prices,share price,4,27,18
+78,prices,coffee,4,27,58
+79,prices,ticket,4,27,67
+80,prices,laptop,3,27,62
+81,prices,commodity,3,27,9
+82,prices,market,3,27,33
+83,prices,kit house,2,27,7
+84,prices,share,2,27,23
+85,prices,gold as an investment,2,27,94
+86,prices,steel,2,27,12
+87,prices,airline,2,27,112
+88,prices,petroleum,2,27,5
+89,prices,fone haus,2,27,96
+90,prices,fuel,2,27,50
+91,prices,goods,2,27,75
+92,prices,lumber,2,27,55
+93,prices,toyota land cruiser,2,27,4
+94,food price,food,100,61,30
+95,food price,price,86,61,99
+96,food price,clothing,11,61,102
+97,food price,bride,9,61,47
+98,food price,gold,9,61,83
+99,food price,philippines,8,61,91
+100,food price,bride price,8,61,85
+101,food price,cost,7,61,77
+102,food price,share price,6,61,18
+103,food price,drink,6,61,115
+104,food price,sales,6,61,71
+105,food price,share,5,61,23
+106,food price,restaurant,5,61,97
+107,food price,market,5,61,33
+108,food price,eating,4,61,90
+109,food price,market price,3,61,100
+110,food price,income,3,61,40
+111,food price,hotel,3,61,10
+112,price index,price,100,69,99
+113,price index,price index,71,69,69
+114,price index,consumer price index,54,69,116
+115,price index,index,53,69,98
+116,price index,consumer,50,69,49
+117,price index,calculation,17,69,76
+118,price index,stock,14,69,22
+119,price index,share,14,69,23
+120,price index,stock market index,12,69,74
+121,price index,share price,12,69,18
+122,price index,supply,10,69,42
+123,price index,inflation,9,69,37
+124,price index,dow jones industrial average,8,69,53
+125,price index,payment,7,69,93
+126,price index,bitcoin,7,69,43
+127,price index,economy,6,69,24
+128,price index,s&p/asx 200,6,69,57
+129,price index,unemployment,5,69,2
+130,price index,gold,5,69,83
+131,price index,asx,5,69,25
+132,price index,exchange-traded fund,5,69,19
+133,price index,copper,5,69,65
+134,price index,economics,5,69,56
+135,price index,london,5,69,63
+136,price index,measurement,4,69,110
+137,price in port moresby,port moresby,100,114,41
+138,price in port moresby,price,91,114,99
+139,price in port moresby,gold,23,114,83
+140,price in port moresby,gold as an investment,15,114,94
+141,price in port moresby,sales,12,114,71
+142,price in port moresby,iphone,5,114,35
+143,price in port moresby,samsung,5,114,36
+144,price in port moresby,waigani,4,114,64
+145,price in port moresby,cost,4,114,77
+146,price in port moresby,house,4,114,81
+147,price in port moresby,cheap,4,114,89
+148,price in port moresby,market,4,114,33
+149,price in port moresby,lodging,4,114,13
+150,price in port moresby,buyer,3,114,78
+151,price in port moresby,motor,3,114,39
+152,price in port moresby,toyota,3,114,16
+153,price in port moresby,toyota,3,114,16
+154,price in port moresby,toyota land cruiser,3,114,4
+155,price in port moresby,toyota,2,114,16
+156,price in port moresby,jacksons international airport,2,114,59
+157,price in port moresby,shopping,2,114,1
+158,price in port moresby,port,2,114,54
+159,price in port moresby,samsung electronics,2,114,8
+160,price in port moresby,kilogram,2,114,101
+161,price in port moresby,share price,2,114,18
+162,port moresby price,port moresby,100,20,41
+163,port moresby price,price,93,20,99
+164,port moresby price,gold,15,20,83
+165,port moresby price,gold as an investment,9,20,94
+166,port moresby price,sales,7,20,71
+167,port moresby price,hotel,5,20,10
+168,port moresby price,flight,5,20,73
+169,port moresby price,ticket,4,20,67
+170,port moresby price,waigani,4,20,64
+171,port moresby price,toyota,4,20,16
+172,port moresby price,gram,4,20,3
+173,port moresby price,jacksons international airport,4,20,59
+174,port moresby price,cheap,3,20,89
+175,port moresby price,iphone,3,20,35
+176,port moresby price,room,3,20,106
+177,port moresby price,cost,3,20,77
+178,port moresby price,toyota,3,20,16
+179,port moresby price,motor,3,20,39
+180,port moresby price,market,2,20,33
+181,port moresby price,fare,2,20,113
+182,port moresby price,buyer,2,20,78
+183,port moresby price,share price,2,20,18
+184,port moresby price,samsung galaxy,2,20,111
+185,port moresby price,lodging,2,20,13
+186,port moresby price,toyota,2,20,16
+187,price in lae,lae,100,105,28
+188,price in lae,price,95,105,99
+189,price in lae,gold,43,105,83
+190,price in lae,gold as an investment,27,105,94
+191,price in lae,sales,10,105,71
+192,price in lae,papua new guinean kina,10,105,51
+193,price in lae,city,6,105,32
+194,price in lae,ticket,6,105,67
+195,price in lae,gram,5,105,3
+196,price in lae,toyota,4,105,16
+197,price in lae,lodging,4,105,13
+198,price in lae,current,4,105,109
+199,price in lae,png jewellers,4,105,17
+200,price in lae,coffee,4,105,58
+201,price in lae,buyer,3,105,78
+202,price in lae,car,3,105,86
+203,price in lae,toyota,2,105,16
+204,price in lae,guest house,1,105,66
+205,price in lae,room,1,105,106
+206,lae price,price,100,46,99
+207,lae price,lae,90,46,28
+208,lae price,gold,33,46,83
+209,lae price,gold as an investment,24,46,94
+210,lae price,ticket,11,46,67
+211,lae price,png air,10,46,31
+212,lae price,sales,8,46,71
+213,lae price,papua new guinean kina,7,46,51
+214,lae price,jacksons international airport,6,46,59
+215,lae price,fare,5,46,113
+216,lae price,gram,4,46,3
+217,lae price,motor,4,46,39
+218,lae price,samsung,3,46,36
+219,lae price,share,3,46,23
+220,lae price,airline,3,46,112
+221,lae price,lae international hotel,3,46,92
+222,lae price,market,3,46,33
+223,lae price,buyer,3,46,78
+224,lae price,samsung galaxy,3,46,111
+225,lae price,png jewellers,3,46,17
+226,lae price,toyota,2,46,16
+227,lae price,bus,2,46,60
+228,lae price,vanilla,2,46,88
+229,lae price,coffee,2,46,58
+230,lae price,guest house,2,46,66
