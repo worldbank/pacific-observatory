@@ -1,232 +1,283 @@
 ,source,target,volume,source_idx,target_idx
-0,inflation,inflation,100,37,37
-1,inflation,inflation rate,15,37,95
-2,inflation,economy,13,37,24
-3,inflation,economics,11,37,56
-4,inflation,unemployment,11,37,2
-5,inflation,rate,11,37,29
-6,inflation,policy,9,37,38
-7,inflation,government,9,37,79
-8,inflation,price,8,37,99
-9,inflation,demand,7,37,117
-10,inflation,money,7,37,104
-11,inflation,gross domestic product,6,37,44
-12,inflation,cost,6,37,77
-13,inflation,interest,6,37,34
-14,inflation,interest rate,5,37,21
-15,inflation,calculation,5,37,76
-16,inflation,supply,4,37,42
-17,inflation,trade,4,37,6
-18,inflation,tax,4,37,45
-19,inflation,cost-push inflation,4,37,80
-20,inflation,monetary policy,4,37,108
-21,inflation,wage,3,37,26
-22,inflation,goods,3,37,75
-23,inflation,consumer price index,3,37,116
-24,inflation,demand-pull inflation,3,37,82
-25,inflation rate,inflation,100,95,37
-26,inflation rate,inflation rate,66,95,95
-27,inflation rate,rate,38,95,29
-28,inflation rate,interest,16,95,34
-29,inflation rate,unemployment,15,95,2
-30,inflation rate,government,15,95,79
-31,inflation rate,interest rate,15,95,21
-32,inflation rate,economy,14,95,24
-33,inflation rate,gross domestic product,12,95,44
-34,inflation rate,economics,10,95,56
-35,inflation rate,policy,10,95,38
-36,inflation rate,price,9,95,99
-37,inflation rate,calculation,9,95,76
-38,inflation rate,exchange rate,9,95,107
-39,inflation rate,trade,8,95,6
-40,inflation rate,tax,8,95,45
-41,inflation rate,money,8,95,104
-42,inflation rate,cost,7,95,77
-43,inflation rate,consumer price index,7,95,116
-44,inflation rate,formula,7,95,103
-45,inflation rate,cut,7,95,14
-46,inflation rate,monetary policy,7,95,108
-47,inflation rate,money supply,6,95,87
-48,inflation rate,bank of papua new guinea,6,95,84
-49,inflation rate,country,6,95,11
-50,CPI,consumer price index,100,70,116
-51,CPI,calculation,14,70,76
-52,CPI,price,9,70,99
-53,CPI,inflation,8,70,37
-54,CPI,index,7,70,98
-55,CPI,price index,7,70,69
-56,CPI,bank of papua new guinea,7,70,84
-57,CPI,consumer,6,70,49
-58,CPI,inflation rate,5,70,95
-59,CPI,economics,4,70,56
-60,CPI,statistics,4,70,48
-61,CPI,wage,4,70,26
-62,CPI,salary,4,70,72
-63,CPI,payment,4,70,93
-64,CPI,economy,3,70,24
-65,CPI,gross domestic product,3,70,44
-66,CPI,percentage,3,70,68
-67,CPI,policy,3,70,38
-68,CPI,measurement,2,70,110
-69,CPI,cost,2,70,77
-70,CPI,public servant,2,70,52
-71,CPI,december,1,70,15
-72,CPI,tax,1,70,45
-73,prices,price,100,27,99
-74,prices,house,6,27,81
-75,prices,gold,5,27,83
-76,prices,stock,4,27,22
-77,prices,share price,4,27,18
-78,prices,coffee,4,27,58
-79,prices,ticket,4,27,67
-80,prices,laptop,3,27,62
-81,prices,commodity,3,27,9
-82,prices,market,3,27,33
-83,prices,kit house,2,27,7
-84,prices,share,2,27,23
-85,prices,gold as an investment,2,27,94
-86,prices,steel,2,27,12
-87,prices,airline,2,27,112
-88,prices,petroleum,2,27,5
-89,prices,fone haus,2,27,96
-90,prices,fuel,2,27,50
-91,prices,goods,2,27,75
-92,prices,lumber,2,27,55
-93,prices,toyota land cruiser,2,27,4
-94,food price,food,100,61,30
-95,food price,price,86,61,99
-96,food price,clothing,11,61,102
-97,food price,bride,9,61,47
-98,food price,gold,9,61,83
-99,food price,philippines,8,61,91
-100,food price,bride price,8,61,85
-101,food price,cost,7,61,77
-102,food price,share price,6,61,18
-103,food price,drink,6,61,115
-104,food price,sales,6,61,71
-105,food price,share,5,61,23
-106,food price,restaurant,5,61,97
-107,food price,market,5,61,33
-108,food price,eating,4,61,90
-109,food price,market price,3,61,100
-110,food price,income,3,61,40
-111,food price,hotel,3,61,10
-112,price index,price,100,69,99
-113,price index,price index,71,69,69
-114,price index,consumer price index,54,69,116
-115,price index,index,53,69,98
-116,price index,consumer,50,69,49
-117,price index,calculation,17,69,76
-118,price index,stock,14,69,22
-119,price index,share,14,69,23
-120,price index,stock market index,12,69,74
-121,price index,share price,12,69,18
-122,price index,supply,10,69,42
-123,price index,inflation,9,69,37
-124,price index,dow jones industrial average,8,69,53
-125,price index,payment,7,69,93
-126,price index,bitcoin,7,69,43
-127,price index,economy,6,69,24
-128,price index,s&p/asx 200,6,69,57
-129,price index,unemployment,5,69,2
-130,price index,gold,5,69,83
-131,price index,asx,5,69,25
-132,price index,exchange-traded fund,5,69,19
-133,price index,copper,5,69,65
-134,price index,economics,5,69,56
-135,price index,london,5,69,63
-136,price index,measurement,4,69,110
-137,price in port moresby,port moresby,100,114,41
-138,price in port moresby,price,91,114,99
-139,price in port moresby,gold,23,114,83
-140,price in port moresby,gold as an investment,15,114,94
-141,price in port moresby,sales,12,114,71
-142,price in port moresby,iphone,5,114,35
-143,price in port moresby,samsung,5,114,36
-144,price in port moresby,waigani,4,114,64
-145,price in port moresby,cost,4,114,77
-146,price in port moresby,house,4,114,81
-147,price in port moresby,cheap,4,114,89
-148,price in port moresby,market,4,114,33
-149,price in port moresby,lodging,4,114,13
-150,price in port moresby,buyer,3,114,78
-151,price in port moresby,motor,3,114,39
-152,price in port moresby,toyota,3,114,16
-153,price in port moresby,toyota,3,114,16
-154,price in port moresby,toyota land cruiser,3,114,4
-155,price in port moresby,toyota,2,114,16
-156,price in port moresby,jacksons international airport,2,114,59
-157,price in port moresby,shopping,2,114,1
-158,price in port moresby,port,2,114,54
-159,price in port moresby,samsung electronics,2,114,8
-160,price in port moresby,kilogram,2,114,101
-161,price in port moresby,share price,2,114,18
-162,port moresby price,port moresby,100,20,41
-163,port moresby price,price,93,20,99
-164,port moresby price,gold,15,20,83
-165,port moresby price,gold as an investment,9,20,94
-166,port moresby price,sales,7,20,71
-167,port moresby price,hotel,5,20,10
-168,port moresby price,flight,5,20,73
-169,port moresby price,ticket,4,20,67
-170,port moresby price,waigani,4,20,64
-171,port moresby price,toyota,4,20,16
-172,port moresby price,gram,4,20,3
-173,port moresby price,jacksons international airport,4,20,59
-174,port moresby price,cheap,3,20,89
-175,port moresby price,iphone,3,20,35
-176,port moresby price,room,3,20,106
-177,port moresby price,cost,3,20,77
-178,port moresby price,toyota,3,20,16
-179,port moresby price,motor,3,20,39
-180,port moresby price,market,2,20,33
-181,port moresby price,fare,2,20,113
-182,port moresby price,buyer,2,20,78
-183,port moresby price,share price,2,20,18
-184,port moresby price,samsung galaxy,2,20,111
-185,port moresby price,lodging,2,20,13
-186,port moresby price,toyota,2,20,16
-187,price in lae,lae,100,105,28
-188,price in lae,price,95,105,99
-189,price in lae,gold,43,105,83
-190,price in lae,gold as an investment,27,105,94
-191,price in lae,sales,10,105,71
-192,price in lae,papua new guinean kina,10,105,51
-193,price in lae,city,6,105,32
-194,price in lae,ticket,6,105,67
-195,price in lae,gram,5,105,3
-196,price in lae,toyota,4,105,16
-197,price in lae,lodging,4,105,13
-198,price in lae,current,4,105,109
-199,price in lae,png jewellers,4,105,17
-200,price in lae,coffee,4,105,58
-201,price in lae,buyer,3,105,78
-202,price in lae,car,3,105,86
-203,price in lae,toyota,2,105,16
-204,price in lae,guest house,1,105,66
-205,price in lae,room,1,105,106
-206,lae price,price,100,46,99
-207,lae price,lae,90,46,28
-208,lae price,gold,33,46,83
-209,lae price,gold as an investment,24,46,94
-210,lae price,ticket,11,46,67
-211,lae price,png air,10,46,31
-212,lae price,sales,8,46,71
-213,lae price,papua new guinean kina,7,46,51
-214,lae price,jacksons international airport,6,46,59
-215,lae price,fare,5,46,113
-216,lae price,gram,4,46,3
-217,lae price,motor,4,46,39
-218,lae price,samsung,3,46,36
-219,lae price,share,3,46,23
-220,lae price,airline,3,46,112
-221,lae price,lae international hotel,3,46,92
-222,lae price,market,3,46,33
-223,lae price,buyer,3,46,78
-224,lae price,samsung galaxy,3,46,111
-225,lae price,png jewellers,3,46,17
-226,lae price,toyota,2,46,16
-227,lae price,bus,2,46,60
-228,lae price,vanilla,2,46,88
-229,lae price,coffee,2,46,58
-230,lae price,guest house,2,46,66
+0,job,job,100,88,88
+1,job,job description,16,88,67
+2,job,job hunting,15,88,122
+3,job,letter,11,88,82
+4,job,seek,8,88,131
+5,job,workforce,7,88,127
+6,job,application for employment,7,88,16
+7,job,cover letter,4,88,1
+8,job,recruitment,4,88,116
+9,job,interview,3,88,10
+10,job,job interview,2,88,89
+11,job,résumé,2,88,92
+12,job,job vacancy,2,88,22
+13,job,ok tedi mining,2,88,130
+14,job,curriculum vitae,2,88,8
+15,job,officer,2,88,30
+16,job,current,2,88,97
+17,job,career,2,88,72
+18,job,lihir island,2,88,142
+19,unemployment,unemployment,100,2,2
+20,unemployment,unemployment rate,15,2,66
+21,unemployment,inflation,14,2,14
+22,unemployment,economics,13,2,68
+23,unemployment,economy,13,2,98
+24,unemployment,government,10,2,19
+25,unemployment,employment,7,2,111
+26,unemployment,rate,7,2,26
+27,unemployment,policy,5,2,40
+28,unemployment,structural unemployment,5,2,13
+29,unemployment,unemployment benefits,5,2,51
+30,unemployment,wage,5,2,99
+31,unemployment,workforce,5,2,127
+32,unemployment,poverty,4,2,43
+33,unemployment,youth,4,2,60
+34,unemployment,essay,4,2,150
+35,unemployment,cyclical unemployment,4,2,81
+36,unemployment,economic growth,3,2,61
+37,unemployment,cost,3,2,118
+38,unemployment,population,3,2,144
+39,unemployment,gross domestic product,3,2,152
+40,unemployment,frictional unemployment,3,2,133
+41,unemployment,income,3,2,106
+42,unemployment,tax,3,2,73
+43,unemployment,underemployment,2,2,132
+44,hiring,recruitment,100,84,116
+45,hiring,job,30,84,88
+46,hiring,philippines,8,84,120
+47,hiring,poea,5,84,3
+48,hiring,mechanic,5,84,46
+49,hiring,philippine overseas employment administration,5,84,20
+50,hiring,filipino,5,84,75
+51,hiring,new zealand,5,84,140
+52,hiring,interview,4,84,10
+53,hiring,canada,3,84,93
+54,hiring,welding,3,84,137
+55,hiring,welder,3,84,33
+56,hiring,construction,3,84,35
+57,hiring,human resources,3,84,108
+58,hiring,human resource management,2,84,36
+59,hiring,equipment,2,84,69
+60,hiring,contract,2,84,95
+61,hiring,heavy equipment,2,84,141
+62,hiring,car rental,2,84,7
+63,hiring,officer,2,84,30
+64,hiring,accountant,2,84,57
+65,hiring,rent,2,84,42
+66,hiring,job description,2,84,67
+67,layoff,layoff,100,126,126
+68,layoff,letter,33,126,82
+69,layoff,employee,20,126,32
+70,job market,market,100,78,4
+71,job market,job,92,78,88
+72,job market,job hunting,23,78,122
+73,job market,workforce,14,78,127
+74,job market,money,14,78,145
+75,job market,role,14,78,153
+76,job market,production,13,78,76
+77,job market,sales,13,78,112
+78,job market,job description,12,78,67
+79,job market,labour economics,8,78,107
+80,job market,letter,8,78,82
+81,job market,job evaluation,8,78,25
+82,job market,organization,7,78,85
+83,job market,definition,6,78,59
+84,job opportunities,job,100,45,88
+85,job opportunities,career,7,45,72
+86,job opportunities,mining,6,45,134
+87,job opportunities,employment,6,45,111
+88,job opportunities,job hunting,6,45,122
+89,job opportunities,institute,4,45,17
+90,job opportunities,recruitment,4,45,116
+91,job opportunities,liquefied natural gas,3,45,114
+92,job opportunities,engineering,3,45,34
+93,job opportunities,png power,3,45,63
+94,job opportunities,graduation ceremony,3,45,86
+95,job opportunities,newcrest mining,3,45,77
+96,job opportunities,canada,3,45,93
+97,job opportunities,job description,2,45,67
+98,job opportunities,interoil,2,45,121
+99,job vacancy,job,100,22,88
+100,job vacancy,job vacancy,45,22,22
+101,job vacancy,lae,12,22,47
+102,job vacancy,letter,10,22,82
+103,job vacancy,mining,8,22,134
+104,job vacancy,workforce,7,22,127
+105,job vacancy,cover letter,7,22,1
+106,job vacancy,application for employment,7,22,16
+107,job vacancy,recruitment,6,22,116
+108,job vacancy,job hunting,5,22,122
+109,job vacancy,current,5,22,97
+110,job vacancy,human resources,4,22,108
+111,job vacancy,oil search,3,22,83
+112,job vacancy,ok tedi mining,3,22,130
+113,job vacancy,lihir island,3,22,142
+114,job vacancy,advertising,3,22,123
+115,job vacancy,seek,3,22,131
+116,job vacancies,job,100,87,88
+117,job vacancies,mining,12,87,134
+118,job vacancies,lae,10,87,47
+119,job vacancies,workforce,8,87,127
+120,job vacancies,ok tedi mining,7,87,130
+121,job vacancies,current,6,87,97
+122,job vacancies,recruitment,5,87,116
+123,job vacancies,lihir island,5,87,142
+124,job vacancies,job hunting,5,87,122
+125,job vacancies,seek,3,87,131
+126,job vacancies,oil search,3,87,83
+127,job vacancies,human resources,3,87,108
+128,job vacancies,gold mining,2,87,105
+129,job vacancies,newcrest mining,2,87,77
+130,job vacancies,customs,2,87,54
+131,job vacancies,career,2,87,72
+132,job vacancies,bank of papua new guinea,2,87,124
+133,job training,training,100,11,74
+134,job training,job,65,11,88
+135,job training,on-the-job training,24,11,91
+136,job training,job description,18,11,67
+137,job training,letter,12,11,82
+138,job training,course,9,11,117
+139,job training,management,8,11,12
+140,job training,apprenticeship,7,11,58
+141,job training,human resource development,7,11,129
+142,job training,application for employment,7,11,16
+143,job training,college,6,11,115
+144,job training,computers and information technology,5,11,31
+145,job training,human resources,5,11,108
+146,job training,cover letter,5,11,1
+147,job training,mapex training institute,5,11,138
+148,job training,aircraft pilot,5,11,146
+149,job training,recruitment,5,11,116
+150,job training,skill,4,11,101
+151,job training,institute,4,11,17
+152,job training,mining,4,11,134
+153,job training,job hunting,4,11,122
+154,job training,industry,3,11,49
+155,job training,résumé,3,11,92
+156,job training,ok tedi mining,3,11,130
+157,job training,organization,3,11,85
+158,job application,application for employment,100,15,16
+159,job application,letter,63,15,82
+160,job application,job,48,15,88
+161,job application,cover letter,40,15,1
+162,job application,writing,22,15,103
+163,job application,form,14,15,90
+164,job application,curriculum vitae,12,15,8
+165,job application,résumé,11,15,92
+166,job application,computer application,11,15,151
+167,job application,recruitment,7,15,116
+168,job application,file format,5,15,100
+169,job application,address,5,15,70
+170,job application,mining,4,15,134
+171,job application,police,4,15,52
+172,job application,letter of intent,4,15,110
+173,job application,job hunting,4,15,122
+174,job application,job description,3,15,67
+175,job application,business letter,3,15,109
+176,job application,interest,3,15,71
+177,job application,ok tedi mining,3,15,130
+178,job application,experience,3,15,48
+179,job application,template,2,15,21
+180,unemployment rate,unemployment,100,66,2
+181,unemployment rate,unemployment rate,70,66,66
+182,unemployment rate,rate,32,66,26
+183,unemployment rate,inflation,17,66,14
+184,unemployment rate,economy,17,66,98
+185,unemployment rate,government,13,66,19
+186,unemployment rate,gross domestic product,11,66,152
+187,unemployment rate,inflation rate,8,66,64
+188,unemployment rate,interest,8,66,71
+189,unemployment rate,economics,8,66,68
+190,unemployment rate,workforce,7,66,127
+191,unemployment rate,policy,7,66,40
+192,unemployment rate,infant mortality,6,66,41
+193,unemployment rate,essay,6,66,150
+194,unemployment rate,interest rate,6,66,102
+195,unemployment rate,formula,6,66,9
+196,unemployment rate,life expectancy,6,66,139
+197,unemployment rate,cut,5,66,38
+198,unemployment rate,economic growth,5,66,61
+199,unemployment rate,payment,5,66,18
+200,unemployment rate,mortality rate,5,66,37
+201,unemployment rate,demand,5,66,135
+202,unemployment rate,tax,5,66,73
+203,unemployment rate,balance of payments,4,66,113
+204,unemployment rate,business structure,4,66,39
+205,jobs in port moresby,port moresby,100,55,143
+206,jobs in port moresby,job,69,55,88
+207,jobs in port moresby,part-time job,11,55,149
+208,jobs in port moresby,hotel,8,55,23
+209,jobs in port moresby,company,6,55,147
+210,jobs in port moresby,seek,5,55,131
+211,jobs in port moresby,workforce,5,55,127
+212,jobs in port moresby,recruitment,4,55,116
+213,jobs in port moresby,security,4,55,24
+214,jobs in port moresby,salary,3,55,5
+215,jobs in port moresby,waigani,3,55,80
+216,jobs in port moresby,accounting,3,55,53
+217,jobs in port moresby,united nations,3,55,94
+218,jobs in port moresby,engineering,3,55,34
+219,jobs in port moresby,student,3,55,136
+220,jobs in port moresby,course,3,55,117
+221,jobs in port moresby,job hunting,2,55,122
+222,jobs in port moresby,human resources,2,55,108
+223,jobs in port moresby,officer,2,55,30
+224,jobs in port moresby,the stanley hotel & suites,2,55,28
+225,jobs in port moresby,hospitality,2,55,56
+226,jobs in port moresby,port,2,55,6
+227,jobs in port moresby,hilton hotels & resorts,2,55,96
+228,job in port moresby,port moresby,100,50,143
+229,job in port moresby,job,53,50,88
+230,job in port moresby,hotel,7,50,23
+231,job in port moresby,job hunting,6,50,122
+232,job in port moresby,job vacancy,5,50,22
+233,job in port moresby,recruitment,4,50,116
+234,job in port moresby,address,4,50,70
+235,job in port moresby,part-time job,4,50,149
+236,job in port moresby,seek,4,50,131
+237,job in port moresby,company,4,50,147
+238,job in port moresby,current,4,50,97
+239,job in port moresby,workforce,3,50,127
+240,job in port moresby,security,3,50,24
+241,job in port moresby,hilton,3,50,44
+242,job in port moresby,hilton hotels & resorts,2,50,96
+243,job in port moresby,job description,2,50,67
+244,job in port moresby,application for employment,2,50,16
+245,job in port moresby,waigani,2,50,80
+246,job in port moresby,holiday inn,2,50,29
+247,job in port moresby,coca-cola,2,50,104
+248,job in lae,lae,100,119,47
+249,job in lae,job,56,119,88
+250,job in lae,morobe province,9,119,128
+251,job in lae,current,7,119,97
+252,job in lae,job vacancy,7,119,22
+253,job in lae,workforce,6,119,127
+254,job in lae,job hunting,4,119,122
+255,job in lae,mining,4,119,134
+256,job in lae,lae biscuit co. ltd,3,119,148
+257,job in lae,seek,3,119,131
+258,job in lae,address,3,119,70
+259,job in lae,human resources,3,119,108
+260,job in lae,coca-cola,2,119,104
+261,job in lae,logistics,2,119,79
+262,job in lae,nestlé,2,119,125
+263,job in lae,industry,2,119,49
+264,jobs in lae,lae,100,62,47
+265,jobs in lae,job,66,62,88
+266,jobs in lae,workforce,12,62,127
+267,jobs in lae,mining,11,62,134
+268,jobs in lae,morobe province,7,62,128
+269,jobs in lae,job hunting,6,62,122
+270,jobs in lae,logistics,6,62,79
+271,jobs in lae,course,5,62,117
+272,jobs in lae,institute,4,62,17
+273,jobs in lae,nestlé,4,62,125
+274,jobs in lae,kina bank limited,4,62,27
+275,jobs in lae,brewery,3,62,65
+276,jobs in lae,construction,3,62,35
+277,jobs in lae,rent,2,62,42
+278,jobs in lae,seek,2,62,131
+279,jobs in lae,part-time job,2,62,149
+280,jobs in lae,company,2,62,147
+281,jobs in lae,engineering,1,62,34
