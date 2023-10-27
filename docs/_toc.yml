@@ -34,6 +34,9 @@ parts:
       - file: tourism/other_models
       - file: tourism/discussion
       - file: tourism/references
+  - caption: Text
+    chapters:
+      - file: text/intro
   - caption: Automatic Identification System
     chapters:
       - file: ais_intro
