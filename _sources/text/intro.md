@@ -1,4 +1,4 @@
-# Texts
+# Introduction
 
 ## Economic Policy Uncertainty (EPU) Index
 
@@ -15,8 +15,18 @@ Baker, Bloom, and  Davis (2016) developed Economic Policy Uncertainty Index by e
 
 ## Sentiment Analysis
 
-## Topics Extracted
+Sentiment analysis has been frequently employed in analyzing financial markets and macroeconomic outlook. By analyzing economic-related news articles in Pacific Island Countries, it reveals the economic expectation of the country. The score ususally varies from -1 to 1, where -1 to -0.05 means negative, -0.05 to + 0.05 means neutral, and +0.05 to +1 means positive. Below displays the aggregated sentiment scores by month in Papua New Guinea and Solomon Islands.
 
-<div id= "content">
-<iframe src="interactive/texts/png_job_graph.html" name="PNG LDA Topic Modeling" id="png-ldavis" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
-</div>
+````{tab-set}
+``` {tab-item} Process
+![Overview](../images/text/sentiment_flowchart.png)
+```
+``` {tab-item} Papua New Guinea
+![Overview](../images/text/png_econ_sentiment.png)
+<sub><sup> Notes: Newspapers include Post Courier, ABC AU and RNZ. </sub></sup>
+```
+``` {tab-item} Solomon Islands
+![Overview](../images/text/sib_econ_sentiment.png)
+<sub><sup> Notes: Newspapers include Solomon Stars, Solomon Times, The Island Sun, Solomon Islands Broadcasting Corporation, ABC AU, and RNZ. </sub></sup>
+```
+````
