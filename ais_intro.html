@@ -64,6 +64,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'ais_intro';</script>
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/ais_intro.html" />
     <link rel="index" title="Index" href="genindex.html" />
@@ -439,19 +441,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-visualization">Data Visualization</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-states-of-micronesia">Federated States of Micronesia</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kiribati">Kiribati</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#marshall-islands">Marshall Islands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nauru">Nauru</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#palau">Palau</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#samoa">Samoa</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solomon-islands">Solomon Islands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tonga">Tonga</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tuvalu">Tuvalu</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanuatu">Vanuatu</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-visualization">Data Visualization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-estimation-methodologies">Trade Estimation Methodologies</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">Additional Resources</a></li>
 </ul>
@@ -487,71 +477,88 @@ document.write(`
 <li><p>UNGP Platform: Data Mechanics / cherryl kernel</p></li>
 </ul>
 <p>Pacific Island Countries</p>
-<section id="federated-states-of-micronesia">
-<h3>Federated States of Micronesia<a class="headerlink" href="#federated-states-of-micronesia" title="Permalink to this heading">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-0">
+Federated States of Micronesia</label><div class="sd-tab-content docutils">
 <div id= "content">
 <iframe src="interactive/ais/Micronesia2019.html" name="Micronesia" id="Micronesia" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
-<ul class="simple">
-<li><p>Fiji - no data prep yet</p></li>
-</ul>
-</section>
-<section id="kiribati">
-<h3>Kiribati<a class="headerlink" href="#kiribati" title="Permalink to this heading">#</a></h3>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-1">
+Fiji</label><div class="sd-tab-content docutils">
+<p>No data prep yet</p>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-2">
+Kiribati</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Kiribati2019.html" name="Kiribati" id="Kiribati" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
-<section id="marshall-islands">
-<h3>Marshall Islands<a class="headerlink" href="#marshall-islands" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-3">
+Marshall Islands</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Marshall-Islands2019.html" name="Marshall" id="Marshall" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
-<section id="nauru">
-<h3>Nauru<a class="headerlink" href="#nauru" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-4">
+Nauru</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Nauru2019.html" name="Nauru" id="Nauru" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
-<section id="palau">
-<h3>Palau<a class="headerlink" href="#palau" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-5">
+Palau</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Palau2019.html" name="Palau" id="Palau" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-<ul class="simple">
-<li><p>Papua New Guinea - no data prep yet​</p></li>
-</ul>
-</section>
-<section id="samoa">
-<h3>Samoa<a class="headerlink" href="#samoa" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-6">
+Papua New Guinea</label><div class="sd-tab-content docutils">
+<p>No data prep yet</p>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-7">
+Samoa</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Samoa2019.html" name="Samoa" id="Samoa" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
-<section id="solomon-islands">
-<h3>Solomon Islands<a class="headerlink" href="#solomon-islands" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-8" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-8">
+Solomon Islands</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/SolomonIslands2019.html" name="Solomon" id="Solomon" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
-<section id="tonga">
-<h3>Tonga<a class="headerlink" href="#tonga" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-9">
+Tonga</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Tonga2019.html "name="Tonga" id="Tonga" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
-<section id="tuvalu">
-<h3>Tuvalu<a class="headerlink" href="#tuvalu" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-10">
+Tuvalu</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Tuvalu2019.html" name="Tuvalu" id="Tuvalu" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
-<section id="vanuatu">
-<h3>Vanuatu<a class="headerlink" href="#vanuatu" title="Permalink to this heading">#</a></h3>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-11">
+Vanuatu</label><div class="sd-tab-content docutils">
 <div id= "content">
     <iframe src="interactive/ais/Vanuatu2019.html" name="Vanuatu" id="Vanuatu" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-</section>
+</div>
+</div>
 </section>
 <section id="trade-estimation-methodologies">
 <h2>Trade Estimation Methodologies<a class="headerlink" href="#trade-estimation-methodologies" title="Permalink to this heading">#</a></h2>
@@ -566,32 +573,50 @@ document.write(`
 <li><p><a href="https://www.imf.org/en/Publications/WP/Issues/2019/12/13/Big-Data-on-Vessel-Traffic-Nowcasting-Trade-Flows-in-Real-Time-48837"><b>2019 IMF: Big Data on Vessel Traffic: Nowcasting Trade Flows in Real Time</b><a></p>
 <ul>
 <li><p>Port Calls created by Marine Traffic</p></li>
-<li><p>Data waterfall
-1. Exclude: speed &gt; 1.0 knot
-2. Exclude: Anchorage and bunkering tankers - remove bunkering tankers
-- Fuel supplied to foreign vessels should be recorded as exports of the country according to international standards, although it is recognized that data collection may be challenging.6 Since the inclusion of these tankers introduces considerable volatility to the indices, we omit bunkering tankers from our valid port calls
-3. Exclude: Ship arrived but not departerd
-4. Exclude: Stay in the harbor outside reasonable range for trade activity
-- stay in port &lt; 5hrs: unlikely to have enough time to load or unload goods in the port
-- sta in port &gt; 60 hrs: Longer stays may be associated with ships visiting the port for repairs or maintenance services.</p></li>
-<li><p>Indicators:
-1. cargo number
-2. cargo load
-- <img alt="image.png" src="../images/ais/cargo-formula.png" />
-- DWT is adjusted with a capacity utilization ratio.</p></li>
+<li><p>Data waterfall</p>
+<ul>
+<li><p>Exclude: speed &gt; 1.0 knot</p></li>
+<li><p>Exclude: Anchorage and bunkering tankers - remove bunkering tankers</p>
+<ul>
+<li><p>Fuel supplied to foreign vessels should be recorded as exports of the country according to international standards, although it is recognized that data collection may be challenging.6 Since the inclusion of these tankers introduces considerable volatility to the indices, we omit bunkering tankers from our valid port calls</p></li>
+</ul>
+</li>
+<li><p>Exclude: Ship arrived but not departerd</p></li>
+<li><p>Exclude: Stay in the harbor outside reasonable range for trade activity</p>
+<ul>
+<li><p>stay in port &lt; 5hrs: unlikely to have enough time to load or unload goods in the port</p></li>
+<li><p>stay in port &gt; 60 hrs: Longer stays may be associated with ships visiting the port for repairs or maintenance services.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Indicators:</p>
+<ul>
+<li><p>cargo number</p>
+<ul>
+<li><p>cargo load</p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\( CWI_t = \sum_{i}^{} DWT_{i, t} \frac{|d_{i,t}^{D} - d_{i,t}^{A}|}{max(d_{i})} \)</span></p></li>
+<li><p>DWT is adjusted with a capacity utilization ratio.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p><a href="https://www.sciencedirect.com/science/article/pii/S1361920920305800"><b> 2020 Science Direct: Port disruptions due to natural disasters: Insights into port and logistics resilience</b><a></p>
 <ul>
 <li><p>no mention of how port calls were derived</p></li>
-<li><p><img alt="image.png" src="../images/ais/port-disruptions.png" /></p></li>
+<li><p><img alt="image.png" src="ais/port-disruptions.png" /></p></li>
 </ul>
 </li>
 <li><p><a href="https://www.imf.org/en/Publications/WP/Issues/2020/05/14/World-Seaborne-Trade-in-Real-Time-A-Proof-of-Concept-for-Building-AIS-based-Nowcasts-from-49393"><b> 2020 IMF: World Seaborne Trade in Real Time</b><a></p>
 <ul>
 <li><p>Port boundary:</p>
 <ul>
-<li><p>SOG &lt; 0.5, &amp;&amp; nav status anchored or moored</p></li>
+<li><p>SOG &lt; 0.5, &amp; nav status anchored or moored</p></li>
 </ul>
 </li>
 </ul>
@@ -704,19 +729,7 @@ indicators.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-visualization">Data Visualization</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#federated-states-of-micronesia">Federated States of Micronesia</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kiribati">Kiribati</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#marshall-islands">Marshall Islands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nauru">Nauru</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#palau">Palau</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#samoa">Samoa</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solomon-islands">Solomon Islands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tonga">Tonga</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tuvalu">Tuvalu</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vanuatu">Vanuatu</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-visualization">Data Visualization</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-estimation-methodologies">Trade Estimation Methodologies</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">Additional Resources</a></li>
 </ul>
