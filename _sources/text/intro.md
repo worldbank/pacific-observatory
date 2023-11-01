@@ -1,11 +1,5 @@
 # Introduction
 
-## Presentation
-
-<div>
-<iframe src="https://worldbank.github.io/pacific-observatory/interactive/text/text_presentation.slides.html" frameborder="0" marginwidth="0" marginheight="0" width="800" height="500"></iframe>
-</div>
-
 ## Economic Policy Uncertainty (EPU) Index
 
 Baker, Bloom, and  Davis (2016) developed Economic Policy Uncertainty Index by exploiting the mention of economic, policy, and uncertainty group of terms on newspapers, and found that "innovations in policy uncertainty foreshadow declines in investment, output, and employment in the United States and … other 12 major economies."​
