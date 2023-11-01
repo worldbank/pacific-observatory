@@ -23,68 +23,64 @@ Set-up
 
 Pacific Island Countries
 
-### Federated States of Micronesia
-
+````{tab-set}
+``` {tab-item} Federated States of Micronesia
 <div id= "content">
 <iframe src="interactive/ais/Micronesia2019.html" name="Micronesia" id="Micronesia" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
-
-- Fiji - no data prep yet
-
-### Kiribati
-
+</div>
+``` 
+``` {tab-item} Fiji 
+No data prep yet
+``` 
+```{tab-item} Kiribati
 <div id= "content">
     <iframe src="interactive/ais/Kiribati2019.html" name="Kiribati" id="Kiribati" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-### Marshall Islands
-
+```
+```{tab-item} Marshall Islands
 <div id= "content">
     <iframe src="interactive/ais/Marshall-Islands2019.html" name="Marshall" id="Marshall" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-### Nauru
-
+```
+```{tab-item} Nauru
 <div id= "content">
     <iframe src="interactive/ais/Nauru2019.html" name="Nauru" id="Nauru" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-### Palau
-
+```
+```{tab-item} Palau
 <div id= "content">
     <iframe src="interactive/ais/Palau2019.html" name="Palau" id="Palau" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-- Papua New Guinea - no data prep yet​
-
-### Samoa
-
+```
+```{tab-item} Papua New Guinea
+No data prep yet
+```
+```{tab-item} Samoa
 <div id= "content">
     <iframe src="interactive/ais/Samoa2019.html" name="Samoa" id="Samoa" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-### Solomon Islands
-
+```
+```{tab-item} Solomon Islands
 <div id= "content">
     <iframe src="interactive/ais/SolomonIslands2019.html" name="Solomon" id="Solomon" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-### Tonga
-
+```
+```{tab-item} Tonga
 <div id= "content">
     <iframe src="interactive/ais/Tonga2019.html "name="Tonga" id="Tonga" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-### Tuvalu
-
+```
+```{tab-item} Tuvalu
 <div id= "content">
     <iframe src="interactive/ais/Tuvalu2019.html" name="Tuvalu" id="Tuvalu" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
-
-### Vanuatu
-
+```
+```{tab-item} Vanuatu
 <div id= "content">
     <iframe src="interactive/ais/Vanuatu2019.html" name="Vanuatu" id="Vanuatu" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen=""></iframe>
 </div>
+```
+````
 
 ## Trade Estimation Methodologies
 
@@ -95,26 +91,26 @@ Pacific Island Countries
 - <a href="https://www.imf.org/en/Publications/WP/Issues/2019/12/13/Big-Data-on-Vessel-Traffic-Nowcasting-Trade-Flows-in-Real-Time-48837"><b>2019 IMF: Big Data on Vessel Traffic: Nowcasting Trade Flows in Real Time</b><a>
   - Port Calls created by Marine Traffic
   - Data waterfall
-        1. Exclude: speed > 1.0 knot
-        2. Exclude: Anchorage and bunkering tankers - remove bunkering tankers
-            - Fuel supplied to foreign vessels should be recorded as exports of the country according to international standards, although it is recognized that data collection may be challenging.6 Since the inclusion of these tankers introduces considerable volatility to the indices, we omit bunkering tankers from our valid port calls
-        3. Exclude: Ship arrived but not departerd
-        4. Exclude: Stay in the harbor outside reasonable range for trade activity
-            - stay in port < 5hrs: unlikely to have enough time to load or unload goods in the port
-            - sta in port > 60 hrs: Longer stays may be associated with ships visiting the port for repairs or maintenance services.
+    - Exclude: speed > 1.0 knot
+    - Exclude: Anchorage and bunkering tankers - remove bunkering tankers
+        - Fuel supplied to foreign vessels should be recorded as exports of the country according to international standards, although it is recognized that data collection may be challenging.6 Since the inclusion of these tankers introduces considerable volatility to the indices, we omit bunkering tankers from our valid port calls
+    - Exclude: Ship arrived but not departerd
+    - Exclude: Stay in the harbor outside reasonable range for trade activity
+        - stay in port < 5hrs: unlikely to have enough time to load or unload goods in the port
+        - stay in port > 60 hrs: Longer stays may be associated with ships visiting the port for repairs or maintenance services.
   - Indicators:
-        1. cargo number
-        2. cargo load
-            - ![image.png](../images/ais/cargo-formula.png)
+    - cargo number
+        - cargo load
+            - $ CWI_t = \sum_{i}^{} DWT_{i, t} \frac{|d_{i,t}^{D} - d_{i,t}^{A}|}{max(d_{i})} $
             - DWT is adjusted with a capacity utilization ratio.
 
 - <a href="https://www.sciencedirect.com/science/article/pii/S1361920920305800"><b> 2020 Science Direct: Port disruptions due to natural disasters: Insights into port and logistics resilience</b><a>
   - no mention of how port calls were derived
-  - ![image.png](../images/ais/port-disruptions.png)
+  - ![image.png](ais/port-disruptions.png)
 
 - <a href="https://www.imf.org/en/Publications/WP/Issues/2020/05/14/World-Seaborne-Trade-in-Real-Time-A-Proof-of-Concept-for-Building-AIS-based-Nowcasts-from-49393"><b> 2020 IMF: World Seaborne Trade in Real Time</b><a>
   - Port boundary:
-    - SOG < 0.5, && nav status anchored or moored
+    - SOG < 0.5, \& nav status anchored or moored
 
 - <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0248818#pone.0248818.s001"><b> 2021 Global economic impacts of COVID-19 lockdown measures stand out in high-frequency shipping data</b><a>
   - Port Boundary: manually mapped, berthing + navigation channels
