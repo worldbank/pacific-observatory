@@ -40,18 +40,21 @@ def configure_headers():
 
     headers = {
         "User-Agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-        "sec-ch-ua-platform":
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
+        "Sec-Ch-Ua-Platform":
         "MacOS",
         "upgrade-insecure-requests": "1",
         "dnt": "1",
-        "sec-ch-ua":
-        '"Not.A/Brand";v="24", "Chromium";v="116", "Google Chrome";v="116"',
+        "Sec-Ch-Ua":
+        '"Google Chrome";v="117", "Not;A=Brand";v="8", "Chromium";v="117"',
         "Accept":
-        "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+        "*/*",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accpet-Encoding": "gzip, deflate, br",
     }
 
-    return headers, 
+    return headers 
 
 def configure_cookies(host_url: str, cookies_path: str) -> dict:
       

@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from scripts.SupportFunc import download_files
+from ..utils import download_files
 
 # Initialize the webdriver and config
 chrome_options = webdriver.ChromeOptions()

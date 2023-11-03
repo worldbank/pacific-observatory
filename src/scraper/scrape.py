@@ -12,7 +12,7 @@ from .utils import *
 
 
 class WebScraper(object):
-    def __init__(self, parser="xpath", headers=None):
+    def __init__(self, parser="xpath", headers=None, cookies=None):
         """
         A class for web scraping using either HTML or XPath parsing.
 
@@ -35,6 +35,9 @@ class WebScraper(object):
             self.headers = {
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
             }
+        else:
+            self.headers = headers
+        self.cookies = cookies
 
     def request_url(self, url, timeout=30):
         """
@@ -49,7 +52,7 @@ class WebScraper(object):
         """
 
         try:
-            response = requests.get(url, headers=self.headers, timeout=timeout)
+            response = requests.get(url, headers=self.headers, timeout=timeout, cookies=self.cookies)
             response.raise_for_status()
             return response.content
         except requests.exceptions.RequestException as e:
