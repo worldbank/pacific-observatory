@@ -1,6 +1,6 @@
 # Individual forecasts
 
-As \textcite{song2019review} illustrates, in tourism research, *time series* models forecast demands, while *econometric* models search for the causes and effects between economic factors and tourism demands. The empirical models include *time series* models, in which SARIMAX and VAR build uni- and multi-variate relationships, respectively, *econometric* model, which attempts to establish a relationship between the Google Trends index and invented ratio, and the forecast combination by linear and least square approaches.
+As {cite:t}`song2019review` illustrates, in tourism research, *time series* models forecast demands, while *econometric* models search for the causes and effects between economic factors and tourism demands. The empirical models include *time series* models, in which SARIMAX and VAR build uni- and multi-variate relationships, respectively, *econometric* model, which attempts to establish a relationship between the Google Trends index and invented ratio, and the forecast combination by linear and least square approaches.
 
 ## SARIMAX
 

@@ -458,7 +458,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="individual-forecasts">
 <h1>Individual forecasts<a class="headerlink" href="#individual-forecasts" title="Permalink to this heading">#</a></h1>
-<p>As \textcite{song2019review} illustrates, in tourism research, <em>time series</em> models forecast demands, while <em>econometric</em> models search for the causes and effects between economic factors and tourism demands. The empirical models include <em>time series</em> models, in which SARIMAX and VAR build uni- and multi-variate relationships, respectively, <em>econometric</em> model, which attempts to establish a relationship between the Google Trends index and invented ratio, and the forecast combination by linear and least square approaches.</p>
+<p>As <span id="id1">Song <em>et al.</em> [<a class="reference internal" href="references.html#id8" title="Haiyan Song, Richard TR Qiu, and Jinah Park. A review of research on tourism demand forecasting: launching the annals of tourism research curated collection on tourism demand forecasting. Annals of Tourism Research, 75:338–362, 2019.">2019</a>]</span> illustrates, in tourism research, <em>time series</em> models forecast demands, while <em>econometric</em> models search for the causes and effects between economic factors and tourism demands. The empirical models include <em>time series</em> models, in which SARIMAX and VAR build uni- and multi-variate relationships, respectively, <em>econometric</em> model, which attempts to establish a relationship between the Google Trends index and invented ratio, and the forecast combination by linear and least square approaches.</p>
 <section id="sarimax">
 <h2>SARIMAX<a class="headerlink" href="#sarimax" title="Permalink to this heading">#</a></h2>
 <p>Built on the previous tourism research, a Seasonal Auto-Regressive Integrated Moving Average with eXogenous factors (SARIMAX) model would be employed to track each PIC’s VAs. A SARIMAX model consists of three elements: AR, MA, and X. The AR part of the model use the past values of the differenced series to make predictions, while the MA part uses the past errors of the model. An SARIMAX <span class="math notranslate nohighlight">\((p,d,q)(P,D,Q,s)\)</span> is defined as below:</p>
@@ -489,7 +489,7 @@ VA_{t} = c + \alpha_{11}VA_{t-1} + \cdots + \alpha_{1p}VA_{t-p}
 </section>
 <section id="ratio-approach">
 <h2>Ratio Approach<a class="headerlink" href="#ratio-approach" title="Permalink to this heading">#</a></h2>
-<p>Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting <span class="math notranslate nohighlight">\(VA_t\)</span> as the numerator and <span class="math notranslate nohighlight">\(ISA_t\)</span> as the denominator (<span class="math notranslate nohighlight">\(ratio_{t}=\frac{VA_t}{ISA_t}\)</span>). The produced ratio is similar to the load factor in aviation analysis, where <span class="math notranslate nohighlight">\( \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}\)</span>. By assuming the distance is fixed for each passenger, the available seats equal to <span class="math notranslate nohighlight">\(ISA_t\)</span> in our ratio formula, and we can treat <span class="math notranslate nohighlight">\(VA_t\)</span> as a proxy of the number of carried passengers.<a class="footnote-reference brackets" href="#id4" id="id1">1</a> Thus, we have the model:</p>
+<p>Unlike the VAR that the vector contains multiple series, the alternative way to link the GAD with official VA data is to produce a single ratio by setting <span class="math notranslate nohighlight">\(VA_t\)</span> as the numerator and <span class="math notranslate nohighlight">\(ISA_t\)</span> as the denominator (<span class="math notranslate nohighlight">\(ratio_{t}=\frac{VA_t}{ISA_t}\)</span>). The produced ratio is similar to the load factor in aviation analysis, where <span class="math notranslate nohighlight">\( \text{LF}=\frac{\text{Number of Carried Passengers} * \text{Distance}}{\text{Available Seats} * \text{Distance}}\)</span>. By assuming the distance is fixed for each passenger, the available seats equal to <span class="math notranslate nohighlight">\(ISA_t\)</span> in our ratio formula, and we can treat <span class="math notranslate nohighlight">\(VA_t\)</span> as a proxy of the number of carried passengers.<a class="footnote-reference brackets" href="#id5" id="id2">1</a> Thus, we have the model:</p>
 <div class="math notranslate nohighlight">
 \[
 Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + \varepsilon_{t} 
@@ -504,22 +504,22 @@ Ratio_t = TravelIndex_t + Quarter_t + (Covid_t * StringencyIndex_t) + \varepsilo
 </section>
 <section id="model-evaluation">
 <h2>Model Evaluation<a class="headerlink" href="#model-evaluation" title="Permalink to this heading">#</a></h2>
-<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id5" id="id2">2</a> Three benchmark methods are employed:</p>
+<p>To evaluate the model’s performance, benchmark results will be provided.<a class="footnote-reference brackets" href="#id6" id="id3">2</a> Three benchmark methods are employed:</p>
 <ul class="simple">
 <li><p>Average method, where the forecasts of all future values are equal to the average (or “mean”) of the historical data.</p></li>
 <li><p>Naïve method, setting all forecasts to be the value of the last observation.</p></li>
 <li><p>Drift method, <span class="math notranslate nohighlight">\(\hat{y}_{T+h|T} = y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1}) = y_{T} + h \left( \frac{y_{T} -y_{1}}{T-1}\right).\)</span>, which is equivalent to drawing a line between the first and last observations, and extrapolating it into the future.</p></li>
 </ul>
-<p>For each method, Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and Symmetric Mean Absolute Percentage Error (SMAPE) are provided. <a class="footnote-reference brackets" href="#id6" id="id3">3</a></p>
+<p>For each method, Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and Symmetric Mean Absolute Percentage Error (SMAPE) are provided. <a class="footnote-reference brackets" href="#id7" id="id4">3</a></p>
 <hr class="footnotes docutils" />
 <dl class="footnote brackets">
-<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
 <dd><p>A hideen assumption behind employing the ratio approach is the airline company would dynamically adjust the to choose the combination of fares, aircraft size, and load factor to maximize profits in each market. See more in <a class="reference external" href="https://www.jstor.org/stable/3003541">Graham, Kaplan, and Sibley (1983)</a></p>
 </dd>
-<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
 <dd><p>Rob J Hyndman and George Athanasopoulos, Forecasting: principles and practice (OTexts, 2018). See more <a class="reference external" href="https://otexts.com/fpp3/simple-methods.html">here</a>.</p>
 </dd>
-<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
 <dd><p>Mean Absolute Percentage Error (MAPE) is also a frequent calculation, but given there exists some zero values in the actual value, and the result would lead to <span class="math notranslate nohighlight">\(+\infty\)</span> considering <span class="math notranslate nohighlight">\(MAPE(y, \hat{y})= \frac{100\%}{N} \sum_{i=0}^{N - 1} \frac{|y_i - \hat{y}_i|}{|y_i|}\)</span>.</p>
 </dd>
 </dl>
