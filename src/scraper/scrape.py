@@ -36,7 +36,7 @@ class WebScraper(object):
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
             }
 
-    def request_url(self, url, timeout=5):
+    def request_url(self, url, timeout=30):
         """
         Sends an HTTP GET request to the specified URL.
 
@@ -110,23 +110,26 @@ class WebScraper(object):
         if not isinstance(urls, list):
             raise TypeError("The 'urls' argument must be a list of URLs.")
 
-        if isinstance(expression, str):
-            expression = [expression] * len(urls)
+        # if isinstance(expression, str):
+        #     expression = [expression] * len(urls)
 
-        if not isinstance(expression, list) or len(expression) != len(urls):
-            raise ValueError(
-                "The 'expression' argument must be a string or a list of the same length as 'urls'."
-            )
+        # if not isinstance(expression, list) or len(expression) != len(urls):
+        #     raise ValueError(
+        #         "The 'expression' argument must be a string or a list of the same length as 'urls'."
+        #     )
+        
+        # if isinstance(expression, list):
+        #     expression = [expression * len(urls)]
 
         scraped_data = []
         if speed_up:
             with tqdm(total=len(urls)) as pbar:
                 max_workers = multiprocessing.cpu_count() + 4
                 with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                    future_to_url = {executor.submit(self.scrape_url, url, expr): (
-                        url, expr) for url, expr in zip(urls, expression)}
+                    future_to_url = {executor.submit(self.scrape_url, url, expression): (
+                        url) for url in urls}
                     for future in as_completed(future_to_url):
-                        url, _ = future_to_url[future]
+                        url = future_to_url[future]
                         try:
                             data = future.result()
                         except Exception as exc:
@@ -136,8 +139,8 @@ class WebScraper(object):
                             pbar.update(1)
         else:
             with tqdm(total=len(urls)) as pbar:
-                for url, expr in zip(urls, expression):
-                    data = self.scrape_url(url, expr)
+                for url in urls:
+                    data = self.scrape_url(url, expression)
                     scraped_data.append(data)
                     pbar.update(1)
 

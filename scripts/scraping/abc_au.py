@@ -1,5 +1,5 @@
 import os
-os.chdir("../../../")
+os.chdir("../../")
 import pandas as pd
 import json
 from src.scraper.scrape import *
