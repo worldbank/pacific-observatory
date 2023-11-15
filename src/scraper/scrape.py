@@ -6,8 +6,14 @@ from bs4 import BeautifulSoup
 import urllib
 from lxml import etree
 from tqdm import tqdm
+import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import multiprocessing
+from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver import ChromeService, ChromeOptions
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from .utils import *
 
 
@@ -52,7 +58,8 @@ class WebScraper(object):
         """
 
         try:
-            response = requests.get(url, headers=self.headers, timeout=timeout, cookies=self.cookies)
+            response = requests.get(
+                url, headers=self.headers, timeout=timeout, cookies=self.cookies)
             response.raise_for_status()
             return response.content
         except requests.exceptions.RequestException as e:
@@ -120,7 +127,7 @@ class WebScraper(object):
         #     raise ValueError(
         #         "The 'expression' argument must be a string or a list of the same length as 'urls'."
         #     )
-        
+
         # if isinstance(expression, list):
         #     expression = [expression * len(urls)]
 
@@ -148,3 +155,75 @@ class WebScraper(object):
                     pbar.update(1)
 
         return scraped_data
+
+
+class SeleniumScraper:
+    """
+    A class for web scraping using Selenium with ChromeDriver.
+
+    Attributes:
+        driver_path (str): The path to the ChromeDriver executable.
+        url (str): The URL to be scraped.
+        driver: Instance of the ChromeDriver.
+
+    Methods:
+        start_driver(): Start the ChromeDriver.
+        close_driver(): Close the ChromeDriver.
+        perform_search(search_query): Perform a search on the web page.
+
+    Usage:
+        scraper = WebScraper(driver_path='/path/to/chromedriver')
+        scraper.start_driver()
+        scraper.perform_search('web scraping')
+        scraper.close_driver()
+    """
+
+    def __init__(self, driver_path):
+        """
+        Initialize the WebScraper object.
+
+        Args:
+            driver_path (str): The path to the ChromeDriver executable.
+            url (str): The URL to be scraped.
+        """
+        self.driver_path = driver_path
+        self.failed_urls = []
+
+    def start_driver(self):
+        """
+        Start the ChromeDriver.
+        """
+        service = ChromeService(executable_path=self.driver_path)
+        options = ChromeOptions()
+        options.headless = True
+        options.add_experimental_option(
+            "excludeSwitches", ["enable-automation"])
+        options.add_experimental_option('useAutomationExtension', False)
+        self.driver = webdriver.Chrome(service=service, options=options)
+
+    def close_driver(self):
+        """
+        Close the ChromeDriver.
+        """
+        if self.driver:
+            self.driver.quit()
+
+    def perform_search(self, search_query):
+        """
+        Perform a search on the web page.
+
+        Args:
+            search_query (str): The search query to be entered.
+        """
+        elements = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_all_elements_located((By.XPATH, search_query)))
+        return elements
+    
+    def scrape_page(self, url, search_query):
+        self.driver.get(url)
+        try:
+            elements = self.perform_search(search_query)
+            return elements
+        except:
+            self.failed_urls.append(url)
+            pass 
