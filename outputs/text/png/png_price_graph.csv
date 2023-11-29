@@ -1,219 +1,224 @@
 ,source,target,volume,source_idx,target_idx
-0,inflation,inflation,100,11,11
-1,inflation,inflation rate,15,11,40
-2,inflation,economy,13,11,64
-3,inflation,economics,12,11,43
-4,inflation,rate,11,11,18
-5,inflation,unemployment,11,11,2
-6,inflation,policy,9,11,23
-7,inflation,government,9,11,15
-8,inflation,price,8,11,10
-9,inflation,cost,7,11,81
-10,inflation,interest,7,11,45
-11,inflation,demand,6,11,98
-12,inflation,money,6,11,108
-13,inflation,gross domestic product,6,11,110
-14,inflation,interest rate,5,11,69
-15,inflation,calculation,5,11,82
-16,inflation,trade,4,11,36
-17,inflation,supply,4,11,93
-18,inflation,consumer price index,4,11,31
-19,inflation,monetary policy,4,11,14
-20,inflation,goods,4,11,97
-21,inflation,cost-push inflation,4,11,19
-22,inflation,tax,3,11,48
-23,inflation,wage,3,11,66
-24,inflation,consumer,3,11,101
-25,inflation rate,inflation,100,40,11
-26,inflation rate,inflation rate,62,40,40
-27,inflation rate,rate,38,40,18
-28,inflation rate,interest,18,40,45
-29,inflation rate,government,14,40,15
-30,inflation rate,economy,14,40,64
-31,inflation rate,unemployment,13,40,2
-32,inflation rate,interest rate,13,40,69
-33,inflation rate,gross domestic product,12,40,110
-34,inflation rate,economics,10,40,43
-35,inflation rate,policy,10,40,23
-36,inflation rate,income,9,40,73
-37,inflation rate,trade,8,40,36
-38,inflation rate,tax,8,40,48
-39,inflation rate,formula,8,40,9
-40,inflation rate,money,7,40,108
-41,inflation rate,price,7,40,10
-42,inflation rate,unemployment rate,7,40,42
-43,inflation rate,calculation,7,40,82
-44,inflation rate,consumer price index,6,40,31
-45,inflation rate,balance of payments,6,40,79
-46,inflation rate,calculator,5,40,87
-47,inflation rate,monetary policy,5,40,14
-48,inflation rate,country,5,40,57
-49,inflation rate,fiscal policy,5,40,67
-50,CPI,consumer price index,100,41,31
-51,CPI,calculation,13,41,82
-52,CPI,inflation,11,41,11
-53,CPI,price,10,41,10
-54,CPI,consumer,7,41,101
-55,CPI,formula,6,41,9
-56,CPI,inflation rate,5,41,40
-57,CPI,price index,5,41,34
-58,CPI,bank of papua new guinea,5,41,84
-59,CPI,gross domestic product,5,41,110
-60,CPI,economics,5,41,43
-61,CPI,index,4,41,89
-62,CPI,percentage,4,41,111
-63,CPI,wage,4,41,66
-64,CPI,statistics,4,41,74
-65,CPI,economy,4,41,64
-66,CPI,salary,3,41,4
-67,CPI,measurement,3,41,99
-68,CPI,policy,2,41,23
-69,prices,price,100,16,10
-70,prices,house,6,16,33
-71,prices,gold,5,16,52
-72,prices,stock,4,16,78
-73,prices,share price,4,16,113
-74,prices,coffee,4,16,105
-75,prices,ticket,4,16,88
-76,prices,laptop,3,16,29
-77,prices,commodity,3,16,63
-78,prices,market,3,16,3
-79,prices,kit house,2,16,38
-80,prices,share,2,16,104
-81,prices,gold as an investment,2,16,86
-82,prices,steel,2,16,5
-83,prices,petroleum,2,16,106
-84,prices,fone haus,2,16,1
-85,prices,airline,2,16,21
-86,prices,fuel,2,16,60
-87,prices,goods,2,16,97
-88,prices,toyota land cruiser,2,16,94
-89,prices,lumber,2,16,62
-90,food price,food,100,35,17
-91,food price,price,83,35,10
-92,food price,bride,14,35,30
-93,food price,sales,11,35,76
-94,food price,bride price,10,35,44
-95,food price,market,7,35,3
-96,food price,share price,7,35,113
-97,food price,cost,5,35,81
-98,food price,market price,5,35,47
-99,food price,stock,4,35,78
-100,food price,custom,3,35,95
-101,food price,ceremony,3,35,71
-102,price index,price,100,34,10
-103,price index,price index,72,34,34
-104,price index,consumer price index,55,34,31
-105,price index,index,54,34,89
-106,price index,consumer,52,34,101
-107,price index,calculation,16,34,82
-108,price index,stock,15,34,78
-109,price index,stock market index,13,34,58
-110,price index,share,13,34,104
-111,price index,share price,13,34,113
-112,price index,inflation,11,34,11
-113,price index,formula,7,34,9
-114,price index,london,7,34,92
-115,price index,indigenous people of new guinea,6,34,75
-116,price index,investment fund,6,34,37
-117,price index,s&p/asx 200,6,34,13
-118,price index,new york,6,34,55
-119,price index,dow jones industrial average,5,34,54
-120,price index,flight centre,5,34,96
-121,price index,unemployment,5,34,2
-122,price index,economics,4,34,43
-123,price index,regression analysis,4,34,49
-124,price index,demand,4,34,98
-125,price index,measurement,4,34,99
-126,price index,cost,4,34,81
-127,price in port moresby,port moresby,100,46,107
-128,price in port moresby,price,92,46,10
-129,price in port moresby,gold,24,46,52
-130,price in port moresby,gold as an investment,15,46,86
-131,price in port moresby,sales,10,46,76
-132,price in port moresby,waigani,5,46,51
-133,price in port moresby,iphone,5,46,72
-134,price in port moresby,samsung,4,46,65
-135,price in port moresby,cost,4,46,81
-136,price in port moresby,cheap,4,46,12
-137,price in port moresby,buyer,4,46,109
-138,price in port moresby,toyota,4,46,24
-139,price in port moresby,market,3,46,3
-140,price in port moresby,toyota,3,46,24
-141,price in port moresby,samsung galaxy,3,46,102
-142,price in port moresby,lodging,3,46,68
-143,price in port moresby,kilogram,3,46,85
-144,price in port moresby,gram,3,46,6
-145,price in port moresby,oil,2,46,56
-146,price in port moresby,port,2,46,8
-147,price in port moresby,seashell,2,46,103
-148,price in port moresby,cargo,2,46,25
-149,port moresby price,port moresby,100,91,107
-150,port moresby price,price,93,91,10
-151,port moresby price,gold,14,91,52
-152,port moresby price,gold as an investment,10,91,86
-153,port moresby price,sales,9,91,76
-154,port moresby price,flight,6,91,112
-155,port moresby price,ticket,4,91,88
-156,port moresby price,gram,4,91,6
-157,port moresby price,waigani,4,91,51
-158,port moresby price,jacksons international airport,3,91,100
-159,port moresby price,canon,3,91,77
-160,port moresby price,toyota,3,91,24
-161,port moresby price,lodging,3,91,68
-162,port moresby price,samsung galaxy,3,91,102
-163,port moresby price,toyota,3,91,24
-164,port moresby price,cost,3,91,81
-165,port moresby price,cheap,3,91,12
-166,port moresby price,toyota land cruiser,3,91,94
-167,port moresby price,nissan,2,91,50
-168,port moresby price,airline,2,91,21
-169,port moresby price,kilogram,2,91,85
-170,port moresby price,market,2,91,3
-171,port moresby price,fare,2,91,26
-172,port moresby price,share price,2,91,113
-173,port moresby price,room,2,91,39
-174,price in lae,price,100,7,10
-175,price in lae,lae,99,7,28
-176,price in lae,gold,44,7,52
-177,price in lae,gold as an investment,29,7,86
-178,price in lae,sales,12,7,76
-179,price in lae,papua new guinean kina,10,7,32
-180,price in lae,samsung galaxy,5,7,102
-181,price in lae,gram,5,7,6
-182,price in lae,market,4,7,3
-183,price in lae,lodging,4,7,68
-184,price in lae,coffee,3,7,105
-185,price in lae,toyota,3,7,24
-186,price in lae,stock,3,7,78
-187,price in lae,buyer,3,7,109
-188,price in lae,room,2,7,39
-189,price in lae,ticket,2,7,88
-190,price in lae,png air,2,7,83
-191,price in lae,kokopo,2,7,22
-192,price in lae,current,1,7,61
-193,lae price,price,100,53,10
-194,lae price,lae,94,53,28
-195,lae price,gold,35,53,52
-196,lae price,gold as an investment,22,53,86
-197,lae price,ticket,12,53,88
-198,lae price,png air,9,53,83
-199,lae price,papua new guinean kina,9,53,32
-200,lae price,sales,8,53,76
-201,lae price,jacksons international airport,7,53,100
-202,lae price,flight,6,53,112
-203,lae price,lae nadzab airport,5,53,20
-204,lae price,samsung galaxy,4,53,102
-205,lae price,gram,4,53,6
-206,lae price,fare,4,53,26
-207,lae price,png jewellers,4,53,70
-208,lae price,airline,3,53,21
-209,lae price,market,3,53,3
-210,lae price,toyota,3,53,24
-211,lae price,coffee,3,53,105
-212,lae price,yamaha,3,53,80
-213,lae price,morobe province,3,53,90
-214,lae price,stock,3,53,78
-215,lae price,bus,3,53,59
-216,lae price,fone haus,2,53,1
-217,lae price,wewak,2,53,27
+0,inflation,inflation,100,56,56
+1,inflation,economy,14,56,23
+2,inflation,economics,11,56,51
+3,inflation,rate,11,56,82
+4,inflation,unemployment,11,56,86
+5,inflation,inflation rate,11,56,48
+6,inflation,policy,10,56,101
+7,inflation,price,9,56,19
+8,inflation,government,8,56,41
+9,inflation,demand,7,56,24
+10,inflation,interest,7,56,73
+11,inflation,cost,7,56,60
+12,inflation,money,7,56,102
+13,inflation,gross domestic product,6,56,78
+14,inflation,interest rate,6,56,28
+15,inflation,supply,5,56,27
+16,inflation,monetary policy,5,56,42
+17,inflation,goods,4,56,74
+18,inflation,trade,4,56,110
+19,inflation,tax,4,56,107
+20,inflation,wage,4,56,29
+21,inflation,demand-pull inflation,4,56,30
+22,inflation,fiscal policy,4,56,105
+23,inflation,cost-push inflation,4,56,59
+24,inflation,formula,4,56,31
+25,inflation rate,inflation,100,48,56
+26,inflation rate,inflation rate,46,48,48
+27,inflation rate,rate,44,48,82
+28,inflation rate,interest,20,48,73
+29,inflation rate,interest rate,17,48,28
+30,inflation rate,unemployment,15,48,86
+31,inflation rate,government,15,48,41
+32,inflation rate,economy,15,48,23
+33,inflation rate,gross domestic product,13,48,78
+34,inflation rate,economics,12,48,51
+35,inflation rate,policy,10,48,101
+36,inflation rate,price,10,48,19
+37,inflation rate,exchange rate,10,48,72
+38,inflation rate,calculation,9,48,14
+39,inflation rate,tax,9,48,107
+40,inflation rate,formula,9,48,31
+41,inflation rate,consumer price index,8,48,16
+42,inflation rate,cut,7,48,10
+43,inflation rate,trade,7,48,110
+44,inflation rate,money,7,48,102
+45,inflation rate,cost,6,48,60
+46,inflation rate,market,6,48,3
+47,inflation rate,demand,6,48,24
+48,inflation rate,economic growth,6,48,81
+49,inflation rate,monetary policy,6,48,42
+50,CPI,consumer price index,100,121,16
+51,CPI,calculation,14,121,14
+52,CPI,inflation,9,121,56
+53,CPI,price,9,121,19
+54,CPI,index,8,121,43
+55,CPI,price index,7,121,90
+56,CPI,consumer,6,121,20
+57,CPI,formula,5,121,31
+58,CPI,gross domestic product,5,121,78
+59,CPI,statistics,4,121,57
+60,CPI,salary,4,121,18
+61,CPI,payment,4,121,84
+62,CPI,bank of papua new guinea,3,121,34
+63,CPI,economics,3,121,51
+64,CPI,measurement,3,121,95
+65,CPI,cost,3,121,60
+66,CPI,inflation rate,2,121,48
+67,CPI,tax,2,121,107
+68,CPI,december,1,121,45
+69,CPI,public servant,1,121,67
+70,CPI,percentage,1,121,62
+71,CPI,report,1,121,53
+72,prices,price,100,58,19
+73,prices,house,6,58,106
+74,prices,gold,5,58,46
+75,prices,coffee,4,58,4
+76,prices,share price,4,58,15
+77,prices,stock,4,58,108
+78,prices,market,3,58,3
+79,prices,laptop,3,58,68
+80,prices,ticket,3,58,87
+81,prices,gold as an investment,3,58,88
+82,prices,commodity,3,58,70
+83,prices,ela motors hq.,3,58,93
+84,prices,kit house,3,58,79
+85,prices,share,2,58,9
+86,prices,airline,2,58,36
+87,prices,goods,2,58,74
+88,prices,fuel,2,58,96
+89,prices,toyota land cruiser,2,58,98
+90,prices,lumber,2,58,99
+91,prices,petroleum,2,58,111
+92,prices,outboard motor,1,58,8
+93,food price,food,100,114,26
+94,food price,price,85,114,19
+95,food price,bride,15,114,109
+96,food price,philippines,9,114,116
+97,food price,income,9,114,17
+98,food price,custom,8,114,118
+99,food price,share,8,114,9
+100,food price,goods,8,114,74
+101,food price,restaurant,8,114,54
+102,food price,bride price,8,114,52
+103,food price,share price,6,114,15
+104,food price,market,6,114,3
+105,food price,eating,5,114,35
+106,food price,new guinea,5,114,115
+107,food price,gold,4,114,46
+108,food price,ceremony,4,114,89
+109,food price,drink,3,114,65
+110,food price,crop,3,114,32
+111,food price,culture,2,114,21
+112,price index,price,100,90,19
+113,price index,price index,75,90,90
+114,price index,index,66,90,43
+115,price index,consumer price index,55,90,16
+116,price index,consumer,53,90,20
+117,price index,share,18,90,9
+118,price index,calculation,18,90,14
+119,price index,stock market index,17,90,112
+120,price index,stock,13,90,108
+121,price index,share price,12,90,15
+122,price index,s&p/asx 200,11,90,38
+123,price index,inflation,9,90,56
+124,price index,measurement,9,90,95
+125,price index,formula,9,90,31
+126,price index,dow jones industrial average,7,90,6
+127,price index,gross domestic product,6,90,78
+128,price index,bitcoin,6,90,113
+129,price index,money,6,90,102
+130,price index,unemployment,6,90,86
+131,price index,income,5,90,17
+132,price index,economics,5,90,51
+133,price index,london,5,90,91
+134,price index,coffee,5,90,4
+135,price index,copper,4,90,1
+136,price index,webjet,4,90,94
+137,price in port moresby,port moresby,100,63,13
+138,price in port moresby,price,86,63,19
+139,price in port moresby,gold,21,63,46
+140,price in port moresby,gold as an investment,20,63,88
+141,price in port moresby,sales,12,63,97
+142,price in port moresby,papua new guinean kina,7,63,117
+143,price in port moresby,buyer,5,63,44
+144,price in port moresby,cost,4,63,60
+145,price in port moresby,market,4,63,3
+146,price in port moresby,room,4,63,119
+147,price in port moresby,samsung,4,63,25
+148,price in port moresby,cheap,4,63,12
+149,price in port moresby,gram,3,63,47
+150,price in port moresby,toyota,3,63,85
+151,price in port moresby,lodging,3,63,66
+152,price in port moresby,jacksons international airport,3,63,22
+153,price in port moresby,waigani,3,63,39
+154,price in port moresby,samsung galaxy,3,63,71
+155,price in port moresby,kilogram,3,63,69
+156,price in port moresby,shopping,2,63,80
+157,price in port moresby,samsung electronics,2,63,64
+158,port moresby price,port moresby,100,40,13
+159,port moresby price,price,84,40,19
+160,port moresby price,gold,14,40,46
+161,port moresby price,gold as an investment,13,40,88
+162,port moresby price,sales,9,40,97
+163,port moresby price,hotel,6,40,37
+164,port moresby price,flight,5,40,104
+165,port moresby price,waigani,4,40,39
+166,port moresby price,cost,4,40,60
+167,port moresby price,ticket,4,40,87
+168,port moresby price,gram,3,40,47
+169,port moresby price,toyota,3,40,85
+170,port moresby price,port moresby,3,40,13
+171,port moresby price,jacksons international airport,3,40,22
+172,port moresby price,fare,3,40,61
+173,port moresby price,machine,2,40,5
+174,port moresby price,toyota land cruiser,2,40,98
+175,port moresby price,kilogram,2,40,69
+176,port moresby price,hilton hotels & resorts,2,40,7
+177,port moresby price,lodging,2,40,66
+178,port moresby price,png air,2,40,50
+179,port moresby price,cheap,2,40,12
+180,port moresby price,ela motors hq.,2,40,93
+181,port moresby price,stock,2,40,108
+182,price in lae,lae,100,75,120
+183,price in lae,price,75,75,19
+184,price in lae,gold,46,75,46
+185,price in lae,gold as an investment,41,75,88
+186,price in lae,sales,13,75,97
+187,price in lae,gram,10,75,47
+188,price in lae,papua new guinean kina,9,75,117
+189,price in lae,house,6,75,106
+190,price in lae,buyer,6,75,44
+191,price in lae,coffee,5,75,4
+192,price in lae,market,5,75,3
+193,price in lae,fare,4,75,61
+194,price in lae,room,3,75,119
+195,price in lae,city,3,75,76
+196,price in lae,location,2,75,100
+197,price in lae,calculator,2,75,49
+198,price in lae,morobe province,2,75,2
+199,price in lae,kokopo,1,75,55
+200,price in lae,ticket,1,75,87
+201,lae price,lae,100,11,120
+202,lae price,price,83,11,19
+203,lae price,gold,31,11,46
+204,lae price,gold as an investment,27,11,88
+205,lae price,sales,10,11,97
+206,lae price,png air,8,11,50
+207,lae price,papua new guinean kina,8,11,117
+208,lae price,jacksons international airport,7,11,22
+209,lae price,ticket,6,11,87
+210,lae price,fare,5,11,61
+211,lae price,buyer,5,11,44
+212,lae price,gram,4,11,47
+213,lae price,airline,3,11,36
+214,lae price,market,2,11,3
+215,lae price,room,2,11,119
+216,lae price,city,2,11,76
+217,lae price,address,2,11,103
+218,lae price,toyota hiace,2,11,92
+219,lae price,wewak,2,11,83
+220,lae price,goroka,2,11,77
+221,lae price,theodist ltd,2,11,33
+222,lae price,kilogram,2,11,69
