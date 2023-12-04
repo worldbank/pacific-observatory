@@ -13,6 +13,7 @@ from statsmodels.tsa.arima.model import ARIMA
 import pmdarima as pm
 from pmdarima import auto_arima
 from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
+from ._data import ScaledLogitScalar
 from .ts_eval import *
 from .ts_utils import *
 
@@ -105,19 +106,6 @@ class SARIMAXPipeline(SARIMAXData):
         self.stepwise_model = None
         self.manual_search_results = None
 
-    @staticmethod
-    def scaledlogit_transform(series):
-        upper, lower = series.max() + 1, series.min() - 1
-        scaled_logit = np.log((series - lower)/(upper - series))
-
-        return scaled_logit
-
-    @staticmethod
-    def inverse_scaledlogit(trans_series, upper, lower):
-        exp = np.exp(trans_series)
-        inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
-        return inv_series
-
     def transform(self):
 
         # Load the data
@@ -137,7 +125,9 @@ class SARIMAXPipeline(SARIMAXData):
             self.training_size, self.test_size))
 
         if self.transform_method == "scaledlogit":
-            self.transformed_y = self.scaledlogit_transform(self.y)
+            self.scaledlogit = ScaledLogitScalar()
+            self.scaledlogit.fit(self.y)
+            self.transformed_y = self.scaledlogit.transform(self.y)
         elif self.transform_method == "minmax":
             self.minmax = MinMaxScaler()
             self.transformed_y = self.minmax.fit_transform(self.y)
@@ -257,3 +247,5 @@ class SARIMAXPipeline(SARIMAXData):
                 pass
 
         return comparison_result
+
+ 

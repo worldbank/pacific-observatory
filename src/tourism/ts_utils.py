@@ -133,17 +133,18 @@ def grangers_causation_matrix(data, variables,
     return df
 
 
-def scaledlogit_transform(series):
-    upper, lower = series.max() + 1, series.min() - 1
-    scaled_logit = np.log((series - lower)/(upper - series))
+class ScaledLogitScalar:
+    def scaledlogit_transform(series):
+        upper, lower = series.max() + 1, series.min() - 1
+        scaled_logit = np.log((series - lower)/(upper - series))
 
-    return scaled_logit
+        return scaled_logit
 
 
-def inverse_scaledlogit(trans_series, upper, lower):
-    exp = np.exp(trans_series)
-    inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
-    return inv_series
+    def inverse_scaledlogit(trans_series, upper, lower):
+        exp = np.exp(trans_series)
+        inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
+        return inv_series
 
 def check_and_modify_date(date):
 

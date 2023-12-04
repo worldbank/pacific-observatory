@@ -4,6 +4,7 @@ import statsmodels
 import sklearn
 import os
 from statsmodels.tsa.api import VARMAX
+from ._data import ScaledLogitScalar
 from .utsmodel import SARIMAXData
 from .ts_eval import *
 from .ts_utils import *

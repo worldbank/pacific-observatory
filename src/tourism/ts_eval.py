@@ -11,12 +11,12 @@ def naive_method(y: pd.Series) -> pd.Series:
     forecast = y.shift(1)
     return forecast
 
-def seasonal_naive_method(y: pd.array, period: int = 12) -> np.array:
+def seasonal_naive_method(y: np.array, period: int = 12) -> np.array:
     """
     Calculates forecasts using the seasonal naive method for time series data.
 
     Args:
-        y (pd.array): A numpy array of time series data.
+        y (np.array): A numpy array of time series data.
         period (int): The seasonal period of the time series, default to be 12.
     """
     n = len(y)
