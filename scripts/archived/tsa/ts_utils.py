@@ -116,7 +116,6 @@ def inverse_scaledlogit(trans_series, upper, lower):
     return inv_series
 
 def check_and_modify_date(date):
-
     if date.day != 1:
             # Modify the date to the first day of the same month
             modified_date = date.replace(day=1)

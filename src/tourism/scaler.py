@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class ScaledLogitScalar:
+class ScaledLogitScaler:
     """
     ScaledLogitScalar for multidimensional transformation using scaled logit transformation.
 
@@ -12,8 +12,10 @@ class ScaledLogitScalar:
         Lower bounds calculated during fitting.
     """
 
-    @staticmethod
-    def scaledlogit_transform(series):
+    def __init__(self, copy=True):
+        self.copy = copy
+    
+    def _scaledlogit_transform(self, series):
         """
         Applies scaled logit transformation to the input series.
 
@@ -25,13 +27,12 @@ class ScaledLogitScalar:
         numpy.ndarray
             Transformed array using scaled logit.
         """
-        upper = series.max(axis=0) + 1
-        lower = series.min(axis=0) - 1
+        upper = np.nanmax(series, axis=0) + 1
+        lower = np.nanmin(series, axis=0) - 1
         scaled_logit = np.log((series - lower) / (upper - series))
         return scaled_logit
 
-    @staticmethod
-    def inverse_scaledlogit(trans_series, upper, lower):
+    def _inverse_scaledlogit(self, trans_series, upper, lower):
         """
         Applies inverse scaled logit transformation to the input series.
 
@@ -51,16 +52,27 @@ class ScaledLogitScalar:
         inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
         return inv_series
 
+    def _reset(self):
+        if hasattr(self, "upper_"):
+            del self.upper_
+            del self.lower_
+            del self.data_range_
+
+
     def fit(self, X):
-        """
+        """ 
         Fits the scaler to the input data by calculating upper and lower bounds.
 
         Parameters:
         X : numpy.ndarray
             Input data to fit the scaler.
         """
-        self.upper_ = X.max(axis=0) + 1
-        self.lower_ = X.min(axis=0) - 1
+        # Reset internal state before fitting
+        self._reset()
+        self.upper_ = np.nanmax(X, axis=0) + 1
+        self.lower_ = np.nanmin(X, axis=0) - 1
+        self.data_range_ = self.upper_ - self.lower_
+        return self
 
     def transform(self, X):
         """
@@ -74,7 +86,7 @@ class ScaledLogitScalar:
         numpy.ndarray
             Transformed array using scaled logit.
         """
-        return self.scaledlogit_transform(X)
+        return self._scaledlogit_transform(X)
 
     def inverse_transform(self, trans_X):
         """
@@ -88,4 +100,4 @@ class ScaledLogitScalar:
         numpy.ndarray
             Inverse-transformed array.
         """
-        return self.inverse_scaledlogit(trans_X, self.upper_, self.lower_)
+        return self._inverse_scaledlogit(trans_X, self.upper_, self.lower_)

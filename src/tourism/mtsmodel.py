@@ -1,65 +1,42 @@
+import os
 import pandas as pd
 import numpy as np
+import chardet
+import logging
 import statsmodels
 import sklearn
-import os
+from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.api import VARMAX
-from ._data import ScaledLogitScalar
+import statsmodels.formula.api as smf
+from .scaler import ScaledLogitScaler
 from .utsmodel import SARIMAXData
 from .ts_eval import *
 from .ts_utils import *
+from .data import *
 
-class MultiTSData(SARIMAXData):
-    SELECT_COLS = ["seats_arrivals_total", "seats_arrivals_intl",
-                   "number_of_flights_total", "number_of_flights_intl"]
-
-    def __init__(self, country: str, data=None, aviation_path=None):
-        super().__init__(country, data)
-        if aviation_path is None:
-            self.aviation_path = os.getcwd() + "/data/tourism/aviation_seats_flights_pic.xlsx"
-        else:
-            self.aviation_path = aviation_path 
-
-    def read_and_merge(self,
-                       avi_type: str = "passenger",
-                       select_cols: list = SELECT_COLS):
-        
-        # Inherit from the read_and_merge method from SARIMAXData
-        super().read_and_merge()
-        
-        # Process the Aviation Data
-        if ".csv" in self.aviation_path:
-            avi = pd.read_csv(self.aviation_path)
-        elif ".xlsx" in self.aviation_path:
-            avi = pd.read_excel(self.aviation_path)
-        avi.columns = [col.lower().replace(" ", "") for col in avi.columns]
-        avi["date"] = pd.to_datetime(avi["date"])
-        avi["country"] = avi["country"].str.lower().str.replace(" ", "_")
-        avi = (avi[(avi.country == str(self.country)) & (avi.aircraft_type == str(avi_type))]
-               .reset_index(drop=True))
-        
-        avi.index = avi["date"]
-        avi = avi[select_cols].groupby(pd.Grouper(freq='M')).sum()
-        
-        # Drop last month because of the half-month data
-        avi = avi.reset_index().iloc[:-1, :]
-        avi["date"] = avi["date"] - pd.offsets.MonthBegin()
-        
-        self.data = (self.data.merge(avi, how="left", on="date")
-                        .dropna()
-                        .reset_index()
-                        .drop("index", axis=1))
+__all__ = [
+    "RatioPipe"
+]
 
 class VARPipeline(MultiTSData):
-    def __init__(self, country, var_name, exog, data=None):
-        super().__init__(country, data, aviation_path)
+    def __init__(self,
+                 country: str,
+                 y_var: str,
+                 exog_var: list,
+                 transform_method: str,
+                 training_ratio: float,
+                 trends_data_folder: str = TRENDS_DATA_FOLDER,
+                 covid_idx_path: str = COVID_DATA_PATH,
+                 aviation_path: str = DEFAULT_AVIATION_DATA_PATH):
+        super().__init__(country, y_var, exog_var, transform_method,
+                         training_ratio, trends_data_folder, covid_idx_path)
         self.var_name = var_name
         self.x1, self.x2 = var_name
         self.exog = exog
 
     def test_stationarity(self):
         adf_df = get_adf_df(self.data[self.var_name], self.var_name)
-        
+
         order = 0
         while np.average(adf_df["p-value"]) > 0.05 and order < 2:
             self.stationary_data = self.data[self.var_name].diff().dropna()
@@ -69,18 +46,10 @@ class VARPipeline(MultiTSData):
             if order >= 2:
                 break
         else:
-           display(adf_df)
-           print(f"order = {order}: stationarity obtained.")
-
-    def transform(self, scaled_logit=True):
-        if scaled_logit:
-            self.x1_trans = scaledlogit_transform(self.data[self.x1])
-            self.x2_trans = scaledlogit_transform(self.data[self.x2])
-            self.scaled = pd.DataFrame([self.x1_trans, self.x2_trans]).T
+            display(adf_df)
+            print(f"order = {order}: stationarity obtained.")
 
     def varma_search(self, verbose=False):
-
-        from sklearn.model_selection import ParameterGrid
 
         param_grid = {'p': [1, 2, 3],
                       'q': [1, 2, 3],
@@ -91,9 +60,9 @@ class VARPipeline(MultiTSData):
             "model": [],
             "result": []
         }
-        
+
         for idx, params in enumerate(pg):
-            if verbose: 
+            if verbose:
                 print(f' Running for {params}')
             p = params.get('p')
             q = params.get('q')
@@ -106,15 +75,15 @@ class VARPipeline(MultiTSData):
             model_res["result"].append(model.aic)
 
         self.model_res_df = (pd.DataFrame(model_res)
-                        .sort_values(by="result", ascending=True))
+                             .sort_values(by="result", ascending=True))
         self.p, self.q, self.tr = self.model_res_df.iloc[0, 0]
         print(f"Best P, Q, Trend Combination: {self.p, self.q, self.tr}")
-    
+
     def fit(self):
         self.mod = VARMAX(self.scaled,
-                    exog=self.data[self.exog],
-                    order=(self.p, self.q),
-                    trend=self.tr).fit(disp=False)
+                          exog=self.data[self.exog],
+                          order=(self.p, self.q),
+                          trend=self.tr).fit(disp=False)
         print(self.mod.summary())
 
     def get_fittedvalues(self):
@@ -131,7 +100,7 @@ class VARPipeline(MultiTSData):
     def evaluate_models(self):
         naive_pred = naive_method(self.data[self.x1])
         mean_pred = mean_method(self.data[self.x1])
-        
+
         benchmark = pd.DataFrame()
         for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, self.data.pred_total]):
             eval = calculate_evaluation(self.data[self.x1], pred)
@@ -141,62 +110,72 @@ class VARPipeline(MultiTSData):
 
 
 class RatioPipe(MultiTSData):
-    def __init__(self, country, 
-                 x1: str = "total",
-                 x2: str = "seats_arrivals_intl",
-                 data=None):
-        super().__init__(country, data, aviation_path)
-        self.x1 = x1 
+    def __init__(self, country,
+                 y_var,
+                 exog_var,
+                 transform_method,
+                 training_ratio,
+                 x2: str = "seats_arrivals_intl"): 
+        """
+        Initialize RatioPipe object.
+
+        Args:
+            country (str): The country.
+            y_var (str): The dependent variable.
+            x2 (str, optional): The variable with `y_var` to produce ratio. Defaults to "seats_arrivals_intl".
+            exog_var (str): The exogenous variable.
+            transform_method (str): The transformation method.
+            training_ratio (float): The training ratio.
+        """    
+        super().__init__(country, y_var, exog_var, transform_method, training_ratio)
+        self.x1 = y_var
         self.x2 = x2
 
     def transform(self):
+        """
+        Transform data by calculating the ratio and adjusting abnormal values.
+        """
+
+        self.model_data = (self.data[self.data.date >= "2019-01-01"]
+                           .reset_index(drop=True))
+        self.model_data["quarter"] = self.model_data["date"].dt.quarter
         ratios = []
-        for x1, x2 in zip(self.data[self.x1], self.data[self.x2]):
-            if x2 == 0:
+        for x1, x2 in zip(self.model_data[self.x1], self.model_data[self.x2]):
+            if x2 == 0 or x1 == 0:
                 ratio = 0
             else:
                 ratio = x1/x2
             ratios.append(ratio)
-        
         # Adjust the ratio ex post
         for idx, ratio in enumerate(ratios):
             if ratio >= 1:
                 print(f"Abnormal value produced with a value of {ratio}.")
                 ratios[idx] = ((ratios[idx-1] + ratios[idx+1]))/2
-        self.data["ratio"] = ratios
-        
-        self.data["log_ratio"] = np.where(self.data["ratio"]==0, 0, 
-                                          np.log(self.data["ratio"]* 100))
+        self.model_data["ratio"] = ratios
 
     def fit(self,
             formula: str,
-            maxlags: int):
-        import statsmodels.formula.api as smf
-        self.data["quarter"] = self.data["date"].dt.quarter
-        self.model_df = self.data[["date", "ratio", "log_ratio", "covid", "quarter",
-                                "stringency_index", str(self.country) + "_travel"]]
+            maxlags: int = None):
+        """
+        Fit the model using OLS.
+
+        Args:
+        - formula (str): The formula for the OLS model.
+        - maxlags (int, optional): The maximum lag order. Defaults to None.
         
-        if "log_ratio" in formula:
-            self.log_ratio = True
-        else:
-            self.log_ratio = False
+        """
+        if maxlags == None:
+            maxlags = int(4 * (len(self.model_data)/100) ** (2/9)) + 1
 
         self.res = smf.ols(
             formula,
-            data=self.model_df).fit(cov_type='HAC', cov_kwds={'maxlags': maxlags, 
-                                                              "use_correction": True})
+            data=self.model_data).fit(cov_type='HAC', cov_kwds={"maxlags": maxlags,
+                                                                "use_correction": True})
 
-        print(self.res.summary())
-
-    def get_prediction_df(self):
+    def get_prediction(self):
         pred_df = self.res.get_prediction().summary_frame()
         select_cols = ["date", "ratio", self.x1, self.x2]
-        self.pred_df = pd.concat([self.data[select_cols], pred_df], axis=1)
+        self.pred_df = pd.concat([self.model_data[select_cols], pred_df], axis=1)
+        self.pred_df["pred_mean"] = self.pred_df["mean"] * self.pred_df[self.x2]
 
-        if self.log_ratio:
-            self.pred_df["pred_mean"] = (np.exp(self.pred_df["mean"])/100) * self.pred_df[self.x2]
-        else:
-            self.pred_df["pred_mean"] = self.pred_df["mean"] * self.pred_df[self.x2]
-        display(self.pred_df.head(5))
-        
         return self.pred_df

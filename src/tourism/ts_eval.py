@@ -11,6 +11,7 @@ def naive_method(y: pd.Series) -> pd.Series:
     forecast = y.shift(1)
     return forecast
 
+
 def seasonal_naive_method(y: np.array, period: int = 12) -> np.array:
     """
     Calculates forecasts using the seasonal naive method for time series data.
@@ -26,6 +27,7 @@ def seasonal_naive_method(y: np.array, period: int = 12) -> np.array:
         forecasts[i] = y[i - period]
 
     return forecasts
+
 
 def mean_method(y: np.ndarray) -> np.ndarray:
     """
@@ -55,6 +57,7 @@ def drift_method(y: np.ndarray, h: int) -> np.ndarray:
 
     return forecasts[-h:]
 
+
 def calculate_evaluation(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
     """
     Calculates the Root Mean Squared Error (RMSE) for time series data.
@@ -69,5 +72,6 @@ def calculate_evaluation(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
     mse = np.mean((y_pred - y_true) ** 2)
     rmse = np.sqrt(mse)
     mae = np.mean(np.abs(y_true - y_pred))
-    smape = np.mean(np.abs((y_true - y_pred))/(np.abs(y_true) + np.abs(y_pred))) * 200
-    return  {'MSE': mse, 'RMSE': rmse, 'MAE': mae, 'SMAPE': smape}
+    smape = np.mean(np.abs((y_true - y_pred)) /
+                    (np.abs(y_true) + np.abs(y_pred))) * 200
+    return {'MSE': mse, 'RMSE': rmse, 'MAE': mae, 'SMAPE': smape}

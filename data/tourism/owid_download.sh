@@ -1,1 +1,0 @@
-wget https://raw.githubusercontent.com/worldbank/pacific-observatory/main/data/tourism/owid-covid-data.csv

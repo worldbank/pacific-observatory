@@ -1,6 +1,5 @@
 import os
 import warnings
-
 import pandas as pd
 import numpy as np
 import scipy
@@ -133,19 +132,6 @@ def grangers_causation_matrix(data, variables,
     return df
 
 
-class ScaledLogitScalar:
-    def scaledlogit_transform(series):
-        upper, lower = series.max() + 1, series.min() - 1
-        scaled_logit = np.log((series - lower)/(upper - series))
-
-        return scaled_logit
-
-
-    def inverse_scaledlogit(trans_series, upper, lower):
-        exp = np.exp(trans_series)
-        inv_series = (((upper - lower) * exp) / (1 + exp)) + lower
-        return inv_series
-
 def check_and_modify_date(date):
 
     if date.day != 1:
@@ -153,3 +139,13 @@ def check_and_modify_date(date):
             modified_date = date.replace(day=1)
             return modified_date
     return date
+
+def generate_search_params():
+    # Set parameter range
+    p, d, q = range(0, 3), range(0, 2), range(0, 3)
+    P, D, Q, s = range(0, 3), range(0, 2), range(0, 3), [12]
+
+    # list of all parameter combos
+    pdq = list(itertools.product(p, d, q))
+    seasonal_pdq = list(itertools.product(P, D, Q, s))
+    all_param = list(itertools.product(pdq, seasonal_pdq))

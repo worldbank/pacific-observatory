@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
-from scripts.python.tsa.utsmodel import *
+import sys
+sys.path.insert(0, "../")
+from src.tourism.utsmodel import *
 
 def run_sarimax(country, y_vars,
                 method: str,
