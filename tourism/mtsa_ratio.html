@@ -72,7 +72,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="VAR" href="mtsa_var.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Dec 14, 2023"/>
+    <meta name="docbuild:last-update" content="Jan 02, 2024"/>
   </head>
   
   
@@ -454,8 +454,8 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="kn">from</span> <span class="nn">scripts.python.tsa.mtsmodel</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">scripts.python.tsa.ts_eval</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">src.tourism.mtsmodel</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">src.tourism.ts_eval</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
@@ -475,7 +475,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING (pytensor.tensor.blas): Using NumPy C-API based implementation for BLAS functions.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2023-12-16 15:57:15 - pytensor.tensor.blas:1016 - WARNING] Using NumPy C-API based implementation for BLAS functions.
 </pre></div>
 </div>
 </div>
@@ -490,6 +490,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_observed</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)):</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;pred_mean&quot;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Number of Tourists&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Date&quot;</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Number&quot;</span><span class="p">)</span>
@@ -503,7 +504,305 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]:</span>
 
-    <span class="n">mod</span> <span class="o">=</span> <span class="n">RatioPipe</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">RatioPipe</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,</span>
+                    <span class="n">training_ratio</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+                    <span class="n">y_var</span><span class="o">=</span><span class="s2">&quot;total&quot;</span><span class="p">,</span>
+                    <span class="n">exog_var</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">,</span> <span class="s2">&quot;stringency_index&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa_travel&quot;</span><span class="p">],</span>
+                    <span class="n">transform_method</span><span class="o">=</span><span class="s2">&quot;scaledlogit&quot;</span><span class="p">)</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s2">&quot;ratio~covid * stringency_index+C(quarter)+&quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_travel&quot;</span><span class="p">)</span>
+    <span class="n">pred_df</span> <span class="o">=</span> <span class="n">mod</span><span class="o">.</span><span class="n">get_prediction</span><span class="p">()</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">get_benchmark_evaluation</span><span class="p">()</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">benchmark</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>7.970104e+06</td>
+      <td>2823.137282</td>
+      <td>1518.795455</td>
+      <td>49.120902</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>4.747392e+07</td>
+      <td>6890.131975</td>
+      <td>6027.062716</td>
+      <td>155.537953</td>
+    </tr>
+    <tr>
+      <th>seasonal naive</th>
+      <td>1.277842e+08</td>
+      <td>11304.165437</td>
+      <td>8357.200000</td>
+      <td>184.252367</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>2.071537e+06</td>
+      <td>1439.283344</td>
+      <td>736.658009</td>
+      <td>131.050625</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>1.298621e+06</td>
+      <td>1139.570483</td>
+      <td>677.477273</td>
+      <td>53.868245</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.219030e+07</td>
+      <td>3491.460526</td>
+      <td>3125.890370</td>
+      <td>130.888109</td>
+    </tr>
+    <tr>
+      <th>seasonal naive</th>
+      <td>3.259447e+07</td>
+      <td>5709.156811</td>
+      <td>4496.422222</td>
+      <td>172.783359</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>5.361937e+05</td>
+      <td>732.252502</td>
+      <td>398.865184</td>
+      <td>38.850790</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>1.045461e+06</td>
+      <td>1022.477747</td>
+      <td>597.257143</td>
+      <td>69.556373</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>7.898678e+06</td>
+      <td>2810.458659</td>
+      <td>2511.586420</td>
+      <td>147.552078</td>
+    </tr>
+    <tr>
+      <th>seasonal naive</th>
+      <td>2.298302e+07</td>
+      <td>4794.060863</td>
+      <td>3770.944444</td>
+      <td>175.765515</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>2.180673e+05</td>
+      <td>466.976806</td>
+      <td>264.960357</td>
+      <td>91.467507</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>1.721267e+05</td>
+      <td>414.881597</td>
+      <td>268.478261</td>
+      <td>46.835106</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1.290167e+06</td>
+      <td>1135.855000</td>
+      <td>1065.215278</td>
+      <td>100.969388</td>
+    </tr>
+    <tr>
+      <th>seasonal naive</th>
+      <td>5.452023e+06</td>
+      <td>2334.956763</td>
+      <td>2232.833333</td>
+      <td>178.391803</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>4.762116e+04</td>
+      <td>218.222737</td>
+      <td>143.623769</td>
+      <td>21.253277</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MSE</th>
+      <th>RMSE</th>
+      <th>MAE</th>
+      <th>SMAPE</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>naive</th>
+      <td>2.446383e+06</td>
+      <td>1564.091833</td>
+      <td>808.452381</td>
+      <td>45.153360</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>2.273834e+07</td>
+      <td>4768.473803</td>
+      <td>4264.861006</td>
+      <td>156.566459</td>
+    </tr>
+    <tr>
+      <th>seasonal naive</th>
+      <td>6.005609e+07</td>
+      <td>7749.586508</td>
+      <td>5836.813953</td>
+      <td>182.249894</td>
+    </tr>
+    <tr>
+      <th>ratio</th>
+      <td>5.944251e+05</td>
+      <td>770.989718</td>
+      <td>471.720655</td>
+      <td>127.418109</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">]:</span>
+
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">RatioPipe</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">,)</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;s Official and Avaition Data.&quot;</span><span class="p">)</span>
     <span class="n">mod</span><span class="o">.</span><span class="n">read_and_merge</span><span class="p">()</span>
 
@@ -2452,7 +2751,7 @@ By World Bank
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Dec 14, 2023.
+  Last updated on Jan 02, 2024.
   <br/>
 </p>
   </div>
