@@ -14,7 +14,7 @@ from selenium import webdriver
 from selenium.webdriver import ChromeService, ChromeOptions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .utils import *
+from .utils import download_files, configure_cookies, configure_headers
 
 
 class WebScraper(object):

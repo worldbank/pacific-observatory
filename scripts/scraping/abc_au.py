@@ -2,7 +2,7 @@ import os
 os.chdir("../../")
 import pandas as pd
 import json
-from src.scraper.scrape import *
+from src.scraper.scrape import WebScraper
 
 ## Set up 
 target_dir = os.getcwd() + "/data/text/abc_au/"

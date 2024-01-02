@@ -75,3 +75,4 @@ def calculate_evaluation(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
     smape = np.mean(np.abs((y_true - y_pred)) /
                     (np.abs(y_true) + np.abs(y_pred))) * 200
     return {'MSE': mse, 'RMSE': rmse, 'MAE': mae, 'SMAPE': smape}
+

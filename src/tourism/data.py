@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 import chardet
+from typing import Union, Dict, List, Optional
 from .ts_utils import check_and_modify_date
 from .scaler import ScaledLogitScaler
 from sklearn.preprocessing import MinMaxScaler
@@ -85,7 +86,7 @@ class CovidDataLoader:
         if "Unnamed: 0" in covid_idx.columns:
             covid_idx = covid_idx.drop("Unnamed: 0", axis=1)
         covid_idx["date"] = pd.to_datetime(covid_idx["date"])
-        covid_idx["covid"] = (covid_idx.date >= "2020-03-11").astype(int)
+        covid_idx["covid"] = ((covid_idx.date >= "2020-03-11") & (covid_idx.date <= "2023-05-11")).astype(int)
         return covid_idx
 
 
@@ -137,8 +138,8 @@ class SARIMAXData:
                  country: str,
                  y_var: str,
                  exog_var: list,
-                 transform_method: str,
-                 training_ratio=0.9,
+                 training_ratio: float,
+                 transform_method: str = None,
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH):
         """
@@ -226,14 +227,14 @@ class MultiTSData(SARIMAXData):
     def __init__(self, country: str,
                  y_var: str,
                  exog_var: list,
-                 transform_method: str,
                  training_ratio: float,
+                 transform_method: str = None,
                  select_col: list = ["seats_arrivals_intl"],
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH,
                  aviation_path: str = DEFAULT_AVIATION_DATA_PATH):
-        super().__init__(country, y_var, exog_var, transform_method,
-                         training_ratio, trends_data_folder, covid_idx_path)
+        super().__init__(country, y_var, exog_var, training_ratio, transform_method,
+                         trends_data_folder, covid_idx_path)
         self.aviation_path = aviation_path
         self.aviation_data_loader = AviationDataLoader(
             self.country, select_col, self.aviation_path)

@@ -60,3 +60,9 @@ def configure_cookies(host_url: str, cookies_path: str) -> dict:
       
     cookies = chrome_cookies(host_url, cookies_path)
     return cookies
+
+def check_latest_date(filepath: str):
+    df = pd.read_csv(filepath)
+    if "date" in df.columns:
+        df["date"] = pd.to_datetime(df["date"])
+        return df["date"].max()

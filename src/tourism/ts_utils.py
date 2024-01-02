@@ -108,7 +108,6 @@ def cointegration_test(df, alpha=0.05):
     results = {}
     for col, trace, cvt in zip(df.columns, traces, cvts):
         results[col] = {'Test Stat': round(trace, 2), 'C(95%)': cvt, 'Significance': trace > cvt}
-
     return results
 
 

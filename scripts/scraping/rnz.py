@@ -1,17 +1,24 @@
 import os
-os.chdir("../../../")
-from src.scraper.scrape import *
+import sys
+sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
+import numpy as np
+import pandas as pd
+from src.scraper.utils import check_latest_date
+from src.scraper.scrape import WebScraper
 
-# Set up
-target_dir = os.getcwd() + "/data/text/rnz/"
-if not os.path.exists(target_dir):
-    os.mkdir(target_dir)
-
+# Basic Setup
 host_url = "https://www.rnz.co.nz"
-countries = ["Solomon Islands"]
+countries = ["Solomon Islands", "Samoa", "Fiji", "Papua New Guinea"]
+scrape_all = False
 
 for country in countries:
-    filename = country.replace(" ", "_").lower() + "_rnz_urls.csv"
+    # Filepath Setup
+    url_filepath = country.replace(" ", "_").lower() + "_rnz_urls.csv"
+    target_dir = sys.path[0] + "/data/text/" + \
+        country.replace(" ", "_").lower() + "/"
+    news_filepath = country.lower().replace(" ", "_") + "_rnz_news.csv"
+
+    # Scrping URL Setup
     country_base_url = host_url + "/tags/" + str(country) + "?page="
     country_urls = [country_base_url + str(i) for i in range(1, 500)]
 
@@ -29,19 +36,23 @@ for country in countries:
         output, columns=["title", "date", "url"]).drop_duplicates()
     rnz_df["news"] = rnz_df["url"].apply(
         lambda x: x.split("/")[2] != "programmes")
+    rnz_df["date"] = pd.to_datetime(rnz_df["date"])
+
     rnz_df["url"] = [host_url + str(url) for url in rnz_df.url]
 
     # Save url files
-    rnz_df.to_csv(target_dir + filename, encoding="utf-8")
+    rnz_df.to_csv(target_dir + url_filepath, encoding="utf-8")
 
-for country in countries:
-    country_filepath = target_dir + country.lower().replace(" ", "_") + \
-        "_rnz_urls.csv"
-    df = pd.read_csv(country_filepath).drop("Unnamed: 0", axis=1)
-    news_urls = df[df.news == True]["url"].tolist()
+    if not scrape_all:
+        latest_scraped_date = check_latest_date(target_dir + news_filepath)
+        news_urls = rnz_df[(rnz_df.date > latest_scraped_date) & (
+            rnz_df.news == True)]["url"].tolist()
+    else:
+        news_urls = rnz_df[rnz_df.news == True]["url"].tolist()
+
     scraper = WebScraper(parser="html.parser")
-    nested_data = scraper.scrape_urls(news_urls, "article__body", speed_up=True)
-
+    nested_data = scraper.scrape_urls(
+        news_urls, "article__body", speed_up=True)
     news_output = []
     for url, i in nested_data:
         try:
@@ -52,6 +63,14 @@ for country in countries:
             news_output.append([url, np.NAN])
 
     country_news_df = pd.DataFrame(news_output, columns=["url", "news"])
-    news_filepath = target_dir + country.lower().replace(" ", "_") + \
-        "_rnz_news.csv"
-    country_news_df.to_csv(news_filepath, encoding="utf-8")
+    country_news_df = country_news_df.merge(rnz_df[["url", "date"]], how="left", on="url")
+    if not scrape_all:
+        previous_news_df = pd.read_csv(
+            target_dir + news_filepath).drop("Unnamed: 0", axis=1)
+        previous_news_df["date"] = pd.to_datetime(previous_news_df["date"])
+        latest_news_df = (pd.concat([previous_news_df, country_news_df], axis=0)
+                            .sort_values(by="date", ascending=False)
+                            .reset_index(drop=True))
+        latest_news_df.to_csv(target_dir + news_filepath, encoding="utf-8")
+    else:
+        country_news_df.to_csv(target_dir + news_filepath, encoding="utf-8")

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 import os
+import sys
+sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
 import pandas as pd
 import glob
 from selenium import webdriver
