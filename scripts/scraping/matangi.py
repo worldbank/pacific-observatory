@@ -1,17 +1,18 @@
 import os
 import sys
-sys.path.insert(0, "../../")
+sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
 import pandas as pd
 from src.scraper.scrape import WebScraper
+from src.scraper.utils import check_latest_date
 
 target_dir = sys.path[0] + "data/text/tonga/"
 if not os.path.exists(target_dir):
     os.mkdir(target_dir)
 
-search_urls = [f"https://matangitonga.to/topic/all?page={num}"
-               for num in range(1, 932)]
+MATANGI_PAGE_URLS = [f"https://matangitonga.to/topic/all?page={num}"
+               for num in range(1, 937)]
 mtg = WebScraper("html.parser")
-urls_raw = mtg.scrape_urls(search_urls, ["views-field views-field-title",
+urls_raw = mtg.scrape_urls(MATANGI_PAGE_URLS, ["views-field views-field-title",
                                          "views-field views-field-term-node-tid",
                                          "views-field views-field-field-first-publication",
                                          "views-field views-field-field-location"],

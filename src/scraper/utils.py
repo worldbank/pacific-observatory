@@ -3,7 +3,10 @@ import urllib3
 import pandas as pd
 import numpy as np
 import json
+import re
 from pycookiecheat import chrome_cookies
+from dateutil.parser import parse
+from datetime import datetime, timedelta
 
 # Wrap the urllib3 downloading functions
 def download_files(url: str, path: str, chunk_size=1024):
@@ -64,5 +67,22 @@ def configure_cookies(host_url: str, cookies_path: str) -> dict:
 def check_latest_date(filepath: str):
     df = pd.read_csv(filepath)
     if "date" in df.columns:
-        df["date"] = pd.to_datetime(df["date"])
+        df["date"] = pd.to_datetime(df["date"], format="mixed")
         return df["date"].max()
+    
+
+def handle_mixed_dates(date: str, pattern="\d+"):
+    try:
+        date = parse(date)
+    except:
+        if "ago" in date:
+            now = datetime.now()
+            number = int(re.findall(pattern, date)[0])
+            if "min" in date:
+                date = now - timedelta(minutes=number)
+            elif "hr" in date or "hour" in date:
+                date = now - timedelta(hours=number)
+    finally:
+        return date
+            
+            
