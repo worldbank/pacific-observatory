@@ -4,10 +4,12 @@ import numpy as np
 import logging
 import statsmodels
 import sklearn
+from collections import Counter
 from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.api import VARMAX
 import statsmodels.formula.api as smf
 from statsmodels.tsa.stattools import coint
+from statsmodels.tsa.vector_ar.vecm import select_order, VECM, coint_johansen
 from .scaler import ScaledLogitScaler
 from .utsmodel import SARIMAXData
 from .ts_eval import *
@@ -34,11 +36,12 @@ class VARPipeline(MultiTSData):
             self.y_var = y_var
             self.y0, self.y1 = y_var
         else:
-            raise ValueError("`y_var` should be list.")
+            raise ValueError("`y_var` should a list of two variables.")
         self.exog = exog_var
         self.transformation = None
         self.is_stationary = None
         self.is_cointegrated = None
+        self.test_results = {'stationarity': {}, 'cointegration': {}}
 
     @staticmethod
     def test_stationarity(df, y_var) -> bool:
@@ -52,108 +55,121 @@ class VARPipeline(MultiTSData):
         else:
             return False
 
-    @staticmethod
-    def test_cointegration(y0, y1) -> bool:
-        """
-        Call coint to test cointegration for two given time series y0 and y1.
-        """
-        result = coint(y0, y1)
-        return (result[1] < 0.05)
 
-    def determine_method(self):
+    def transform_data(self, transformation='original'):
         """
-        Determine VARMA or VECM based on integration/cointegration
+        Transform the time series data based on the specified method.
+        """
+        if transformation == 'original':
+            return self.data[self.y_var].dropna()
+        elif transformation == 'difference':
+            return self.data[self.y_var].diff().dropna()
+        else:
+            raise ValueError(f"Unknown transformation method: {transformation}")
+
+    def determine_analysis_method(self):
+        """
+        Determine VARMA or VECM based on stationarity and cointegration
         """
         transformations = {
-            'original': self.data[self.y_var].dropna(),
-            'diff': self.data[self.y_var].diff().dropna(),
-            # 'log_diff': np.log(self.data[self.y_var]+1).diff().dropna()
+            'original': self.transform_data(transformation='original'),
+            'difference': self.transform_data(transformation='difference')
         }
 
-        for method, data in transformations.items():
-            if self.test_stationarity(data, self.y_var):
-                self.transformation = method
-                self.transformed_y = data
-                self.exog_data = self.data.loc[self.transformed_y.index,
-                                               self.exog_var]
-                print(f"{method.capitalize()} series is stationary.")
-                break
+        for transform_type, data in transformations.items():
+            stationarity = self.test_stationarity(data, self.y_var)
+            self.test_results['stationarity'][transform_type] = stationarity
+            coint_stats = cointegration_test(data)
+            self.test_results["cointegration"][transform_type] = coint_stats
 
-        if not self.transformation:
-            print("Unable to achieve stationarity with the specified transformations.")
-            # Split data into series for cointegration test
-            self.y0_data, self.y1_data = self.data[self.y_var]
-            self.is_cointegrated = self.test_cointegration(
-                self.y0_data, self.y1_data)
-            if self.is_cointegrated:
-                self.method = "VECM"
-        else:
+        any_stationarity = any(self.test_results["stationarity"].values())
+        
+        if any_stationarity:
             self.method = "VARMAX"
+            true_keys = [key for key, value in self.test_results["stationarity"].items() if value]
+            self.transformation = "original" if len(true_keys) > 1 else true_keys[0]
 
-    def grid_search(self):
+        else:
+            cointegration_keys = [
+                transformed_type 
+                for transformed_type, object in self.test_results["cointegration"].items() 
+                if any(stat["Significance"] for stat in object.values())
+            ]
 
+            # Check if there's any cointegration
+            any_cointegration = bool(cointegration_keys)
+
+            if any_cointegration:
+                self.is_cointegrated = True
+                self.method = "VECM"
+                self.transformation = "original" if len(cointegration_keys) > 1 else cointegration_keys[0] 
+            else:
+                print("Data does not meet the requirements for VARMAX or VECM")
+
+    @staticmethod
+    def select_var_order(endog_data, exog_data):
         param_grid = {'p': [1, 2, 3],
                       'q': [1, 2, 3],
                       'tr': ['n', 'c', 't', 'ct']}
-        pg = list(ParameterGrid(param_grid))
+        models = [VARMAX(endog=endog_data,
+                         exog=exog_data,
+                         order=(params['p'], params['q']),
+                         trend=params['tr'])
+                  for params in ParameterGrid(param_grid)]
 
-        grid_search_dict = {
-            "model": [],
-            "aic": []
-        }
-        if self.method == "VARMAX":
-            for idx, params in enumerate(pg):
-                p = params.get('p')
-                q = params.get('q')
-                tr = params.get('tr')
-                model = VARMAX(endog=self.transformed_y,
-                            exog=self.exog_data,
-                            order=(p, q),
-                            trend=tr)
-                res = model.fit(disp=False)
-                grid_search_dict["model"].append((p, q, tr))
-                grid_search_dict["aic"].append(res.aic)
+        grid_search_results = [{
+            "model": (model.order, model.trend),
+            "aic": model.fit(disp=False).aic
+        } for model in models]
 
-            self.grid_search_res = (pd.DataFrame(grid_search_dict)
-                                  .sort_values(by="aic")
-                                  .reset_index(drop=True))
-            self.p, self.q, self.tr = self.grid_search_res["model"][0]
-        
-        elif self.method == "VECM":
-            pass
-        else:
-            raise ValueError("Not Conducting Grid Search")
+        sorted_results = sorted(grid_search_results, key=lambda x: x['aic'])
+        return sorted_results
+    
+    @staticmethod
+    def fit_vecm(endog_data, exog_data):
+        """
+        Fit a VECM model to the data and return the fitted model.
+        """
+        orders = select_order(endog_data, exog=exog_data, maxlags=5)
+        # Extract values and count occurrences
+        order_counts = Counter(orders.selected_orders.values())
+        selected_order = order_counts.most_common(1)[0][0]
 
- 
+        model = VECM(endog_data,
+                     exog=exog_data,
+                     k_ar_diff=selected_order,
+                     coint_rank=1)
+        fitted_model = model.fit()
+        return fitted_model
+
 
     def fit(self):
+        self.endog_data = self.transform_data(transformation=self.transformation)
+        select_idx = self.endog_data.index 
+        self.exog_data = self.data[self.exog_var].iloc[select_idx]
+
         if self.method == "VARMAX":
-            self.mod = VARMAX(endog=self.transformed_y,
+            self.mod = VARMAX(endog=self.endog_data,
                               exog=self.exog_data,
                               order=(self.p, self.q),
                               trend=self.tr).fit(disp=False)
         elif self.method == "VECM":
+            self.mod = self.fit_vecm(self.endog_data, self.exog_data)
+
+    def get_fittedvalues(self):
+        if self.transformation == 'original':
+            self.fittedvalues = self.mod.fittedvalues
+        elif self.transformation == 'difference':
             pass
 
 
-    def get_fittedvalues(self):
-        self.fittedvalues = self.mod.fittedvalues
-        rev_vals = []
-        for raw_val in self.fittedvalues[self.x1]:
-            rev_val = inverse_scaledlogit(
-                raw_val, upper=self.data[self.x1].max()+1,
-                lower=self.data[self.x1].min()-1
-            )
-            rev_vals.append(rev_val)
-        self.data["pred_total"] = rev_vals
-
     def evaluate_models(self):
-        naive_pred = naive_method(self.data[self.x1])
-        mean_pred = mean_method(self.data[self.x1])
+        naive_pred = naive_method(self.data[self.y0])
+        mean_pred = mean_method(self.data[self.y0])
 
         benchmark = pd.DataFrame()
-        for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, self.data.pred_total]):
-            eval = calculate_evaluation(self.data[self.x1], pred)
+        for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, self.data.fittedvalues]):
+            eval = calculate_evaluation(self.data[self.y0], pred)
             eval_df = pd.DataFrame(eval, index=[name])
             benchmark = pd.concat([benchmark, eval_df], axis=0)
 
@@ -162,7 +178,6 @@ class RatioPipe(MultiTSData):
     def __init__(self, country,
                  y_var,
                  exog_var,
-                 transform_method,
                  training_ratio,
                  x2: str = "seats_arrivals_intl"):
         """
@@ -176,7 +191,7 @@ class RatioPipe(MultiTSData):
             transform_method (str): The transformation method.
             training_ratio (float): The training ratio.
         """
-        super().__init__(country, y_var, exog_var, transform_method, training_ratio)
+        super().__init__(country, y_var, exog_var, training_ratio)
         self.x1 = y_var
         self.x2 = x2
 

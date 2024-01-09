@@ -52,13 +52,44 @@ class SARIMAXPipeline(SARIMAXData):
         Raises:
             AttributeError: If an invalid transformation method is specified.
         """
-        super().__init__(country, y_var, exog_var, transform_method,
+        super().__init__(country, y_var, exog_var,
                          training_ratio, trends_data_folder, covid_idx_path)
+        if transform_method not in ["scaledlogit", "minmax", None]:
+            raise AttributeError("No such transformation exists.")
+        self.transform_method = transform_method
         self.verbose = verbose
 
         # Initialize the stepwise model
         self.stepwise_model = None
         self.manual_search_results = None
+
+    def transform(self):
+
+        # Load the data
+        self.y = self.data[[self.y_var]]
+        self.exog = self.data[self.exog_var]
+        self.total_size = len(self.data)
+        self.training_size = int(self.training_ratio * self.total_size)
+        self.test_size = self.total_size - self.training_size
+
+        if self.data["date"][self.training_size-1] <= pd.Timestamp(2020, 3, 11):
+            print(
+                "Training samples do not cover covid-19 periods. Instead, Run All Samples.")
+            self.training_size = self.total_size
+            self.test_size = 0
+
+        print("training size : {}, testing size : {}".format(
+            self.training_size, self.test_size))
+
+        if self.transform_method == "scaledlogit":
+            self.scaledlogit = ScaledLogitScaler()
+            self.scaledlogit.fit(self.y)
+            self.transformed_y = self.scaledlogit.transform(self.y)
+        elif self.transform_method == "minmax":
+            self.minmax = MinMaxScaler()
+            self.transformed_y = self.minmax.fit_transform(self.y)
+        else:
+            self.transformed_y = self.y
 
     def get_benchmark_evaluation(self):
 

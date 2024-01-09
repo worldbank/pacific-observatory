@@ -34,7 +34,7 @@ class CountryDataLoader:
 
         Args:
             country (str): The country code.
-        
+
         """
         self.country = country
         self.country_data_folder = os.path.join(
@@ -46,7 +46,7 @@ class CountryDataLoader:
 
         Returns:
             pd.DataFrame: Preprocessed country data.
-        
+
         """
         country = (pd.read_csv(self.country_data_folder + "/intermediate/" +
                                str(self.country) + "_monthly_visitor.csv")
@@ -61,7 +61,7 @@ class CountryDataLoader:
 
 class TrendsDataLoader:
     def __init__(self, country: str,
-                 trends_data_folder: str):
+                 trends_data_folder: str = TRENDS_DATA_FOLDER):
         self.country = country
         self.trends_data_folder = trends_data_folder
 
@@ -74,7 +74,7 @@ class TrendsDataLoader:
 
 
 class CovidDataLoader:
-    def __init__(self, country, covid_idx_path: str):
+    def __init__(self, country, covid_idx_path: str = COVID_DATA_PATH):
         self.country = country
         if os.path.exists(covid_idx_path):
             self.covid_idx_path = covid_idx_path
@@ -86,7 +86,8 @@ class CovidDataLoader:
         if "Unnamed: 0" in covid_idx.columns:
             covid_idx = covid_idx.drop("Unnamed: 0", axis=1)
         covid_idx["date"] = pd.to_datetime(covid_idx["date"])
-        covid_idx["covid"] = ((covid_idx.date >= "2020-03-11") & (covid_idx.date <= "2023-05-11")).astype(int)
+        covid_idx["covid"] = ((covid_idx.date >= "2020-03-11")
+                              & (covid_idx.date <= "2023-05-11")).astype(int)
         return covid_idx
 
 
@@ -139,7 +140,6 @@ class SARIMAXData:
                  y_var: str,
                  exog_var: list,
                  training_ratio: float,
-                 transform_method: str = None,
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH):
         """
@@ -165,9 +165,6 @@ class SARIMAXData:
         self.y_var = y_var
         self.exog_var = exog_var
         self.training_ratio = training_ratio
-        if transform_method not in ["scaledlogit", "minmax", None]:
-            raise AttributeError("No such transformation exists.")
-        self.transform_method = transform_method
 
     def read_and_merge(self):
         """
@@ -193,34 +190,6 @@ class SARIMAXData:
         data.insert(0, "date", first_col)
         self.data = data
 
-    def transform(self):
-
-        # Load the data
-        self.y = self.data[[self.y_var]]
-        self.exog = self.data[self.exog_var]
-        self.total_size = len(self.data)
-        self.training_size = int(self.training_ratio * self.total_size)
-        self.test_size = self.total_size - self.training_size
-
-        if self.data["date"][self.training_size-1] <= pd.Timestamp(2020, 3, 11):
-            print(
-                "Training samples do not cover covid-19 periods. Instead, Run All Samples.")
-            self.training_size = self.total_size
-            self.test_size = 0
-
-        print("training size : {}, testing size : {}".format(
-            self.training_size, self.test_size))
-
-        if self.transform_method == "scaledlogit":
-            self.scaledlogit = ScaledLogitScaler()
-            self.scaledlogit.fit(self.y)
-            self.transformed_y = self.scaledlogit.transform(self.y)
-        elif self.transform_method == "minmax":
-            self.minmax = MinMaxScaler()
-            self.transformed_y = self.minmax.fit_transform(self.y)
-        else:
-            self.transformed_y = self.y
-
 
 class MultiTSData(SARIMAXData):
 
@@ -228,13 +197,11 @@ class MultiTSData(SARIMAXData):
                  y_var: str,
                  exog_var: list,
                  training_ratio: float,
-                 transform_method: str = None,
                  select_col: list = ["seats_arrivals_intl"],
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH,
                  aviation_path: str = DEFAULT_AVIATION_DATA_PATH):
-        super().__init__(country, y_var, exog_var, training_ratio, transform_method,
-                         trends_data_folder, covid_idx_path)
+        super().__init__(country, y_var, exog_var, training_ratio)
         self.aviation_path = aviation_path
         self.aviation_data_loader = AviationDataLoader(
             self.country, select_col, self.aviation_path)

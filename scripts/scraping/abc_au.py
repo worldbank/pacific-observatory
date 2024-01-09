@@ -1,14 +1,13 @@
 import os
 import sys
-from pathlib import Path
-sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
+from config import PROJECT_FOLDER_PATH, ABC_AU_TOPIC_DICT, SCRAPE_ALL
+sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
 import json
 from src.scraper.scrape import WebScraper
 from src.scraper.utils import check_latest_date
 
-scrape_all = False
 
 def scrape_ajax_abc(document_id: int,
                     size: int = 1000,
@@ -36,18 +35,8 @@ def scrape_ajax_abc(document_id: int,
         offset += size
     return output
 
-topic_dict = {
-    26514 : "fiji",
-    26790 : "solomon_islands",
-    26730 : "papua_new_guinea",
-    26874 : "vanuatu",
-    26720 : "pacific",
-    26664 : "marshall_islands",
-    26832 : "tonga"
 
-}
-
-for key, name in topic_dict.items():
+for key, name in ABC_AU_TOPIC_DICT.items():
     ## Scrape URLs
     output = scrape_ajax_abc(
         document_id = key
@@ -67,7 +56,7 @@ for key, name in topic_dict.items():
         latest_date = check_latest_date(target_dir + name + "_abc_news.csv")
         urls = df[(df.date > latest_date) & (df.media_type == "article")]["url"].tolist()
     else:
-        scrape_all=True
+        SCRAPE_ALL=True
         urls = df[df.media_type == "article"]["url"].tolist()
 
     ## Scrape articles
@@ -88,7 +77,7 @@ for key, name in topic_dict.items():
 
     news_df = pd.DataFrame(news_list, columns=["url", "news", "tags"])
     news_df = news_df.merge(df[["url", "date"]], how="left", on="url")
-    if not scrape_all:
+    if not SCRAPE_ALL:
         news_df = (pd.concat([previous_news_df, news_df], axis=0)
                      .sort_values(by="date", ascending=False)
                      .reset_index(drop=True))
