@@ -18,7 +18,11 @@ python3 abc_au.py ## run scraping
 ### Pacific Islands (General)
 
 - :white_check_mark: `abc_au.py` scrapes the [ABC Australia](https://www.abc.net.au/).
-- :white_check_mark: `rnz.py` scrapes [Radio New Zealand](https://www.rnz.co.nz/)'s articles.s
+- :white_check_mark: `rnz.py` scrapes [Radio New Zealand](https://www.rnz.co.nz/)'s articles.
+
+### Fiji
+
+- :white_check_mark: `fiji_sun.py` scrapes [Fiji Sun](https://fijisun.com.fj/) from 2008-05-04.
 
 ### Papua New Guinea
 
@@ -31,7 +35,7 @@ python3 abc_au.py ## run scraping
 
 ### Solomon Islands
 
-- :white_large_square: TBD
+- :white_large_square: `solomon_times.py` scrapes [Solomon Times](https://www.solomontimes.com/)
 
 ### Vanuatu
 
