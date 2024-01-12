@@ -8,8 +8,14 @@ After downloading the compatible ChromeDriver:
 conda create --name <ENV_NAME>
 conda activate ENV_NAME
 pip3 install -r requirements.txt
-python3 abc_au.py ## run scraping
+cd ../
+python3 -m scraping.pacific.abc_au.py ## Using -m to enable relative import
 ```
+
+## Introduction
+
+
+
 
 ## Files Information
 
@@ -26,7 +32,7 @@ python3 abc_au.py ## run scraping
 
 ### Papua New Guinea
 
-- :white_large_square: `post_courier.py` scrapes [Post Courier](https://www.postcourier.com.pg/) from 2015-12-16.
+- :white_check_mark: `post_courier.py` scrapes [Post Courier](https://www.postcourier.com.pg/) from 2015-12-16.
 - :white_check_mark: `png_business.py` scrapes [PNG Business News](https://www.pngbusinessnews.com/) 2019-05-24
 
 ### Samoa
