@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from .utils import (
-    is_in_word_list
+    is_in_word_list, generate_continous_df
 )
 from typing import List, Union
 
@@ -26,18 +26,27 @@ UNCERTAINTY_LIST = [
 
 
 class EPU:
-    def __init__(self, filepath,
+    def __init__(self,
+                 filepath: Union[str, List[str]],
+                 cutoff: str,
                  econ_terms: list = ECON_LIST,
                  policy_terms: list = POLICY_LIST,
                  uncertainty_terms: list = UNCERTAINTY_LIST,
                  additional_terms: Union[List, None] = None):
-        if not os.path.exists(filepath):
-            raise FileNotFoundError(f"Cannot find {filepath}")
+        if isinstance(filepath, str):
+            self.filepath = [filepath]
+
+        # # TODO: check filepath's existence
+        # elif not os.path.exists(filepath):
+        #     raise FileNotFoundError(f"Cannot find {filepath}")
         self.filepath = filepath
         self.econ_terms = econ_terms
         self.policy_terms = policy_terms
         self.uncertainty_terms = uncertainty_terms
         self.additional_terms = additional_terms
+        self.raw_files = []
+        self.cutoff = cutoff
+        self.stds = []
 
     @staticmethod
     def process_data(filepath: str, subset_condition: Union[str, None] = None) -> pd.DataFrame:
@@ -96,45 +105,105 @@ class EPU:
         Args: 
             subset_condition (str): conditionals to pass to EPU().process_data()
         """
-        self.raw = self.process_data(
-            self.filepath, subset_condition=subset_condition)
-        for col, terms in zip(["econ", "policy", "uncertain"], [self.econ_terms, self.policy_terms, self.uncertainty_terms]):
-            self.raw[col] = self.raw["news"].str.lower().apply(
-                is_in_word_list, terms=terms)
+        for fp in self.filepath:
+            source = fp.split("/")[-1].replace("_news.csv", "")
+            self.raw = self.process_data(fp, subset_condition=subset_condition)
+            for col, terms in zip(["econ", "policy", "uncertain"], [self.econ_terms, self.policy_terms, self.uncertainty_terms]):
+                self.raw[col] = self.raw["news"].str.lower().apply(
+                    is_in_word_list, terms=terms)
 
-        self.raw["epu"] = (self.raw.econ == True) & (
-            self.raw.policy == True) & (self.raw.uncertain == True)
+            self.raw["epu"] = (self.raw.econ == True) & (
+                self.raw.policy == True) & (self.raw.uncertain == True)
 
-        ##
-        if self.additional_terms:
-            self.raw["additional"] = self.raw["news"].str.lower().apply(
-                is_in_word_list, terms=self.additional_terms)
-            self.raw["epu"] = (self.raw.epu == True) & (
-                self.raw.additional == True)
+            # Check for additional terms categoty
+            if self.additional_terms:
+                self.raw["additional"] = self.raw["news"].str.lower().apply(
+                    is_in_word_list, terms=self.additional_terms)
+                self.raw["epu"] = (self.raw.epu == True) & (
+                    self.raw.additional == True)
+            self.raw_files.append((source, self.raw.copy()))
 
-    def get_epu_stats(self, cutoff: str = None) -> pd.DataFrame:
-        news_count = self.get_count(self.raw, "news")
-        epu_count = self.get_count(self.raw[self.raw["epu"] == True], "epu")
-        self.epu_stat = news_count.merge(
-            epu_count, how="left", on="ym").fillna(0)
-        self.epu_stat["date"] = pd.to_datetime(
-            self.epu_stat["ym"], format="mixed")
+    def calculate_news_and_epu_counts(self, file: pd.DataFrame) -> pd.DataFrame:
+        news_count = self.get_count(file, "news")
+        epu_count = self.get_count(file[file["epu"]], "epu")
+        return news_count.merge(epu_count, how="left", on="ym").fillna(0)
+
+    def calculate_ratios(self, merged_df: pd.DataFrame) -> pd.DataFrame:
+        merged_df["ratio"] = merged_df["epu_count"] / merged_df["news_count"]
+        return merged_df
+
+    def merge_data_frames(self, epu_stats: pd.DataFrame,
+                          new_df: pd.DataFrame,
+                          source: str) -> pd.DataFrame:
+        new_df.columns = [f"{source}_{col}" if col !=
+                          "ym" else col for col in new_df.columns]
+        return pd.merge(epu_stats, new_df, how="outer", on="ym") if not epu_stats.empty else new_df
+
+    def _calculate_total_news(self):
+
+        self.news_cols = [
+            col for col in self.epu_stats.columns if col.endswith("_news_count")]
+        self.epu_stats["news_total"] = self.epu_stats[self.news_cols].sum(
+            axis=1)
+
+    def get_count_stats(self) -> pd.DataFrame:
+        self.epu_stats = pd.DataFrame()
+        for (source, file) in self.raw_files:
+            # news_count = self.get_count(file, "news")
+            # epu_count = self.get_count(file[file["epu"] == True], "epu")
+            # self.epu_stat = news_count.merge(
+            #     epu_count, how="left", on="ym").fillna(0)
+            # self.epu_stat["ratio"] = self.epu_stat["epu_count"] / \
+            #     self.epu_stat["news_count"]
+            # self.epu_stat.columns = [f"{source}_{col}" if col != "ym" else col
+            #  for col in self.epu_stat.columns]
+            # if self.epu_stats.empty:
+            #     self.epu_stats = self.epu_stat
+            # else:
+            #     self.epu_stats = self.epu_stats.merge(
+            #         self.epu_stat, how="outer", on="ym")
+            counts_df = self.calculate_news_and_epu_counts(file)
+            ratios_df = self.calculate_ratios(counts_df)
+            self.epu_stats = self.merge_data_frames(
+                self.epu_stats, ratios_df, source)
 
         # Check for date integrity
-        self.min_date, self.max_date = self.epu_stat.date.min(), self.epu_stat.date.max()
-        self.date_df = pd.DataFrame(pd.date_range(
-            self.min_date, self.max_date, freq="MS"), columns=["date"])
+        self.epu_stats["date"] = pd.to_datetime(
+            self.epu_stats["ym"], format="mixed")
+        self.min_date, self.max_date = self.epu_stats.date.min(), self.epu_stats.date.max()
+        self.epu_stats = generate_continous_df(
+            self.epu_stats, self.min_date, self.max_date)
 
-        self.epu_stat = (self.date_df.merge(self.epu_stat, how="left", on="date")
-                         .fillna(0).drop("ym", axis=1))
-        self.epu_stat["ratio"] = self.epu_stat["epu_count"] / \
-            self.epu_stat["news_count"]
+        self._calculate_total_news()
+        self.ratio_cols = [
+            col for col in self.epu_stats.columns if col.endswith("_ratio")]
+        for col in self.news_cols:
+            new_col = col.replace("_news_count", "_weights")
+            self.epu_stats[new_col] = self.epu_stats[col].div(
+                self.epu_stats["news_total"])
 
-        if cutoff != None:
-            self.std = self.epu_stat[self.epu_stat.date <
-                                     cutoff]["ratio"].std()
-        else:
-            self.std = self.epu_stat["ratio"].std()
-        self.epu_stat["z_score"] = self.epu_stat['ratio']/self.std
+    def _calculate_z_score(self):
+        self.stds = []
+        for ratio_col in self.ratio_cols:
+            col = ratio_col.replace("_ratio", "")
+            if self.cutoff != None:
+                std = self.epu_stats[self.epu_stats.date <
+                                     self.cutoff][ratio_col].std()
+            else:
+                std = self.epu_stat[ratio_col].std()
+            self.stds.append({col: std})
+            self.epu_stats[f"{col}_z_score"] = self.epu_stats[ratio_col].div(std)
 
-        return self.epu_stat
+        self.z_score_cols = [col for col in self.epu_stats.columns if col.endswith("z_score")]
+        self.epu_stats["z_score_unweighted"] = self.epu_stats[self.z_score_cols].mean(axis=1)
+        self.epu_stats["z_score_weighted"] = 0
+        for z_score_col in self.z_score_cols:
+            weight_col = z_score_col.replace("z_score", "weights")
+            self.epu_stats["z_score_weighted"] += self.epu_stats[weight_col].multiply(self.epu_stats[z_score_col])
+    
+    
+    def calculate_epu_score(self):
+        self._calculate_z_score()
+        for name, col in zip(["weighted", "unweighted"], ["z_score_weighted", "z_score_unweighted"]):
+            scaling_factor = 100/(self.epu_stats[self.epu_stats.date < self.cutoff][col].std())
+            self.epu_stats[f"epu_{name}"] = scaling_factor * self.epu_stats[col]
