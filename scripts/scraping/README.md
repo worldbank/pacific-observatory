@@ -8,14 +8,19 @@ After downloading the compatible ChromeDriver:
 conda create --name <ENV_NAME>
 conda activate ENV_NAME
 pip3 install -r requirements.txt
-cd ../
-python3 -m scraping.pacific.abc_au.py ## Using -m to enable relative import
 ```
 
 ## Introduction
 
+After fulfilling the prerequisites, you can run the scripts to update or scrape all available news:
 
+- Change `SCRAPE_ALL` to  `True` if you want to scrape all news, meaning disregarding the previously scraped data, or keep the default value of `SCRAPE_ALL` (`False`);
 
+```
+# make sure you are at the scripts folder or project folder
+cd ../
+python3 -m scripts.pacific.pina
+```
 
 ## Files Information
 
@@ -25,10 +30,11 @@ python3 -m scraping.pacific.abc_au.py ## Using -m to enable relative import
 
 - :white_check_mark: `abc_au.py` scrapes the [ABC Australia](https://www.abc.net.au/).
 - :white_check_mark: `rnz.py` scrapes [Radio New Zealand](https://www.rnz.co.nz/)'s articles.
+- :white_check_mark: `pina.py` scrapes [Pacific News Service](https://pina.com.fj/)'s articles and produces `data/text/pacific/pac_news_after_2020.csv`.
 
 ### Fiji
 
-- :white_check_mark: `fiji_sun.py` scrapes [Fiji Sun](https://fijisun.com.fj/) from 2008-05-04.
+- :white_large_square: `fiji_sun.py` scrapes [Fiji Sun](https://fijisun.com.fj/) from 2008-05-04.
 
 ### Papua New Guinea
 
