@@ -31,6 +31,8 @@ PINA_URLS = [f"https://pina.com.fj/category/news/page/{num}"
 # Fiji Sun
 FIJI_SUN_URLS = ["https://fijisun.com.fj/category/fiji-news/page/" + str(i)
                  for i in range(1, 1547)]
+FIJI_SUN_URLS.extend(["https://fijisun.com.fj/category/news/nation/page/" + str(i)
+                      for i in range(1, 888)])
 
 
 # RNZ New Zealand

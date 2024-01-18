@@ -34,7 +34,7 @@ python3 -m scripts.pacific.pina
 
 ### Fiji
 
-- :white_large_square: `fiji_sun.py` scrapes [Fiji Sun](https://fijisun.com.fj/) from 2008-05-04.
+- :white_check_mark: `fiji_sun.py` scrapes [Fiji Sun](https://fijisun.com.fj/) from 2008-05-04.
 
 ### Papua New Guinea
 

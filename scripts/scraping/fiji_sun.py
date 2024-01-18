@@ -1,21 +1,19 @@
-import pandas as pd
 import os
 import sys
-sys.path.insert(0, "../../")
-from src.scraper.scrape import *
+from .config import PROJECT_FOLDER_PATH, FIJI_SUN_URLS, SCRAPE_ALL
+sys.path.insert(0, PROJECT_FOLDER_PATH)
+import pandas as pd
+import numpy as np
+from src.scraper.scrape import WebScraper
+
+SCRAPE_ALL = True
 
 # Specify the host and saving directory
-host_url = "https://fijisun.com.fj/"
-fs_urls = [host_url + "category/fiji-news/page/" + str(i)
-           for i in range(1, 1546)]
 target_dir = sys.path[0] + "data/text/fiji/"
-
-if not os.path.exists(target_dir):
-    os.mkdir(target_dir)
 
 # Scrape news URLs
 fs = WebScraper(parser="html.parser")
-fs_news_urls_raw = fs.scrape_urls(fs_urls,
+fs_news_urls_raw = fs.scrape_urls(FIJI_SUN_URLS,
                                   "article-header",
                                   speed_up=True)
 
@@ -29,19 +27,28 @@ for page in fs_news_urls_raw:
         news_info.append([title, url])
 
 news_info_df = pd.DataFrame(news_info, columns=["title", "url"])
+news_info_df["date"] = news_info_df["url"].apply(lambda x: "-".join(x.split("/")[3:6]))
+news_info_df["date"] = pd.to_datetime(news_info_df["date"])
+news_info_df = news_info_df.drop_duplicates().reset_index(drop=True)
 news_info_df.to_csv(target_dir+"fiji_sun_urls.csv", encoding="utf-8")
 
 # Scrape News, Dates and Tags
-news_info_df = pd.read_csv(target_dir+"fiji_sun_urls.csv")
-news_urls = news_info_df.url.tolist()
+previous_news_df = pd.read_csv(target_dir+"fiji_sun_news.csv").drop("Unnamed: 0", axis=1)
+
+if not SCRAPE_ALL:
+    previous_urls = set(previous_news_df["url"])
+    current_urls = set(news_info_df["url"])
+    news_urls = list(current_urls - previous_urls)
+else:
+    news_urls = news_info_df.url.tolist()
 news_raw = fs.scrape_urls(news_urls, ["shortcode-content", "tag-block"],  True)
 news_content = []
 for i in news_raw:
     url = i[0]
     if len(i[1]) != 0:
-        text = i[1][0][0].text
+        text = " ".join(p.text for p in i[1][0][0].find_all("p"))
         if len(i[1][1]) > 0:
-            tags = ",".join(tag.text for tag in i[1][1][0].find_all("a"))    
+            tags = ", ".join(tag.text for tag in i[1][1][0].find_all("a"))    
         else:
             tags = "Missing"
     else:
@@ -52,4 +59,10 @@ for i in news_raw:
 news = pd.DataFrame(news_content, columns=["url", "news", "tags"])
 news["date"] = news["url"].apply(lambda x: "-".join(x.split("/")[3:6]))
 news["not_full"] = news["news"].str.contains("https://eedition.fijisun.com.fj/subscriptionplans")
-news.to_csv(target_dir+"fiji_sun_news.csv", encoding="utf-8")
+if not SCRAPE_ALL:
+    news = pd.concat([news, previous_news_df], axis=0)
+    news = (news.sort_values(by="date", ascending=False)
+                .reset_index(drop=True))
+    news.to_csv(target_dir+"fiji_sun_news.csv", encoding="utf-8")
+else: 
+    news.to_csv(target_dir+"fiji_sun_news.csv", encoding="utf-8")
