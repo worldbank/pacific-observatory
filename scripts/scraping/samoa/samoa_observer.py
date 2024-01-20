@@ -1,6 +1,7 @@
 import os
 import sys
-sys.path.insert(0, "../../")
+from ..config import PROJECT_FOLDER_PATH, SAMOA_OBSERVER_URLS
+sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import json
 import requests
@@ -23,10 +24,9 @@ def load_page(url, timeout=30):
         print(f"Failed to retrieve the page: {e}")
         pass
 
-urls = [f"https://www.samoaobserver.ws/stories/page/{num}.json?&category=samoa&api=true"
-        for num in range(0, 2079)]
+
 scraped_data = []
-with tqdm(total=len(urls)) as pbar:
+with tqdm(total=len(SAMOA_OBSERVER_URLS)) as pbar:
     max_workers = multiprocessing.cpu_count() + 4
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_url = {executor.submit(load_page, url): (url) for url in urls}

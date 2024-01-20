@@ -47,7 +47,9 @@ python3 -m scripts.pacific.pina
 
 ### Solomon Islands
 
-- :white_large_square: `solomon_times.py` scrapes [Solomon Times](https://www.solomontimes.com/)
+- :white_check_mark: `solomon_star.py` scrapes [Solomon Star](https://www.solomonstarnews.com/).
+- :white_check_mark: `solomon_times.py` scrapes [Solomon Times](https://www.solomontimes.com/).
+
 
 ### Vanuatu
 
