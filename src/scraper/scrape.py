@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import urllib
 from lxml import etree
 from tqdm import tqdm
-import threading
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import multiprocessing
 from selenium.webdriver.common.by import By
@@ -18,7 +18,11 @@ from .utils import download_files, configure_cookies, configure_headers
 
 
 class WebScraper(object):
-    def __init__(self, parser="xpath", headers=None, cookies=None):
+    def __init__(self, parser="xpath",
+                 domain=None,
+                 headers=None, 
+                 cookies=None,
+                 cookies_path=None):
         """
         A class for web scraping using either HTML or XPath parsing.
 
@@ -43,9 +47,23 @@ class WebScraper(object):
             }
         else:
             self.headers = headers
-        self.cookies = cookies
+        self.session = requests.Session()
+        self.session.headers.update(headers)
+        self.domain = domain
+        self.cookies_path = cookies_path
+        self.cookies = {}
+        if domain:
+            self.refresh_cookies()
 
-    def request_url(self, url, timeout=30):
+
+    def refresh_cookies(self):
+        """
+        Fetches updated cookies and updates the scraper's cookie jar.
+        """
+        new_cookies = configure_cookies(self.domain, self.cookies_path)
+        self.cookies.update(new_cookies)
+
+    def request_url(self, url, timeout=30, retries=3):
         """
         Sends an HTTP GET request to the specified URL.
 
@@ -55,16 +73,21 @@ class WebScraper(object):
 
         Returns:
             bytes: The content of the HTTP response.
-        """
-
+        """ 
         try:
-            response = requests.get(
+            response = self.session.get(
                 url, headers=self.headers, timeout=timeout, cookies=self.cookies)
             response.raise_for_status()
             return response.content
         except requests.exceptions.RequestException as e:
-            print(f"Failed to retrieve the page: {e}")
-            pass
+            time.sleep(5)
+            if retries > 0:
+                print(f"Failed to retrieve the page, attempting to refresh cookies and retry: {e}")
+                self.refresh_cookies()  # Refresh cookies if request fails
+                return self.request_url(url, timeout, retries - 1)  # Decrement retries and retry the request
+            else:
+                print(f"Failed to retrieve the page after retries: {e}")
+                return None
 
     def parse_content(self, content):
         """
@@ -134,7 +157,7 @@ class WebScraper(object):
         scraped_data = []
         if speed_up:
             with tqdm(total=len(urls)) as pbar:
-                max_workers = multiprocessing.cpu_count() + 4
+                max_workers = multiprocessing.cpu_count() + 4 if not self.domain else multiprocessing.cpu_count() 
                 with ThreadPoolExecutor(max_workers=max_workers) as executor:
                     future_to_url = {executor.submit(self.scrape_url, url, expression): (
                         url) for url in urls}

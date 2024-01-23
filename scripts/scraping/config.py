@@ -1,6 +1,6 @@
 PROJECT_FOLDER_PATH = "/Users/czhang/Desktop/pacific-observatory/"
 SCRAPE_ALL = False
-
+COOKIES_PATH = "/Users/czhang/Library/Application Support/Google/Chrome/Profile 7/Cookies"
 # URL-related Information
 # MATANGI TONGA
 MATANGI_PAGE_URLS = [f"https://matangitonga.to/topic/all?page={num}"
@@ -44,16 +44,20 @@ SAMOA_OBSERVER_URLS = [f"https://www.samoaobserver.ws/stories/page/{num}.json?&c
                        for num in range(0, 2079)]
 
 # Solomon Islands
-## Solomon Star
+# Solomon Star
 SOLOMON_STAR_URLS = [f"https://www.solomonstarnews.com/category/news/news-national/page/{page}"
                      for page in range(1, 1450)]
 
-
-
-## Solomon Times
-SOLOMON_TIMES_URLS = [f"https://www.solomontimes.com/news/latest/{year}/{month}" 
+# Solomon Times
+SOLOMON_TIMES_URLS = [f"https://www.solomontimes.com/news/latest/{year}/{month}"
                       for year in range(2007, 2024) for month in range(1, 13)]
 
+
+##
+TIS_PAGE_URLS = [
+    "https://theislandsun.com.sb/category/news/page/" + str(num)
+    for num in range(1, 923)
+]
 
 # Pupua New Guinea
 # Post Courier

@@ -43,13 +43,13 @@ def configure_headers():
 
     headers = {
         "User-Agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Sec-Ch-Ua-Platform":
         "MacOS",
         "upgrade-insecure-requests": "1",
         "dnt": "1",
         "Sec-Ch-Ua":
-        '"Google Chrome";v="117", "Not;A=Brand";v="8", "Chromium";v="117"',
+        '"Google Chrome";v="120", "Not;A=Brand";v="8", "Chromium";v="120"',
         "Accept":
         "*/*",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

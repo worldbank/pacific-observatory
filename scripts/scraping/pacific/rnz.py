@@ -1,6 +1,7 @@
 import os
 import sys
-sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
+from ..config import PROJECT_FOLDER_PATH
+sys.path.insert(0, PROJECT_FOLDER_PATH)
 import numpy as np
 import pandas as pd
 from src.scraper.utils import check_latest_date
