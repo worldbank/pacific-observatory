@@ -48,7 +48,7 @@ class WebScraper(object):
         else:
             self.headers = headers
         self.session = requests.Session()
-        self.session.headers.update(headers)
+        self.session.headers.update(self.headers)
         self.domain = domain
         self.cookies_path = cookies_path
         self.cookies = {}

@@ -16,11 +16,24 @@ After fulfilling the prerequisites, you can run the scripts to update or scrape 
 
 - Change `SCRAPE_ALL` to  `True` if you want to scrape all news, meaning disregarding the previously scraped data, or keep the default value of `SCRAPE_ALL` (`False`);
 
+- Examine the provided URLs. For example, [SIBC](https://www.sibconline.com.sb/?s&post_type=post&paged=1) has **1334** Pages that contain more than 9300 news entries (as of Jan 23, 2024). If re-scraping is needed, one needs to check how many pages to scrape and change `SIBC_PAGE_URLs`.
+
+    ```
+    # make sure you are at the scripts folder or project folder
+    cd ../
+    python3 -m scripts.solomon_islands.sibc
+    ```
+
+- Seldomly, the website might change the way it developed, meaning the web element has been changed and the scraper may not scrape the element we want. Therefore, one needs to inspect the Webpage and modify the elements.
+
+## Process
+```mermaid
+graph TD;
+    A[Calling Scraper] --> B[Scrape up-to-date news URLs and Overwrite the previous URL files];
+    B --> |SCRAPE_ALL=True| C[Scrape all URLs obtained and Overwrite];
+    B --> |SCRAPE_ALL=False| D[Scrape URLs ∈ Updated \ Existing and Overwrite];
 ```
-# make sure you are at the scripts folder or project folder
-cd ../
-python3 -m scripts.pacific.pina
-```
+
 
 ## Files Information
 
@@ -49,7 +62,8 @@ python3 -m scripts.pacific.pina
 
 - :white_check_mark: `solomon_star.py` scrapes [Solomon Star](https://www.solomonstarnews.com/).
 - :white_check_mark: `solomon_times.py` scrapes [Solomon Times](https://www.solomontimes.com/).
-
+- :white_check_mark: `island_sun.py` scrapes [The Island Sun](https://theislandsun.com.sb/).
+- :white_check_mark: `sibc.py` scrapes [Solomon Islands Broadcasting Companies](https://www.sibconline.com.sb/).
 
 ### Vanuatu
 

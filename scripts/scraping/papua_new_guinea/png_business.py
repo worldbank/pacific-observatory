@@ -1,8 +1,10 @@
-from src.scraper.scrape import *
-import pandas as pd
 import os
 import sys
-sys.path.insert(0, "../../")
+from ..config import PROJECT_FOLDER_PATH
+sys.path.insert(0, PROJECT_FOLDER_PATH)
+import pandas as pd
+from src.scraper.scrape import *
+
 
 target_dir = sys.path[0] + "data/text/png/"
 host_url = "https://www.pngbusinessnews.com/"
