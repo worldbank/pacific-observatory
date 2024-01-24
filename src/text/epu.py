@@ -7,15 +7,14 @@ from .utils import (
 from typing import List, Union
 
 ECON_LIST = [
-    "economy", "economic", "economics", "business", "commerce", "finance",
-    "industry"
+    "economy", "economic", "economics", "business", "finance",
+    "finianal"
 ]
 
 POLICY_LIST = [
     "government", "governmental", "authorities", "minister", "ministry",
     "parliament", "parliamentary", "tax", "regulation", "legislation",
-    "central bank", "imf", "world bank", "international monetary fund",
-    "debt"
+    "central bank", "imf", "international monetary fund",  "world bank"
 ]
 
 UNCERTAINTY_LIST = [
@@ -68,7 +67,7 @@ class EPU:
         if subset_condition is not None:
             df = df.query(subset_condition).reset_index(drop=True)
 
-        df["news"] = df["news"].replace("\n", "")
+        df["news"] = df["news"].replace("\n", "").str.lower()
         df["date"] = pd.to_datetime(df["date"], format="mixed")
         df["ym"] = [str(d.year) + "-" + str(d.month) for d in df.date]
         return df
@@ -165,7 +164,7 @@ class EPU:
             counts_df = self.calculate_news_and_epu_counts(file)
             ratios_df = self.calculate_ratios(counts_df)
             self.epu_stats = self.merge_data_frames(
-                self.epu_stats, ratios_df, source)
+                self.epu_stats, ratios_df, source).fillna(0)
 
         # Check for date integrity
         self.epu_stats["date"] = pd.to_datetime(
@@ -192,18 +191,23 @@ class EPU:
             else:
                 std = self.epu_stat[ratio_col].std()
             self.stds.append({col: std})
-            self.epu_stats[f"{col}_z_score"] = self.epu_stats[ratio_col].div(std)
+            self.epu_stats[f"{col}_z_score"] = self.epu_stats[ratio_col].div(
+                std)
 
-        self.z_score_cols = [col for col in self.epu_stats.columns if col.endswith("z_score")]
-        self.epu_stats["z_score_unweighted"] = self.epu_stats[self.z_score_cols].mean(axis=1)
+        self.z_score_cols = [
+            col for col in self.epu_stats.columns if col.endswith("z_score")]
+        self.epu_stats["z_score_unweighted"] = self.epu_stats[self.z_score_cols].mean(
+            axis=1)
         self.epu_stats["z_score_weighted"] = 0
         for z_score_col in self.z_score_cols:
             weight_col = z_score_col.replace("z_score", "weights")
-            self.epu_stats["z_score_weighted"] += self.epu_stats[weight_col].multiply(self.epu_stats[z_score_col])
-    
-    
+            self.epu_stats["z_score_weighted"] += self.epu_stats[weight_col].multiply(
+                self.epu_stats[z_score_col])
+
     def calculate_epu_score(self):
         self._calculate_z_score()
         for name, col in zip(["weighted", "unweighted"], ["z_score_weighted", "z_score_unweighted"]):
-            scaling_factor = 100/(self.epu_stats[self.epu_stats.date < self.cutoff][col].std())
-            self.epu_stats[f"epu_{name}"] = scaling_factor * self.epu_stats[col]
+            scaling_factor = 100 / \
+                (self.epu_stats[self.epu_stats.date < self.cutoff][col].std())
+            self.epu_stats[f"epu_{name}"] = scaling_factor * \
+                self.epu_stats[col]

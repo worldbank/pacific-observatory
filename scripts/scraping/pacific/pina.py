@@ -26,15 +26,17 @@ urls_df = pd.DataFrame(urls_info, columns=["url", "title", "date"])
 urls_df["date"] = pd.to_datetime(urls_df["date"], format="mixed")
 urls_df = (urls_df.sort_values(by="date", ascending=False)
            .reset_index(drop=True))
-urls_df.to_csv(target_dir + "pac_urls.csv", encoding="utf-8")
+urls_df.to_csv(target_dir + "pac_after_2020_urls.csv", encoding="utf-8")
 
+
+previous_news_df = (pd.read_csv(target_dir + "pac_news_after_2020.csv")
+                    .drop("Unnamed: 0", axis=1))
+previous_news_df["date"] = pd.to_datetime(
+    previous_news_df["date"], format="mixed")
 if not SCRAPE_ALL:
-    previous_news_df = (pd.read_csv(target_dir + "pac_news_after_2020.csv")
-                        .drop("Unnamed: 0", axis=1))
-    previous_news_df["date"] = pd.to_datetime(
-        previous_news_df["date"], format="mixed")
-    latest_date = previous_news_df.date.max()
-    urls_to_scrape = urls_df[urls_df.date > latest_date]["url"].tolist()
+    previous_urls = set(previous_news_df["url"])
+    current_urls = set(urls_df["url"])
+    urls_to_scrape = list(current_urls - previous_urls)
 else:
     urls_to_scrape = urls_df["url"].tolist()
 
@@ -56,6 +58,21 @@ news_df = news_df.merge(urls_df, how="left", on="url")
 if not SCRAPE_ALL:
     news_df = pd.concat([news_df, previous_news_df], axis=0)
     news_df = news_df.sort_values(by="date", ascending=False).reset_index(drop=True)
-    news_df.to_csv(target_dir + "pac_news_after_2020.csv", encoding="utf-8")
+    news_df.to_csv(target_dir + "pac_after_2020.csv", encoding="utf-8")
 else:
-    news_df.to_csv(target_dir + "pac_news_after_2020.csv", encoding="utf-8")
+    news_df.to_csv(target_dir + "pac_after_2020.csv", encoding="utf-8")
+
+
+# Additional measures to combine before and after 2020
+pac_before = pd.read_csv(
+    target_dir + "pac_news_before_2021.csv").drop("Unnamed: 0", axis=1)
+pac_before["title"] = pac_before["title"].str.lower().str.strip()
+news_df["title"] = news_df["title"].str.lower().str.strip()
+duplicated_sets = (
+    set(pac_before["title"]).intersection(set(news_df["title"])))
+pac_before = pac_before[~pac_before.title.isin(
+    duplicated_sets)][["date", "title", "news"]]
+pac = pd.concat([pac_before, news_df[["date", "title", "news"]]], axis=0)
+pac["date"] = pd.to_datetime(pac["date"])
+pac = pac.sort_values(by="date", ascending=False).reset_index(drop=True)
+pac.to_csv(target_dir + "pac_news.csv", encoding="utf-8")

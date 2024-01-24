@@ -42,7 +42,7 @@ FIJI_SUN_URLS.extend(["https://fijisun.com.fj/category/news/nation/page/" + str(
 # Samoa
 ##
 SAMOA_OBSERVER_URLS = [f"https://www.samoaobserver.ws/stories/page/{num}.json?&category=samoa&api=true"
-                       for num in range(0, 2079)]
+                       for num in range(0, 2110)]
 
 # Solomon Islands
 ## Solomon Star

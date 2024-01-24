@@ -1,6 +1,6 @@
 import os
 import sys
-from ..config import PROJECT_FOLDER_PATH, SAMOA_OBSERVER_URLS
+from ..config import PROJECT_FOLDER_PATH, SAMOA_OBSERVER_URLS, SCRAPE_ALL
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import json
@@ -29,7 +29,7 @@ scraped_data = []
 with tqdm(total=len(SAMOA_OBSERVER_URLS)) as pbar:
     max_workers = multiprocessing.cpu_count() + 4
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_url = {executor.submit(load_page, url): (url) for url in urls}
+        future_to_url = {executor.submit(load_page, url): (url) for url in SAMOA_OBSERVER_URLS}
         for future in as_completed(future_to_url):
             url = future_to_url[future]
             try:
@@ -71,12 +71,12 @@ for i in so_raw:
     so_news.append([url, news])
 
 so_news_df = pd.DataFrame(so_news, columns=["url", "news"])
-for idx in so_news_df[so_news_df.news == "Missing"].index:
-    url = so_news_df["url"][idx]
-    raw = so.scrape_url(url, 
-                        "article__content text-new-brand-black py-0 leading-big")
-    news = "".join(p.text for p in raw[0].find_all("p"))
-    so_news_df.iloc[idx, 1] = news
+# for idx in so_news_df[so_news_df.news == "Missing"].index:
+#     url = so_news_df["url"][idx]
+#     raw = so.scrape_url(url, 
+#                         "article__content text-new-brand-black py-0 leading-big")
+#     news = "".join(p.text for p in raw[0].find_all("p"))
+#     so_news_df.iloc[idx, 1] = news
     
 so_news_df = so_news_df.merge(so_urls, how="left", on="url")
 so_news_df = so_news_df[["url", "title", "date", "news"]]
