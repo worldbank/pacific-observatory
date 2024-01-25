@@ -1,10 +1,10 @@
 import os
+from typing import List, Union
 import pandas as pd
-import numpy as np
 from .utils import (
     is_in_word_list, generate_continous_df
 )
-from typing import List, Union
+
 
 ECON_LIST = [
     "economy", "economic", "economics", "business", "finance",
@@ -25,6 +25,28 @@ UNCERTAINTY_LIST = [
 
 
 class EPU:
+    """
+    A class for analyzing Economic, Policy, and Uncertainty (EPU) news data.
+
+    Attributes:
+        filepath (Union[str, List[str]]): Path(s) to the news data file(s).
+        cutoff (str): A cutoff date for calculating standard deviations.
+        econ_terms (list): List of terms related to the economy.
+        policy_terms (list): List of terms related to policy.
+        uncertainty_terms (list): List of terms related to uncertainty.
+        additional_terms (Union[List, None]): Additional terms for further categorization.
+        raw_files (list): List to store raw data from files.
+        stds (list): List to store standard deviations for EPU scores.
+        news_cols (list): List to store news count columns.
+        ratio_cols (list): List to store ratio columns.
+        z_score_cols (list): List to store z-score columns.
+
+    Example:
+        e = EPU(filepaths, cutoff='2020-12-31')
+        e.get_epu_category(subset_condition="date >= '2015-01-01' and date < '2024-01-01'")
+        e.get_count_stats()
+        e.calculate_epu_score()
+    """
     def __init__(self,
                  filepath: Union[str, List[str]],
                  cutoff: str,
@@ -32,12 +54,14 @@ class EPU:
                  policy_terms: list = POLICY_LIST,
                  uncertainty_terms: list = UNCERTAINTY_LIST,
                  additional_terms: Union[List, None] = None):
+
         if isinstance(filepath, str):
             self.filepath = [filepath]
+        elif isinstance(filepath, list):
+            for fp in filepath:
+                if not os.path.exists(fp):
+                    raise FileNotFoundError(f"Cannot find {filepath}")
 
-        # # TODO: check filepath's existence
-        # elif not os.path.exists(filepath):
-        #     raise FileNotFoundError(f"Cannot find {filepath}")
         self.filepath = filepath
         self.econ_terms = econ_terms
         self.policy_terms = policy_terms
@@ -45,7 +69,13 @@ class EPU:
         self.additional_terms = additional_terms
         self.raw_files = []
         self.cutoff = cutoff
+        self.min_date = None
+        self.max_date = None
+        self.epu_stats = pd.DataFrame()
         self.stds = []
+        self.news_cols = []
+        self.ratio_cols = []
+        self.z_score_cols = []
 
     @staticmethod
     def process_data(filepath: str, subset_condition: Union[str, None] = None) -> pd.DataFrame:
@@ -93,7 +123,7 @@ class EPU:
                             .reset_index()
                             .rename({str(column): str(column) + "_count"}, axis=1))
             return count_df
-        except KeyError:
+        except KeyError as exc:
             raise KeyError(f"Column '{column}' not found in the DataFrame.")
 
     def get_epu_category(self, subset_condition=None):
@@ -106,21 +136,21 @@ class EPU:
         """
         for fp in self.filepath:
             source = fp.split("/")[-1].replace("_news.csv", "")
-            self.raw = self.process_data(fp, subset_condition=subset_condition)
-            for col, terms in zip(["econ", "policy", "uncertain"], [self.econ_terms, self.policy_terms, self.uncertainty_terms]):
-                self.raw[col] = self.raw["news"].str.lower().apply(
+            raw = self.process_data(fp, subset_condition=subset_condition)
+            for col, terms in zip(["econ", "policy", "uncertain"],
+                                  [self.econ_terms, self.policy_terms, self.uncertainty_terms]):
+                raw[col] = raw["news"].str.lower().apply(
                     is_in_word_list, terms=terms)
 
-            self.raw["epu"] = (self.raw.econ == True) & (
-                self.raw.policy == True) & (self.raw.uncertain == True)
+            raw["epu"] = (raw.econ == True) & (
+                raw.policy == True) & (raw.uncertain == True)
 
             # Check for additional terms categoty
             if self.additional_terms:
-                self.raw["additional"] = self.raw["news"].str.lower().apply(
+                raw["additional"] = raw["news"].str.lower().apply(
                     is_in_word_list, terms=self.additional_terms)
-                self.raw["epu"] = (self.raw.epu == True) & (
-                    self.raw.additional == True)
-            self.raw_files.append((source, self.raw.copy()))
+                raw["epu"] = (raw.epu == True) & (raw.additional == True)
+            self.raw_files.append((source, raw.copy()))
 
     def calculate_news_and_epu_counts(self, file: pd.DataFrame) -> pd.DataFrame:
         news_count = self.get_count(file, "news")
@@ -145,8 +175,11 @@ class EPU:
         self.epu_stats["news_total"] = self.epu_stats[self.news_cols].sum(
             axis=1)
 
-    def get_count_stats(self) -> pd.DataFrame:
-        self.epu_stats = pd.DataFrame()
+    def get_count_stats(self):
+        """
+        Aggregates news and EPU counts, calculates ratios, and prepares data for 
+        EPU score calculation.
+        """
         for (source, file) in self.raw_files:
             # news_count = self.get_count(file, "news")
             # epu_count = self.get_count(file[file["epu"] == True], "epu")
@@ -182,14 +215,17 @@ class EPU:
                 self.epu_stats["news_total"])
 
     def _calculate_z_score(self):
+        """
+        Calculates the z-scores for the EPU ratios to standardize them for comparison and analysis.
+        """
         self.stds = []
         for ratio_col in self.ratio_cols:
             col = ratio_col.replace("_ratio", "")
-            if self.cutoff != None:
+            if self.cutoff is not None:
                 std = self.epu_stats[self.epu_stats.date <
                                      self.cutoff][ratio_col].std()
             else:
-                std = self.epu_stat[ratio_col].std()
+                std = self.epu_stats[ratio_col].std()
             self.stds.append({col: std})
             self.epu_stats[f"{col}_z_score"] = self.epu_stats[ratio_col].div(
                 std)
@@ -205,8 +241,12 @@ class EPU:
                 self.epu_stats[z_score_col])
 
     def calculate_epu_score(self):
+        """
+        Calculates the Economic Policy Uncertainty (EPU) scores based on z-scores and updates the DataFrame with these scores.
+        """
         self._calculate_z_score()
-        for name, col in zip(["weighted", "unweighted"], ["z_score_weighted", "z_score_unweighted"]):
+        for name, col in zip(["weighted", "unweighted"],
+                             ["z_score_weighted", "z_score_unweighted"]):
             scaling_factor = 100 / \
                 (self.epu_stats[self.epu_stats.date < self.cutoff][col].std())
             self.epu_stats[f"epu_{name}"] = scaling_factor * \
