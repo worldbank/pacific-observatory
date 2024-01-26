@@ -248,6 +248,6 @@ class EPU:
         for name, col in zip(["weighted", "unweighted"],
                              ["z_score_weighted", "z_score_unweighted"]):
             scaling_factor = 100 / \
-                (self.epu_stats[self.epu_stats.date < self.cutoff][col].std())
+                (self.epu_stats[self.epu_stats.date < self.cutoff][col].mean())
             self.epu_stats[f"epu_{name}"] = scaling_factor * \
                 self.epu_stats[col]
