@@ -1,8 +1,8 @@
 import os
+from typing import Union, Dict, List, Optional
 import numpy as np
 import pandas as pd
 import chardet
-from typing import Union, Dict, List, Optional
 from .ts_utils import check_and_modify_date
 from .scaler import ScaledLogitScaler
 from sklearn.preprocessing import MinMaxScaler
@@ -139,7 +139,6 @@ class SARIMAXData:
                  country: str,
                  y_var: str,
                  exog_var: list,
-                 training_ratio: float,
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH):
         """
@@ -150,7 +149,6 @@ class SARIMAXData:
         - y_var (str): The dependent variable.
         - exog_var (List[str]): List of exogenous variables.
         - transform_method (str): The transformation method.
-        - training_ratio (float, optional): The training ratio. Defaults to 0.9.
         - trends_data_folder (str, optional): Path to trends data folder. Defaults to TRENDS_DATA_FOLDER.
         - covid_idx_path (str, optional): Path to COVID data. Defaults to COVID_DATA_PATH.
         """
@@ -164,7 +162,7 @@ class SARIMAXData:
             self.country, self.covid_idx_path)
         self.y_var = y_var
         self.exog_var = exog_var
-        self.training_ratio = training_ratio
+
 
     def read_and_merge(self):
         """
@@ -196,12 +194,11 @@ class MultiTSData(SARIMAXData):
     def __init__(self, country: str,
                  y_var: str,
                  exog_var: list,
-                 training_ratio: float,
                  select_col: list = ["seats_arrivals_intl"],
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH,
                  aviation_path: str = DEFAULT_AVIATION_DATA_PATH):
-        super().__init__(country, y_var, exog_var, training_ratio)
+        super().__init__(country, y_var, exog_var)
         self.aviation_path = aviation_path
         self.aviation_data_loader = AviationDataLoader(
             self.country, select_col, self.aviation_path)

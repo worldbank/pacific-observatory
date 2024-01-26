@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import scipy
 
 
 def calculate_mse(predictions_df: pd.DataFrame, method: str) -> pd.Series:

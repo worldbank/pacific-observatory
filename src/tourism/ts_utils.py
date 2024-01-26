@@ -1,9 +1,7 @@
-import os
 import warnings
 import pandas as pd
 import numpy as np
 import scipy
-import statsmodels
 from statsmodels.tsa.stattools import (
     grangercausalitytests,
     kpss,

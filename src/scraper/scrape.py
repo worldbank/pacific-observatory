@@ -1,20 +1,16 @@
-import os
-import numpy as np
-import pandas as pd
+import time
+import multiprocessing
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 from bs4 import BeautifulSoup
-import urllib
 from lxml import etree
 from tqdm import tqdm
-import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import multiprocessing
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver import ChromeService, ChromeOptions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from .utils import download_files, configure_cookies, configure_headers
+from .utils import configure_cookies
 
 
 class WebScraper(object):
@@ -27,7 +23,8 @@ class WebScraper(object):
         A class for web scraping using either HTML or XPath parsing.
 
         Args:
-            parser (str, optional): The parser to use for parsing the web page. Either "HTML" (default) or "XPATH".
+            parser (str, optional): The parser to use for parsing the web page. 
+                Either "HTML" (default) or "XPATH". 
             headers (dict, optional): Custom headers to use for HTTP requests.
 
         Raises:
@@ -54,6 +51,7 @@ class WebScraper(object):
         self.cookies = {}
         if domain:
             self.refresh_cookies()
+        self.item_container = None
 
 
     def refresh_cookies(self):
@@ -166,7 +164,7 @@ class WebScraper(object):
                         try:
                             data = future.result()
                         except Exception as exc:
-                            print('%r generated an exception: %s' % (url, exc))
+                            print(f'{url} generated an exception: {exc}')
                         else:
                             scraped_data.append([url, data])
                             pbar.update(1)

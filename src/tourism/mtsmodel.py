@@ -1,17 +1,14 @@
-import os
+from typing import List
+from collections import Counter
 import pandas as pd
 import numpy as np
-import logging
-import statsmodels
-import sklearn
-from collections import Counter
+import matplotlib.pyplot as plt
 from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.api import VARMAX
 import statsmodels.formula.api as smf
-from statsmodels.tsa.stattools import coint
-from statsmodels.tsa.vector_ar.vecm import select_order, VECM, coint_johansen
+from statsmodels.tsa.vector_ar.vecm import select_order, VECM
+from pmdarima.model_selection import RollingForecastCV
 from .scaler import ScaledLogitScaler
-from .utsmodel import SARIMAXData
 from .ts_eval import *
 from .ts_utils import *
 from .data import *
@@ -27,18 +24,17 @@ class VARPipeline(MultiTSData):
                  country: str,
                  y_var: str,
                  exog_var: list,
-                 training_ratio: float,
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH,
                  aviation_path: str = DEFAULT_AVIATION_DATA_PATH):
-        super().__init__(country, y_var, exog_var, training_ratio)
+        super().__init__(country, y_var, exog_var)
         if isinstance(y_var, list):
             self.y_var = y_var
             self.y0, self.y1 = y_var
         else:
             raise ValueError("`y_var` should a list of two variables.")
         self.exog = exog_var
-        self.transformation = None
+        self.transformation = []
         self.is_stationary = None
         self.is_cointegrated = None
         self.test_results = {'stationarity': {}, 'cointegration': {}}
@@ -55,44 +51,43 @@ class VARPipeline(MultiTSData):
         else:
             return False
 
-
-    def transform_data(self, transformation='original'):
+    def transform_data(self):
         """
         Transform the time series data based on the specified method.
         """
-        if transformation == 'original':
-            return self.data[self.y_var].dropna()
-        elif transformation == 'difference':
-            return self.data[self.y_var].diff().dropna()
-        else:
-            raise ValueError(f"Unknown transformation method: {transformation}")
+        transformed_data = {}
+        transformed_data["original"] = self.data[self.y_var].dropna()
+        transformed_data["difference"] = self.data[self.y_var].diff().dropna()
+        self.scaler = ScaledLogitScaler()
+        self.scaler.fit(self.data[self.y_var].dropna())
+        transformed_data["scaledlogit"] = self.scaler.transform(
+            self.data[self.y_var].dropna())
+        return transformed_data
 
     def determine_analysis_method(self):
         """
         Determine VARMA or VECM based on stationarity and cointegration
         """
-        transformations = {
-            'original': self.transform_data(transformation='original'),
-            'difference': self.transform_data(transformation='difference')
-        }
+        self.transformed_data = self.transform_data()
 
-        for transform_type, data in transformations.items():
+        for t_type, data in self.transformed_data.items():
             stationarity = self.test_stationarity(data, self.y_var)
-            self.test_results['stationarity'][transform_type] = stationarity
+            self.test_results['stationarity'][t_type] = stationarity
             coint_stats = cointegration_test(data)
-            self.test_results["cointegration"][transform_type] = coint_stats
+            self.test_results["cointegration"][t_type] = coint_stats
 
         any_stationarity = any(self.test_results["stationarity"].values())
-        
+
         if any_stationarity:
             self.method = "VARMAX"
-            true_keys = [key for key, value in self.test_results["stationarity"].items() if value]
-            self.transformation = "original" if len(true_keys) > 1 else true_keys[0]
+            true_keys = [
+                key for key, value in self.test_results["stationarity"].items() if value]
+            self.transformation.extend(true_keys)
 
         else:
             cointegration_keys = [
-                transformed_type 
-                for transformed_type, object in self.test_results["cointegration"].items() 
+                t_type
+                for t_type, object in self.test_results["cointegration"].items()
                 if any(stat["Significance"] for stat in object.values())
             ]
 
@@ -102,14 +97,14 @@ class VARPipeline(MultiTSData):
             if any_cointegration:
                 self.is_cointegrated = True
                 self.method = "VECM"
-                self.transformation = "original" if len(cointegration_keys) > 1 else cointegration_keys[0] 
+                self.transformation.extend(cointegration_keys)
             else:
                 print("Data does not meet the requirements for VARMAX or VECM")
 
     @staticmethod
-    def select_var_order(endog_data, exog_data):
-        param_grid = {'p': [1, 2, 3],
-                      'q': [1, 2, 3],
+    def fit_varma(endog_data, exog_data):
+        param_grid = {'p': [1, 2],
+                      'q': [1, 2],
                       'tr': ['n', 'c', 't', 'ct']}
         models = [VARMAX(endog=endog_data,
                          exog=exog_data,
@@ -123,8 +118,15 @@ class VARPipeline(MultiTSData):
         } for model in models]
 
         sorted_results = sorted(grid_search_results, key=lambda x: x['aic'])
-        return sorted_results
-    
+        (p, q), tr = sorted_results[0]["model"]
+
+        model = VARMAX(endog=endog_data,
+                         exog=exog_data,
+                         order=(p, q),
+                         trend=tr)
+        fitted_model = model.fit(disp=False)
+        return fitted_model, grid_search_results
+
     @staticmethod
     def fit_vecm(endog_data, exog_data):
         """
@@ -142,36 +144,107 @@ class VARPipeline(MultiTSData):
         fitted_model = model.fit()
         return fitted_model
 
-
     def fit(self):
-        self.endog_data = self.transform_data(transformation=self.transformation)
-        select_idx = self.endog_data.index 
-        self.exog_data = self.data[self.exog_var].iloc[select_idx]
+        self.fitted_models = {}
+        self.prediction_dfs = {}
+        for t_type, data in self.transformed_data.items():
+            if t_type in self.transformation:
+                endog_data = data
+                select_idx = endog_data.index
+                exog_data = self.data[self.exog_var].iloc[select_idx]
 
-        if self.method == "VARMAX":
-            self.mod = VARMAX(endog=self.endog_data,
-                              exog=self.exog_data,
-                              order=(self.p, self.q),
-                              trend=self.tr).fit(disp=False)
-        elif self.method == "VECM":
-            self.mod = self.fit_vecm(self.endog_data, self.exog_data)
+                if self.method == "VARMAX":
+                    mod, _ = self.fit_varma(endog_data, exog_data)
+                    self.fitted_models[t_type] = mod
+                elif self.method == "VECM":
+                    mod = self.fit_vecm(endog_data, exog_data)
+                    self.fitted_models[t_type] = mod
 
-    def get_fittedvalues(self):
-        if self.transformation == 'original':
-            self.fittedvalues = self.mod.fittedvalues
-        elif self.transformation == 'difference':
-            pass
+                predict_df = pd.DataFrame(mod.model.endog, columns=self.y_var)
+                predict_df["pred_total"] = np.NaN
+                if self.method == "VARMAX":
+                    predict_df.loc[mod.model.k_ar:, "pred_total"] = mod.fittedvalues.iloc[:, 0].tolist()
+                predict_df.loc[mod.model.k_ar:, "pred_total"] = mod.fittedvalues[:, 0]
+                predict_df['date'] = pd.date_range(start="2019-01-01", periods=len(predict_df), freq='MS')
+                self.prediction_dfs[t_type] = predict_df
 
+
+    def plot_comparison(self):
+        for t_type, pred_df in self.prediction_dfs.items():
+            fig, ax = plt.subplots(figsize=(8, 6))
+            pred_df.plot(x="date", y=["total", "pred_total"], ax=ax)
+            return fig
 
     def evaluate_models(self):
         naive_pred = naive_method(self.data[self.y0])
         mean_pred = mean_method(self.data[self.y0])
 
         benchmark = pd.DataFrame()
-        for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, self.data.fittedvalues]):
-            eval = calculate_evaluation(self.data[self.y0], pred)
-            eval_df = pd.DataFrame(eval, index=[name])
-            benchmark = pd.concat([benchmark, eval_df], axis=0)
+        if len(self.prediction_dfs) == 1:
+            fittedvalues = self.prediction_dfs[self.transformation[0]]["pred_total"]
+            for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, fittedvalues]):
+                eval = calculate_evaluation(self.data[self.y0], pred)
+                eval_df = pd.DataFrame(eval, index=[name])
+                benchmark = pd.concat([benchmark, eval_df], axis=0)
+
+        return benchmark
+
+    @staticmethod
+    def cross_validate_vecm(endog_data,
+                            exog_data,
+                            maximum_order: int,
+                            criteria: str,
+                            step: int = 1,
+                            h: int = 6,
+                            initial: int = 20) -> List[List[float]]:
+        """
+        Perform cross-validation for Vector Error Correction Models (VECM) across a range of lag orders.
+
+        This function evaluates the performance of VECM models with different lag orders using rolling forecast cross-validation.
+        It calculates errors for each model order based on the specified evaluation criteria.
+
+        Parameters:
+        - maximum_order (int): Maximum VECM order to evaluate.
+        - criteria (str): Performance evaluation criteria (e.g., 'mse' for Mean Squared Error).
+        - step (int, optional): The step size for cross-validation. Defaults to 1.
+        - h (int, optional): The forecast horizon for cross-validation. Defaults to 6.
+        - initial (int, optional): The initial training period size for cross-validation. Defaults to 20.
+
+        Returns:
+        - List[List[float]]: Errors for each model order, where each sublist corresponds to a specific order.
+
+        Raises:
+        - ValueError: If `endog_data` or `exog_data` are empty, or if `maximum_order`, `step`, `h`, or `initial` are non-positive.
+        """
+        if endog_data.empty or exog_data.empty:
+            raise ValueError(
+                "Endogenous and exogenous data must not be empty.")
+        if maximum_order < 1 or step < 1 or h < 1 or initial < 1:
+            raise ValueError(
+                "Maximum order, step, h, and initial must be positive integers.")
+
+        cv = RollingForecastCV(step=step, h=h, initial=initial)
+        cv_splits = list(cv.split(endog_data))
+
+        model_errors = []
+        for order in range(1, maximum_order + 1):
+            order_errors = []
+            for train_idx, test_idx in cv_splits:
+                train_endog, train_exog = endog_data.iloc[train_idx], exog_data.iloc[train_idx]
+                test_endog, test_exog = endog_data.iloc[test_idx], exog_data.iloc[test_idx]
+
+                model = VECM(train_endog,
+                             k_ar_diff=order,
+                             coint_rank=1,
+                             exog=train_exog)
+                fitted_model = model.fit()
+
+                forecast = fitted_model.predict(steps=len(test_endog),
+                                                exog_fc=test_exog)
+                error = calculate_evaluation(test_endog, forecast)
+                order_errors.append(error[criteria])
+            model_errors.append(order_errors)
+        return model_errors
 
 
 class RatioPipe(MultiTSData):

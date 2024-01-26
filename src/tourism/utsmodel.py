@@ -1,27 +1,21 @@
 import os
-import sys
 import itertools
 import logging
-import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
 #!pip install pmdarima
-from statsmodels.tsa.seasonal import seasonal_decompose, STL
-from statsmodels.tsa.forecasting.stl import STLForecast
+from statsmodels.tsa.seasonal import STL
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-from statsmodels.tsa.arima.model import ARIMA
-import pmdarima as pm
 from pmdarima import auto_arima
 from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
 from prophet import Prophet
-
 from .scaler import ScaledLogitScaler
 from .ts_eval import *
 from .data import *
 from .ts_utils import *
-from typing import Union, List, Dict
+from typing import Union, Dict
 
 __all__ = [
     "SARIMAXPipeline",
@@ -58,7 +52,7 @@ class SARIMAXPipeline(SARIMAXData):
             raise AttributeError("No such transformation exists.")
         self.transform_method = transform_method
         self.verbose = verbose
-
+        self.training_ratio = training_ratio
         # Initialize the stepwise model
         self.stepwise_model = None
         self.manual_search_results = None

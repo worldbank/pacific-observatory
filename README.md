@@ -1,8 +1,10 @@
 # Pacific Observatory
 
+[![Jupyter Book Badge](https://jupyterbook.org/badge.svg)](https://github.com/worldbank/pacific-observatory)
+
 The Pacific Observatory is the World Bank analytical program to explore and develop new information sources to mitigate the impact of data gaps in official statistics for Papua New Guinea (PNG) and the Pacific Island Countries (PICs).
 
-This repository hosts the team's efforts to investigate how alternative data sources can be used to generate economic and sector statistics through cost-effective methods. The goal is to assess whether new data sources can produce indicators that are timely, have higher frequency and granularity.
+This repository hosts the team's efforts to investigate how alternative data sources can be used to generate economic and sector statistics through cost-effective methods. The goal is to assess whether new data sources can produce timely indicators, and have higher frequency and granularity.
 
 The content is structured by topic of investigation, each thematic folder contains code, notebooks, outputs, and feasibility notes.
 
@@ -18,26 +20,26 @@ The content is structured by topic of investigation, each thematic folder contai
 🔖 **Market Prices Imputation**
 > A machine learning imputation method to fill gaps in food prices from markets in Papua New Guinea.
 
-
 This follows the estimation proposed by
 
 > [Andree, Bo Pieter Johannes. 2021. Estimating Food Price Inflation from Partial Surveys. Policy Research Working Paper;No. 9886. World Bank, Washington, DC. © World Bank.](https://openknowledge.worldbank.org/handle/10986/36778) License: CC BY 3.0 IGO.
-> 
+>
 > [URI](http://hdl.handle.net/10986/36778)
 
 To improve the results for Papua New Guinea, a two-stage nonlinear estimation procedure for low-data regimes was suggested by
 
-> Andree, Bo Pieter Johannes; Pape, Utz Johann. 2023 (Forthcoming). Can co-deployment of machine learning and high-frequency surveys produce reliable real-time data in data-scarce regions?. Policy Research Working Paper. World Bank, Washington, DC. 
+> Andree, Bo Pieter Johannes; Pape, Utz Johann. 2023 (Forthcoming). Can co-deployment of machine learning and high-frequency surveys produce reliable real-time data in data-scarce regions?. Policy Research Working Paper. World Bank, Washington, DC.
 
 Andree and Pape (2023) also suggest using the institutional exchange rate as a trend variable and narrow down the tuning grid of the cubist algorithm to improve processing speeds when handling a large number of price items.
 
 The machine learning imputation code is available [here](https://github.com/worldbank/Food-Price-Estimation)
 
-The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available [here](https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea) Unlike the WFP data, the IFPRI data is not accessed through a scraper or API and requires a manual download along with a few additional pre-processing steps to add coordinates and turn the IFPRI data into the required format. See pacific-observatory/data/prices/ 
+The code relies on WFP price surveys that are not available for PNG. The code has been adapted to run on IFPRI surveys available [here](https://www.ifpri.org/project/fresh-food-price-analysis-papua-new-guinea) Unlike the WFP data, the IFPRI data is not accessed through a scraper or API and requires a manual download along with a few additional pre-processing steps to add coordinates and turn the IFPRI data into the required format. See pacific-observatory/data/prices/
 
 After preparing the raw data, the following section in the ```main.R``` file of the price imputation code should be changed to read the data:
 
 ### Original code
+
 ```splus
   if("Papua New Guinea" %in% selected_country_list){
     cat("adding PNG from file")
@@ -55,7 +57,9 @@ After preparing the raw data, the following section in the ```main.R``` file of 
   }
 }
 ```
+
 ### New code
+
 ```splus
   if("Papua New Guinea" %in% selected_country_list){
     cat("adding PNG from file")
@@ -72,21 +76,26 @@ After preparing the raw data, the following section in the ```main.R``` file of 
     }
   }
 ```
+
 Also make sure that Papua New Guinea is included in the country list:
+
 ```splus
 selected_country_list = c("Afghanistan", "Papua New Guinea") 
 ```
+
 To produce results for different time periods, change
+
 ```splus
 data_startyear = 2009
 ```
+
 🔖 **Aviation Statistics**
 > Monitor tourism recovery through aviation statistics.
 
 🔖 **Climate and Agriculture Monitoring**
 > Monitor crop productivity and seasonality through vegetation indices.  
 > Develop a sub-national database of climate indicators.  
-> Update crop masks with limited training data and satellite imagery. 
+> Update crop masks with limited training data and satellite imagery.
 
 ### Future work
 
@@ -94,7 +103,7 @@ data_startyear = 2009
 > This section assess the feasibility of using AIS data to derive high-frequency and geospatially disaggregated indicators on trade and fishing intensity.
 
 🔖 **Text Mining**
-> Study social dynamics (conflict risk, cohesion, perceptions of the economy, climate change) through mining from text sources (ACLED, GDELT). 
+> Study social dynamics (conflict risk, cohesion, perceptions of the economy, climate change) through mining from text sources (ACLED, GDELT).
 
 ## Additional Resources
 

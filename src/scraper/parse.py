@@ -1,6 +1,5 @@
 import os
 import re
-import io
 import pandas as pd
 import tabula
 import PyPDF2
