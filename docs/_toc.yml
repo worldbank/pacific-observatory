@@ -37,6 +37,7 @@ parts:
   - caption: Text
     chapters:
       - file: text/intro
+      - file: text/EPU
       - url: https://worldbank.github.io/pacific-observatory/interactive/text/text_presentation.slides
         title: Text Presentation
   - caption: Automatic Identification System

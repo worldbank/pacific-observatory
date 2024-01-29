@@ -1,6 +1,6 @@
 # Pacific Observatory
 
-[![Jupyter Book Badge](https://jupyterbook.org/badge.svg)](https://github.com/worldbank/pacific-observatory)
+[![Jupyter Book Badge](https://jupyterbook.org/badge.svg)](https://github.com/worldbank/pacific-observatory) ![example workflow](https://github.com/worldbank/pacific-observatory/actions/workflows/pylint.yml/badge.svg) 
 
 The Pacific Observatory is the World Bank analytical program to explore and develop new information sources to mitigate the impact of data gaps in official statistics for Papua New Guinea (PNG) and the Pacific Island Countries (PICs).
 
