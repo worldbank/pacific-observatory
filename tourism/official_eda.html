@@ -215,7 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Text</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../text/intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../text/EPU.html">Economic Policy Uncertainty Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text/epu.html">Economic Policy Uncertainty Index (EPU)</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://worldbank.github.io/pacific-observatory/interactive/text/text_presentation.slides">Text Presentation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Automatic Identification System</span></p>
@@ -473,20 +473,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span> <span class="nn">src.tourism.ts_utils</span> <span class="kn">import</span> <span class="o">*</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <section id="official-and-aviation-seats-arrivals-from-2019">
 <h2>Official and Aviation (Seats Arrivals) from 2019<a class="headerlink" href="#official-and-aviation-seats-arrivals-from-2019" title="Permalink to this heading">#</a></h2>
@@ -534,19 +520,7 @@ document.write(`
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">24</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="k">return</span> <span class="n">ax</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;palau&quot;</span><span class="p">,</span> <span class="s2">&quot;solomon_islands&quot;</span><span class="p">,</span> <span class="s2">&quot;vanuatu&quot;</span><span class="p">,</span> <span class="s2">&quot;samoa&quot;</span><span class="p">,</span> <span class="s2">&quot;tonga&quot;</span><span class="p">]</span>
-<span class="ne">---&gt; </span><span class="mi">24</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">country</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">countries</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> \
-<span class="g g-Whitespace">     </span><span class="mi">27</span>         <span class="s2">&quot;/intermediate/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_merged.csv&quot;</span>
-
-<span class="ne">NameError</span>: name &#39;plt&#39; is not defined
-</pre></div>
-</div>
+<img alt="../_images/bb81be365ade9bd9e86675f83ba0f408bfff02fef2a95f783cba9cfdcb1a4b6c.png" src="../_images/bb81be365ade9bd9e86675f83ba0f408bfff02fef2a95f783cba9cfdcb1a4b6c.png" />
 </div>
 </div>
 </section>
@@ -573,20 +547,87 @@ document.write(`
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;/data/tourism/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> \
-<span class="g g-Whitespace">      </span><span class="mi">4</span>         <span class="s2">&quot;/intermediate/&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_monthly_visitor.csv&quot;</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">data</span> <span class="o">=</span> <span class="n">process_data</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-<span class="ne">----&gt; </span><span class="mi">6</span>     <span class="n">adf_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">adf_test</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;total&quot;</span><span class="p">]),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">adf_dfs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">adf_dfs</span><span class="p">,</span> <span class="n">adf_df</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="n">display</span><span class="p">(</span><span class="n">adf_dfs</span><span class="p">)</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;adf_test&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Test Statistic</th>
+      <th>p-value</th>
+      <th># Lags Used</th>
+      <th>Number of Observations Used</th>
+      <th>Critical Value (1%)</th>
+      <th>Critical Value (5%)</th>
+      <th>Critical Value (10%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PALAU</th>
+      <td>-1.230261</td>
+      <td>0.660444</td>
+      <td>13.0</td>
+      <td>170.0</td>
+      <td>-3.469413</td>
+      <td>-2.878696</td>
+      <td>-2.575917</td>
+    </tr>
+    <tr>
+      <th>SOLOMONISLANDS</th>
+      <td>-2.602577</td>
+      <td>0.092466</td>
+      <td>3.0</td>
+      <td>140.0</td>
+      <td>-3.477945</td>
+      <td>-2.882416</td>
+      <td>-2.577902</td>
+    </tr>
+    <tr>
+      <th>VANUATU</th>
+      <td>-2.425354</td>
+      <td>0.134708</td>
+      <td>13.0</td>
+      <td>211.0</td>
+      <td>-3.461727</td>
+      <td>-2.875337</td>
+      <td>-2.574124</td>
+    </tr>
+    <tr>
+      <th>SAMOA</th>
+      <td>-3.403589</td>
+      <td>0.010837</td>
+      <td>14.0</td>
+      <td>227.0</td>
+      <td>-3.459490</td>
+      <td>-2.874358</td>
+      <td>-2.573602</td>
+    </tr>
+    <tr>
+      <th>TONGA</th>
+      <td>-2.094926</td>
+      <td>0.246560</td>
+      <td>14.0</td>
+      <td>129.0</td>
+      <td>-3.482088</td>
+      <td>-2.884219</td>
+      <td>-2.578864</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 </section>
