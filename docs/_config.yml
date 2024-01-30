@@ -29,7 +29,7 @@ html:
   baseurl: https://github.com/worldbank/pacific-observatory
 
 execute:
-  execute_notebooks: "auto"
+  execute_notebooks: "off"
   allow_errors: true
   timeout: 60
   exclude_patterns:
