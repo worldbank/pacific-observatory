@@ -14,7 +14,10 @@ class ScaledLogitScaler:
 
     def __init__(self, copy=True):
         self.copy = copy
-    
+        self.upper_ = None
+        self.lower_ = None
+        self.data_range_ = None
+ 
     def _scaledlogit_transform(self, series):
         """
         Applies scaled logit transformation to the input series.
@@ -88,16 +91,16 @@ class ScaledLogitScaler:
         """
         return self._scaledlogit_transform(X)
 
-    def inverse_transform(self, trans_X):
+    def inverse_transform(self, transformed):
         """
         Applies inverse scaled logit transformation to the input data.
 
         Parameters:
-        trans_X : numpy.ndarray
+        transformed : numpy.ndarray
             Transformed array to be inverse-transformed.
 
         Returns:
         numpy.ndarray
             Inverse-transformed array.
         """
-        return self._inverse_scaledlogit(trans_X, self.upper_, self.lower_)
+        return self._inverse_scaledlogit(transformed, self.upper_, self.lower_)

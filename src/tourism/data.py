@@ -1,11 +1,11 @@
+"""
+
+"""
+
 import os
-from typing import Union, Dict, List, Optional
-import numpy as np
 import pandas as pd
 import chardet
 from .ts_utils import check_and_modify_date
-from .scaler import ScaledLogitScaler
-from sklearn.preprocessing import MinMaxScaler
 
 __all__ = [
     "CountryDataLoader",
@@ -33,7 +33,7 @@ class CountryDataLoader:
         Initialize CountryDataLoader object.
 
         Args:
-            country (str): The country code.
+          country (str): The country code.
 
         """
         self.country = country
@@ -45,7 +45,7 @@ class CountryDataLoader:
         Read and preprocess country data.
 
         Returns:
-            pd.DataFrame: Preprocessed country data.
+          pd.DataFrame: Preprocessed country data.
 
         """
         country = (pd.read_csv(self.country_data_folder + "/intermediate/" +
@@ -62,10 +62,26 @@ class CountryDataLoader:
 class TrendsDataLoader:
     def __init__(self, country: str,
                  trends_data_folder: str = TRENDS_DATA_FOLDER):
+        """
+        Initialize the TrendsDataLoader object.
+
+        Args:
+          country (str): The country code.
+          trends_data_folder (str): the folder stores Google Trends Data.
+            Set Default to `TRENDS_DATA_FOLDER`. 
+
+        """
         self.country = country
         self.trends_data_folder = trends_data_folder
 
     def read_trends_data(self):
+        """
+        Read and preprocess trends data.
+
+        Returns:
+          pd.DataFrame: Preprocessed trends data.
+
+        """
         trends = (pd.read_csv(self.trends_data_folder + "/trends_" +
                               str(self.country) + ".csv")
                   .drop("Unnamed: 0", axis=1))
@@ -75,6 +91,16 @@ class TrendsDataLoader:
 
 class CovidDataLoader:
     def __init__(self, country, covid_idx_path: str = COVID_DATA_PATH):
+        """
+        Initialize the CovidDataLoader object.
+
+        Args:
+          country (str): The country code.
+          covid_idx_path (str): the single file that stores the Covid
+            Stringency Index for Pacific Islands. Defaults to 
+            `COVID_DATA_PATH`. 
+
+        """
         self.country = country
         if os.path.exists(covid_idx_path):
             self.covid_idx_path = covid_idx_path
@@ -92,7 +118,8 @@ class CovidDataLoader:
 
 
 class AviationDataLoader:
-    def __init__(self, country,
+    def __init__(self, 
+                 country: str,
                  select_col,
                  aviation_path: str = DEFAULT_AVIATION_DATA_PATH
                  ):
@@ -145,12 +172,13 @@ class SARIMAXData:
         Initialize SARIMAXData object.
 
         Args:
-        - country (str): The country code.
-        - y_var (str): The dependent variable.
-        - exog_var (List[str]): List of exogenous variables.
-        - transform_method (str): The transformation method.
-        - trends_data_folder (str, optional): Path to trends data folder. Defaults to TRENDS_DATA_FOLDER.
-        - covid_idx_path (str, optional): Path to COVID data. Defaults to COVID_DATA_PATH.
+          country (str): The country code.
+          y_var (str): The dependent variable.
+          exog_var (List[str]): List of exogenous variables.
+          transform_method (str): The transformation method.
+          trends_data_folder (str, optional): Path to trends data folder. 
+            Defaults to TRENDS_DATA_FOLDER.
+          covid_idx_path (str, optional): Path to COVID data. Defaults to COVID_DATA_PATH.
         """
         self.country = country
         self.trends_data_folder = trends_data_folder
@@ -162,6 +190,10 @@ class SARIMAXData:
             self.country, self.covid_idx_path)
         self.y_var = y_var
         self.exog_var = exog_var
+        self.data = None
+        self.country_raw = None
+        self.trends_raw = None
+        self.covid_raw = None
 
 
     def read_and_merge(self):

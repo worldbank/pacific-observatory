@@ -1,3 +1,13 @@
+"""
+This module provides a collection of functions for time series forecasting. 
+It includes various methods such as naive, seasonal naive, mean, and drift 
+methods for generating forecasts. Additionally, it contains a function to 
+calculate evaluation metrics for the forecasts.
+
+Dependencies:
+    numpy (np)
+    pandas (pd)
+"""
 import numpy as np
 import pandas as pd
 
@@ -6,7 +16,6 @@ def naive_method(y: pd.Series) -> pd.Series:
     """
     Calculates forecasts using the naive method for time series data.
     \hat{y}_{t+h} = y_{t}
-
     """
     forecast = y.shift(1)
     return forecast
@@ -43,7 +52,7 @@ def mean_method(y: np.ndarray) -> np.ndarray:
 def drift_method(y: np.ndarray, h: int) -> np.ndarray:
     """
     Calculates forecasts using the drift method for time series data.
-    {y}_{T+h|T} = y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1}) = y_{T} + h \frac{y_{T} -y_{1}}{T-1}.
+    {y}_{T+h|T}=y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1})=y_{T}+h \frac{y_{T} -y_{1}}{T-1}.
 
     Args:
         y (np.ndarray): A numpy array of time series data.
@@ -75,4 +84,3 @@ def calculate_evaluation(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
     smape = np.mean(np.abs((y_true - y_pred)) /
                     (np.abs(y_true) + np.abs(y_pred))) * 200
     return {'MSE': mse, 'RMSE': rmse, 'MAE': mae, 'SMAPE': smape}
-

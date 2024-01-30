@@ -1,3 +1,4 @@
+import itertools
 import warnings
 import pandas as pd
 import numpy as np
@@ -8,7 +9,6 @@ from statsmodels.tsa.stattools import (
     adfuller
 )
 from statsmodels.tsa.vector_ar.vecm import coint_johansen
-
 warnings.filterwarnings("ignore")
 
 
@@ -28,7 +28,6 @@ def cross_correlation(x, y) -> pd.DataFrame:
     result = np.correlate(x, y, mode='full')
     lags = scipy.signal.correlation_lags(len(x), len(y))
     return pd.DataFrame([lags, result], index=["lags", "ccf"]).T
-
 
 def kpss_test(data: pd.DataFrame,
               incl_columns: list) -> pd.DataFrame:
@@ -68,7 +67,7 @@ def adf_test(ts: pd.Series) -> pd.Series:
         ],
     )
     for key, value in dftest[4].items():
-        output["Critical Value (%s)" % key] = value
+        output[f"Critical Value {key}"] = value
 
     return output
 
@@ -130,19 +129,22 @@ def grangers_causation_matrix(data, variables,
 
 
 def check_and_modify_date(date):
-
     if date.day != 1:
-            # Modify the date to the first day of the same month
-            modified_date = date.replace(day=1)
-            return modified_date
+        # Modify the date to the first day of the same month
+        modified_date = date.replace(day=1)
+        return modified_date
     return date
 
 def generate_search_params():
+    """
+    Generate Lists for SARIMAX Parameters Search
+    """
     # Set parameter range
     p, d, q = range(0, 3), range(0, 2), range(0, 3)
-    P, D, Q, s = range(0, 3), range(0, 2), range(0, 3), [12]
+    p_s, d_s, q_s, s = range(0, 3), range(0, 2), range(0, 3), [12]
 
     # list of all parameter combos
     pdq = list(itertools.product(p, d, q))
-    seasonal_pdq = list(itertools.product(P, D, Q, s))
+    seasonal_pdq = list(itertools.product(p_s, d_s, q_s, s))
     all_param = list(itertools.product(pdq, seasonal_pdq))
+    return all_param
