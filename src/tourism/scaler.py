@@ -1,5 +1,5 @@
 import numpy as np
-
+import pandas as pd
 
 class ScaledLogitScaler:
     """
@@ -104,3 +104,21 @@ class ScaledLogitScaler:
             Inverse-transformed array.
         """
         return self._inverse_scaledlogit(transformed, self.upper_, self.lower_)
+
+
+class Differencing:
+    def __init__(self):
+        self.initial_value = None
+
+    def transform(self, series):
+        self.initial_value = series.iloc[0]
+        differenced = series.diff().dropna()
+        return differenced
+
+    def inverse_transform(self, differenced, temporary=None):
+        # Adding the initial value back to the first element of the differenced series
+        if temporary is not None:
+            original = pd.DataFrame(differenced).cumsum() + temporary
+        else:
+            original = pd.DataFrame(differenced).cumsum() + self.initial_value
+        return original

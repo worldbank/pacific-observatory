@@ -7,10 +7,9 @@ from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.api import VARMAX
 import statsmodels.formula.api as smf
 from statsmodels.tsa.vector_ar.vecm import select_order, VECM
-from pmdarima.model_selection import RollingForecastCV
 from .scaler import ScaledLogitScaler
-from .ts_eval import *
-from .ts_utils import *
+from .ts_eval import (naive_method, mean_method, seasonal_naive_method, calculate_evaluation)
+from .ts_utils import cointegration_test, get_adf_df
 from .data import *
 
 __all__ = [
@@ -34,6 +33,10 @@ class VARPipeline(MultiTSData):
         else:
             raise ValueError("`y_var` should a list of two variables.")
         self.exog = exog_var
+        self.raw_data = None
+        self.transformed_data = None
+        self.scaler = None
+        self.method = None
         self.transformation = []
         self.is_stationary = None
         self.is_cointegrated = None
@@ -68,6 +71,7 @@ class VARPipeline(MultiTSData):
         """
         Determine VARMA or VECM based on stationarity and cointegration
         """
+        self.raw_data = self.data[self.y_var]
         self.transformed_data = self.transform_data()
 
         for t_type, data in self.transformed_data.items():
@@ -183,75 +187,16 @@ class VARPipeline(MultiTSData):
         if len(self.prediction_dfs) == 1:
             fittedvalues = self.prediction_dfs[self.transformation[0]]["pred_total"]
             for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, fittedvalues]):
-                eval = calculate_evaluation(self.data[self.y0], pred)
-                eval_df = pd.DataFrame(eval, index=[name])
+                eval_metrics = calculate_evaluation(self.data[self.y0], pred)
+                eval_df = pd.DataFrame(eval_metrics, index=[name])
                 benchmark = pd.concat([benchmark, eval_df], axis=0)
 
         return benchmark
-
-    @staticmethod
-    def cross_validate_vecm(endog_data,
-                            exog_data,
-                            maximum_order: int,
-                            criteria: str,
-                            step: int = 1,
-                            h: int = 6,
-                            initial: int = 20) -> List[List[float]]:
-        """
-        Perform cross-validation for Vector Error Correction Models (VECM) across a range of lag orders.
-
-        This function evaluates the performance of VECM models with different lag orders using rolling forecast cross-validation.
-        It calculates errors for each model order based on the specified evaluation criteria.
-
-        Parameters:
-        - maximum_order (int): Maximum VECM order to evaluate.
-        - criteria (str): Performance evaluation criteria (e.g., 'mse' for Mean Squared Error).
-        - step (int, optional): The step size for cross-validation. Defaults to 1.
-        - h (int, optional): The forecast horizon for cross-validation. Defaults to 6.
-        - initial (int, optional): The initial training period size for cross-validation. Defaults to 20.
-
-        Returns:
-        - List[List[float]]: Errors for each model order, where each sublist corresponds to a specific order.
-
-        Raises:
-        - ValueError: If `endog_data` or `exog_data` are empty, or if `maximum_order`, `step`, `h`, or `initial` are non-positive.
-        """
-        if endog_data.empty or exog_data.empty:
-            raise ValueError(
-                "Endogenous and exogenous data must not be empty.")
-        if maximum_order < 1 or step < 1 or h < 1 or initial < 1:
-            raise ValueError(
-                "Maximum order, step, h, and initial must be positive integers.")
-
-        cv = RollingForecastCV(step=step, h=h, initial=initial)
-        cv_splits = list(cv.split(endog_data))
-
-        model_errors = []
-        for order in range(1, maximum_order + 1):
-            order_errors = []
-            for train_idx, test_idx in cv_splits:
-                train_endog, train_exog = endog_data.iloc[train_idx], exog_data.iloc[train_idx]
-                test_endog, test_exog = endog_data.iloc[test_idx], exog_data.iloc[test_idx]
-
-                model = VECM(train_endog,
-                             k_ar_diff=order,
-                             coint_rank=1,
-                             exog=train_exog)
-                fitted_model = model.fit()
-
-                forecast = fitted_model.predict(steps=len(test_endog),
-                                                exog_fc=test_exog)
-                error = calculate_evaluation(test_endog, forecast)
-                order_errors.append(error[criteria])
-            model_errors.append(order_errors)
-        return model_errors
-
 
 class RatioPipe(MultiTSData):
     def __init__(self, country,
                  y_var,
                  exog_var,
-                 training_ratio,
                  x2: str = "seats_arrivals_intl"):
         """
         Initialize RatioPipe object.
@@ -264,9 +209,13 @@ class RatioPipe(MultiTSData):
             transform_method (str): The transformation method.
             training_ratio (float): The training ratio.
         """
-        super().__init__(country, y_var, exog_var, training_ratio)
+        super().__init__(country, y_var, exog_var)
         self.x1 = y_var
         self.x2 = x2
+        self.model = None
+        self.res = None
+        self.prediction = None
+        self.benchmark = None
 
     def transform(self):
         """
@@ -301,7 +250,7 @@ class RatioPipe(MultiTSData):
         - maxlags (int, optional): The maximum lag order. Defaults to None.
 
         """
-        if maxlags == None:
+        if maxlags is None:
             maxlags = int(4 * (len(self.model_data)/100) ** (2/9)) + 1
 
         self.model = smf.ols(
@@ -315,12 +264,12 @@ class RatioPipe(MultiTSData):
     def get_prediction(self):
         pred_df = self.res.get_prediction().summary_frame()
         select_cols = ["date", "ratio", self.x1, self.x2]
-        self.pred_df = pd.concat(
+        self.prediction = pd.concat(
             [self.model_data[select_cols], pred_df], axis=1).dropna()
-        self.pred_df["pred_mean"] = self.pred_df["mean"] * \
+        self.prediction["pred_mean"] = self.prediction["mean"] * \
             self.pred_df[self.x2]
 
-        return self.pred_df
+        return self.prediction
 
     def get_benchmark_evaluation(self):
         naive_pred = naive_method(self.pred_df[self.x1])

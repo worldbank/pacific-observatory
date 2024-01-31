@@ -1,28 +1,34 @@
 import os
-import itertools
 import logging
+from typing import Union, Dict
 import pandas as pd
 import numpy as np
 from tqdm import tqdm
-
 #!pip install pmdarima
+from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.seasonal import STL
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from pmdarima import auto_arima
 from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
 from prophet import Prophet
 from .scaler import ScaledLogitScaler
-from .ts_eval import *
-from .data import *
-from .ts_utils import *
-from typing import Union, Dict
+from .ts_eval import (naive_method, seasonal_naive_method,
+                      mean_method, calculate_evaluation)
+from .data import SARIMAXData
+from .ts_utils import generate_search_params
+
 
 __all__ = [
     "SARIMAXPipeline",
     "OtherTSToolKits"
 ]
 
+
 class SARIMAXPipeline(SARIMAXData):
+    """
+    A SA
+    """
+
     def __init__(self,
                  country: str,
                  y_var: str,
@@ -32,32 +38,71 @@ class SARIMAXPipeline(SARIMAXData):
                  verbose=True,
                  trends_data_folder: str = os.path.join(
                      os.getcwd(), "data", "tourism", "trends"),
-                 covid_idx_path: str = os.path.join(os.getcwd(), "data", "tourism", "oceania_covid_stringency.csv")):
+                 covid_idx_path: str = os.path.join(os.getcwd(),
+                                                    "data", "tourism",
+                                                    "oceania_covid_stringency.csv")):
         """
         Initialize SARIMAXPipeline object.
 
         Args:
-            y (str): The name of the column representing the time series variable.
-            exog_var (list, optional): The list of the column names representing the exogenous variable.
-            transform_method (str, optional): The name of the transformation method to apply to the time series.
-            training_ratio (float, optional): The proportion of the data to use for training the model.
-            verbose (bool): Logging the model running or not.
+          y (str): The name of the column representing the time series variable.
+          exog_var (list, optional): The list of the column names representing 
+            the exogenous variable.
+          transform_method (str, optional): The name of the transformation method 
+            to apply to the time series.
+          training_ratio (float, optional): The proportion of the data to use 
+            for training the model.
+          verbose (bool): Logging the model running or not.
 
         Raises:
             AttributeError: If an invalid transformation method is specified.
         """
-        super().__init__(country, y_var, exog_var,
-                         training_ratio, trends_data_folder, covid_idx_path)
+        super().__init__(country, y_var, exog_var, trends_data_folder, covid_idx_path)
         if transform_method not in ["scaledlogit", "minmax", None]:
             raise AttributeError("No such transformation exists.")
         self.transform_method = transform_method
-        self.verbose = verbose
+        self.y = None
+        self.transformed_y = None
+        self.exog = None
+        self.total_size = None
         self.training_ratio = training_ratio
-        # Initialize the stepwise model
+        self.test_size = None
+        self.training_size = None
+        self.verbose = verbose
+        self.scaler = None
+        self.benchmark = None
+        self.stepwise_fit = None
         self.stepwise_model = None
         self.manual_search_results = None
 
     def transform(self):
+        """
+        Transforms the time series data based on specified transformation methods. 
+
+        This method primarily handles the partitioning of data into training and testing sets 
+        and applies a transformation to the dependent variable (y_var). The transformation 
+        method is determined by the 'transform_method' attribute of the object. Currently, 
+        it supports 'scaledlogit' and 'minmax' transformations.
+
+        The method checks whether the training data includes the COVID-19 period 
+        (after March 11, 2020). If not, it sets the training size to cover the entire dataset, 
+        ensuring the model trains on the COVID-19 period.
+
+        Args:
+          y (pd.DataFrame): The dependent variable extracted from the data.
+          exog (pd.DataFrame): The exogenous variables extracted from the data.
+          total_size (int): The total number of observations in the data.
+          training_size (int): The number of observations in the training set.
+          test_size (int): The number of observations in the test set.
+          transformed_y (pd.DataFrame): The transformed dependent variable.
+
+        Prints:
+          The sizes of the training and testing datasets.
+          A message if the training data does not cover the COVID-19 period.
+
+        Raises:
+            ValueError: If an unknown transformation method is specified.
+        """
 
         # Load the data
         self.y = self.data[[self.y_var]]
@@ -72,21 +117,23 @@ class SARIMAXPipeline(SARIMAXData):
             self.training_size = self.total_size
             self.test_size = 0
 
-        print("training size : {}, testing size : {}".format(
-            self.training_size, self.test_size))
+        print(
+            f"training size : {self.training_size}, testing size : {self.test_size}")
 
         if self.transform_method == "scaledlogit":
-            self.scaledlogit = ScaledLogitScaler()
-            self.scaledlogit.fit(self.y)
-            self.transformed_y = self.scaledlogit.transform(self.y)
+            self.scaler = ScaledLogitScaler()
+            self.scaler.fit(self.y)
+            self.transformed_y = self.scaler.transform(self.y)
         elif self.transform_method == "minmax":
-            self.minmax = MinMaxScaler()
-            self.transformed_y = self.minmax.fit_transform(self.y)
+            self.scaler = MinMaxScaler()
+            self.transformed_y = self.scaler.fit_transform(self.y)
         else:
             self.transformed_y = self.y
 
     def get_benchmark_evaluation(self):
-
+        """
+        Get Benchmark Methods' (Naive, Searsonal Naive and Mean) evaluation metrics.
+        """
         naive_pred = naive_method(self.data[self.y_var])
         mean_pred = mean_method(self.data[self.y_var])
         snaive_pred = seasonal_naive_method(self.data[self.y_var])
@@ -102,7 +149,7 @@ class SARIMAXPipeline(SARIMAXData):
 
     def stepwise_search(self,
                         d: Union[int, None] = None,
-                        D: Union[int, None] = None) -> dict:
+                        d_s: Union[int, None] = None) -> dict:
         """
         Perform stepwise search for the best SARIMAX model.
 
@@ -118,12 +165,11 @@ class SARIMAXPipeline(SARIMAXData):
                                        start_p=0, start_q=0,
                                        max_p=5, max_q=5, m=12,
                                        start_P=0, seasonal=True,
-                                       d=d, D=D, trace=self.verbose,
+                                       d=d, D=d_s, trace=self.verbose,
                                        error_action='ignore',
                                        suppress_warnings=True,
                                        stepwise=True)
         self.stepwise_model = self.stepwise_fit.get_params()
-
 
     def manual_search(self,
                       params: Union[Dict, None] = None) -> list:
@@ -138,13 +184,7 @@ class SARIMAXPipeline(SARIMAXData):
         """
 
         if not params:
-            p, d, q = range(0, 3), range(0, 2), range(0, 3)
-            P, D, Q, s = range(0, 3), range(0, 2), range(0, 3), [12]
-
-            # list of all parameter combos
-            pdq = list(itertools.product(p, d, q))
-            seasonal_pdq = list(itertools.product(P, D, Q, s))
-            params = list(itertools.product(pdq, seasonal_pdq))
+            params = generate_search_params()
 
         self.manual_search_results = []
         with tqdm(total=len(params)) as pbar:
@@ -155,12 +195,18 @@ class SARIMAXPipeline(SARIMAXData):
                                   order=param[0],
                                   seasonal_order=param[1])
                     res = mod.fit(disp=False)
-                    self.manual_search_results.append((res, res.aic, param))
-                    if self.verbose:
-                        logging.info(
-                            'Tried out SARIMAX{}x{} - AIC:{}'.format(param[0], param[1], round(res.aic, 2)))
+
+                    pred = self.get_prediction_df(
+                        res, steps=self.test_size, exog=self.exog[-self.test_size:])
+                    if self.transform_method is not None:
+                        pred["inv_pred"] = self.scaler.inverse_transform(
+                            pred["pred"])
+                    eval_metrics = calculate_evaluation(
+                        self.y.values[-self.test_size:], pred.inv_pred.values[-self.test_size:])
+                    self.manual_search_results.append(
+                        (res, res.aic, param, eval_metrics))
                 except Exception as e:
-                    print(e)
+                    print(f"Running {param} encountered an errror: ", e)
                     continue
                 pbar.update(1)
 
@@ -168,74 +214,25 @@ class SARIMAXPipeline(SARIMAXData):
         return self.manual_search_results
 
     @staticmethod
-    def get_prediction_df(mod, steps: int, exog) -> pd.DataFrame:
-
+    def get_prediction_df(mod,
+                          steps: int,
+                          exog) -> pd.DataFrame:
+        """
+        Generate a dataframe that contains prediction/forecasts.
+        """
         pred = (mod.get_prediction()
                    .summary_frame(alpha=0.05)
-                   .rename({"mean": "train_pred"}, axis=1))
+                   .rename({"mean": "pred"}, axis=1))
         if steps != 0:
             forecast = (mod.get_forecast(
                 steps=steps, exog=exog, dynamic=True).summary_frame(alpha=0.05).
-                rename({"mean": "test_pred"}, axis=1))
+                rename({"mean": "pred"}, axis=1))
 
             pred_stats = pd.concat([pred, forecast], axis=0)
         else:
             pred_stats = pred
 
         return pred_stats
-
-    @staticmethod
-    def compare_models(y,
-                       exog: str,
-                       models: list,
-                       scoring="smape",
-                       hyper_params: Union[Dict, None] = None,
-                       verbose=0) -> dict:
-        """
-        Compare different SARIMAX models based on evaluation metrics.
-
-        Args:
-            y : Time series data.
-            exog : Exogenous variables.
-            models (list): List of SARIMAX models.
-            scoring (str, optional): Scoring method for evaluation.
-            hyper_params (dict, optional): Hyperparameters for cross-validation.
-            verbose (int, optional): Verbosity level for evaluation.
-
-        Returns:
-            comparison_result (dict): Dictionary containing model comparison results.
-        """
-
-        if hyper_params is None:
-            hyper_params = {
-                "window_size": 12,
-                "step": 1,
-                "h": 12
-            }
-
-        cv = SlidingWindowForecastCV(window_size=hyper_params["window_size"],
-                                     step=hyper_params["step"],
-                                     h=hyper_params["h"])
-
-        comparison_result = {
-            "model": [],
-            "cv_scores": [],
-            "avg_error": [],
-        }
-
-        for model in models:
-            try:
-                model_cv_scores = cross_val_score(
-                    model, y, exog, scoring=scoring, cv=cv, verbose=verbose)
-                model_avg_error = np.nanmean(model_cv_scores)
-                comparison_result["model"].append(model)
-                comparison_result["cv_scores"].append(model_cv_scores)
-                comparison_result["avg_error"].append(model_avg_error)
-            except:
-                pass
-
-        return comparison_result
-
 
 class OtherTSToolKits(SARIMAXData):
     def __init__(self, country: str,
@@ -261,7 +258,7 @@ class OtherTSToolKits(SARIMAXData):
         stl = STL(self.data[self.y_var], **kwargs)
         res = stl.fit()
 
-        # TO DO: 
+        # TO DO:
         # 1. Fit residual of STL decomposition by pm.auto
         # 2. Using auto order to fit into STLForecast and calling ARIMA method
 
@@ -269,7 +266,7 @@ class OtherTSToolKits(SARIMAXData):
         if self.method != "prophet":
             raise ValueError("Not applicable for the chosen method")
 
-        # Initialize and fit Prophet model 
+        # Initialize and fit Prophet model
         model = Prophet()
         prophet_data = pd.DataFrame()
         prophet_data["ds"] = self.data["date"]
@@ -286,9 +283,10 @@ class OtherTSToolKits(SARIMAXData):
         future = model.make_future_dataframe(periods=self.test_size, freq="MS")
         for var in self.exog_var:
             future[var] = prophet_data[var]
-        
+
         forecast = model.predict(future)
         if self.transform_method == "scaledlogit":
-            forecast["inverse_yhat"] = self.scaledlogit.inverse_transform(forecast["yhat"])
+            forecast["inverse_yhat"] = self.scaledlogit.inverse_transform(
+                forecast["yhat"])
 
         return forecast
