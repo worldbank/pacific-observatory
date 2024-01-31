@@ -1,7 +1,5 @@
 # Economic Policy Uncertainty Index (EPU)
 
-## Introduction
-
 Uncertainty poses challenges to the stability and growth of economies. The Economic Policy Uncertainty Index (EPU) developed by {cite:t}`baker2016measuring` emerges as a vital tool to measure both economic- and policy-related uncertainties. Sepcifically, they count the frequency of the economic- and policy-related terms' appearance (in relative to the number of all news) on newspapers, and the EPU index would be produced with standardization and normalization:
 
 - Let $ X_{it} = \frac{\text{EPU news in newspaper } i \text{ at time } t}{\text{All news in newspaper } i \text{ at time } t} $ and pre-defined $T_1$ to be the standardization and normalization period;
@@ -20,5 +18,5 @@ Beyond the $Z_t$ being arithmetic mean of $Y_{it}$, we develop a weighted scheme
 
 <div>
 <iframe src="https://worldbank.github.io/pacific-observatory/interactive/text/epu_pic.html"
-frameborder="0" marginwidth="0" marginheight="0" width="800" height="500"></iframe>
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="750"></iframe>
 </div>
