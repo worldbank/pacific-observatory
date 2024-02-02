@@ -28,7 +28,7 @@ class ScaledLogitScaler:
         self.upper_ = None
         self.lower_ = None
         self.data_range_ = None
- 
+
     def _scaledlogit_transform(self, series):
         """
         Applies scaled logit transformation to the input series.
@@ -148,8 +148,9 @@ class Differencing:
 
         Args:
             differenced (pd.Series): The differenced time series data.
-            temporary (Optional[float]): An optional temporary initial value to use for the inversion process. 
-                If None, the stored initial value from the transform method is used.
+            temporary (Optional[float]): An optional temporary initial value to use 
+                for the inversion process. If None, the stored initial value from 
+                the transform method is used.
 
         Returns:
             original (pd.DataFrame): The original time series data before differencing.

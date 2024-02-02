@@ -1,8 +1,12 @@
-from typing import List
+"""
+The mtsmodel module provides 
+
+Last updated:
+    2024-02-02
+"""
 from collections import Counter
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.api import VARMAX
 import statsmodels.formula.api as smf
@@ -21,6 +25,18 @@ __all__ = [
 
 
 class VARPipeline(MultiTSData):
+    """
+    The wrapper to fit VAR(MA)X/VECM based on cointegration 
+        and stationarity.
+
+    To use: 
+        model = VARPipeline(country="samoa",
+                    y_var=["total", "seats_arrival_intl"],
+                    exog_var=["covid", "stringency_index", "samoa_travel"])
+        model.read_and_merge()
+        model.determine_analysis_method()
+        model.fit()
+    """
     def __init__(self,
                  country: str,
                  y_var: str,
@@ -28,12 +44,24 @@ class VARPipeline(MultiTSData):
                  trends_data_folder: str = TRENDS_DATA_FOLDER,
                  covid_idx_path: str = COVID_DATA_PATH,
                  aviation_path: str = DEFAULT_AVIATION_DATA_PATH):
+        """
+        Initialize SARIMAXPipeline object.
+
+        Args:
+          country (str): The name of the country being modelled.
+          y_var (list): The name of the column representing the time series variable.
+          exog_var (list, optional): The list of the column names representing 
+            the exogenous variable.
+
+        Raises:
+            AttributeError: If y_var does not have two variables in a list.
+        """
         super().__init__(country, y_var, exog_var)
-        if isinstance(y_var, list):
+        if isinstance(y_var, list) and len(y_var) != 2:
             self.y_var = y_var
             self.y0, self.y1 = y_var
         else:
-            raise ValueError("`y_var` should a list of two variables.")
+            raise AttributeError("`y_var` should a list of two variables.")
         self.exog = exog_var
         self.raw_data = None
         self.transformed_data = None
@@ -54,10 +82,7 @@ class VARPipeline(MultiTSData):
         """
         adf_df = get_adf_df(df, y_var)
 
-        if np.all(adf_df["p-value"] <= 0.05):
-            return True
-        else:
-            return False
+        return np.all(adf_df["p-value"] <= 0.05)
 
     def transform_data(self):
         """
@@ -205,6 +230,21 @@ class VARPipeline(MultiTSData):
 
 
 class RatioPipe(MultiTSData):
+    """
+    The Wrapper to fit OLS (with HAC errors) on Adjusted Ratio 
+        (actual visitor/aviation capacity).
+
+    To use:
+        model = RatioPipe(country=country,
+                    y_var="total",
+                    exog_var=["covid", "stringency_index", "samoa_travel"])
+        model.read_and_merge()
+        model.transform()
+        model.fit(formula="ratio~covid * stringency_index+C(quarter)+" +
+                str(country) + "_travel")
+        pred_df = model.get_prediction()
+        model.get_benchmark_evaluation()
+    """
     def __init__(self, country,
                  y_var,
                  exog_var,
@@ -285,12 +325,16 @@ class RatioPipe(MultiTSData):
         return self.prediction
 
     def get_benchmark_evaluation(self):
+        """
+        The function compares the ratio apparoch with other benchmark methods.
+        """
         naive_pred = naive_method(self.prediction[self.x1])
         mean_pred = mean_method(self.prediction[self.x1])
         snaive_pred = seasonal_naive_method(self.prediction[self.x1])
 
         benchmark = pd.DataFrame()
-        for idx, pred in enumerate([naive_pred, mean_pred, snaive_pred, self.prediction["pred_mean"]]):
+        for idx, pred in enumerate([naive_pred, mean_pred,
+                                    snaive_pred, self.prediction["pred_mean"]]):
             metrics = calculate_evaluation(self.prediction[self.x1], pred)
             metrics_df = pd.DataFrame(metrics, index=[idx])
             benchmark = pd.concat([benchmark, metrics_df], axis=0)

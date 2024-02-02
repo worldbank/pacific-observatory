@@ -1,15 +1,19 @@
+"""
+The module includes univariate time series analysis methods (SARIMAX, STL, 
+    and Prophet) for visitor arrivals.
+
+Last Modified:
+    2024-02-02
+"""
 import os
-import logging
 from typing import Union, Dict
 import pandas as pd
-import numpy as np
 from tqdm import tqdm
 #!pip install pmdarima
 from sklearn.preprocessing import MinMaxScaler
 from statsmodels.tsa.seasonal import STL
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from pmdarima import auto_arima
-from pmdarima.model_selection import SlidingWindowForecastCV, cross_val_score
 from prophet import Prophet
 from .scaler import ScaledLogitScaler
 from .ts_eval import (naive_method, seasonal_naive_method,
@@ -26,7 +30,18 @@ __all__ = [
 
 class SARIMAXPipeline(SARIMAXData):
     """
-    A SARIMAX Wrapper 
+    A SARIMAX Wrapper
+
+    To use:
+        model = SARIMAXPipeline(country="samoa",
+                      training_ratio=1,
+                      y_var="total",
+                      exog_var=["covid", "stringency_index", "samoa_travel"],
+                      transform_method="scaledlogit")
+        model.read_and_merge()
+        model.transform()
+        model.stepwise_search()
+        model = model.manual_search()
     """
 
     def __init__(self,
@@ -196,8 +211,8 @@ class SARIMAXPipeline(SARIMAXData):
                                   seasonal_order=param[1])
                     res = mod.fit(disp=False)
 
-                    pred = self.get_prediction_df(
-                        res, steps=self.test_size, exog=self.exog[-self.test_size:])
+                    # pred = self.get_prediction_df(
+                    #     res, steps=self.test_size, exog=self.exog[-self.test_size:])
                     # if self.transform_method is not None:
                     #     pred["inv_pred"] = self.scaler.inverse_transform(
                     #         pred["pred"])
@@ -243,7 +258,8 @@ class OtherTSToolKits(SARIMAXData):
                  method: str,
                  trends_data_folder: str = os.path.join(
                      os.getcwd(), "data", "tourism", "trends"),
-                 covid_idx_path: str = os.path.join(os.getcwd(), "data", "tourism", "oceania_covid_stringency.csv")):
+                 covid_idx_path: str = os.path.join(
+                     os.getcwd(), "data", "tourism", "oceania_covid_stringency.csv")):
         super().__init__(country, y_var, exog_var, transform_method,
                          training_ratio, trends_data_folder, covid_idx_path)
         if method not in ["prophet", "stl"]:
@@ -251,6 +267,9 @@ class OtherTSToolKits(SARIMAXData):
         self.method = method
 
     def stl_forecast(self, **kwargs):
+        """ 
+        Fit a STL model.
+        """
         if self.method != "stl":
             raise ValueError("Not applicable for the chosen method")
 

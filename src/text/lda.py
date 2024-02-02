@@ -1,6 +1,5 @@
 import gensim
-from gensim.models import CoherenceModel    
-from .utils import *
+from gensim.models import CoherenceModel
 
 def compute_coherence_values(dictionary,
                              corpus,
@@ -22,8 +21,7 @@ def compute_coherence_values(dictionary,
         step (int, optional): The step size for the number of topics. Default is 1.
     Returns:
         tuple: A tuple containing a list of models and a list of coherence values.
-    """    
-
+    """
     coherence_values = []
     model_list = []
     for num_topics in range(start, limit, step):
@@ -37,5 +35,5 @@ def compute_coherence_values(dictionary,
                                         dictionary=dictionary,
                                         coherence='c_v')
         coherence_values.append(coherencemodel.get_coherence())
-
-    return model_list, coherence_values
+        
+        return model_list, coherence_values

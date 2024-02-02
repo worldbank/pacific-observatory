@@ -1,8 +1,6 @@
 import re
 import pandas as pd
 import spacy
-import gensim
-import gensim.corpora as corpora
 from gensim.utils import simple_preprocess
 
 
@@ -23,7 +21,7 @@ def is_in_word_list(row: str, terms: list) -> bool:
 def sent_to_words(sentences):
     for sentence in sentences:
         sentence = re.sub(r'\s', ' ', sentence).strip()
-        yield (gensim.utils.simple_preprocess(str(sentence), deacc=True))
+        yield (simple_preprocess(str(sentence), deacc=True))
 
 
 def lemmatize_sent(sent, nlp, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV']):
@@ -42,7 +40,7 @@ def preprocess_text(texts,
                     nlp):
 
     texts_no_stopwords = [[
-        word for word in gensim.utils.simple_preprocess(str(doc))
+        word for word in simple_preprocess(str(doc))
         if word not in stopwords
     ] for doc in texts]
     print("Stopwords has been done.")
@@ -61,6 +59,5 @@ def generate_continous_df(checked_df: pd.DataFrame,
         checked_df["date"] = pd.to_datetime(checked_df["date"], format="mixed")
         checked_df = dates_df.merge(checked_df, how="left", on="date").fillna(0)
         return checked_df
-    else: 
+    else:
         raise ValueError("cannot find `date` column in dataframe being checked.")
-

@@ -32,6 +32,10 @@ class DrawTopics:
         self.words = words
         self.restrictions_geo = restrictions_geo
         self.gt_instance = gt_instance
+        self.result = None
+        self.idx_dict = None
+        self.G = None
+        self.node_attrs = None
 
     @staticmethod
     def get_query_results(words: list,

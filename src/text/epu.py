@@ -1,3 +1,10 @@
+"""
+The module contains the EPU class to identify and calculate EPU scores.
+
+Last update:
+    2024-02-02
+
+"""
 import os
 from typing import List, Union
 import pandas as pd
@@ -152,18 +159,30 @@ class EPU:
                 raw["epu"] = (raw.epu == True) & (raw.additional == True)
             self.raw_files.append((source, raw.copy()))
 
-    def calculate_news_and_epu_counts(self, file: pd.DataFrame) -> pd.DataFrame:
+    def calculate_news_and_epu_counts(self, 
+                                      file: pd.DataFrame) -> pd.DataFrame:
+        """
+        The function
+        
+        """
         news_count = self.get_count(file, "news")
         epu_count = self.get_count(file[file["epu"]], "epu")
         return news_count.merge(epu_count, how="left", on="ym").fillna(0)
 
-    def calculate_ratios(self, merged_df: pd.DataFrame) -> pd.DataFrame:
+    def calculate_ratios(self,
+                         merged_df: pd.DataFrame) -> pd.DataFrame:
+        """
+        The function calculates the ratio of EPU news in relative to all news.
+        """
         merged_df["ratio"] = merged_df["epu_count"] / merged_df["news_count"]
         return merged_df
 
     def merge_data_frames(self, epu_stats: pd.DataFrame,
                           new_df: pd.DataFrame,
                           source: str) -> pd.DataFrame:
+        """
+        
+        """
         new_df.columns = [f"{source}_{col}" if col !=
                           "ym" else col for col in new_df.columns]
         return pd.merge(epu_stats, new_df, how="outer", on="ym") if not epu_stats.empty else new_df
@@ -216,7 +235,8 @@ class EPU:
 
     def _calculate_z_score(self):
         """
-        Calculates the z-scores for the EPU ratios to standardize them for comparison and analysis.
+        Calculates the z-scores for the EPU ratios to standardize them for
+          comparison and analysis.
         """
         self.stds = []
         for ratio_col in self.ratio_cols:
@@ -242,7 +262,8 @@ class EPU:
 
     def calculate_epu_score(self):
         """
-        Calculates the Economic Policy Uncertainty (EPU) scores based on z-scores and updates the DataFrame with these scores.
+        Calculates the Economic Policy Uncertainty (EPU) scores based on z-scores and 
+            updates the DataFrame with these scores.
         """
         self._calculate_z_score()
         for name, col in zip(["weighted", "unweighted"],

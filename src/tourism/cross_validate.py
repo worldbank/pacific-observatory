@@ -14,6 +14,21 @@ from tqdm import tqdm
 
 
 class TimeSeriesCrossValidator:
+    """
+    The Time Series Cross-validation methods.
+
+    To use:
+        tscv = TimeSeriesCrossValidator(method="SARIMAX",
+                                model_params=mod.stepwise_model,
+                                data=mod.y,
+                                exog_data=mod.exog,
+                                cv_method="Rolling",
+                                transformation="scaledlogit")
+
+        initial_size = int(0.75 * len(mod.y))
+        cv_errors = tscv.cross_validate(hyper_params={"inital": initial_size})
+        print(model[2], np.mean([error["RMSE"] for error in cv_errors])) 
+    """
     def __init__(self,
                  method: str,
                  model_params: dict,
