@@ -1,5 +1,9 @@
 """
+The module provides loaders for Country-level visitor data, Covid data, and Google-
+trends data, and model-required data. 
 
+Last Modified:
+    2024-02-01
 """
 
 import os
@@ -162,6 +166,11 @@ class AviationDataLoader:
 
 
 class SARIMAXData:
+    """
+    A class for preparing and managing time series data for SARIMAX. This class is 
+    designed to handle the loading, processing, and merging of country-specific 
+    economic, COVID Stringency Index, and Google Trends data.
+    """
     def __init__(self,
                  country: str,
                  y_var: str,
@@ -232,6 +241,7 @@ class MultiTSData(SARIMAXData):
                  aviation_path: str = DEFAULT_AVIATION_DATA_PATH):
         super().__init__(country, y_var, exog_var)
         self.aviation_path = aviation_path
+        self.avi_data = None
         self.aviation_data_loader = AviationDataLoader(
             self.country, select_col, self.aviation_path)
 
@@ -241,6 +251,6 @@ class MultiTSData(SARIMAXData):
         """
         # Inherit from the read_and_merge method from SARIMAXData
         super().read_and_merge()
-        self.avi = self.aviation_data_loader.process_aviation_data()
-        self.data = (self.data.merge(self.avi, how="outer", on="date")
+        self.avi_data = self.aviation_data_loader.process_aviation_data()
+        self.data = (self.data.merge(self.avi_data, how="outer", on="date")
                      .reset_index(drop=True))

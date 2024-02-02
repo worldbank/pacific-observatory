@@ -26,7 +26,7 @@ __all__ = [
 
 class SARIMAXPipeline(SARIMAXData):
     """
-    A SA
+    A SARIMAX Wrapper 
     """
 
     def __init__(self,
@@ -184,7 +184,7 @@ class SARIMAXPipeline(SARIMAXData):
         """
 
         if not params:
-            params = generate_search_params()
+            params = generate_search_params(max_p=6, max_q=6, max_ps=3, max_qs=3)
 
         self.manual_search_results = []
         with tqdm(total=len(params)) as pbar:
@@ -198,13 +198,13 @@ class SARIMAXPipeline(SARIMAXData):
 
                     pred = self.get_prediction_df(
                         res, steps=self.test_size, exog=self.exog[-self.test_size:])
-                    if self.transform_method is not None:
-                        pred["inv_pred"] = self.scaler.inverse_transform(
-                            pred["pred"])
-                    eval_metrics = calculate_evaluation(
-                        self.y.values[-self.test_size:], pred.inv_pred.values[-self.test_size:])
+                    # if self.transform_method is not None:
+                    #     pred["inv_pred"] = self.scaler.inverse_transform(
+                    #         pred["pred"])
+                    # eval_metrics = calculate_evaluation(
+                    #     self.y.values[-self.test_size:], pred.inv_pred.values[-self.test_size:])
                     self.manual_search_results.append(
-                        (res, res.aic, param, eval_metrics))
+                        (res, res.aic, param))
                 except Exception as e:
                     print(f"Running {param} encountered an errror: ", e)
                     continue

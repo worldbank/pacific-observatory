@@ -31,7 +31,16 @@ def cross_correlation(x, y) -> pd.DataFrame:
 
 def kpss_test(data: pd.DataFrame,
               incl_columns: list) -> pd.DataFrame:
+    """
+    Perform KPSS test on specified columns of a DataFrame.
 
+    Args:
+        data (pd.DataFrame): DataFrame containing the data.
+        incl_columns (list): List of columns to include in the test.
+
+    Returns:
+        pd.DataFrame: DataFrame with KPSS test results.
+    """
     test_stat, p_val = [], []
     cv_1, cv_5, cv_10 = [], [], []
     temp_df = data[incl_columns].copy()
@@ -55,7 +64,15 @@ def kpss_test(data: pd.DataFrame,
 
 
 def adf_test(ts: pd.Series) -> pd.Series:
+    """
+    Perform Augmented Dickey-Fuller test on a time series.
 
+    Args:
+    ts (pd.Series): Time series to be tested.
+
+    Returns:
+    pd.Series: ADF test results.
+    """
     dftest = adfuller(ts, autolag="AIC")
     output = pd.Series(
         dftest[0:4],
@@ -90,12 +107,12 @@ def cointegration_test(df, alpha=0.05):
     """
     Perform cointegration test using Johansen's test.
 
-    Parameters:
-    - df (pd.DataFrame): A DataFrame containing time series data for cointegration test.
-    - alpha (float, optional): Significance level for the test. Default is 0.05.
+    Args:
+        df (pd.DataFrame): A DataFrame containing time series data for cointegration test.
+        alpha (float, optional): Significance level for the test. Default is 0.05.
 
     Returns:
-    dict: A dictionary containing the results of the cointegration test.
+        dict: A dictionary containing the results of the cointegration test.
     """
     out = coint_johansen(df, -1, 5)
     d = {'0.90': 0, '0.95': 1, '0.99': 2}
@@ -129,19 +146,22 @@ def grangers_causation_matrix(data, variables,
 
 
 def check_and_modify_date(date):
+    """
+    Check t
+    """
     if date.day != 1:
         # Modify the date to the first day of the same month
         modified_date = date.replace(day=1)
         return modified_date
     return date
 
-def generate_search_params():
+def generate_search_params(max_p=5, max_q=5, max_ps=3, max_qs=3):
     """
     Generate Lists for SARIMAX Parameters Search
     """
     # Set parameter range
-    p, d, q = range(0, 3), range(0, 2), range(0, 3)
-    p_s, d_s, q_s, s = range(0, 3), range(0, 2), range(0, 3), [12]
+    p, d, q = range(0, max_p), range(0, 2), range(0, max_q)
+    p_s, d_s, q_s, s = range(0, max_ps), range(0, 2), range(0, max_qs), [12]
 
     # list of all parameter combos
     pdq = list(itertools.product(p, d, q))

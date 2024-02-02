@@ -1,9 +1,20 @@
+"""
+The module provides time seris transformation methods (Scaled Logit and Differencing).
+
+Dependencies:
+    numpy (np)
+    pandas (pd)
+
+Last Modified:
+    2024-02-01
+"""
+from typing import Optional
 import numpy as np
 import pandas as pd
 
 class ScaledLogitScaler:
     """
-    ScaledLogitScalar for multidimensional transformation using scaled logit transformation.
+    ScaledLogitScalar for transformation using scaled logit transformation.
 
     Attributes:
     upper_ : numpy.ndarray
@@ -95,27 +106,54 @@ class ScaledLogitScaler:
         """
         Applies inverse scaled logit transformation to the input data.
 
-        Parameters:
-        transformed : numpy.ndarray
-            Transformed array to be inverse-transformed.
+        Args:
+            transformed: Transformed array to be inverse-transformed.
 
         Returns:
-        numpy.ndarray
             Inverse-transformed array.
         """
         return self._inverse_scaledlogit(transformed, self.upper_, self.lower_)
 
 
 class Differencing:
-    def __init__(self):
-        self.initial_value = None
+    """
+    A class for performing differencing operations on time series data.
 
-    def transform(self, series):
+    Attributes:
+        initial_value (Optional[float]): The first value of the original time series, 
+            stored during transformation.
+    """
+    def __init__(self):
+        self.initial_value: Optional[float] = None
+
+    def transform(self, series: pd.Series):
+        """
+        Transforms the original time series to its differenced version.
+
+        Args:
+            series (pd.Series): The original time series data.
+
+        Returns:
+            differenced (pd.Series): The differenced series with the first value dropped.
+        """
         self.initial_value = series.iloc[0]
         differenced = series.diff().dropna()
         return differenced
 
-    def inverse_transform(self, differenced, temporary=None):
+    def inverse_transform(self,
+                          differenced: pd.Series,
+                          temporary:Optional[float]=None):
+        """
+        Reverts the differenced series back to its original form.
+
+        Args:
+            differenced (pd.Series): The differenced time series data.
+            temporary (Optional[float]): An optional temporary initial value to use for the inversion process. 
+                If None, the stored initial value from the transform method is used.
+
+        Returns:
+            original (pd.DataFrame): The original time series data before differencing.
+        """
         # Adding the initial value back to the first element of the differenced series
         if temporary is not None:
             original = pd.DataFrame(differenced).cumsum() + temporary

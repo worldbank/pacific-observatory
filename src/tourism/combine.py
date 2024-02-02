@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from scipy.optimize import nnls, minimize
 
 
 def calculate_mse(predictions_df: pd.DataFrame, method: str) -> pd.Series:
@@ -42,7 +43,6 @@ def get_rpw(pred_df: pd.DataFrame,
 def get_constrained_ls(y: pd.DataFrame,
                        X: pd.DataFrame) -> np.array:
 
-    from scipy.optimize import nnls, minimize
 
     A, b = np.array(X), np.array(y)
     x0, norm = nnls(A, b)

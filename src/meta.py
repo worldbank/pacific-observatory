@@ -7,7 +7,16 @@ from PyPDF2 import PdfReader
 
 class FileMetaData:
     """
-    Class to extract metadata for different file types
+    Class to extract metadata for different file types.
+
+    To use:
+        >>> meta = FileMetaData("random.pdf")
+        >>> print(meta.extract())
+        ------------
+        {'filename': 'random.pdf',
+        'created': datetime.datetime(2023, 11, 15, 14, 8, 21, 417070),
+        'modified': datetime.datetime(2023, 11, 13, 13, 28, 11, 750389),
+        'num_pages': 6}
     """
 
     def __init__(self, file_path: str):
@@ -17,22 +26,13 @@ class FileMetaData:
         self.file_path = file_path
 
     def extract(self) -> dict:
-        """
-        Extracts and returns dict of metadata about file. The function is compatible with extracting 
-        metadata information from .csv, .xlsx, and .pdf files.
+        """ Extracts and returns dict of metadata about file. 
+        
+        The function is compatible with extracting metadata information 
+        from .csv, .xlsx, and .pdf files.
 
         Returns:
-            metadata (dict): Dictionary containing file metadata
-
-
-        Example: 
-         meta = FileMetaData("random.pdf")
-         print(meta.extract())
-         ----------
-        {'filename': 'random.pdf',
-        'created': datetime.datetime(2023, 11, 15, 14, 8, 21, 417070),
-        'modified': datetime.datetime(2023, 11, 13, 13, 28, 11, 750389),
-        'num_pages': 6}
+            metadata (dict): Dictionary containing file metadata         
         """
         metadata: dict = {
             "filename": os.path.basename(self.file_path),
@@ -77,6 +77,3 @@ class FileMetaData:
         with open(self.file_path, 'rb') as f:
             reader = PdfReader(f)
             metadata['num_pages'] = len(reader.pages)
-
-
-

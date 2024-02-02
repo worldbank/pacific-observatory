@@ -7,6 +7,9 @@ calculate evaluation metrics for the forecasts.
 Dependencies:
     numpy (np)
     pandas (pd)
+
+Last Modified:
+    2024-02-01
 """
 import numpy as np
 import pandas as pd
@@ -15,7 +18,7 @@ import pandas as pd
 def naive_method(y: pd.Series) -> pd.Series:
     """
     Calculates forecasts using the naive method for time series data.
-    \hat{y}_{t+h} = y_{t}
+    `\hat{y}_{t+h} = y_{t}`
     """
     forecast = y.shift(1)
     return forecast
@@ -52,7 +55,7 @@ def mean_method(y: np.ndarray) -> np.ndarray:
 def drift_method(y: np.ndarray, h: int) -> np.ndarray:
     """
     Calculates forecasts using the drift method for time series data.
-    {y}_{T+h|T}=y_{T} + \frac{h}{T-1}\sum_{t=2}^T (y_{t}-y_{t-1})=y_{T}+h \frac{y_{T} -y_{1}}{T-1}.
+    {y}_{T+h|T}=y_{T} + \frac{h}{T-1} \sum_{t=2}^T (y_{t}-y_{t-1})=y_{T}+h \frac{y_{T} -y_{1}}{T-1}.
 
     Args:
         y (np.ndarray): A numpy array of time series data.

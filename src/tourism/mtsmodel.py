@@ -7,10 +7,12 @@ from sklearn.model_selection import ParameterGrid
 from statsmodels.tsa.api import VARMAX
 import statsmodels.formula.api as smf
 from statsmodels.tsa.vector_ar.vecm import select_order, VECM
-from .scaler import ScaledLogitScaler
-from .ts_eval import (naive_method, mean_method, seasonal_naive_method, calculate_evaluation)
+from .scaler import ScaledLogitScaler, Differencing
+from .ts_eval import (naive_method, mean_method,
+                      seasonal_naive_method, calculate_evaluation)
 from .ts_utils import cointegration_test, get_adf_df
-from .data import *
+from .data import (MultiTSData, TRENDS_DATA_FOLDER,
+                   COVID_DATA_PATH, DEFAULT_AVIATION_DATA_PATH)
 
 __all__ = [
     "VARPipeline",
@@ -36,11 +38,14 @@ class VARPipeline(MultiTSData):
         self.raw_data = None
         self.transformed_data = None
         self.scaler = None
+        self.differencer = None
         self.method = None
         self.transformation = []
         self.is_stationary = None
         self.is_cointegrated = None
         self.test_results = {'stationarity': {}, 'cointegration': {}}
+        self.fitted_models = None
+        self.prediction_dfs = None
 
     @staticmethod
     def test_stationarity(df, y_var) -> bool:
@@ -59,12 +64,13 @@ class VARPipeline(MultiTSData):
         Transform the time series data based on the specified method.
         """
         transformed_data = {}
-        transformed_data["original"] = self.data[self.y_var].dropna()
-        transformed_data["difference"] = self.data[self.y_var].diff().dropna()
         self.scaler = ScaledLogitScaler()
-        self.scaler.fit(self.data[self.y_var].dropna())
-        transformed_data["scaledlogit"] = self.scaler.transform(
-            self.data[self.y_var].dropna())
+        self.differencer = Differencing()
+        original = self.data[self.y_var].dropna()
+        transformed_data["original"] = original
+        transformed_data["difference"] = self.differencer.transform(original)
+        self.scaler.fit(original)
+        transformed_data["scaledlogit"] = self.scaler.transform(original)
         return transformed_data
 
     def determine_analysis_method(self):
@@ -125,9 +131,9 @@ class VARPipeline(MultiTSData):
         (p, q), tr = sorted_results[0]["model"]
 
         model = VARMAX(endog=endog_data,
-                         exog=exog_data,
-                         order=(p, q),
-                         trend=tr)
+                       exog=exog_data,
+                       order=(p, q),
+                       trend=tr)
         fitted_model = model.fit(disp=False)
         return fitted_model, grid_search_results
 
@@ -167,31 +173,36 @@ class VARPipeline(MultiTSData):
                 predict_df = pd.DataFrame(mod.model.endog, columns=self.y_var)
                 predict_df["pred_total"] = np.NaN
                 if self.method == "VARMAX":
-                    predict_df.loc[mod.model.k_ar:, "pred_total"] = mod.fittedvalues.iloc[:, 0].tolist()
-                predict_df.loc[mod.model.k_ar:, "pred_total"] = mod.fittedvalues[:, 0]
-                predict_df['date'] = pd.date_range(start="2019-01-01", periods=len(predict_df), freq='MS')
+                    predict_df.loc[mod.model.k_ar:,
+                                   "pred_total"] = mod.fittedvalues.iloc[:, 0].tolist()
+                predict_df.loc[mod.model.k_ar:,
+                               "pred_total"] = mod.fittedvalues[:, 0]
+                predict_df['date'] = pd.date_range(
+                    start="2019-01-01", periods=len(predict_df), freq='MS')
                 self.prediction_dfs[t_type] = predict_df
 
-
-    def plot_comparison(self):
-        for t_type, pred_df in self.prediction_dfs.items():
-            fig, ax = plt.subplots(figsize=(8, 6))
-            pred_df.plot(x="date", y=["total", "pred_total"], ax=ax)
-            return fig
-
     def evaluate_models(self):
+        """
+        Compare models to benchmark evaluation methods.
+
+        Return:
+            benchmark (pd.DataFrame): contains `naive` and `mean` method for forecasting.
+        """
         naive_pred = naive_method(self.data[self.y0])
         mean_pred = mean_method(self.data[self.y0])
 
         benchmark = pd.DataFrame()
         if len(self.prediction_dfs) == 1:
-            fittedvalues = self.prediction_dfs[self.transformation[0]]["pred_total"]
-            for name, pred in zip(["naive", "mean", "VAR (scaled)"], [naive_pred, mean_pred, fittedvalues]):
+            fittedvalues = self.prediction_dfs[self.transformation[0]
+                                               ]["pred_total"]
+            for name, pred in zip(["naive", "mean", "VAR (scaled)"],
+                                  [naive_pred, mean_pred, fittedvalues]):
                 eval_metrics = calculate_evaluation(self.data[self.y0], pred)
                 eval_df = pd.DataFrame(eval_metrics, index=[name])
                 benchmark = pd.concat([benchmark, eval_df], axis=0)
 
         return benchmark
+
 
 class RatioPipe(MultiTSData):
     def __init__(self, country,
@@ -204,7 +215,8 @@ class RatioPipe(MultiTSData):
         Args:
             country (str): The country.
             y_var (str): The dependent variable.
-            x2 (str, optional): The variable with `y_var` to produce ratio. Defaults to "seats_arrivals_intl".
+            x2 (str, optional): The variable with `y_var` to produce ratio. Defaults to 
+                `seats_arrivals_intl`.
             exog_var (str): The exogenous variable.
             transform_method (str): The transformation method.
             training_ratio (float): The training ratio.
@@ -213,6 +225,7 @@ class RatioPipe(MultiTSData):
         self.x1 = y_var
         self.x2 = x2
         self.model = None
+        self.model_data = None
         self.res = None
         self.prediction = None
         self.benchmark = None
@@ -267,18 +280,18 @@ class RatioPipe(MultiTSData):
         self.prediction = pd.concat(
             [self.model_data[select_cols], pred_df], axis=1).dropna()
         self.prediction["pred_mean"] = self.prediction["mean"] * \
-            self.pred_df[self.x2]
+            self.prediction[self.x2]
 
         return self.prediction
 
     def get_benchmark_evaluation(self):
-        naive_pred = naive_method(self.pred_df[self.x1])
-        mean_pred = mean_method(self.pred_df[self.x1])
-        snaive_pred = seasonal_naive_method(self.pred_df[self.x1])
+        naive_pred = naive_method(self.prediction[self.x1])
+        mean_pred = mean_method(self.prediction[self.x1])
+        snaive_pred = seasonal_naive_method(self.prediction[self.x1])
 
         benchmark = pd.DataFrame()
-        for idx, method in enumerate([naive_pred, mean_pred, snaive_pred, self.pred_df["pred_mean"]]):
-            metrics = calculate_evaluation(self.pred_df[self.x1], method)
+        for idx, pred in enumerate([naive_pred, mean_pred, snaive_pred, self.prediction["pred_mean"]]):
+            metrics = calculate_evaluation(self.prediction[self.x1], pred)
             metrics_df = pd.DataFrame(metrics, index=[idx])
             benchmark = pd.concat([benchmark, metrics_df], axis=0)
         benchmark.index = ["naive", "mean", "seasonal naive", "ratio"]

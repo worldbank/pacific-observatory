@@ -1,9 +1,17 @@
+"""
+The module provides cross-validation class compatible with SARIMAX, VECM, and 
+VARMAX (TBD) with option of Rolling and SlidingWindow methods.
+
+Last Modified:
+    2024-02-01
+"""
 from .scaler import ScaledLogitScaler, Differencing
 from .ts_eval import calculate_evaluation
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.vector_ar.vecm import VECM
 from pmdarima.model_selection import RollingForecastCV, SlidingWindowForecastCV
 from tqdm import tqdm
+
 
 class TimeSeriesCrossValidator:
     def __init__(self,
@@ -45,7 +53,7 @@ class TimeSeriesCrossValidator:
     def _initialize_cv(self, hyper_params=None):
         if self.cv_method == "Rolling":
             self.cv = RollingForecastCV(
-                h=12, step=1, initial=hyper_params["inital"])
+                h=12, step=1, initial=hyper_params["initial"])
         elif self.cv_method == "SlidingWindow":
             self.cv = SlidingWindowForecastCV(
                 h=12, step=1, window_size=hyper_params["window_size"])
@@ -62,11 +70,11 @@ class TimeSeriesCrossValidator:
         elif self.method == 'VECM':
             select_order = self.model_params["select_order"]
             model = VECM(endog,
-                     exog=exog,
-                     k_ar_diff=select_order,
-                     coint_rank=1)
+                         exog=exog,
+                         k_ar_diff=select_order,
+                         coint_rank=1)
             return model.fit()
-           
+
     def _predict_model(self, res, steps, exog, last_train_value):
 
         if self.method == "SARIMAX":
@@ -76,10 +84,10 @@ class TimeSeriesCrossValidator:
         elif self.method == "VECM":
             predictions = res.predict(steps=steps, exog_fc=exog)
             if self.transformation == "difference":
-                predictions = self.scaler.inverse_transform(predictions, temporary=last_train_value)
-            
-        return predictions if predictions is not None else None
+                predictions = self.scaler.inverse_transform(
+                    predictions, temporary=last_train_value)
 
+        return predictions if predictions is not None else None
 
     def cross_validate(self, hyper_params):
         """
@@ -101,16 +109,18 @@ class TimeSeriesCrossValidator:
             for train_idx, test_idx in cv_splits:
                 train, test = self.transformed_data.iloc[train_idx], self.data.iloc[test_idx, 0]
                 exog_train = self.exog_data.iloc[train_idx,
-                                                :] if self.exog_data is not None else None
+                                                 :] if self.exog_data is not None else None
                 exog_test = self.exog_data.iloc[test_idx,
                                                 :] if self.exog_data is not None else None
                 res = self._fit_model(train, exog_train)
                 predictions = self._predict_model(res, steps=len(exog_test), exog=exog_test,
-                                                       last_train_value=train.iloc[-1, :].values)
+                                                  last_train_value=train.iloc[-1, :].values)
 
                 if len(test) == len(predictions):
-                    predictions = predictions.iloc[:, 0] if self.method != "SARIMAX" else predictions
-                    eval_metrics = calculate_evaluation(test.values, predictions)
+                    predictions = predictions.iloc[:,
+                                                   0] if self.method != "SARIMAX" else predictions
+                    eval_metrics = calculate_evaluation(
+                        test.values, predictions)
                     errors.append(eval_metrics)
                 else:
                     raise AttributeError("The predicted data do not")
