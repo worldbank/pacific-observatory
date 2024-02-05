@@ -1,7 +1,7 @@
 """
 The module contains the EPU class to identify and calculate EPU scores.
 
-Last update:
+Last modified:
     2024-02-02
 
 """

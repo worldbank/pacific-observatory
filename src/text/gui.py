@@ -1,3 +1,9 @@
+"""
+The module provides a network-based Google Trends 
+
+Last modified:
+    2024-02-05
+"""
 import os
 import sys
 import logging
@@ -12,16 +18,20 @@ from ..google_trends import GT
 
 
 class DrawTopics:
+    """
+    Class for drawing network graphs of topics based on Google Trends data.
+
+    Attributes:
+        words (list): A list of topic keywords.
+        restrictions_geo (str): Geographic restrictions for Google Trends queries.
+        gt_instance (GT): An instance of the Google Trends API client.
+      
+    To Use:
+
+    """
     def __init__(self, words: list, restrictions_geo: str, gt_instance):
         """
-        Class for drawing network graphs of topics based on Google Trends data.
-
         Args:
-            words (list): A list of topic keywords.
-            restrictions_geo (str): Geographic restrictions for Google Trends queries.
-            gt_instance (GT): An instance of the Google Trends API client.
-
-        Attributes:
             words (list): A list of topic keywords.
             restrictions_geo (str): Geographic restrictions for Google Trends queries.
             gt_instance (GT): An instance of the Google Trends API client.
@@ -58,11 +68,11 @@ class DrawTopics:
                                                     restrictions_geo=restrictions_geo)
             if len(topic_dict) != 0:
                 for item in topic_dict["item"]:
-                    if item["title"].isdigit() != True:
+                    if item["title"].isdigit() is not True:
                         terms.append(
                             [word, item["title"].lower(), item["value"]])
             else:
-                logging.info(f"Querying {word} return an empty result.")
+                logging.info("Querying %s returned an empty result.", word)
 
         return pd.DataFrame(terms, columns=["source", "target", "volume"])
 
