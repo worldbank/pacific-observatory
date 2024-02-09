@@ -57,11 +57,12 @@ class EPU:
     def __init__(self,
                  filepath: Union[str, List[str]],
                  cutoff: str,
+                 non_epu_urls: list = None,
                  econ_terms: list = ECON_LIST,
                  policy_terms: list = POLICY_LIST,
                  uncertainty_terms: list = UNCERTAINTY_LIST,
                  additional_terms: Union[List, None] = None):
-
+    
         if isinstance(filepath, str):
             self.filepath = [filepath]
         elif isinstance(filepath, list):
@@ -76,6 +77,7 @@ class EPU:
         self.additional_terms = additional_terms
         self.raw_files = []
         self.cutoff = cutoff
+        self.non_epu_urls = non_epu_urls if non_epu_urls is not None else []
         self.min_date = None
         self.max_date = None
         self.epu_stats = pd.DataFrame()
@@ -157,6 +159,10 @@ class EPU:
                 raw["additional"] = raw["news"].str.lower().apply(
                     is_in_word_list, terms=self.additional_terms)
                 raw["epu"] = (raw.epu == True) & (raw.additional == True)
+
+            if raw["url"].isin(self.non_epu_urls).sum() > 0:
+                raw.loc[raw.url.isin(self.non_epu_urls), "epu"] = False
+
             self.raw_files.append((source, raw.copy()))
 
     def calculate_news_and_epu_counts(self, 
