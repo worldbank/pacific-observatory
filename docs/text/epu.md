@@ -20,3 +20,10 @@ Beyond the $Z_t$ being arithmetic mean of $Y_{it}$, we develop a weighted scheme
 <iframe src="https://worldbank.github.io/pacific-observatory/interactive/text/epu_pic.html"
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="750"></iframe>
 </div>
+
+The sentiment of economic policy-related news could act as a barometer for uncertainty. Analyzing the shifts and changes in the sentiment of news articles and reports pertaining to economic policy could reflect the underlying economic uncertainty.
+
+<div>
+<iframe src="https://worldbank.github.io/pacific-observatory/interactive/text/ep_sentiment.html"
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="750"></iframe>
+</div>
