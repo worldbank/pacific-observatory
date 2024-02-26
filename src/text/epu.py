@@ -2,15 +2,13 @@
 The module contains the EPU class to identify and calculate EPU scores.
 
 Last modified:
-    2024-02-02
+    2024-02-15
 
 """
 import os
 from typing import List, Union
 import pandas as pd
-from .utils import (
-    is_in_word_list, generate_continous_df
-)
+from .utils import (is_in_word_list, generate_continous_df)
 
 
 ECON_LIST = [
@@ -38,6 +36,7 @@ class EPU:
     Attributes:
         filepath (Union[str, List[str]]): Path(s) to the news data file(s).
         cutoff (str): A cutoff date for calculating standard deviations.
+        non_epu_urls (list): List of urls to be removed from identified epu news.
         econ_terms (list): List of terms related to the economy.
         policy_terms (list): List of terms related to policy.
         uncertainty_terms (list): List of terms related to uncertainty.
@@ -133,7 +132,7 @@ class EPU:
                             .rename({str(column): str(column) + "_count"}, axis=1))
             return count_df
         except KeyError as exc:
-            raise KeyError(f"Column '{column}' not found in the DataFrame.")
+            print(f"Column '{column}': {exc}")
 
     def get_epu_category(self, subset_condition=None):
         """        
@@ -151,14 +150,13 @@ class EPU:
                 raw[col] = raw["news"].str.lower().apply(
                     is_in_word_list, terms=terms)
 
-            raw["epu"] = (raw.econ == True) & (
-                raw.policy == True) & (raw.uncertain == True)
+            raw["epu"] = (raw.econ) & (raw.policy) & (raw.uncertain)
 
             # Check for additional terms categoty
             if self.additional_terms:
                 raw["additional"] = raw["news"].str.lower().apply(
                     is_in_word_list, terms=self.additional_terms)
-                raw["epu"] = (raw.epu == True) & (raw.additional == True)
+                raw["epu"] = (raw.epu) & (raw.additional)
 
             if raw["url"].isin(self.non_epu_urls).sum() > 0:
                 raw.loc[raw.url.isin(self.non_epu_urls), "epu"] = False
@@ -187,7 +185,7 @@ class EPU:
                           new_df: pd.DataFrame,
                           source: str) -> pd.DataFrame:
         """
-        
+        The function merged epu count dfs.
         """
         new_df.columns = [f"{source}_{col}" if col !=
                           "ym" else col for col in new_df.columns]
@@ -254,7 +252,7 @@ class EPU:
                 std = self.epu_stats[ratio_col].std()
             self.stds.append({col: std})
             self.epu_stats[f"{col}_z_score"] = self.epu_stats[ratio_col].div(
-                std)
+                std).fillna(0)
 
         self.z_score_cols = [
             col for col in self.epu_stats.columns if col.endswith("z_score")]
