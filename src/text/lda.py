@@ -36,4 +36,4 @@ def compute_coherence_values(dictionary,
                                         coherence='c_v')
         coherence_values.append(coherencemodel.get_coherence())
         
-        return model_list, coherence_values
+    return model_list, coherence_values

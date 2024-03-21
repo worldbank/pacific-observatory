@@ -158,12 +158,12 @@ class EPU:
                     is_in_word_list, terms=self.additional_terms)
                 raw["epu"] = (raw.epu) & (raw.additional)
 
-            if raw["url"].isin(self.non_epu_urls).sum() > 0:
+            if "url" in raw.columns and raw["url"].isin(self.non_epu_urls).sum() > 0:
                 raw.loc[raw.url.isin(self.non_epu_urls), "epu"] = False
 
             self.raw_files.append((source, raw.copy()))
 
-    def calculate_news_and_epu_counts(self, 
+    def calculate_news_and_epu_counts(self,
                                       file: pd.DataFrame) -> pd.DataFrame:
         """
         The function

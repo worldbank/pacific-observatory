@@ -8,15 +8,6 @@ def run_sarimax(country, y_vars,
                 method: str,
                 exog_var: list):
 
-    # Set parameter range
-    p, d, q = range(0, 3), range(0, 2), range(0, 3)
-    P, D, Q, s = range(0, 3), range(0, 2), range(0, 3), [12]
-
-    # list of all parameter combos
-    pdq = list(itertools.product(p, d, q))
-    seasonal_pdq = list(itertools.product(P, D, Q, s))
-    all_param = list(itertools.product(pdq, seasonal_pdq))
-    df = pd.DataFrame()
 
     for y_var in y_vars:
 
@@ -37,7 +28,7 @@ def run_sarimax(country, y_vars,
         mod.stepwise_search()
 
         print(f"Started to conduct Grid searching for {y_var}".upper(), "\n")
-        mod_msres = mod.manual_search(params=all_param)
+        mod_msres = mod.manual_search()
         mod_msres.sort(key=lambda x: x[1])
 
         mod_swm = mod.stepwise_model
@@ -77,8 +68,8 @@ def run_sarimax(country, y_vars,
             upper = mod.data[y_var].max() + 1
             for col_idx, col in enumerate(best_mod_pred.columns):
                 for row_idx, _ in enumerate(best_mod_pred[col]):
-                    best_mod_pred.iloc[row_idx, col_idx] = mod.inverse_scaledlogit(
-                        best_mod_pred.iloc[row_idx, col_idx], upper, lower)
+                    best_mod_pred.iloc[row_idx, col_idx] = mod.scaler.inverse_transform(
+                        best_mod_pred.])
 
         # Merge the prediction with actual values
         best_mod_pred.columns.name = None
