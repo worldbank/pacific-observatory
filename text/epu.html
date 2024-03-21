@@ -74,7 +74,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Introduction" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 26, 2024"/>
+    <meta name="docbuild:last-update" content="Mar 21, 2024"/>
   </head>
   
   
@@ -453,7 +453,7 @@ document.write(`
 <h1>Economic Policy Uncertainty Index (EPU)<a class="headerlink" href="#economic-policy-uncertainty-index-epu" title="Permalink to this heading">#</a></h1>
 <p>Uncertainty poses challenges to the stability and growth of economies. The Economic Policy Uncertainty Index (EPU) developed by <span id="id1"></span> emerges as a vital tool to measure both economic- and policy-related uncertainties. Sepcifically, they count the frequency of the economic- and policy-related terms’ appearance (in relative to the number of all news) on newspapers, and the EPU index would be produced with standardization and normalization:</p>
 <ul class="simple">
-<li><p>Let <span class="math notranslate nohighlight">\( X_{it} = \frac{\text{EPU news in newspaper } i \text{ at time } t}{\text{All news in newspaper } i \text{ at time } t} \)</span> and pre-defined <span class="math notranslate nohighlight">\(T_1\)</span> to be the standardization and normalization period;</p></li>
+<li><p>Let <span class="math notranslate nohighlight">\( X_{it} = \frac{\text{EPU news in newspaper } i \text{ at time } t}{\text{All scraped news in newspaper } i \text{ at time } t} \)</span> and pre-defined <span class="math notranslate nohighlight">\(T_1\)</span> to be the standardization and normalization period;</p></li>
 <li><p>Calculate the standard deviation <span class="math notranslate nohighlight">\(\sigma_i\)</span> for each newspaper <span class="math notranslate nohighlight">\(i\)</span> over <span class="math notranslate nohighlight">\(T_1\)</span>.</p></li>
 <li><p>Standardize <span class="math notranslate nohighlight">\(X_{it}\)</span> by dividing by <span class="math notranslate nohighlight">\(\sigma_i\)</span> for all time <span class="math notranslate nohighlight">\(t\)</span>, resulting in <span class="math notranslate nohighlight">\( Y_{it} = \frac{X_{it}}{\sigma_i} \)</span></p></li>
 <li><p>Compute the mean of <span class="math notranslate nohighlight">\(Y_{it}\)</span> over all newspapers in each month to obtain <span class="math notranslate nohighlight">\( Z_t = \text{mean}(Y_{it}) \text{ at } t \)</span></p></li>
@@ -465,7 +465,7 @@ document.write(`
 <iframe src="https://worldbank.github.io/pacific-observatory/interactive/text/epu_pic.html"
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="750"></iframe>
 </div>
-<p>The sentiment of economic policy-related news could act as a barometer for uncertainty. Analyzing the shifts and changes in the sentiment of news articles and reports pertaining to economic policy could reflect the underlying economic uncertainty.</p>
+<p>The sentiment of economic policy-related news could act as a barometer for uncertainty. Analyzing the shifts and changes in the sentiment of news articles and reports pertaining to economic policy could reflect the underlying economic uncertainty. To construct the sentiment scores, we firstly filters news identified as “economic” and “policy,” calculates the sentiment (polarity) score for each news, and aggregates scores by each month.</p>
 <div>
 <iframe src="https://worldbank.github.io/pacific-observatory/interactive/text/ep_sentiment.html"
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="750"></iframe>
@@ -549,7 +549,7 @@ By World Bank
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 26, 2024.
+  Last updated on Mar 21, 2024.
   <br/>
 </p>
   </div>

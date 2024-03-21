@@ -2,7 +2,7 @@
 
 Uncertainty poses challenges to the stability and growth of economies. The Economic Policy Uncertainty Index (EPU) developed by {cite:t}`baker2016measuring` emerges as a vital tool to measure both economic- and policy-related uncertainties. Sepcifically, they count the frequency of the economic- and policy-related terms' appearance (in relative to the number of all news) on newspapers, and the EPU index would be produced with standardization and normalization:
 
-- Let $ X_{it} = \frac{\text{EPU news in newspaper } i \text{ at time } t}{\text{All news in newspaper } i \text{ at time } t} $ and pre-defined $T_1$ to be the standardization and normalization period;
+- Let $ X_{it} = \frac{\text{EPU news in newspaper } i \text{ at time } t}{\text{All scraped news in newspaper } i \text{ at time } t} $ and pre-defined $T_1$ to be the standardization and normalization period;
 
 - Calculate the standard deviation $\sigma_i$ for each newspaper $i$ over $T_1$.
 
@@ -21,7 +21,7 @@ Beyond the $Z_t$ being arithmetic mean of $Y_{it}$, we develop a weighted scheme
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="750"></iframe>
 </div>
 
-The sentiment of economic policy-related news could act as a barometer for uncertainty. Analyzing the shifts and changes in the sentiment of news articles and reports pertaining to economic policy could reflect the underlying economic uncertainty.
+The sentiment of economic policy-related news could act as a barometer for uncertainty. Analyzing the shifts and changes in the sentiment of news articles and reports pertaining to economic policy could reflect the underlying economic uncertainty. To construct the sentiment scores, we firstly filters news identified as "economic" and "policy," calculates the sentiment (polarity) score for each news, and aggregates scores by each month.
 
 <div>
 <iframe src="https://worldbank.github.io/pacific-observatory/interactive/text/ep_sentiment.html"
