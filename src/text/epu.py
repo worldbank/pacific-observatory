@@ -6,6 +6,7 @@ Last modified:
 
 """
 import os
+import re
 from typing import List, Union
 import pandas as pd
 from .utils import (is_in_word_list, generate_continous_df)
@@ -25,7 +26,7 @@ POLICY_LIST = [
 UNCERTAINTY_LIST = [
     "uncertain", "uncertainty", "uncertainties", "unknown", "unstable",
     "unsure", "undetermined", "risky", "risk", "not certain", "non-reliable",
-    "fluctuations", "unpredictale"
+    "fluctuations", "unpredictable"
 ]
 
 
@@ -147,8 +148,11 @@ class EPU:
             raw = self.process_data(fp, subset_condition=subset_condition)
             for col, terms in zip(["econ", "policy", "uncertain"],
                                   [self.econ_terms, self.policy_terms, self.uncertainty_terms]):
-                raw[col] = raw["news"].str.lower().apply(
-                    is_in_word_list, terms=terms)
+                if terms is not None:
+                    raw[col] = raw["news"].str.lower().apply(
+                        is_in_word_list, terms=terms)
+                else:
+                    raw[col] = True
 
             raw["epu"] = (raw.econ) & (raw.policy) & (raw.uncertain)
 

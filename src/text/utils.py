@@ -22,7 +22,8 @@ def is_in_word_list(row: str, terms: list) -> bool:
     Returns:
         bool: True if any of the terms are found in the row, False otherwise.
     """
-    return any([word in str(row) for word in terms])
+    pattern = r'\b(' + '|'.join(re.escape(term) for term in terms) + r')\b'
+    return bool(re.search(pattern, str(row), re.IGNORECASE))
 
 
 def sent_to_words(sentences: List[str]):
