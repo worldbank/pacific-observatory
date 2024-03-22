@@ -13,12 +13,11 @@ from .utils import (is_in_word_list, generate_continous_df)
 
 
 ECON_LIST = [
-    "economy", "economic", "economics", "business", "finance",
-    "finianal"
+    "economy", "economic", "business", "finance","financial"
 ]
 
 POLICY_LIST = [
-    "government", "governmental", "authorities", "minister", "ministry",
+    "government", "governmental", "authority", "authorities", "minister", "ministry",
     "parliament", "parliamentary", "tax", "regulation", "legislation",
     "central bank", "imf", "international monetary fund",  "world bank"
 ]

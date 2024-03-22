@@ -4,7 +4,7 @@ Uncertainty poses challenges to the stability and growth of economies. The Econo
 
 | Category      | Words |
 | ----------- | ----------- |
-| Economic     | "economy", "economic", "economics", "business", "finance", "finianal"       |
+| Economic     | "economy", "economic", "economics", "business", "finance", "financial"       |
 | Policy   |     "government", "governmental", "authorities", "minister", "ministry","parliament", "parliamentary", "tax", "regulation", "legislation", "central bank", "imf", "international monetary fund",  "world bank" |
 | Uncertainty |     "uncertain", "uncertainty", "uncertainties", "unknown", "unstable" "unsure", "undetermined", "risky", "risk", "not certain", "non-reliable", "fluctuations", "unpredictable" |
 
