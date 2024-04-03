@@ -1,13 +1,12 @@
 import os
 import re
+from abc import ABC, abstractmethod
 import pandas as pd
 import tabula
 import PyPDF2
 import pytesseract
 from PIL import Image
 from pdf2image import convert_from_path
-from abc import ABC, abstractmethod
-
 
 class BaseExtractor(ABC):
     """
@@ -46,7 +45,7 @@ class BaseExtractor(ABC):
             try:
                 page_text = page.extract_text()
                 hits = None
-                if ignore_case == False:
+                if not ignore_case:
                     hits = re.search(search_string, page_text.lower())
                 else:
                     hits = re.search(
@@ -54,9 +53,8 @@ class BaseExtractor(ABC):
 
                 if hits:
                     search_lst.append(page_num)
-            except:
-                pass
-
+            except Exception as e:
+                print(f"Error in page {page_num}: {e}")
         return {"table_loc": search_lst}
 
     @abstractmethod
@@ -64,10 +62,16 @@ class BaseExtractor(ABC):
         """
         Abstract method to extract table from page.
         """
-        pass
+        return
 
 
 class TesseractExtractor(BaseExtractor):
+    """
+    A Tesseract-based pdf extractor
+    """
+    def __init__(self, filepath: str):
+        super().__init__(filepath)
+        self.table_loc = None
 
     def extract(self, search_string: str, config: str, **kwargs) -> str:
         """

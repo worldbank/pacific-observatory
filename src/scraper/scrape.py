@@ -38,7 +38,7 @@ class WebScraper(object):
             raise ValueError("Invalid parser. Use 'html.parser' or 'xpath'.")
 
         self.parser = parser
-        if headers == None:
+        if headers is None:
             self.headers = {
                 "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
             }
@@ -123,7 +123,9 @@ class WebScraper(object):
         return self.item_container
 
     def scrape_url(self, url, expression):
-
+        """
+        Scrape single url's content by a given expression.
+        """
         try:
             content = self.request_url(url)
             parsed_content = self.parse_content(content)
@@ -199,7 +201,7 @@ class SeleniumScraper:
         scraper.close_driver()
     """
 
-    def __init__(self, driver_path):
+    def __init__(self, driver_path, download_path):
         """
         Initialize the WebScraper object.
 
@@ -208,7 +210,9 @@ class SeleniumScraper:
             url (str): The URL to be scraped.
         """
         self.driver_path = driver_path
+        self.download_path = download_path
         self.failed_urls = []
+        self.driver = None
 
     def start_driver(self):
         """
@@ -220,6 +224,9 @@ class SeleniumScraper:
         options.add_experimental_option(
             "excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
+        if self.download_path:
+            prefs = {"download.default_directory": self.download_path}
+            options.add_experimental_option("prefs", prefs)
         self.driver = webdriver.Chrome(service=service, options=options)
 
     def close_driver(self):
@@ -239,12 +246,22 @@ class SeleniumScraper:
         elements = WebDriverWait(self.driver, 20).until(
             EC.presence_of_all_elements_located((By.XPATH, search_query)))
         return elements
-    
+ 
     def scrape_page(self, url, search_query):
+        """
+        Scrapes the specified URL with the given search query.
+
+        Args:
+            url (str): The URL of the web page to be scraped.
+            search_query (str): The search query to find elements on the page.
+
+        Returns:
+            list or None: A list of WebElement objects if elements are found; None if an error occurs.
+        """
         self.driver.get(url)
         try:
             elements = self.perform_search(search_query)
             return elements
-        except:
-            self.failed_urls.append(url)
-            pass 
+        except Exception as e:
+            self.failed_urls.append((url, str(e)))
+            return None
