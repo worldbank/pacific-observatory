@@ -90,3 +90,6 @@ target/
 notebooks/R/.Rproj.user/
 notebooks/R/.Rhistory
 .Rproj.user
+
+# data files
+data/
