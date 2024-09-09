@@ -1,1 +1,0 @@
-# Original food price surveys
