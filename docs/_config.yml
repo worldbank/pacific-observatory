@@ -32,12 +32,12 @@ execute:
   execute_notebooks: "off"
   allow_errors: true
   timeout: 60
-  exclude_patterns:
-    - '*tsa*'
-    - '*model*'
-    - '*ensemble*'
-    - '*combo*'
-    - '*forecast*'
+  # exclude_patterns:
+  #   - '*tsa*'
+  #   - '*model*'
+  #   - '*ensemble*'
+  #   - '*combo*'
+  #   - '*forecast*'
 
 # launch_buttons:
 #   colab_url: "https://colab.research.google.com"
