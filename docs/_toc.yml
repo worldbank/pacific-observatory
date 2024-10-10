@@ -43,6 +43,7 @@ parts:
   - caption: Automatic Identification System
     chapters:
       - file: ais_intro
+      - file: ais_emissions
   - caption: Geospatial Poverty Map
     chapters:
       - file: poverty/vanuatu
