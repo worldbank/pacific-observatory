@@ -15,7 +15,7 @@ Black carbon (BC) can either be energy- or fuel-based depending on the fuel type
 Energy{-}Based\ Emission_{GHG} = \sum_E \sum_i EF_{E,GHG} \cdot P_{E,i} \cdot LCF_{E,i,GHG}
 ```
 ```{math}
-:label: my_label
+:label: my_label1
 Energy{-}Based\ Emission_{GHG} = \sum_E \sum_i EF_{E,GHG} \cdot P_{E,i} \cdot LCF_{E,i,GHG}
 ```
 
@@ -35,11 +35,11 @@ Each of the components of equations (1) and (2) are collected data by the IMO fr
 Power demanded is the power required to operate a vessel at a given speed and displacement. In the GHG study, the power demanded by the main engine is a function of the vessel’s speed and draught at any given hour. Power demanded is expressed as the product of engine load and maximum power, where engine load is derived from the admiralty formula including correction factors (CF). The correction factors are meant to increase the engine load due to weather and hull fouling, and to decrease the engine load for some large vessels where maximum speed corresponds to a lower engine load. 
 
 ```{math}
-:label: my_label
+:label: my_label2
 P_i = Load_i \times P_{max}
 ```
 ```{math}
-:label: my_label
+:label: my_label3
 Load_i = \left( \frac{draught_i}{draught_{design}} \right)^{\frac{2}{3}} \times \left( \frac{speed_i}{speed_{max}} \right)^3 \times CF
 ```
 
@@ -58,7 +58,7 @@ Per the GHG study, engines that operate at engine load less than 20% have lower 
 Power demanded is converted to fuel consumption using a baseline specific fuel consumption (SFC) adjusted by the load correction factor (LCF). The baseline SFC is a fixed value that varies across engine type, fuel type, and year of built. The load correction factor (LCF) is a parabolic function that results in high values for both low and high inputs of engine load, and low values with engine load near 80%. LCF is only applied for oil and LNG engines for the main engine.
 
 ```{math}
-:label: my_label
+:label: my_label4
 SFC_{E,i} = P_{E,i} SFC_{base} LCF_{i}
 ```
 

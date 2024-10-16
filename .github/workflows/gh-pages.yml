@@ -1,42 +1,31 @@
 name: Publish to GitHub Pages
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  build-book:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.11
-          cache: "pip"
-      - name: Install Dependencies
+          python-version: "3.9"
+          architecture: "x64"
+      - name: Install dependencies
         run: |
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f pyproject.toml ]; then pip install ".[docs]"; fi
-      - name: Build Juputer Book Documentation
+          if [ -f docs/requirements.txt ]; then pip install -r docs/requirements.txt; fi
+      - name: Build
         run: |
-          jupyter-book build . --config docs/_config.yml --toc docs/_toc.yml
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+          jupyter-book build docs
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main' && job.status == 'success'
         with:
-          path: "_build/html"
-
-  deploy-book:
-    needs: build-book
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build/html
+          enable_jekyll: false
