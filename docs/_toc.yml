@@ -2,6 +2,12 @@ format: jb-book
 root: index
 
 parts:
+  - caption: Automatic Identification System
+    chapters:
+      - file: ais/ais_intro
+      - file: ais/ais_trade
+      - file: ais/ais_emissions
+      - file: ais/ais_fishing
   - caption: Night Time Lights
     chapters:
       - file: ntl/ch1_intro
@@ -40,10 +46,6 @@ parts:
       - file: text/epu
       - url: https://worldbank.github.io/pacific-observatory/interactive/text/text_presentation.slides
         title: Text Presentation
-  - caption: Automatic Identification System
-    chapters:
-      - file: ais_intro
-      - file: ais_emissions
   - caption: Geospatial Poverty Map
     chapters:
       - file: poverty/vanuatu

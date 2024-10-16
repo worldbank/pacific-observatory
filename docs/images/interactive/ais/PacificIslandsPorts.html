@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6fb6181a992cf956e3119cad6a676564 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_6fb6181a992cf956e3119cad6a676564" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6fb6181a992cf956e3119cad6a676564 = L.map(
+                "map_6fb6181a992cf956e3119cad6a676564",
+                {
+                    center: [-17.6, 177.45],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 4,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_b29ffd4d839d44de9b734d32680c72a9 = L.tileLayer(
+                "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca target=\"_blank\" href=\"http://cartodb.com/attributions\"\u003eCartoDB\u003c/a\u003e, CartoDB \u003ca target=\"_blank\" href =\"http://cartodb.com/attributions\"\u003eattributions\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+            var tile_layer_f71bf82cd39ae79602837179d60dd044 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {"attribution": "Esri", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+            var feature_group_a2c6fa70ed89d7c71ecdeb7c575b1f32 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_54034677ee64aa192e065fc6b273f878_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_54034677ee64aa192e065fc6b273f878 = L.geoJson(null, {
+                onEachFeature: geo_json_54034677ee64aa192e065fc6b273f878_onEachFeature,
+            
+        });
+
+        function geo_json_54034677ee64aa192e065fc6b273f878_add (data) {
+            geo_json_54034677ee64aa192e065fc6b273f878
+                .addData(data)
+                .addTo(feature_group_a2c6fa70ed89d7c71ecdeb7c575b1f32);
+        }
+            geo_json_54034677ee64aa192e065fc6b273f878_add({"features": [{"geometry": {"coordinates": [177.45, -17.6], "type": "Point"}, "id": "0", "properties": {"Country": "Fiji", "Port": "LAUTOKA HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [178.416667, -18.133333], "type": "Point"}, "id": "1", "properties": {"Country": "Fiji", "Port": "SUVA HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [178.833333, -17.683333], "type": "Point"}, "id": "2", "properties": {"Country": "Fiji", "Port": "LEVUKA"}, "type": "Feature"}, {"geometry": {"coordinates": [179.366667, -16.35], "type": "Point"}, "id": "3", "properties": {"Country": "Fiji", "Port": "MALAI"}, "type": "Feature"}, {"geometry": {"coordinates": [179.333333, -16.766667], "type": "Point"}, "id": "4", "properties": {"Country": "Fiji", "Port": "SAVUSAVU BAY"}, "type": "Feature"}, {"geometry": {"coordinates": [178.6867045474861, -16.99352919047404], "type": "Point"}, "id": "5", "properties": {"Country": "Fiji", "Port": "NABOUWALU JETTY"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_54034677ee64aa192e065fc6b273f878.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_a46bf82b0c9094a6b0cfd8ba92aa77df_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_a46bf82b0c9094a6b0cfd8ba92aa77df = L.geoJson(null, {
+                onEachFeature: geo_json_a46bf82b0c9094a6b0cfd8ba92aa77df_onEachFeature,
+            
+        });
+
+        function geo_json_a46bf82b0c9094a6b0cfd8ba92aa77df_add (data) {
+            geo_json_a46bf82b0c9094a6b0cfd8ba92aa77df
+                .addData(data)
+                .addTo(feature_group_a2c6fa70ed89d7c71ecdeb7c575b1f32);
+        }
+            geo_json_a46bf82b0c9094a6b0cfd8ba92aa77df_add({"features": [{"geometry": {"coordinates": [[[177.64762936250628, -17.410367694884265], [177.64762936250628, -17.789431000636405], [177.2523706374937, -17.789431000636405], [177.2523706374937, -17.410367694884265], [177.64762936250628, -17.410367694884265]]], "type": "Polygon"}, "id": "0", "properties": {"Country": "Fiji", "Source": "ADB 22KM Buffer", "grouped_port": "LAUTOKA HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [[[178.61429636250628, -17.944272800467104], [178.61429636250628, -18.32218664741918], [178.2190376374937, -18.32218664741918], [178.2190376374937, -17.944272800467104], [178.61429636250628, -17.944272800467104]]], "type": "Polygon"}, "id": "1", "properties": {"Country": "Fiji", "Source": "ADB 22KM Buffer", "grouped_port": "SUVA HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [[[179.0309623625063, -17.49378899335595], [179.0309623625063, -17.872674877428953], [178.63570363749372, -17.872674877428953], [178.63570363749372, -17.49378899335595], [179.0309623625063, -17.49378899335595]]], "type": "Polygon"}, "id": "2", "properties": {"Country": "Fiji", "Source": "ADB 22KM Buffer", "grouped_port": "LEVUKA"}, "type": "Feature"}, {"geometry": {"coordinates": [[[179.5642963625063, -16.159091950672188], [179.5642963625063, -16.540719322973136], [179.16903763749372, -16.540719322973136], [179.16903763749372, -16.159091950672188], [179.5642963625063, -16.159091950672188]]], "type": "Polygon"}, "id": "3", "properties": {"Country": "Fiji", "Source": "ADB 22KM Buffer", "grouped_port": "MALAI"}, "type": "Feature"}, {"geometry": {"coordinates": [[[179.5309623625063, -16.576174027173664], [179.5309623625063, -16.956967011287045], [179.13570363749372, -16.956967011287045], [179.13570363749372, -16.576174027173664], [179.5309623625063, -16.576174027173664]]], "type": "Polygon"}, "id": "4", "properties": {"Country": "Fiji", "Source": "ADB 22KM Buffer", "grouped_port": "SAVUSAVU BAY"}, "type": "Feature"}, {"geometry": {"coordinates": [[[178.8843339099924, -16.803266495713785], [178.8843339099924, -17.183596635442722], [178.4890751849798, -17.183596635442722], [178.4890751849798, -16.803266495713785], [178.8843339099924, -16.803266495713785]]], "type": "Polygon"}, "id": "5", "properties": {"Country": "Fiji", "Source": "ADB 22KM Buffer", "grouped_port": "NABOUWALU JETTY"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_a46bf82b0c9094a6b0cfd8ba92aa77df.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_cd4d6c9cbd655764e8588e53fee624a5_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_cd4d6c9cbd655764e8588e53fee624a5_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_cd4d6c9cbd655764e8588e53fee624a5 = L.geoJson(null, {
+                onEachFeature: geo_json_cd4d6c9cbd655764e8588e53fee624a5_onEachFeature,
+            
+                style: geo_json_cd4d6c9cbd655764e8588e53fee624a5_styler,
+        });
+
+        function geo_json_cd4d6c9cbd655764e8588e53fee624a5_add (data) {
+            geo_json_cd4d6c9cbd655764e8588e53fee624a5
+                .addData(data)
+                .addTo(feature_group_a2c6fa70ed89d7c71ecdeb7c575b1f32);
+        }
+            geo_json_cd4d6c9cbd655764e8588e53fee624a5_add({"features": [{"geometry": {"coordinates": [[[178.3973878839453, -18.08680323184183], [178.47168063011551, -18.128452195603927], [178.42552907567645, -18.18811152207396], [178.36249280619867, -18.15209079665809], [178.3973878839453, -18.08680323184183]]], "type": "Polygon"}, "id": "490", "properties": {"Country": "Fiji", "Port_name": "Suva Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[177.4085808234684, -17.709676585159585], [177.3815654907346, -17.709757703537697], [177.35468943769632, -17.689388063457162], [177.3369165956271, -17.659117241347996], [177.3883389931945, -17.56461122225403], [177.45800930421066, -17.567030330275426], [177.47386360728296, -17.597727201640193], [177.4085808234684, -17.709676585159585]]], "type": "Polygon"}, "id": "491", "properties": {"Country": "Fiji", "Port_name": "Lautoka Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[178.85147938984198, -17.702305784666127], [178.8213429359382, -17.701620865259223], [178.8186032583106, -17.676278847203765], [178.84942463162128, -17.670114572541625], [178.85147938984198, -17.702305784666127]]], "type": "Polygon"}, "id": "1190", "properties": {"Country": "Fiji", "Port_name": "Levuka", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[179.37406579953134, -16.38637866465017], [179.32257249158405, -16.37457811491225], [179.3569013635489, -16.318793697969358], [179.42126799848302, -16.340249242947394], [179.37406579953134, -16.38637866465017]]], "type": "Polygon"}, "id": "1191", "properties": {"Country": "Fiji", "Port_name": "Malai", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[179.32490293206627, -16.780412404828365], [179.3214934433479, -16.77622588083599], [179.32418084436637, -16.774239540952767], [179.32938038111953, -16.773334003653062], [179.33536861164984, -16.771260031127927], [179.33852338675848, -16.771493718173012], [179.34240843388304, -16.771698194337464], [179.3450958349015, -16.77286662956289], [179.34561404499246, -16.775038498633503], [179.3462024288824, -16.776372168784054], [179.3440842468786, -16.778333448417214], [179.33659215867993, -16.779431765011786], [179.3327872761916, -16.779470990604448], [179.33137515485572, -16.77998092330907], [179.32490293206627, -16.780412404828365]]], "type": "Polygon"}, "id": "1438", "properties": {"Country": "Fiji", "Port_name": "Port of Savusavu Bay", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[178.6570904333387, -16.950608821662172], [178.646530573969, -16.93988134547706], [178.65591711563098, -16.93083003744587], [178.66278940506206, -16.92865101884577], [178.66929485652915, -16.934341882987255], [178.67058151823997, -16.940584574991636], [178.67150547946247, -16.949938354400604], [178.6570904333387, -16.950608821662172]]], "type": "Polygon"}, "id": "1439", "properties": {"Country": "Fiji", "Port_name": "Nabouwalu Jetty", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_cd4d6c9cbd655764e8588e53fee624a5.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_35d0003389513cd6878c606ca16776f2 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_4ab44649d47b284c2217d8b389b5d7c3_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_4ab44649d47b284c2217d8b389b5d7c3 = L.geoJson(null, {
+                onEachFeature: geo_json_4ab44649d47b284c2217d8b389b5d7c3_onEachFeature,
+            
+        });
+
+        function geo_json_4ab44649d47b284c2217d8b389b5d7c3_add (data) {
+            geo_json_4ab44649d47b284c2217d8b389b5d7c3
+                .addData(data)
+                .addTo(feature_group_35d0003389513cd6878c606ca16776f2);
+        }
+            geo_json_4ab44649d47b284c2217d8b389b5d7c3_add({"features": [{"geometry": {"coordinates": [144.3, -1.216667], "type": "Point"}, "id": "6", "properties": {"Country": "Papua New Guinea", "Port": "LONGAN ISLAND"}, "type": "Feature"}, {"geometry": {"coordinates": [147.266667, -2.016667], "type": "Point"}, "id": "7", "properties": {"Country": "Papua New Guinea", "Port": "LORENGAU"}, "type": "Feature"}, {"geometry": {"coordinates": [143.633333, -3.566667], "type": "Point"}, "id": "8", "properties": {"Country": "Papua New Guinea", "Port": "WEWAK HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [149.966667, -1.633333], "type": "Point"}, "id": "9", "properties": {"Country": "Papua New Guinea", "Port": "HAMBURG HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [152.266667, -4.333333], "type": "Point"}, "id": "10", "properties": {"Country": "Papua New Guinea", "Port": "KOKOPO"}, "type": "Feature"}, {"geometry": {"coordinates": [150.1455308326394, -5.521042177521055], "type": "Point"}, "id": "11", "properties": {"Country": "Papua New Guinea", "Port": "KIMBE"}, "type": "Feature"}, {"geometry": {"coordinates": [155.633333, -6.216667], "type": "Point"}, "id": "12", "properties": {"Country": "Papua New Guinea", "Port": "KIETA"}, "type": "Feature"}, {"geometry": {"coordinates": [144.566667, -8.1], "type": "Point"}, "id": "13", "properties": {"Country": "Papua New Guinea", "Port": "KUMUL"}, "type": "Feature"}, {"geometry": {"coordinates": [143.2, -9.066667], "type": "Point"}, "id": "14", "properties": {"Country": "Papua New Guinea", "Port": "DARU"}, "type": "Feature"}, {"geometry": {"coordinates": [147.133333, -9.466667], "type": "Point"}, "id": "15", "properties": {"Country": "Papua New Guinea", "Port": "PORT MORESBY"}, "type": "Feature"}, {"geometry": {"coordinates": [150.45, -10.316667], "type": "Point"}, "id": "16", "properties": {"Country": "Papua New Guinea", "Port": "ALOTOA"}, "type": "Feature"}, {"geometry": {"coordinates": [150.666667, -10.616667], "type": "Point"}, "id": "17", "properties": {"Country": "Papua New Guinea", "Port": "SAMARAI"}, "type": "Feature"}, {"geometry": {"coordinates": [152.766667, -9.216667], "type": "Point"}, "id": "18", "properties": {"Country": "Papua New Guinea", "Port": "SULOGA HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [150.416667, -10.416667], "type": "Point"}, "id": "19", "properties": {"Country": "Papua New Guinea", "Port": "DISCOVERY BAY"}, "type": "Feature"}, {"geometry": {"coordinates": [148.483333, -8.883333], "type": "Point"}, "id": "20", "properties": {"Country": "Papua New Guinea", "Port": "ORO BAY"}, "type": "Feature"}, {"geometry": {"coordinates": [147.0, -6.733333], "type": "Point"}, "id": "21", "properties": {"Country": "Papua New Guinea", "Port": "LAE"}, "type": "Feature"}, {"geometry": {"coordinates": [145.816667, -5.216667], "type": "Point"}, "id": "22", "properties": {"Country": "Papua New Guinea", "Port": "MADANG"}, "type": "Feature"}, {"geometry": {"coordinates": [141.133333, -2.683333], "type": "Point"}, "id": "23", "properties": {"Country": "Papua New Guinea", "Port": "VANIMO"}, "type": "Feature"}, {"geometry": {"coordinates": [150.8, -2.583333], "type": "Point"}, "id": "24", "properties": {"Country": "Papua New Guinea", "Port": "KAVIENG HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [152.183333, -4.2], "type": "Point"}, "id": "25", "properties": {"Country": "Papua New Guinea", "Port": "RABAUL"}, "type": "Feature"}, {"geometry": {"coordinates": [154.55, -5.166667], "type": "Point"}, "id": "26", "properties": {"Country": "Papua New Guinea", "Port": "QUEEN CAROLA HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [150.983333, -5.3], "type": "Point"}, "id": "27", "properties": {"Country": "Papua New Guinea", "Port": "BIALLA"}, "type": "Feature"}, {"geometry": {"coordinates": [154.672585, -5.431771], "type": "Point"}, "id": "28", "properties": {"Country": "Papua New Guinea", "Port": "BUKA"}, "type": "Feature"}, {"geometry": {"coordinates": [152.64390019928496, -3.124224514860273], "type": "Point"}, "id": "29", "properties": {"Country": "Papua New Guinea", "Port": "PUT PUT"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_4ab44649d47b284c2217d8b389b5d7c3.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_30fe9265e5b12088facfcf36318cf583_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_30fe9265e5b12088facfcf36318cf583 = L.geoJson(null, {
+                onEachFeature: geo_json_30fe9265e5b12088facfcf36318cf583_onEachFeature,
+            
+        });
+
+        function geo_json_30fe9265e5b12088facfcf36318cf583_add (data) {
+            geo_json_30fe9265e5b12088facfcf36318cf583
+                .addData(data)
+                .addTo(feature_group_35d0003389513cd6878c606ca16776f2);
+        }
+            geo_json_30fe9265e5b12088facfcf36318cf583_add({"features": [{"geometry": {"coordinates": [[[144.4976293625063, -1.0177441447121702], [144.4976293625063, -1.4155749924189798], [144.10237063749372, -1.4155749924189798], [144.10237063749372, -1.0177441447121702], [144.4976293625063, -1.0177441447121702]]], "type": "Polygon"}, "id": "6", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "LONGAN ISLAND"}, "type": "Feature"}, {"geometry": {"coordinates": [[[147.46429636250633, -1.8178186863233319], [147.46429636250633, -2.2154906914198973], [147.06903763749372, -2.2154906914198973], [147.06903763749372, -1.8178186863233319], [147.46429636250633, -1.8178186863233319]]], "type": "Polygon"}, "id": "7", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "LORENGAU"}, "type": "Feature"}, {"geometry": {"coordinates": [[[143.83096236250628, -3.368074897544681], [143.83096236250628, -3.7652156353013377], [143.4357036374937, -3.7652156353013377], [143.4357036374937, -3.368074897544681], [143.83096236250628, -3.368074897544681]]], "type": "Polygon"}, "id": "8", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "WEWAK HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [[[150.1642963625063, -1.434444064723743], [150.1642963625063, -1.8322019873965867], [149.7690376374937, -1.8322019873965867], [149.7690376374937, -1.434444064723743], [150.1642963625063, -1.434444064723743]]], "type": "Polygon"}, "id": "9", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "HAMBURG HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [[[152.4642963625063, -4.134922086995671], [152.4642963625063, -4.531691170022624], [152.06903763749372, -4.531691170022624], [152.06903763749372, -4.398393879048446], [151.9857036374937, -4.398393879048446], [151.9857036374937, -4.0015549885283335], [152.3809623625063, -4.0015549885283335], [152.3809623625063, -4.134922086995671], [152.4642963625063, -4.134922086995671]]], "type": "Polygon"}, "id": "10", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "KOKOPO_RABAUL"}, "type": "Feature"}, {"geometry": {"coordinates": [[[150.34316019514569, -5.322983038582915], [150.34316019514569, -5.719034283481552], [149.9479014701331, -5.719034283481552], [149.9479014701331, -5.322983038582915], [150.34316019514569, -5.322983038582915]]], "type": "Polygon"}, "id": "11", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "KIMBE"}, "type": "Feature"}, {"geometry": {"coordinates": [[[155.83096236250628, -6.018853951349019], [155.83096236250628, -6.414404700176523], [155.4357036374937, -6.414404700176523], [155.4357036374937, -6.018853951349019], [155.83096236250628, -6.018853951349019]]], "type": "Polygon"}, "id": "12", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "KIETA"}, "type": "Feature"}, {"geometry": {"coordinates": [[[144.7642963625063, -7.903001376662596], [144.7642963625063, -8.296901007531314], [144.3690376374937, -8.296901007531314], [144.3690376374937, -7.903001376662596], [144.7642963625063, -7.903001376662596]]], "type": "Polygon"}, "id": "13", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "KUMUL"}, "type": "Feature"}, {"geometry": {"coordinates": [[[143.39762936250628, -8.870170207373228], [143.39762936250628, -9.26305491139452], [143.0023706374937, -9.26305491139452], [143.0023706374937, -8.870170207373228], [143.39762936250628, -8.870170207373228]]], "type": "Polygon"}, "id": "14", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "DARU"}, "type": "Feature"}, {"geometry": {"coordinates": [[[147.33096236250628, -9.270394442568309], [147.33096236250628, -9.662826051521806], [146.9357036374937, -9.662826051521806], [146.9357036374937, -9.270394442568309], [147.33096236250628, -9.270394442568309]]], "type": "Polygon"}, "id": "15", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "PORT MORESBY"}, "type": "Feature"}, {"geometry": {"coordinates": [[[150.86429636250628, -10.421093045458152], [150.86429636250628, -10.812114283803314], [150.4690376374937, -10.812114283803314], [150.4690376374937, -10.612243794590702], [150.2190376374937, -10.612243794590702], [150.2190376374937, -10.220965809612942], [150.2523706374937, -10.220965809612942], [150.2523706374937, -10.120903097089322], [150.64762936250628, -10.120903097089322], [150.64762936250628, -10.421093045458152], [150.86429636250628, -10.421093045458152]]], "type": "Polygon"}, "id": "16", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "ALOTOA_SAMARAI_DISCOVERY BAY"}, "type": "Feature"}, {"geometry": {"coordinates": [[[152.9642963625063, -9.020253159391087], [152.9642963625063, -9.412970222490882], [152.56903763749372, -9.412970222490882], [152.56903763749372, -9.020253159391087], [152.9642963625063, -9.020253159391087]]], "type": "Polygon"}, "id": "18", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "SULOGA HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [[[148.68096236250628, -8.686736673854655], [148.68096236250628, -9.079822571983172], [148.2857036374937, -9.079822571983172], [148.2857036374937, -8.686736673854655], [148.68096236250628, -8.686736673854655]]], "type": "Polygon"}, "id": "20", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "ORO BAY"}, "type": "Feature"}, {"geometry": {"coordinates": [[[147.1976293625063, -6.535721856709847], [147.1976293625063, -6.930862648178304], [146.8023706374937, -6.930862648178304], [146.8023706374937, -6.535721856709847], [147.1976293625063, -6.535721856709847]]], "type": "Polygon"}, "id": "21", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "LAE"}, "type": "Feature"}, {"geometry": {"coordinates": [[[146.0142963625063, -5.01850948543894], [146.0142963625063, -5.414761133298831], [145.6190376374937, -5.414761133298831], [145.6190376374937, -5.01850948543894], [146.0142963625063, -5.01850948543894]]], "type": "Polygon"}, "id": "22", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "MADANG"}, "type": "Feature"}, {"geometry": {"coordinates": [[[141.33096236250628, -2.4845768178486205], [141.33096236250628, -2.882056441992332], [140.9357036374937, -2.882056441992332], [140.9357036374937, -2.4845768178486205], [141.33096236250628, -2.4845768178486205]]], "type": "Polygon"}, "id": "23", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "VANIMO"}, "type": "Feature"}, {"geometry": {"coordinates": [[[150.9976293625063, -2.384561259156556], [150.9976293625063, -2.7820732173075653], [150.60237063749372, -2.7820732173075653], [150.60237063749372, -2.384561259156556], [150.9976293625063, -2.384561259156556]]], "type": "Polygon"}, "id": "24", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "KAVIENG HARBOR"}, "type": "Feature"}, {"geometry": {"coordinates": [[[154.8702143625063, -5.233682420984449], [154.8702143625063, -5.6297936162655615], [154.4749556374937, -5.6297936162655615], [154.4749556374937, -5.364777352266538], [154.35237063749372, -5.364777352266538], [154.35237063749372, -4.968493867064375], [154.7476293625063, -4.968493867064375], [154.7476293625063, -5.233682420984449], [154.8702143625063, -5.233682420984449]]], "type": "Polygon"}, "id": "26", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "QUEEN CAROLA HARBOR_BUKA"}, "type": "Feature"}, {"geometry": {"coordinates": [[[151.18096236250628, -5.101868855803789], [151.18096236250628, -5.498066762396221], [150.7857036374937, -5.498066762396221], [150.7857036374937, -5.101868855803789], [151.18096236250628, -5.101868855803789]]], "type": "Polygon"}, "id": "27", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "BIALLA"}, "type": "Feature"}, {"geometry": {"coordinates": [[[152.84152956179125, -2.9255442458011123], [152.84152956179125, -3.322866685008371], [152.44627083677867, -3.322866685008371], [152.44627083677867, -2.9255442458011123], [152.84152956179125, -2.9255442458011123]]], "type": "Polygon"}, "id": "29", "properties": {"Country": "Papua New Guinea", "Source": "ADB 22KM Buffer", "grouped_port": "PUT PUT"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_30fe9265e5b12088facfcf36318cf583.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_cd83ffa8f4a8e217096242af9189bd97_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_cd83ffa8f4a8e217096242af9189bd97_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_cd83ffa8f4a8e217096242af9189bd97 = L.geoJson(null, {
+                onEachFeature: geo_json_cd83ffa8f4a8e217096242af9189bd97_onEachFeature,
+            
+                style: geo_json_cd83ffa8f4a8e217096242af9189bd97_styler,
+        });
+
+        function geo_json_cd83ffa8f4a8e217096242af9189bd97_add (data) {
+            geo_json_cd83ffa8f4a8e217096242af9189bd97
+                .addData(data)
+                .addTo(feature_group_35d0003389513cd6878c606ca16776f2);
+        }
+            geo_json_cd83ffa8f4a8e217096242af9189bd97_add({"features": [{"geometry": {"coordinates": [[[147.19142973733898, -9.480640335327909], [147.1138107004106, -9.522645931783277], [146.98962024132516, -9.435895243451537], [146.97592276422014, -9.329968087172782], [147.02249418637717, -9.326315426611446], [147.12933450779627, -9.38749749101383], [147.19142973733898, -9.480640335327909]]], "type": "Polygon"}, "id": "1089", "properties": {"Country": "Papua New Guinea", "Port_name": "Port Moresby", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[146.9988181269837, -6.739576833154989], [146.99439671132885, -6.748235438812452], [146.97800062827534, -6.751735726205895], [146.96823666870415, -6.725759909233505], [146.9800271104505, -6.726128360538078], [146.9988181269837, -6.739576833154989]]], "type": "Polygon"}, "id": "1090", "properties": {"Country": "Papua New Guinea", "Port_name": "Lae", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[145.78833753385575, -5.232335249389955], [145.78548818370194, -5.196107797434173], [145.82944958607524, -5.193665497302323], [145.84003288664658, -5.228671799192179], [145.78833753385575, -5.232335249389955]]], "type": "Polygon"}, "id": "1091", "properties": {"Country": "Papua New Guinea", "Port_name": "Madang", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[155.64973116450392, -6.22489341018832], [155.62076082122806, -6.223710947197468], [155.62726436767772, -6.204791539343846], [155.66332948889868, -6.204200307848421], [155.64973116450392, -6.22489341018832]]], "type": "Polygon"}, "id": "1201", "properties": {"Country": "Papua New Guinea", "Port_name": "Kieta", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[154.67725336315704, -5.440246080009993], [154.66730305292467, -5.430580064355707], [154.6741261227983, -5.425178467372429], [154.68919373543585, -5.428590002309236], [154.67725336315704, -5.440246080009993]]], "type": "Polygon"}, "id": "1202", "properties": {"Country": "Papua New Guinea", "Port_name": "Buka", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[152.1528107618398, -4.209978872846495], [152.16794587348235, -4.197843513061009], [152.18089934741067, -4.200025150775254], [152.1847172134106, -4.214205795917844], [152.15308346655405, -4.217069195417791], [152.1528107618398, -4.209978872846495]]], "type": "Polygon"}, "id": "1203", "properties": {"Country": "Papua New Guinea", "Port_name": "Rabaul", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[152.65162429158252, -3.126732583942245], [152.6427268657858, -3.11943669478893], [152.65162429158252, -3.111606960087811], [152.6587422322199, -3.117301312597716], [152.65162429158252, -3.126732583942245]]], "type": "Polygon"}, "id": "1204", "properties": {"Country": "Papua New Guinea", "Port_name": "Put Put", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[150.74161405872317, -2.636743564632852], [150.74065123864062, -2.623745493518674], [150.7748313515705, -2.582344229969813], [150.80130890384012, -2.574160259268294], [150.7878294226847, -2.612191652528295], [150.74161405872317, -2.636743564632852]]], "type": "Polygon"}, "id": "1205", "properties": {"Country": "Papua New Guinea", "Port_name": "Kavieng Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[150.16635391785664, -5.55682690586578], [150.1317676306268, -5.549909648419812], [150.1256189573415, -5.525314955278591], [150.18710569019453, -5.501488846298034], [150.22015480910304, -5.516860529511296], [150.22246056158502, -5.546066727616496], [150.16635391785664, -5.55682690586578]]], "type": "Polygon"}, "id": "1206", "properties": {"Country": "Papua New Guinea", "Port_name": "Kimbe", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[143.2853363555442, -8.986084818674742], [143.32404562248652, -9.102212619501792], [143.21068276929822, -9.143686834082882], [143.07243538736125, -9.002674504507178], [143.2853363555442, -8.986084818674742]]], "type": "Polygon"}, "id": "1207", "properties": {"Country": "Papua New Guinea", "Port_name": "Daru", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[150.42486165597649, -10.297374584340549], [150.47058776825384, -10.301350768016837], [150.48052822744455, -10.346082834375094], [150.4208854723002, -10.345088788456021], [150.42486165597649, -10.297374584340549]]], "type": "Polygon"}, "id": "1208", "properties": {"Country": "Papua New Guinea", "Port_name": "Alotoa", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[148.47326855185477, -8.87760276503991], [148.51960389336182, -8.878274291728419], [148.5182608399848, -8.901106199137686], [148.50012961939507, -8.910507572776796], [148.47326855185477, -8.87760276503991]]], "type": "Polygon"}, "id": "1209", "properties": {"Country": "Papua New Guinea", "Port_name": "Oro Bay", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[143.57877011304635, -3.562257157055588], [143.67143120384387, -3.483495229877693], [143.7525096582917, -3.520559666196703], [143.70617911289293, -3.594688538834721], [143.57877011304635, -3.562257157055588]]], "type": "Polygon"}, "id": "1210", "properties": {"Country": "Papua New Guinea", "Port_name": "Wewak Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[141.26550257306872, -2.687727668497095], [141.27583641365146, -2.646392306166059], [141.30683793539976, -2.657521057562876], [141.30683793539976, -2.698856419893912], [141.26550257306872, -2.687727668497095]]], "type": "Polygon"}, "id": "1211", "properties": {"Country": "Papua New Guinea", "Port_name": "Vanimo", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[146.97648299789563, -6.734651388763122], [146.97909757770398, -6.732527042668849], [146.9924972992217, -6.741841483236046], [146.99200706550764, -6.744864591139434], [146.98489867665373, -6.745273119234486], [146.97648299789563, -6.734651388763122]]], "type": "Polygon"}, "id": "1322", "properties": {"Country": "Papua New Guinea", "Port_name": "Lae", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_cd83ffa8f4a8e217096242af9189bd97.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_b10e89f1b7535cc0be5f5ae74a136ad3 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_9ccecae4f02cf1aa4dff9fdbfe3af2c9_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_9ccecae4f02cf1aa4dff9fdbfe3af2c9 = L.geoJson(null, {
+                onEachFeature: geo_json_9ccecae4f02cf1aa4dff9fdbfe3af2c9_onEachFeature,
+            
+        });
+
+        function geo_json_9ccecae4f02cf1aa4dff9fdbfe3af2c9_add (data) {
+            geo_json_9ccecae4f02cf1aa4dff9fdbfe3af2c9
+                .addData(data)
+                .addTo(feature_group_b10e89f1b7535cc0be5f5ae74a136ad3);
+        }
+            geo_json_9ccecae4f02cf1aa4dff9fdbfe3af2c9_add({"features": [{"geometry": {"coordinates": [158.201389, 6.980556], "type": "Point"}, "id": "30", "properties": {"Country": "Micronesia", "Port": "Pohnpei Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [138.1253, 9.515159], "type": "Point"}, "id": "31", "properties": {"Country": "Micronesia", "Port": "Tomil Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [151.839552, 7.4456916], "type": "Point"}, "id": "32", "properties": {"Country": "Micronesia", "Port": "Weno"}, "type": "Feature"}, {"geometry": {"coordinates": [162.95696531274987, 5.349720383895378], "type": "Point"}, "id": "64", "properties": {"Country": "Micronesia", "Port": "Lele Harbor"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_9ccecae4f02cf1aa4dff9fdbfe3af2c9.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_442bde19bfcae2d908b0a93af990b99c_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_442bde19bfcae2d908b0a93af990b99c = L.geoJson(null, {
+                onEachFeature: geo_json_442bde19bfcae2d908b0a93af990b99c_onEachFeature,
+            
+        });
+
+        function geo_json_442bde19bfcae2d908b0a93af990b99c_add (data) {
+            geo_json_442bde19bfcae2d908b0a93af990b99c
+                .addData(data)
+                .addTo(feature_group_b10e89f1b7535cc0be5f5ae74a136ad3);
+        }
+            geo_json_442bde19bfcae2d908b0a93af990b99c_add({"features": [{"geometry": {"coordinates": [[[158.3990183625063, 7.177980344914757], [158.3990183625063, 6.783047228439], [158.00375963749372, 6.783047228439], [158.00375963749372, 7.177980344914757], [158.3990183625063, 7.177980344914757]]], "type": "Polygon"}, "id": "30", "properties": {"Country": "Micronesia", "Source": "ADB 22KM Buffer", "grouped_port": "Pohnpei Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [[[138.32292936250633, 9.711289649650483], [138.32292936250633, 9.318914285331962], [137.92767063749372, 9.318914285331962], [137.92767063749372, 9.711289649650483], [138.32292936250633, 9.711289649650483]]], "type": "Polygon"}, "id": "31", "properties": {"Country": "Micronesia", "Source": "ADB 22KM Buffer", "grouped_port": "Tomil Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [[[152.0371813625063, 7.642907742808929], [152.0371813625063, 7.248385532914705], [151.6419226374937, 7.248385532914705], [151.6419226374937, 7.642907742808929], [152.0371813625063, 7.642907742808929]]], "type": "Polygon"}, "id": "32", "properties": {"Country": "Micronesia", "Source": "ADB 22KM Buffer", "grouped_port": "Weno"}, "type": "Feature"}, {"geometry": {"coordinates": [[[163.15459467525616, 5.547770613472916], [163.15459467525616, 5.151605175819976], [162.75933595024358, 5.151605175819976], [162.75933595024358, 5.547770613472916], [163.15459467525616, 5.547770613472916]]], "type": "Polygon"}, "id": "64", "properties": {"Country": "Micronesia", "Source": "ADB 22KM Buffer", "grouped_port": "Lele Harbor"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_442bde19bfcae2d908b0a93af990b99c.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_6935cd700c756871ca9557f61c192e5a_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_6935cd700c756871ca9557f61c192e5a_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_6935cd700c756871ca9557f61c192e5a = L.geoJson(null, {
+                onEachFeature: geo_json_6935cd700c756871ca9557f61c192e5a_onEachFeature,
+            
+                style: geo_json_6935cd700c756871ca9557f61c192e5a_styler,
+        });
+
+        function geo_json_6935cd700c756871ca9557f61c192e5a_add (data) {
+            geo_json_6935cd700c756871ca9557f61c192e5a
+                .addData(data)
+                .addTo(feature_group_b10e89f1b7535cc0be5f5ae74a136ad3);
+        }
+            geo_json_6935cd700c756871ca9557f61c192e5a_add({"features": [{"geometry": {"coordinates": [[[158.2043680739051, 6.975473476025265], [158.19614720085684, 6.975473476025265], [158.19642122995845, 6.988900902004075], [158.20710836492117, 6.985612552784774], [158.2043680739051, 6.975473476025265]]], "type": "Polygon"}, "id": "499", "properties": {"Country": "Micronesia", "Port_name": "Pornpei Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[138.1327061562482, 9.507492777273066], [138.1245902485009, 9.506224666687556], [138.11837650663193, 9.51053624267829], [138.1173620181635, 9.518525339367002], [138.1245902485009, 9.524612270177451], [138.1332134004824, 9.522583293240634], [138.13538599350176, 9.514904322665497], [138.1327061562482, 9.507492777273066]]], "type": "Polygon"}, "id": "1182", "properties": {"Country": "Micronesia", "Port_name": "Colonia", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[151.84899110997003, 7.442728403262938], [151.8438182969971, 7.436762502366389], [151.83974004859525, 7.436042811471942], [151.82774520035446, 7.44076078511332], [151.82891718396795, 7.446445796967032], [151.8332628305452, 7.453795186868314], [151.8430432800435, 7.457350151832372], [151.84925596153295, 7.449477041501629], [151.84899110997003, 7.442728403262938]]], "type": "Polygon"}, "id": "1185", "properties": {"Country": "Micronesia", "Port_name": "Moen", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[162.95944627087655, 5.335322413256836], [162.94376622664967, 5.347840632505187], [162.951167749428, 5.361133163209159], [162.96884077320487, 5.357507927562621], [162.96642394944053, 5.345876963196646], [162.95944627087655, 5.335322413256836]]], "type": "Polygon"}, "id": "1188", "properties": {"Country": "Micronesia", "Port_name": "Lele Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_6935cd700c756871ca9557f61c192e5a.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_c587f1710ddfeedc4a4cb789e7606183 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_477b0c530da17b0973f58e1e0ef311c7_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_477b0c530da17b0973f58e1e0ef311c7 = L.geoJson(null, {
+                onEachFeature: geo_json_477b0c530da17b0973f58e1e0ef311c7_onEachFeature,
+            
+        });
+
+        function geo_json_477b0c530da17b0973f58e1e0ef311c7_add (data) {
+            geo_json_477b0c530da17b0973f58e1e0ef311c7
+                .addData(data)
+                .addTo(feature_group_c587f1710ddfeedc4a4cb789e7606183);
+        }
+            geo_json_477b0c530da17b0973f58e1e0ef311c7_add({"features": [{"geometry": {"coordinates": [188.283333, -2.833333], "type": "Point"}, "id": "33", "properties": {"Country": "Kiribati", "Port": "Canton Island"}, "type": "Feature"}, {"geometry": {"coordinates": [200.6399, 3.8572485], "type": "Point"}, "id": "34", "properties": {"Country": "Kiribati", "Port": "English Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [172.934, 1.365622], "type": "Point"}, "id": "35", "properties": {"Country": "Kiribati", "Port": "Tarawa"}, "type": "Feature"}, {"geometry": {"coordinates": [202.512111, 2.006722], "type": "Point"}, "id": "36", "properties": {"Country": "Kiribati", "Port": "Kiritimati"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_477b0c530da17b0973f58e1e0ef311c7.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_17cba95cd7fde29dc386fa45db0fd245_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_17cba95cd7fde29dc386fa45db0fd245 = L.geoJson(null, {
+                onEachFeature: geo_json_17cba95cd7fde29dc386fa45db0fd245_onEachFeature,
+            
+        });
+
+        function geo_json_17cba95cd7fde29dc386fa45db0fd245_add (data) {
+            geo_json_17cba95cd7fde29dc386fa45db0fd245
+                .addData(data)
+                .addTo(feature_group_c587f1710ddfeedc4a4cb789e7606183);
+        }
+            geo_json_17cba95cd7fde29dc386fa45db0fd245_add({"features": [{"geometry": {"coordinates": [[[188.48096236250626, -2.6346013064328577], [188.48096236250626, -3.032030129295885], [188.08570363749368, -3.032030129295885], [188.08570363749368, -2.6346013064328577], [188.48096236250626, -2.6346013064328577]]], "type": "Polygon"}, "id": "33", "properties": {"Country": "Kiribati", "Source": "ADB 22KM Buffer", "grouped_port": "Canton Island"}, "type": "Feature"}, {"geometry": {"coordinates": [[[200.8375293625063, 4.055729180310044], [200.8375293625063, 3.658720832633101], [200.44227063749372, 3.658720832633101], [200.44227063749372, 4.055729180310044], [200.8375293625063, 4.055729180310044]]], "type": "Polygon"}, "id": "34", "properties": {"Country": "Kiribati", "Source": "ADB 22KM Buffer", "grouped_port": "English Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [[[173.1316293625063, 1.5645172723600984], [173.1316293625063, 1.16671004648388], [172.7363706374937, 1.16671004648388], [172.7363706374937, 1.5645172723600984], [173.1316293625063, 1.5645172723600984]]], "type": "Polygon"}, "id": "35", "properties": {"Country": "Kiribati", "Source": "ADB 22KM Buffer", "grouped_port": "Tarawa"}, "type": "Feature"}, {"geometry": {"coordinates": [[[202.70974036250624, 2.205546980489908], [202.70974036250624, 1.8078725184685769], [202.31448163749366, 1.8078725184685769], [202.31448163749366, 2.205546980489908], [202.70974036250624, 2.205546980489908]]], "type": "Polygon"}, "id": "36", "properties": {"Country": "Kiribati", "Source": "ADB 22KM Buffer", "grouped_port": "Kiritimati"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_17cba95cd7fde29dc386fa45db0fd245.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_987d785907a6c75d14d5840f41ff12e4_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_987d785907a6c75d14d5840f41ff12e4_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_987d785907a6c75d14d5840f41ff12e4 = L.geoJson(null, {
+                onEachFeature: geo_json_987d785907a6c75d14d5840f41ff12e4_onEachFeature,
+            
+                style: geo_json_987d785907a6c75d14d5840f41ff12e4_styler,
+        });
+
+        function geo_json_987d785907a6c75d14d5840f41ff12e4_add (data) {
+            geo_json_987d785907a6c75d14d5840f41ff12e4
+                .addData(data)
+                .addTo(feature_group_c587f1710ddfeedc4a4cb789e7606183);
+        }
+            geo_json_987d785907a6c75d14d5840f41ff12e4_add({"features": [{"geometry": {"coordinates": [[[202.42373268483885, 2.050525433584192], [202.53995444374064, 2.053884443957076], [202.54062624581522, 1.903400779251866], [202.45463558026938, 1.888621133611176], [202.42373268483885, 2.050525433584192]]], "type": "Polygon"}, "id": "301", "properties": {"Country": "Kiribati", "Port_name": "Kiribati", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[172.92938832605532, 1.359465333619887], [172.93357384209668, 1.36925500774655], [172.9402835218567, 1.367212931297841], [172.93299039168275, 1.358607037692569], [172.92938832605532, 1.359465333619887]]], "type": "Polygon"}, "id": "498", "properties": {"Country": "Kiribati", "Port_name": "Tarawa Atoll", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_987d785907a6c75d14d5840f41ff12e4.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_9c7d62729cff0d24cc1fb00f0c2da672 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_aa9800f03dc6fd1af5c3f2565c44908a_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_aa9800f03dc6fd1af5c3f2565c44908a = L.geoJson(null, {
+                onEachFeature: geo_json_aa9800f03dc6fd1af5c3f2565c44908a_onEachFeature,
+            
+        });
+
+        function geo_json_aa9800f03dc6fd1af5c3f2565c44908a_add (data) {
+            geo_json_aa9800f03dc6fd1af5c3f2565c44908a
+                .addData(data)
+                .addTo(feature_group_9c7d62729cff0d24cc1fb00f0c2da672);
+        }
+            geo_json_aa9800f03dc6fd1af5c3f2565c44908a_add({"features": [{"geometry": {"coordinates": [167.7329, 8.728667], "type": "Point"}, "id": "37", "properties": {"Country": "Marshall Islands", "Port": "Kwajalein"}, "type": "Feature"}, {"geometry": {"coordinates": [171.3647, 7.0868395], "type": "Point"}, "id": "38", "properties": {"Country": "Marshall Islands", "Port": "Majuro"}, "type": "Feature"}, {"geometry": {"coordinates": [166.630556, 19.295556], "type": "Point"}, "id": "39", "properties": {"Country": "Marshall Islands", "Port": "Wake Island"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_aa9800f03dc6fd1af5c3f2565c44908a.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_b0e88b0f12187e37c791c527b2a949db_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_b0e88b0f12187e37c791c527b2a949db = L.geoJson(null, {
+                onEachFeature: geo_json_b0e88b0f12187e37c791c527b2a949db_onEachFeature,
+            
+        });
+
+        function geo_json_b0e88b0f12187e37c791c527b2a949db_add (data) {
+            geo_json_b0e88b0f12187e37c791c527b2a949db
+                .addData(data)
+                .addTo(feature_group_9c7d62729cff0d24cc1fb00f0c2da672);
+        }
+            geo_json_b0e88b0f12187e37c791c527b2a949db_add({"features": [{"geometry": {"coordinates": [[[167.93052936250632, 8.925240753813735], [167.93052936250632, 8.531988290015917], [167.53527063749374, 8.531988290015917], [167.53527063749374, 8.925240753813735], [167.93052936250632, 8.925240753813735]]], "type": "Polygon"}, "id": "37", "properties": {"Country": "Marshall Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Kwajalein"}, "type": "Feature"}, {"geometry": {"coordinates": [[[171.5623293625063, 7.284217430682357], [171.5623293625063, 6.889375884371003], [171.1670706374937, 6.889375884371003], [171.1670706374937, 7.284217430682357], [171.5623293625063, 7.284217430682357]]], "type": "Polygon"}, "id": "38", "properties": {"Country": "Marshall Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Majuro"}, "type": "Feature"}, {"geometry": {"coordinates": [[[166.82818536250633, 19.483094524595796], [166.82818536250633, 19.10779974620691], [166.43292663749372, 19.10779974620691], [166.43292663749372, 19.483094524595796], [166.82818536250633, 19.483094524595796]]], "type": "Polygon"}, "id": "39", "properties": {"Country": "Marshall Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Wake Island"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_b0e88b0f12187e37c791c527b2a949db.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_1b4234b7c94798133d90af5285d3d795_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_1b4234b7c94798133d90af5285d3d795_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_1b4234b7c94798133d90af5285d3d795 = L.geoJson(null, {
+                onEachFeature: geo_json_1b4234b7c94798133d90af5285d3d795_onEachFeature,
+            
+                style: geo_json_1b4234b7c94798133d90af5285d3d795_styler,
+        });
+
+        function geo_json_1b4234b7c94798133d90af5285d3d795_add (data) {
+            geo_json_1b4234b7c94798133d90af5285d3d795
+                .addData(data)
+                .addTo(feature_group_9c7d62729cff0d24cc1fb00f0c2da672);
+        }
+            geo_json_1b4234b7c94798133d90af5285d3d795_add({"features": [{"geometry": {"coordinates": [[[167.73429927114915, 8.716785285195828], [167.71634018793065, 8.729955279556064], [167.73010881839818, 8.749111634989134], [167.75165971826038, 8.740132093379883], [167.73429927114915, 8.716785285195828]]], "type": "Polygon"}, "id": "1186", "properties": {"Country": "Marshall Islands", "Port_name": "Kwajalein", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[171.36848322959136, 7.080637559994146], [171.3396278255354, 7.086450159372329], [171.35312135980618, 7.112814449409091], [171.3774097214936, 7.112606856574156], [171.38882732741502, 7.088318494886745], [171.36848322959136, 7.080637559994146]]], "type": "Polygon"}, "id": "1187", "properties": {"Country": "Marshall Islands", "Port_name": "Majuro Atoll", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[167.7309348316151, 8.785630852629323], [167.73884084471206, 8.786838715741357], [167.74356249142272, 8.78046998296881], [167.74290365699798, 8.773881638721349], [167.73763298160003, 8.77102668954745], [167.7319230832522, 8.772673775609315], [167.7277504652288, 8.776846393632706], [167.72764065949136, 8.783215126405253], [167.7309348316151, 8.785630852629323]]], "type": "Polygon"}, "id": "1436", "properties": {"Country": "Marshall Islands", "Port_name": "Ebeye", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_1b4234b7c94798133d90af5285d3d795.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_60699c842a32aae625793648b673cf54 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_e0cf4382c319b24bffe66d60c1c13b74_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_e0cf4382c319b24bffe66d60c1c13b74 = L.geoJson(null, {
+                onEachFeature: geo_json_e0cf4382c319b24bffe66d60c1c13b74_onEachFeature,
+            
+        });
+
+        function geo_json_e0cf4382c319b24bffe66d60c1c13b74_add (data) {
+            geo_json_e0cf4382c319b24bffe66d60c1c13b74
+                .addData(data)
+                .addTo(feature_group_60699c842a32aae625793648b673cf54);
+        }
+            geo_json_e0cf4382c319b24bffe66d60c1c13b74_add({"features": [{"geometry": {"coordinates": [166.909444, -0.533889], "type": "Point"}, "id": "40", "properties": {"Country": "Nauru", "Port": "Nauru"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_e0cf4382c319b24bffe66d60c1c13b74.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_1eb311336dede06cd3d7fba4712186db_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_1eb311336dede06cd3d7fba4712186db = L.geoJson(null, {
+                onEachFeature: geo_json_1eb311336dede06cd3d7fba4712186db_onEachFeature,
+            
+        });
+
+        function geo_json_1eb311336dede06cd3d7fba4712186db_add (data) {
+            geo_json_1eb311336dede06cd3d7fba4712186db
+                .addData(data)
+                .addTo(feature_group_60699c842a32aae625793648b673cf54);
+        }
+            geo_json_1eb311336dede06cd3d7fba4712186db_add({"features": [{"geometry": {"coordinates": [[[167.1070733625063, -0.3349336115624552], [167.1070733625063, -0.7328378647747671], [166.71181463749372, -0.7328378647747671], [166.71181463749372, -0.3349336115624552], [167.1070733625063, -0.3349336115624552]]], "type": "Polygon"}, "id": "40", "properties": {"Country": "Nauru", "Source": "ADB 22KM Buffer", "grouped_port": "Nauru"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_1eb311336dede06cd3d7fba4712186db.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89 = L.geoJson(null, {
+                onEachFeature: geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89_onEachFeature,
+            
+                style: geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89_styler,
+        });
+
+        function geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89_add (data) {
+            geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89
+                .addData(data)
+                .addTo(feature_group_60699c842a32aae625793648b673cf54);
+        }
+            geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89_add({"features": [{"geometry": {"coordinates": [[[166.89932073190874, -0.540878875315495], [166.89091132375657, -0.53147361619793], [166.89381327233048, -0.522944742906285], [166.9055999089925, -0.52108369501228], [166.9138158959605, -0.521404456436773], [166.9154569654267, -0.527682074662535], [166.91558629767675, -0.534129218772301], [166.91171354392247, -0.539219123706513], [166.89932073190874, -0.540878875315495]]], "type": "Polygon"}, "id": "497", "properties": {"Country": "Nauru", "Port_name": "Nauru", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_edfbc4a4d1b62f2adaddb5a1e14c7b89.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_133751d566fb718108f16c0a397b600f = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_4506549a5c54c472f69ab3aab2802c38_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_4506549a5c54c472f69ab3aab2802c38 = L.geoJson(null, {
+                onEachFeature: geo_json_4506549a5c54c472f69ab3aab2802c38_onEachFeature,
+            
+        });
+
+        function geo_json_4506549a5c54c472f69ab3aab2802c38_add (data) {
+            geo_json_4506549a5c54c472f69ab3aab2802c38
+                .addData(data)
+                .addTo(feature_group_133751d566fb718108f16c0a397b600f);
+        }
+            geo_json_4506549a5c54c472f69ab3aab2802c38_add({"features": [{"geometry": {"coordinates": [134.45445, 7.3344505], "type": "Point"}, "id": "41", "properties": {"Country": "Palau", "Port": "Malakal Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [134.4798833592014, 7.350025152365446], "type": "Point"}, "id": "67", "properties": {"Country": "Palau", "Port": "Koror"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_4506549a5c54c472f69ab3aab2802c38.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_bbf9767b4feef4c59f9a7bc32f37aa17_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_bbf9767b4feef4c59f9a7bc32f37aa17 = L.geoJson(null, {
+                onEachFeature: geo_json_bbf9767b4feef4c59f9a7bc32f37aa17_onEachFeature,
+            
+        });
+
+        function geo_json_bbf9767b4feef4c59f9a7bc32f37aa17_add (data) {
+            geo_json_bbf9767b4feef4c59f9a7bc32f37aa17
+                .addData(data)
+                .addTo(feature_group_133751d566fb718108f16c0a397b600f);
+        }
+            geo_json_bbf9767b4feef4c59f9a7bc32f37aa17_add({"features": [{"geometry": {"coordinates": [[[134.6520793625063, 7.137094755213879], [134.25682063749372, 7.137094755213879], [134.25682063749372, 7.53171763313106], [134.28225399669512, 7.53171763313106], [134.28225399669512, 7.547285191730538], [134.6775127217077, 7.547285191730538], [134.6775127217077, 7.152676317484905], [134.6520793625063, 7.152676317484905], [134.6520793625063, 7.137094755213879]]], "type": "Polygon"}, "id": "41", "properties": {"Country": "Palau", "Source": "ADB 22KM Buffer", "grouped_port": "Malakal Harbour_Koror"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_bbf9767b4feef4c59f9a7bc32f37aa17.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_d708061d1bbcdca36761ff0f0ec4ca18_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_d708061d1bbcdca36761ff0f0ec4ca18_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_d708061d1bbcdca36761ff0f0ec4ca18 = L.geoJson(null, {
+                onEachFeature: geo_json_d708061d1bbcdca36761ff0f0ec4ca18_onEachFeature,
+            
+                style: geo_json_d708061d1bbcdca36761ff0f0ec4ca18_styler,
+        });
+
+        function geo_json_d708061d1bbcdca36761ff0f0ec4ca18_add (data) {
+            geo_json_d708061d1bbcdca36761ff0f0ec4ca18
+                .addData(data)
+                .addTo(feature_group_133751d566fb718108f16c0a397b600f);
+        }
+            geo_json_d708061d1bbcdca36761ff0f0ec4ca18_add({"features": [{"geometry": {"coordinates": [[[134.45043224680936, 7.337656349008382], [134.46004923081856, 7.340229887778293], [134.46696400230707, 7.331049932526311], [134.46267207517627, 7.322704518660874], [134.45265757853775, 7.322704518660874], [134.4487233120012, 7.325327363018583], [134.44717344942617, 7.330811492130156], [134.45043224680936, 7.337656349008382]]], "type": "Polygon"}, "id": "502", "properties": {"Country": "Palau", "Port_name": "Malakal Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[134.47468646276346, 7.355459617425201], [134.48401463414385, 7.356081495517227], [134.484458832781, 7.345243048770491], [134.47699629567668, 7.342666696674955], [134.47468646276346, 7.355459617425201]]], "type": "Polygon"}, "id": "1431", "properties": {"Country": "Palau", "Port_name": "Koror", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_d708061d1bbcdca36761ff0f0ec4ca18.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_0227a5a326cff896078a2848e3238eb1 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_efa12a01da3bcc8cb59642d04e8afa85_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_efa12a01da3bcc8cb59642d04e8afa85 = L.geoJson(null, {
+                onEachFeature: geo_json_efa12a01da3bcc8cb59642d04e8afa85_onEachFeature,
+            
+        });
+
+        function geo_json_efa12a01da3bcc8cb59642d04e8afa85_add (data) {
+            geo_json_efa12a01da3bcc8cb59642d04e8afa85
+                .addData(data)
+                .addTo(feature_group_0227a5a326cff896078a2848e3238eb1);
+        }
+            geo_json_efa12a01da3bcc8cb59642d04e8afa85_add({"features": [{"geometry": {"coordinates": [188.23725, -13.828625], "type": "Point"}, "id": "42", "properties": {"Country": "Samoa", "Port": "Apia"}, "type": "Feature"}, {"geometry": {"coordinates": [187.78369549628897, -13.7452995127684], "type": "Point"}, "id": "63", "properties": {"Country": "Samoa", "Port": "Salelologa"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_efa12a01da3bcc8cb59642d04e8afa85.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_04b28d3067c75476829be82a6884d01b_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_04b28d3067c75476829be82a6884d01b = L.geoJson(null, {
+                onEachFeature: geo_json_04b28d3067c75476829be82a6884d01b_onEachFeature,
+            
+        });
+
+        function geo_json_04b28d3067c75476829be82a6884d01b_add (data) {
+            geo_json_04b28d3067c75476829be82a6884d01b
+                .addData(data)
+                .addTo(feature_group_0227a5a326cff896078a2848e3238eb1);
+        }
+            geo_json_04b28d3067c75476829be82a6884d01b_add({"features": [{"geometry": {"coordinates": [[[188.4348793625063, -13.635423718569994], [188.4348793625063, -14.021664030179846], [188.03962063749373, -14.021664030179846], [188.03962063749373, -13.635423718569994], [188.4348793625063, -13.635423718569994]]], "type": "Polygon"}, "id": "42", "properties": {"Country": "Samoa", "Source": "ADB 22KM Buffer", "grouped_port": "Apia"}, "type": "Feature"}, {"geometry": {"coordinates": [[[187.9813248587952, -13.5520288808331], [187.9813248587952, -13.938408791775819], [187.58606613378262, -13.938408791775819], [187.58606613378262, -13.5520288808331], [187.9813248587952, -13.5520288808331]]], "type": "Polygon"}, "id": "63", "properties": {"Country": "Samoa", "Source": "ADB 22KM Buffer", "grouped_port": "Salelologa"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_04b28d3067c75476829be82a6884d01b.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_59877feaa39bb98eca2624e92c00c09d_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_59877feaa39bb98eca2624e92c00c09d_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_59877feaa39bb98eca2624e92c00c09d = L.geoJson(null, {
+                onEachFeature: geo_json_59877feaa39bb98eca2624e92c00c09d_onEachFeature,
+            
+                style: geo_json_59877feaa39bb98eca2624e92c00c09d_styler,
+        });
+
+        function geo_json_59877feaa39bb98eca2624e92c00c09d_add (data) {
+            geo_json_59877feaa39bb98eca2624e92c00c09d
+                .addData(data)
+                .addTo(feature_group_0227a5a326cff896078a2848e3238eb1);
+        }
+            geo_json_59877feaa39bb98eca2624e92c00c09d_add({"features": [{"geometry": {"coordinates": [[[188.22208634726942, -13.80904472607931], [188.2570217341843, -13.808638500650067], [188.25661550875506, -13.841136534989475], [188.2245236998449, -13.837074280697049], [188.22208634726942, -13.80904472607931]]], "type": "Polygon"}, "id": "297", "properties": {"Country": "Samoa", "Port_name": "Apia", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[187.78094585595838, -13.745561500035858], [187.78259577001705, -13.743587325410754], [187.78575254200211, -13.74405464210945], [187.78518985454858, -13.747487989283545], [187.78094585595838, -13.745561500035858]]], "type": "Polygon"}, "id": "298", "properties": {"Country": "Samoa", "Port_name": "Salelologa", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_59877feaa39bb98eca2624e92c00c09d.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_c7384323ff7d5ff36f6805f1db76c94d = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_f29a32cd3c928d1f723d7843b65173da_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_f29a32cd3c928d1f723d7843b65173da = L.geoJson(null, {
+                onEachFeature: geo_json_f29a32cd3c928d1f723d7843b65173da_onEachFeature,
+            
+        });
+
+        function geo_json_f29a32cd3c928d1f723d7843b65173da_add (data) {
+            geo_json_f29a32cd3c928d1f723d7843b65173da
+                .addData(data)
+                .addTo(feature_group_c7384323ff7d5ff36f6805f1db76c94d);
+        }
+            geo_json_f29a32cd3c928d1f723d7843b65173da_add({"features": [{"geometry": {"coordinates": [156.8339, -8.1027815], "type": "Point"}, "id": "43", "properties": {"Country": "Solomon Islands", "Port": "Gizo"}, "type": "Feature"}, {"geometry": {"coordinates": [159.9575, -9.4305], "type": "Point"}, "id": "44", "properties": {"Country": "Solomon Islands", "Port": "Honiara"}, "type": "Feature"}, {"geometry": {"coordinates": [156.60205, -7.569363], "type": "Point"}, "id": "45", "properties": {"Country": "Solomon Islands", "Port": "Malloco Bay"}, "type": "Feature"}, {"geometry": {"coordinates": [157.1972818, -8.235157872], "type": "Point"}, "id": "46", "properties": {"Country": "Solomon Islands", "Port": "Noro"}, "type": "Feature"}, {"geometry": {"coordinates": [161.7936083, -10.4118956], "type": "Point"}, "id": "47", "properties": {"Country": "Solomon Islands", "Port": "Pakera Point"}, "type": "Feature"}, {"geometry": {"coordinates": [157.11185, -8.1215605], "type": "Point"}, "id": "48", "properties": {"Country": "Solomon Islands", "Port": "Ringi Cove"}, "type": "Feature"}, {"geometry": {"coordinates": [155.8802554, -7.070560826], "type": "Point"}, "id": "49", "properties": {"Country": "Solomon Islands", "Port": "Shortland Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [160.1504, -9.103411], "type": "Point"}, "id": "50", "properties": {"Country": "Solomon Islands", "Port": "Tulagi"}, "type": "Feature"}, {"geometry": {"coordinates": [157.722, -8.4924495], "type": "Point"}, "id": "51", "properties": {"Country": "Solomon Islands", "Port": "Viru Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [159.2218, -9.0783455], "type": "Point"}, "id": "52", "properties": {"Country": "Solomon Islands", "Port": "Yandina"}, "type": "Feature"}, {"geometry": {"coordinates": [157.91835309913586, -8.569448061393208], "type": "Point"}, "id": "65", "properties": {"Country": "Solomon Islands", "Port": "Seghe"}, "type": "Feature"}, {"geometry": {"coordinates": [160.64866226407668, -9.63808543357328], "type": "Point"}, "id": "66", "properties": {"Country": "Solomon Islands", "Port": "Mbulo"}, "type": "Feature"}, {"geometry": {"coordinates": [160.08115749029508, -11.623612621510668], "type": "Point"}, "id": "68", "properties": {"Country": "Solomon Islands", "Port": "Lughughi Port"}, "type": "Feature"}, {"geometry": {"coordinates": [160.29932028336322, -11.684850920984257], "type": "Point"}, "id": "69", "properties": {"Country": "Solomon Islands", "Port": "Rennell Island"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_f29a32cd3c928d1f723d7843b65173da.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_4d04c66bdbbafda6335018d9bd79a745_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_4d04c66bdbbafda6335018d9bd79a745 = L.geoJson(null, {
+                onEachFeature: geo_json_4d04c66bdbbafda6335018d9bd79a745_onEachFeature,
+            
+        });
+
+        function geo_json_4d04c66bdbbafda6335018d9bd79a745_add (data) {
+            geo_json_4d04c66bdbbafda6335018d9bd79a745
+                .addData(data)
+                .addTo(feature_group_c7384323ff7d5ff36f6805f1db76c94d);
+        }
+            geo_json_4d04c66bdbbafda6335018d9bd79a745_add({"features": [{"geometry": {"coordinates": [[[157.3949111625063, -8.038226001044867], [157.3949111625063, -8.431990544791821], [156.99965243749372, -8.431990544791821], [156.99965243749372, -8.318450681002641], [156.9142206374937, -8.318450681002641], [156.9142206374937, -8.299681112395463], [156.6362706374937, -8.299681112395463], [156.6362706374937, -7.905784239211235], [157.0315293625063, -7.905784239211235], [157.0315293625063, -7.9245724506201], [157.3094793625063, -7.9245724506201], [157.3094793625063, -8.038226001044867], [157.3949111625063, -8.038226001044867]]], "type": "Polygon"}, "id": "43", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Gizo_Noro_Ringi Cove"}, "type": "Feature"}, {"geometry": {"coordinates": [[[160.1551293625063, -9.29977829184371], [160.1551293625063, -9.626680142127642], [159.75987063749372, -9.626680142127642], [159.75987063749372, -9.234206769183997], [159.9527706374937, -9.234206769183997], [159.9527706374937, -8.906934401168101], [160.34802936250628, -8.906934401168101], [160.34802936250628, -9.29977829184371], [160.1551293625063, -9.29977829184371]]], "type": "Polygon"}, "id": "44", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Honiara_Tulagi"}, "type": "Feature"}, {"geometry": {"coordinates": [[[156.79967936250628, -7.3721130462667865], [156.79967936250628, -7.766521571814278], [156.4044206374937, -7.766521571814278], [156.4044206374937, -7.3721130462667865], [156.79967936250628, -7.3721130462667865]]], "type": "Polygon"}, "id": "45", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Malloco Bay"}, "type": "Feature"}, {"geometry": {"coordinates": [[[161.99123766250628, -10.216191403631374], [161.99123766250628, -10.607475454922819], [161.5959789374937, -10.607475454922819], [161.5959789374937, -10.216191403631374], [161.99123766250628, -10.216191403631374]]], "type": "Polygon"}, "id": "47", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Pakera Point"}, "type": "Feature"}, {"geometry": {"coordinates": [[[156.0778847625063, -6.873090249510657], [156.0778847625063, -7.267945910188516], [155.68262603749372, -7.267945910188516], [155.68262603749372, -6.873090249510657], [156.0778847625063, -6.873090249510657]]], "type": "Polygon"}, "id": "49", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Shortland Harbour"}, "type": "Feature"}, {"geometry": {"coordinates": [[[158.11598246164215, -8.76610696189778], [157.72072373662957, -8.76610696189778], [157.72072373662957, -8.68914902665128], [157.52437063749372, -8.68914902665128], [157.52437063749372, -8.295647769315817], [157.9196293625063, -8.295647769315817], [157.9196293625063, -8.37268605895571], [158.11598246164215, -8.37268605895571], [158.11598246164215, -8.76610696189778]]], "type": "Polygon"}, "id": "51", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Viru Harbour_Seghe"}, "type": "Feature"}, {"geometry": {"coordinates": [[[159.4194293625063, -8.881855116778354], [159.4194293625063, -9.274726866649377], [159.0241706374937, -9.274726866649377], [159.0241706374937, -8.881855116778354], [159.4194293625063, -8.881855116778354]]], "type": "Polygon"}, "id": "52", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Yandina"}, "type": "Feature"}, {"geometry": {"coordinates": [[[160.84629162658297, -9.441911937725598], [160.84629162658297, -9.834143448599136], [160.4510329015704, -9.834143448599136], [160.4510329015704, -9.441911937725598], [160.84629162658297, -9.441911937725598]]], "type": "Polygon"}, "id": "66", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Mbulo"}, "type": "Feature"}, {"geometry": {"coordinates": [[[160.4969496458695, -11.879565792458699], [160.10169092085692, -11.879565792458699], [160.10169092085692, -11.818371331697335], [159.8835281277888, -11.818371331697335], [159.8835281277888, -11.428715886461916], [160.27878685280137, -11.428715886461916], [160.27878685280137, -11.489997339692676], [160.4969496458695, -11.489997339692676], [160.4969496458695, -11.879565792458699]]], "type": "Polygon"}, "id": "68", "properties": {"Country": "Solomon Islands", "Source": "ADB 22KM Buffer", "grouped_port": "Lughughi Port_Rennell Island"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_4d04c66bdbbafda6335018d9bd79a745.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235 = L.geoJson(null, {
+                onEachFeature: geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235_onEachFeature,
+            
+                style: geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235_styler,
+        });
+
+        function geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235_add (data) {
+            geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235
+                .addData(data)
+                .addTo(feature_group_c7384323ff7d5ff36f6805f1db76c94d);
+        }
+            geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235_add({"features": [{"geometry": {"coordinates": [[[159.95886955382636, -9.434948812706093], [159.94968796525086, -9.421397458769194], [159.95899281310068, -9.410541802944383], [159.9985384164625, -9.3981353391446], [160.01637270817469, -9.400073849113316], [160.02296364206833, -9.412868014906843], [160.01924318597173, -9.421374607502182], [159.98246845813637, -9.435664216032489], [159.95886955382636, -9.434948812706093]]], "type": "Polygon"}, "id": "503", "properties": {"Country": "Solomon Islands", "Port_name": "Honiara", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[157.21034786290053, -8.244429682100916], [157.18094022038088, -8.236317228992041], [157.1765459749469, -8.203867416556543], [157.19378493780326, -8.202515341038396], [157.21305201393685, -8.213331945183564], [157.21034786290053, -8.244429682100916]]], "type": "Polygon"}, "id": "1196", "properties": {"Country": "Solomon Islands", "Port_name": "Port Noro", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[156.83142386546183, -8.105852880927458], [156.84115735723185, -8.08859805460788], [156.86150920366006, -8.095234526269255], [156.85310300622234, -8.1089499010361], [156.83142386546183, -8.105852880927458]]], "type": "Polygon"}, "id": "1197", "properties": {"Country": "Solomon Islands", "Port_name": "Gizo Harbor", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[157.9079166015447, -8.611340959648976], [157.8637234879502, -8.557005164245902], [157.92675301061777, -8.526577118820182], [157.97384403330045, -8.583086346039378], [157.9079166015447, -8.611340959648976]]], "type": "Polygon"}, "id": "1198", "properties": {"Country": "Solomon Islands", "Port_name": "Seghe", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[157.57748288933166, -8.410398342946669], [157.5491306341538, -8.411410923488734], [157.52432241087317, -8.37597060451641], [157.56229418120066, -8.36635108936678], [157.57748288933166, -8.410398342946669]]], "type": "Polygon"}, "id": "1199", "properties": {"Country": "Solomon Islands", "Port_name": "Ndora", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[160.60426444644176, -9.585175278572569], [160.62295450765976, -9.55527118062377], [160.68650071580095, -9.624424407130366], [160.67341767294835, -9.723481731585762], [160.64912059336496, -9.716005707098562], [160.60426444644176, -9.585175278572569]]], "type": "Polygon"}, "id": "1200", "properties": {"Country": "Solomon Islands", "Port_name": "Mbulo", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[157.11188451681258, -8.128495458301838], [157.10541975767248, -8.12619774270385], [157.10483559268994, -8.123121140462477], [157.1064323103089, -8.118642542263009], [157.10954785688241, -8.116773214318885], [157.11612944901904, -8.117980488616132], [157.1176872223058, -8.119538261902903], [157.11885555227087, -8.121018146525335], [157.11188451681258, -8.128495458301838]]], "type": "Polygon"}, "id": "1437", "properties": {"Country": "Solomon Islands", "Port_name": "Ringgi Cove", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[160.0898116490754, -11.635531062108095], [160.08193034142596, -11.638189816495853], [160.07224487901343, -11.632967263234185], [160.0684466584595, -11.623091889793942], [160.0704407242503, -11.619008802698458], [160.07423894480425, -11.610842628507488], [160.0788917649828, -11.609038473744366], [160.08212025245368, -11.609038473744366], [160.09038138215848, -11.615210582144519], [160.09209058140775, -11.619578535781548], [160.0931350920601, -11.624421266987822], [160.0898116490754, -11.635531062108095]]], "type": "Polygon"}, "id": "1440", "properties": {"Country": "Solomon Islands", "Port_name": "Lughughi Port", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[160.27780289054752, -11.657299748976955], [160.30362925163922, -11.657548079372068], [160.3108308330975, -11.663011348064547], [160.32076404890202, -11.675427867820181], [160.32523399601405, -11.699267585750999], [160.31530078020953, -11.714415739852871], [160.2989109741321, -11.714664070247984], [160.28649445437645, -11.702744211282576], [160.27233962185502, -11.683374440463787], [160.27780289054752, -11.657299748976955]]], "type": "Polygon"}, "id": "1441", "properties": {"Country": "Solomon Islands", "Port_name": "Rennell Island", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_78c1d4a8fdb9d88d5f2cb37ab4301235.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_4bb3f8b68e6d43287e579cc2e93a5384 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_e31350d9de1aa1a7f4a24a39ac44eda6_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_e31350d9de1aa1a7f4a24a39ac44eda6 = L.geoJson(null, {
+                onEachFeature: geo_json_e31350d9de1aa1a7f4a24a39ac44eda6_onEachFeature,
+            
+        });
+
+        function geo_json_e31350d9de1aa1a7f4a24a39ac44eda6_add (data) {
+            geo_json_e31350d9de1aa1a7f4a24a39ac44eda6
+                .addData(data)
+                .addTo(feature_group_4bb3f8b68e6d43287e579cc2e93a5384);
+        }
+            geo_json_e31350d9de1aa1a7f4a24a39ac44eda6_add({"features": [{"geometry": {"coordinates": [185.0447, -21.33943], "type": "Point"}, "id": "53", "properties": {"Country": "Tonga", "Port": "Eua"}, "type": "Feature"}, {"geometry": {"coordinates": [186.0163, -18.66332], "type": "Point"}, "id": "54", "properties": {"Country": "Tonga", "Port": "Neiafu"}, "type": "Feature"}, {"geometry": {"coordinates": [184.811111, -21.135], "type": "Point"}, "id": "55", "properties": {"Country": "Tonga", "Port": "Nuku\u0027alofa"}, "type": "Feature"}, {"geometry": {"coordinates": [185.648333, -19.804722], "type": "Point"}, "id": "56", "properties": {"Country": "Tonga", "Port": "Pangai"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_e31350d9de1aa1a7f4a24a39ac44eda6.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_8e5a377641bb6a04f1cb6fa48d3869c6_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_8e5a377641bb6a04f1cb6fa48d3869c6 = L.geoJson(null, {
+                onEachFeature: geo_json_8e5a377641bb6a04f1cb6fa48d3869c6_onEachFeature,
+            
+        });
+
+        function geo_json_8e5a377641bb6a04f1cb6fa48d3869c6_add (data) {
+            geo_json_8e5a377641bb6a04f1cb6fa48d3869c6
+                .addData(data)
+                .addTo(feature_group_4bb3f8b68e6d43287e579cc2e93a5384);
+        }
+            geo_json_8e5a377641bb6a04f1cb6fa48d3869c6_add({"features": [{"geometry": {"coordinates": [[[185.2423293625063, -21.15415561034311], [185.2423293625063, -21.524467911711866], [184.84707063749372, -21.524467911711866], [184.84707063749372, -21.51376743534568], [184.40686912214622, -21.51376743534568], [184.40686912214622, -20.755250800980626], [185.21535287785377, -20.755250800980626], [185.21535287785377, -21.15415561034311], [185.2423293625063, -21.15415561034311]]], "type": "Polygon"}, "id": "53", "properties": {"Country": "Tonga", "Source": "ADB 22KM Buffer", "grouped_port": "Eua_Nukualofa"}, "type": "Feature"}, {"geometry": {"coordinates": [[[186.2139293625063, -18.474844705127918], [186.2139293625063, -18.85158360123132], [185.8186706374937, -18.85158360123132], [185.8186706374937, -18.474844705127918], [186.2139293625063, -18.474844705127918]]], "type": "Polygon"}, "id": "54", "properties": {"Country": "Tonga", "Source": "ADB 22KM Buffer", "grouped_port": "Neiafu"}, "type": "Feature"}, {"geometry": {"coordinates": [[[185.84596236250624, -19.61756159922229], [185.84596236250624, -19.99165989024148], [185.45070363749366, -19.99165989024148], [185.45070363749366, -19.61756159922229], [185.84596236250624, -19.61756159922229]]], "type": "Polygon"}, "id": "56", "properties": {"Country": "Tonga", "Source": "ADB 22KM Buffer", "grouped_port": "Pangai"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_8e5a377641bb6a04f1cb6fa48d3869c6.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_4297204bf49259729ff2634a0f440ee4_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_4297204bf49259729ff2634a0f440ee4_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_4297204bf49259729ff2634a0f440ee4 = L.geoJson(null, {
+                onEachFeature: geo_json_4297204bf49259729ff2634a0f440ee4_onEachFeature,
+            
+                style: geo_json_4297204bf49259729ff2634a0f440ee4_styler,
+        });
+
+        function geo_json_4297204bf49259729ff2634a0f440ee4_add (data) {
+            geo_json_4297204bf49259729ff2634a0f440ee4
+                .addData(data)
+                .addTo(feature_group_4bb3f8b68e6d43287e579cc2e93a5384);
+        }
+            geo_json_4297204bf49259729ff2634a0f440ee4_add({"features": [{"geometry": {"coordinates": [[[184.80316501961613, -21.13057726635315], [184.82727433518446, -21.123278115768247], [184.83485396262031, -21.146207113159196], [184.81263833769393, -21.14605998981531], [184.80704765062637, -21.145324373095896], [184.8041051837487, -21.1382624525895], [184.80316501961613, -21.13057726635315]]], "type": "Polygon"}, "id": "299", "properties": {"Country": "Tonga", "Port_name": "Nuku Alofa", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[186.01209615716448, -18.64698839118948], [186.0180259486932, -18.651721887577853], [186.016821791056, -18.656429049250594], [186.01123887837437, -18.65478701610894], [186.01209615716448, -18.64698839118948]]], "type": "Polygon"}, "id": "300", "properties": {"Country": "Tonga", "Port_name": "Neiafu", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[185.6541034007122, -19.808570528129284], [185.63728642117087, -19.79981168461818], [185.64289208101798, -19.793154963549743], [185.65935870681886, -19.794206024771075], [185.6541034007122, -19.808570528129284]]], "type": "Polygon"}, "id": "1216", "properties": {"Country": "Tonga", "Port_name": "Pangai", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_4297204bf49259729ff2634a0f440ee4.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_7e22cd39bad92ac3879fd2a0e28288a1 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_0335005d9fbcdbc257a58edc0475b695_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_0335005d9fbcdbc257a58edc0475b695 = L.geoJson(null, {
+                onEachFeature: geo_json_0335005d9fbcdbc257a58edc0475b695_onEachFeature,
+            
+        });
+
+        function geo_json_0335005d9fbcdbc257a58edc0475b695_add (data) {
+            geo_json_0335005d9fbcdbc257a58edc0475b695
+                .addData(data)
+                .addTo(feature_group_7e22cd39bad92ac3879fd2a0e28288a1);
+        }
+            geo_json_0335005d9fbcdbc257a58edc0475b695_add({"features": [{"geometry": {"coordinates": [179.195654, -8.503033], "type": "Point"}, "id": "57", "properties": {"Country": "Tuvalu", "Port": "Funafuti"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_0335005d9fbcdbc257a58edc0475b695.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_4d6b87344796940167b015ed413d1071_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_4d6b87344796940167b015ed413d1071 = L.geoJson(null, {
+                onEachFeature: geo_json_4d6b87344796940167b015ed413d1071_onEachFeature,
+            
+        });
+
+        function geo_json_4d6b87344796940167b015ed413d1071_add (data) {
+            geo_json_4d6b87344796940167b015ed413d1071
+                .addData(data)
+                .addTo(feature_group_7e22cd39bad92ac3879fd2a0e28288a1);
+        }
+            geo_json_4d6b87344796940167b015ed413d1071_add({"features": [{"geometry": {"coordinates": [[[179.39328336250628, -8.306236708645809], [179.39328336250628, -8.699726963858627], [178.9980246374937, -8.699726963858627], [178.9980246374937, -8.306236708645809], [179.39328336250628, -8.306236708645809]]], "type": "Polygon"}, "id": "57", "properties": {"Country": "Tuvalu", "Source": "ADB 22KM Buffer", "grouped_port": "Funafuti"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_4d6b87344796940167b015ed413d1071.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_40d9c5dd2e1caff16da9bc722caf5c36_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_40d9c5dd2e1caff16da9bc722caf5c36_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_40d9c5dd2e1caff16da9bc722caf5c36 = L.geoJson(null, {
+                onEachFeature: geo_json_40d9c5dd2e1caff16da9bc722caf5c36_onEachFeature,
+            
+                style: geo_json_40d9c5dd2e1caff16da9bc722caf5c36_styler,
+        });
+
+        function geo_json_40d9c5dd2e1caff16da9bc722caf5c36_add (data) {
+            geo_json_40d9c5dd2e1caff16da9bc722caf5c36
+                .addData(data)
+                .addTo(feature_group_7e22cd39bad92ac3879fd2a0e28288a1);
+        }
+            geo_json_40d9c5dd2e1caff16da9bc722caf5c36_add({"features": [{"geometry": {"coordinates": [[[179.19090130127566, -8.537144827584443], [179.12485150848366, -8.57607944228288], [179.05045858397057, -8.500991256793036], [179.14362355485613, -8.399483154186392], [179.21384491350867, -8.454408771350261], [179.21454017448542, -8.508639127537371], [179.19090130127566, -8.537144827584443]]], "type": "Polygon"}, "id": "1189", "properties": {"Country": "Tuvalu", "Port_name": "Funafuti Atoll", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_40d9c5dd2e1caff16da9bc722caf5c36.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var feature_group_cfe92af761d698b08839bcac1e412562 = L.featureGroup(
+                {}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+        
+    
+
+        function geo_json_7373de240a3f469beb57b183f68a7a99_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_7373de240a3f469beb57b183f68a7a99 = L.geoJson(null, {
+                onEachFeature: geo_json_7373de240a3f469beb57b183f68a7a99_onEachFeature,
+            
+        });
+
+        function geo_json_7373de240a3f469beb57b183f68a7a99_add (data) {
+            geo_json_7373de240a3f469beb57b183f68a7a99
+                .addData(data)
+                .addTo(feature_group_cfe92af761d698b08839bcac1e412562);
+        }
+            geo_json_7373de240a3f469beb57b183f68a7a99_add({"features": [{"geometry": {"coordinates": [169.77825, -20.23727], "type": "Point"}, "id": "58", "properties": {"Country": "Vanuatu", "Port": "Aneityum"}, "type": "Feature"}, {"geometry": {"coordinates": [168.55, -17.683333], "type": "Point"}, "id": "59", "properties": {"Country": "Vanuatu", "Port": "Forari Bay"}, "type": "Feature"}, {"geometry": {"coordinates": [168.0868, -15.09245], "type": "Point"}, "id": "60", "properties": {"Country": "Vanuatu", "Port": "Maewo"}, "type": "Feature"}, {"geometry": {"coordinates": [168.30625, -17.739695], "type": "Point"}, "id": "61", "properties": {"Country": "Vanuatu", "Port": "Port Vila"}, "type": "Feature"}, {"geometry": {"coordinates": [167.1881, -15.5152], "type": "Point"}, "id": "62", "properties": {"Country": "Vanuatu", "Port": "Santo"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_7373de240a3f469beb57b183f68a7a99.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port"];
+    let aliases = ["Country", "Port"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+
+        function geo_json_671ce77b1499a87e30908d79046a2971_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_671ce77b1499a87e30908d79046a2971 = L.geoJson(null, {
+                onEachFeature: geo_json_671ce77b1499a87e30908d79046a2971_onEachFeature,
+            
+        });
+
+        function geo_json_671ce77b1499a87e30908d79046a2971_add (data) {
+            geo_json_671ce77b1499a87e30908d79046a2971
+                .addData(data)
+                .addTo(feature_group_cfe92af761d698b08839bcac1e412562);
+        }
+            geo_json_671ce77b1499a87e30908d79046a2971_add({"features": [{"geometry": {"coordinates": [[[169.9758793625063, -20.05062750896522], [169.9758793625063, -20.423685975494244], [169.58062063749372, -20.423685975494244], [169.58062063749372, -20.05062750896522], [169.9758793625063, -20.05062750896522]]], "type": "Polygon"}, "id": "58", "properties": {"Country": "Vanuatu", "Source": "ADB 22KM Buffer", "grouped_port": "Aneityum"}, "type": "Feature"}, {"geometry": {"coordinates": [[[168.50387936250632, -17.872674877428953], [168.50387936250632, -17.92897637062958], [168.10862063749374, -17.92897637062958], [168.10862063749374, -17.55021094334858], [168.35237063749372, -17.55021094334858], [168.35237063749372, -17.49378899335595], [168.7476293625063, -17.49378899335595], [168.7476293625063, -17.872674877428953], [168.50387936250632, -17.872674877428953]]], "type": "Polygon"}, "id": "59", "properties": {"Country": "Vanuatu", "Source": "ADB 22KM Buffer", "grouped_port": "Forari Bay_Port Vila"}, "type": "Feature"}, {"geometry": {"coordinates": [[[168.2844293625063, -14.900351168674678], [168.2844293625063, -15.284373133658898], [167.88917063749372, -15.284373133658898], [167.88917063749372, -14.900351168674678], [168.2844293625063, -14.900351168674678]]], "type": "Polygon"}, "id": "60", "properties": {"Country": "Vanuatu", "Source": "ADB 22KM Buffer", "grouped_port": "Maewo"}, "type": "Feature"}, {"geometry": {"coordinates": [[[167.38572936250628, -15.323491062736963], [167.38572936250628, -15.706728819390213], [166.9904706374937, -15.706728819390213], [166.9904706374937, -15.323491062736963], [167.38572936250628, -15.323491062736963]]], "type": "Polygon"}, "id": "62", "properties": {"Country": "Vanuatu", "Source": "ADB 22KM Buffer", "grouped_port": "Santo"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_671ce77b1499a87e30908d79046a2971.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "grouped_port", "Source"];
+    let aliases = ["Country", "grouped_port", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+        function geo_json_424baafef7b55119f564c252aafacd16_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "red", "fillColor": "red"};
+            }
+        }
+
+        function geo_json_424baafef7b55119f564c252aafacd16_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_424baafef7b55119f564c252aafacd16 = L.geoJson(null, {
+                onEachFeature: geo_json_424baafef7b55119f564c252aafacd16_onEachFeature,
+            
+                style: geo_json_424baafef7b55119f564c252aafacd16_styler,
+        });
+
+        function geo_json_424baafef7b55119f564c252aafacd16_add (data) {
+            geo_json_424baafef7b55119f564c252aafacd16
+                .addData(data)
+                .addTo(feature_group_cfe92af761d698b08839bcac1e412562);
+        }
+            geo_json_424baafef7b55119f564c252aafacd16_add({"features": [{"geometry": {"coordinates": [[[168.2747642008121, -17.77560212982996], [168.27061262701974, -17.708583867182167], [168.34771328316322, -17.716887014766847], [168.33822397163786, -17.785091441355313], [168.2747642008121, -17.77560212982996]]], "type": "Polygon"}, "id": "495", "properties": {"Country": "Vanuatu", "Port_name": "Port Vila", "Source": "IMF Port Boundary"}, "type": "Feature"}, {"geometry": {"coordinates": [[[167.1859034177436, -15.520741026504936], [167.18612387666215, -15.512969849625856], [167.19891049393834, -15.513961914759356], [167.19835934664198, -15.521237059071685], [167.1859034177436, -15.520741026504936]]], "type": "Polygon"}, "id": "496", "properties": {"Country": "Vanuatu", "Port_name": "Luganville", "Source": "IMF Port Boundary"}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_424baafef7b55119f564c252aafacd16.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["Country", "Port_name", "Source"];
+    let aliases = ["Country", "Port_name", "Source"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{"className": "foliumtooltip", "sticky": true});
+                     
+    
+            var layer_control_6c40938a6ed90798eeddff690f976105 = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_b29ffd4d839d44de9b734d32680c72a9,
+                    "Esri Satellite" : tile_layer_f71bf82cd39ae79602837179d60dd044,
+                },
+                overlays :  {
+                    "Fiji" : feature_group_a2c6fa70ed89d7c71ecdeb7c575b1f32,
+                    "Papua New Guinea" : feature_group_35d0003389513cd6878c606ca16776f2,
+                    "Micronesia" : feature_group_b10e89f1b7535cc0be5f5ae74a136ad3,
+                    "Kiribati" : feature_group_c587f1710ddfeedc4a4cb789e7606183,
+                    "Marshall Islands" : feature_group_9c7d62729cff0d24cc1fb00f0c2da672,
+                    "Nauru" : feature_group_60699c842a32aae625793648b673cf54,
+                    "Palau" : feature_group_133751d566fb718108f16c0a397b600f,
+                    "Samoa" : feature_group_0227a5a326cff896078a2848e3238eb1,
+                    "Solomon Islands" : feature_group_c7384323ff7d5ff36f6805f1db76c94d,
+                    "Tonga" : feature_group_4bb3f8b68e6d43287e579cc2e93a5384,
+                    "Tuvalu" : feature_group_7e22cd39bad92ac3879fd2a0e28288a1,
+                    "Vanuatu" : feature_group_cfe92af761d698b08839bcac1e412562,
+                },
+            };
+            L.control.layers(
+                layer_control_6c40938a6ed90798eeddff690f976105.base_layers,
+                layer_control_6c40938a6ed90798eeddff690f976105.overlays,
+                {"autoZIndex": true, "collapsed": true, "position": "topright"}
+            ).addTo(map_6fb6181a992cf956e3119cad6a676564);
+            tile_layer_f71bf82cd39ae79602837179d60dd044.remove();
+            feature_group_a2c6fa70ed89d7c71ecdeb7c575b1f32.remove();
+            feature_group_35d0003389513cd6878c606ca16776f2.remove();
+            feature_group_b10e89f1b7535cc0be5f5ae74a136ad3.remove();
+            feature_group_c587f1710ddfeedc4a4cb789e7606183.remove();
+            feature_group_9c7d62729cff0d24cc1fb00f0c2da672.remove();
+            feature_group_60699c842a32aae625793648b673cf54.remove();
+            feature_group_133751d566fb718108f16c0a397b600f.remove();
+            feature_group_0227a5a326cff896078a2848e3238eb1.remove();
+            feature_group_c7384323ff7d5ff36f6805f1db76c94d.remove();
+            feature_group_4bb3f8b68e6d43287e579cc2e93a5384.remove();
+            feature_group_7e22cd39bad92ac3879fd2a0e28288a1.remove();
+            feature_group_cfe92af761d698b08839bcac1e412562.remove();
+        
+</script>
+</html>
