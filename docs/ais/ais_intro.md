@@ -18,7 +18,7 @@ This interactive map contains the following layers:
     > *Random 10% per buffer, aggregated by H3 resolution 12, ~154 sqm per H3*
 
 <div id="content" style="max-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="../images/interactive/ais/PacificIslandsMap.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen="">
+  <iframe src="../interactive/ais/PacificIslandsMap.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen="">
   </iframe>
 </div>
 
