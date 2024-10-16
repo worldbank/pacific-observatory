@@ -11,7 +11,7 @@ We follow two existing methodologies on trade volume estimation ({cite:t}`Tracki
 The map below shows the location of each port and the buffer area (22 km) used to extract AIS data.
 
 <div id="content" style="max-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="../images/interactive/ais/PacificIslandsPorts.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen="">
+  <iframe src="../interactive/ais/PacificIslandsPorts.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen="">
   </iframe>
 </div>
 
