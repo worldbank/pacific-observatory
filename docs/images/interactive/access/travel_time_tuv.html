@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5fa264c24315414adce4a4115a283b0e {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.fullscreen@3.0.0/Control.FullScreen.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"/>
+    <script src="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ljagis/leaflet-measure@2.1.7/dist/leaflet-measure.min.css"/>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    
+                    <style>
+                        .foliumtooltip {
+                            
+                        }
+                       .foliumtooltip table{
+                            margin: auto;
+                        }
+                        .foliumtooltip tr{
+                            text-align: left;
+                        }
+                        .foliumtooltip th{
+                            padding: 2px; padding-right: 8px;
+                        }
+                    </style>
+            
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_5fa264c24315414adce4a4115a283b0e" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_5fa264c24315414adce4a4115a283b0e = L.map(
+                "map_5fa264c24315414adce4a4115a283b0e",
+                {
+                    center: [20.0, 0.0],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 2,
+  "zoomControl": true,
+  "preferCanvas": false,
+  "drawExport": false,
+  "layersControl": true,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_5fa264c24315414adce4a4115a283b0e);
+
+            
+
+        
+    
+            var tile_layer_a2325672eb3585a6bd80edbcee16655b = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 24,
+  "maxNativeZoom": 24,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a2325672eb3585a6bd80edbcee16655b.addTo(map_5fa264c24315414adce4a4115a283b0e);
+        
+    
+            L.control.fullscreen(
+                {
+  "position": "topleft",
+  "title": "Full Screen",
+  "titleCancel": "Exit Full Screen",
+  "forceSeparateButton": false,
+}
+            ).addTo(map_5fa264c24315414adce4a4115a283b0e);
+        
+    
+            var options = {
+              position: "topleft",
+              draw: {},
+              edit: {},
+            }
+                // FeatureGroup is to store editable layers.
+                var drawnItems_draw_control_2daa8e9a2ef9621aee919a4d449fd13a =
+                    new L.featureGroup().addTo(
+                        map_5fa264c24315414adce4a4115a283b0e
+                    );
+
+            options.edit.featureGroup = drawnItems_draw_control_2daa8e9a2ef9621aee919a4d449fd13a;
+            var draw_control_2daa8e9a2ef9621aee919a4d449fd13a = new L.Control.Draw(
+                options
+            ).addTo( map_5fa264c24315414adce4a4115a283b0e );
+            map_5fa264c24315414adce4a4115a283b0e.on(L.Draw.Event.CREATED, function(e) {
+                var layer = e.layer,
+                    type = e.layerType;
+                var coords = JSON.stringify(layer.toGeoJSON());
+                layer.on('click', function() {
+                    alert(coords);
+                    console.log(coords);
+                });
+                drawnItems_draw_control_2daa8e9a2ef9621aee919a4d449fd13a.addLayer(layer);
+            });
+            map_5fa264c24315414adce4a4115a283b0e.on('draw:created', function(e) {
+                drawnItems_draw_control_2daa8e9a2ef9621aee919a4d449fd13a.addLayer(e.layer);
+            });
+
+            
+        
+    
+            var measure_control_7f83ce04a4c8049937264ba619d9035b = new L.Control.Measure(
+                {
+  "position": "bottomleft",
+  "primaryLengthUnit": "meters",
+  "secondaryLengthUnit": "miles",
+  "primaryAreaUnit": "sqmeters",
+  "secondaryAreaUnit": "acres",
+});
+            map_5fa264c24315414adce4a4115a283b0e.addControl(measure_control_7f83ce04a4c8049937264ba619d9035b);
+
+            // Workaround for using this plugin with Leaflet>=1.8.0
+            // https://github.com/ljagis/leaflet-measure/issues/171
+            L.Control.Measure.include({
+                _setCaptureMarkerIcon: function () {
+                    // disable autopan
+                    this._captureMarker.options.autoPanOnFocus = false;
+                    // default function
+                    this._captureMarker.setIcon(
+                        L.divIcon({
+                            iconSize: this._map.getSize().multiplyBy(2)
+                        })
+                    );
+                },
+            });
+
+        
+    
+
+            var geocoderOpts_geocoder_ac6660db9818081ff54be5625bb039eb = {
+  "collapsed": true,
+  "position": "topleft",
+  "defaultMarkGeocode": true,
+  "zoom": 11,
+  "provider": "nominatim",
+  "providerOptions": {
+},
+};
+
+            // note: geocoder name should start with lowercase
+            var geocoderName_geocoder_ac6660db9818081ff54be5625bb039eb = geocoderOpts_geocoder_ac6660db9818081ff54be5625bb039eb["provider"];
+
+            var customGeocoder_geocoder_ac6660db9818081ff54be5625bb039eb = L.Control.Geocoder[ geocoderName_geocoder_ac6660db9818081ff54be5625bb039eb ](
+                geocoderOpts_geocoder_ac6660db9818081ff54be5625bb039eb['providerOptions']
+            );
+            geocoderOpts_geocoder_ac6660db9818081ff54be5625bb039eb["geocoder"] = customGeocoder_geocoder_ac6660db9818081ff54be5625bb039eb;
+
+            L.Control.geocoder(
+                geocoderOpts_geocoder_ac6660db9818081ff54be5625bb039eb
+            ).on('markgeocode', function(e) {
+                var zoom = geocoderOpts_geocoder_ac6660db9818081ff54be5625bb039eb['zoom'] || map_5fa264c24315414adce4a4115a283b0e.getZoom();
+                map_5fa264c24315414adce4a4115a283b0e.setView(e.geocode.center, zoom);
+            }).addTo(map_5fa264c24315414adce4a4115a283b0e);
+
+        
+    
+            map_5fa264c24315414adce4a4115a283b0e.fitBounds(
+                [[20, 0], [20, 0]],
+                {"maxZoom": 2}
+            );
+        
+    
+            var tile_layer_3c3c23651350e8913b32adcd548e8ef0 = L.tileLayer(
+                "https://titiler.xyz/cog/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?colormap_name=magma\u0026fit_bounds=True\u0026rescale=0%2C8\u0026url=https%3A%2F%2Fdatacatalogfiles.worldbank.org%2Fddh-published%2F0066655%2FDR0094861%2Ftt_city_min_motorized_friction_tuv.tif%3FversionId%3D2025-01-24T20%3A07%3A09.7958126Z\u0026bidx=1",
+                {
+  "minZoom": 0,
+  "maxZoom": 30,
+  "maxNativeZoom": 30,
+  "noWrap": false,
+  "attribution": ".",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1.0,
+}
+
+            );
+        
+    
+            tile_layer_3c3c23651350e8913b32adcd548e8ef0.addTo(map_5fa264c24315414adce4a4115a283b0e);
+        
+    
+            map_5fa264c24315414adce4a4115a283b0e.fitBounds(
+                [[-10.791666666666666, 176.05833333333334], [-5.641666666666666, 179.875]],
+                {}
+            );
+        
+    
+    var color_map_61112c5cd33d2013d4a8f045676c9bcf = {};
+
+    
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.color = d3.scale.threshold()
+              .domain([0.0, 0.01603206412825651, 0.03206412825651302, 0.04809619238476954, 0.06412825651302605, 0.08016032064128256, 0.09619238476953908, 0.11222444889779559, 0.1282565130260521, 0.14428857715430862, 0.16032064128256512, 0.17635270541082165, 0.19238476953907815, 0.20841683366733466, 0.22444889779559118, 0.24048096192384769, 0.2565130260521042, 0.2725450901803607, 0.28857715430861725, 0.3046092184368738, 0.32064128256513025, 0.3366733466933868, 0.3527054108216433, 0.3687374749498998, 0.3847695390781563, 0.40080160320641284, 0.4168336673346693, 0.43286573146292584, 0.44889779559118237, 0.4649298597194389, 0.48096192384769537, 0.4969939879759519, 0.5130260521042084, 0.5290581162324649, 0.5450901803607214, 0.561122244488978, 0.5771543086172345, 0.593186372745491, 0.6092184368737475, 0.625250501002004, 0.6412825651302605, 0.657314629258517, 0.6733466933867736, 0.6893787575150301, 0.7054108216432866, 0.7214428857715431, 0.7374749498997996, 0.7535070140280561, 0.7695390781563126, 0.7855711422845691, 0.8016032064128257, 0.8176352705410822, 0.8336673346693386, 0.8496993987975952, 0.8657314629258517, 0.8817635270541082, 0.8977955911823647, 0.9138276553106213, 0.9298597194388778, 0.9458917835671342, 0.9619238476953907, 0.9779559118236473, 0.9939879759519038, 1.0100200400801602, 1.0260521042084167, 1.0420841683366733, 1.0581162324649298, 1.0741482965931863, 1.0901803607214429, 1.1062124248496994, 1.122244488977956, 1.1382765531062125, 1.154308617234469, 1.1703406813627255, 1.186372745490982, 1.2024048096192386, 1.218436873747495, 1.2344689378757514, 1.250501002004008, 1.2665330661322645, 1.282565130260521, 1.2985971943887775, 1.314629258517034, 1.3306613226452906, 1.346693386773547, 1.3627254509018036, 1.3787575150300602, 1.3947895791583167, 1.4108216432865732, 1.4268537074148298, 1.4428857715430863, 1.4589178356713426, 1.4749498997995991, 1.4909819639278556, 1.5070140280561122, 1.5230460921843687, 1.5390781563126252, 1.5551102204408818, 1.5711422845691383, 1.5871743486973948, 1.6032064128256514, 1.6192384769539079, 1.6352705410821644, 1.651302605210421, 1.6673346693386772, 1.6833667334669338, 1.6993987975951903, 1.7154308617234468, 1.7314629258517034, 1.74749498997996, 1.7635270541082164, 1.779559118236473, 1.7955911823647295, 1.811623246492986, 1.8276553106212425, 1.843687374749499, 1.8597194388777556, 1.8757515030060121, 1.8917835671342684, 1.907815631262525, 1.9238476953907815, 1.939879759519038, 1.9559118236472945, 1.971943887775551, 1.9879759519038076, 2.004008016032064, 2.0200400801603204, 2.036072144288577, 2.0521042084168335, 2.06813627254509, 2.0841683366733466, 2.100200400801603, 2.1162324649298596, 2.132264529058116, 2.1482965931863727, 2.164328657314629, 2.1803607214428857, 2.1963927855711423, 2.212424849699399, 2.2284569138276553, 2.244488977955912, 2.2605210420841684, 2.276553106212425, 2.2925851703406814, 2.308617234468938, 2.3246492985971945, 2.340681362725451, 2.3567134268537075, 2.372745490981964, 2.3887775551102206, 2.404809619238477, 2.4208416833667337, 2.43687374749499, 2.4529058116232463, 2.468937875751503, 2.4849699398797593, 2.501002004008016, 2.5170340681362724, 2.533066132264529, 2.5490981963927855, 2.565130260521042, 2.5811623246492985, 2.597194388777555, 2.6132264529058116, 2.629258517034068, 2.6452905811623246, 2.661322645290581, 2.6773547094188377, 2.693386773547094, 2.7094188376753507, 2.7254509018036073, 2.741482965931864, 2.7575150300601203, 2.773547094188377, 2.7895791583166334, 2.80561122244489, 2.8216432865731464, 2.837675350701403, 2.8537074148296595, 2.869739478957916, 2.8857715430861726, 2.9018036072144286, 2.917835671342685, 2.9338677354709417, 2.9498997995991982, 2.9659318637274548, 2.9819639278557113, 2.997995991983968, 3.0140280561122244, 3.030060120240481, 3.0460921843687374, 3.062124248496994, 3.0781563126252505, 3.094188376753507, 3.1102204408817635, 3.12625250501002, 3.1422845691382766, 3.158316633266533, 3.1743486973947896, 3.190380761523046, 3.2064128256513027, 3.2224448897795592, 3.2384769539078158, 3.2545090180360723, 3.270541082164329, 3.2865731462925853, 3.302605210420842, 3.3186372745490984, 3.3346693386773545, 3.350701402805611, 3.3667334669338675, 3.382765531062124, 3.3987975951903806, 3.414829659318637, 3.4308617234468937, 3.44689378757515, 3.4629258517034067, 3.4789579158316633, 3.49498997995992, 3.5110220440881763, 3.527054108216433, 3.5430861723446894, 3.559118236472946, 3.5751503006012024, 3.591182364729459, 3.6072144288577155, 3.623246492985972, 3.6392785571142285, 3.655310621242485, 3.6713426853707416, 3.687374749498998, 3.7034068136272547, 3.719438877755511, 3.7354709418837677, 3.7515030060120242, 3.7675350701402808, 3.783567134268537, 3.7995991983967934, 3.81563126252505, 3.8316633266533064, 3.847695390781563, 3.8637274549098195, 3.879759519038076, 3.8957915831663326, 3.911823647294589, 3.9278557114228456, 3.943887775551102, 3.9599198396793587, 3.975951903807615, 3.9919839679358717, 4.008016032064128, 4.024048096192384, 4.040080160320641, 4.056112224448897, 4.072144288577154, 4.0881763527054105, 4.104208416833667, 4.1202404809619235, 4.13627254509018, 4.152304609218437, 4.168336673346693, 4.18436873747495, 4.200400801603206, 4.216432865731463, 4.232464929859719, 4.248496993987976, 4.264529058116232, 4.280561122244489, 4.296593186372745, 4.312625250501002, 4.328657314629258, 4.344689378757515, 4.3607214428857715, 4.376753507014028, 4.3927855711422845, 4.408817635270541, 4.424849699398798, 4.440881763527054, 4.456913827655311, 4.472945891783567, 4.488977955911824, 4.50501002004008, 4.521042084168337, 4.537074148296593, 4.55310621242485, 4.569138276553106, 4.585170340681363, 4.601202404809619, 4.617234468937876, 4.6332665330661325, 4.649298597194389, 4.6653306613226455, 4.681362725450902, 4.697394789579159, 4.713426853707415, 4.729458917835672, 4.745490981963928, 4.761523046092185, 4.777555110220441, 4.793587174348698, 4.809619238476954, 4.825651302605211, 4.841683366733467, 4.857715430861724, 4.87374749498998, 4.889779559118236, 4.905811623246493, 4.921843687374749, 4.937875751503006, 4.953907815631262, 4.969939879759519, 4.985971943887775, 5.002004008016032, 5.018036072144288, 5.034068136272545, 5.050100200400801, 5.066132264529058, 5.082164328657314, 5.098196392785571, 5.114228456913827, 5.130260521042084, 5.1462925851703405, 5.162324649298597, 5.1783567134268536, 5.19438877755511, 5.210420841683367, 5.226452905811623, 5.24248496993988, 5.258517034068136, 5.274549098196393, 5.290581162324649, 5.306613226452906, 5.322645290581162, 5.338677354709419, 5.354709418837675, 5.370741482965932, 5.386773547094188, 5.402805611222445, 5.4188376753507015, 5.434869739478958, 5.4509018036072145, 5.466933867735471, 5.482965931863728, 5.498997995991984, 5.515030060120241, 5.531062124248497, 5.547094188376754, 5.56312625250501, 5.579158316633267, 5.595190380761523, 5.61122244488978, 5.627254509018036, 5.643286573146293, 5.659318637274549, 5.675350701402806, 5.6913827655310625, 5.707414829659319, 5.7234468937875755, 5.739478957915832, 5.755511022044089, 5.771543086172345, 5.787575150300601, 5.803607214428857, 5.819639278557114, 5.83567134268537, 5.851703406813627, 5.867735470941883, 5.88376753507014, 5.8997995991983965, 5.915831663326653, 5.9318637274549095, 5.947895791583166, 5.963927855711423, 5.979959919839679, 5.995991983967936, 6.012024048096192, 6.028056112224449, 6.044088176352705, 6.060120240480962, 6.076152304609218, 6.092184368737475, 6.108216432865731, 6.124248496993988, 6.140280561122244, 6.156312625250501, 6.1723446893787575, 6.188376753507014, 6.2044088176352705, 6.220440881763527, 6.236472945891784, 6.25250501002004, 6.268537074148297, 6.284569138276553, 6.30060120240481, 6.316633266533066, 6.332665330661323, 6.348697394789579, 6.364729458917836, 6.380761523046092, 6.396793587174349, 6.412825651302605, 6.428857715430862, 6.4448897795591185, 6.460921843687375, 6.4769539078156315, 6.492985971943888, 6.509018036072145, 6.525050100200401, 6.541082164328658, 6.557114228456914, 6.573146292585171, 6.589178356713427, 6.605210420841684, 6.62124248496994, 6.637274549098197, 6.653306613226453, 6.669338677354709, 6.6853707414829655, 6.701402805611222, 6.717434869739479, 6.733466933867735, 6.749498997995992, 6.765531062124248, 6.781563126252505, 6.797595190380761, 6.813627254509018, 6.829659318637274, 6.845691382765531, 6.861723446893787, 6.877755511022044, 6.8937875751503, 6.909819639278557, 6.925851703406813, 6.94188376753507, 6.9579158316633265, 6.973947895791583, 6.98997995991984, 7.006012024048096, 7.022044088176353, 7.038076152304609, 7.054108216432866, 7.070140280561122, 7.086172344689379, 7.102204408817635, 7.118236472945892, 7.134268537074148, 7.150300601202405, 7.166332665330661, 7.182364729458918, 7.198396793587174, 7.214428857715431, 7.2304609218436875, 7.246492985971944, 7.2625250501002006, 7.278557114228457, 7.294589178356714, 7.31062124248497, 7.326653306613227, 7.342685370741483, 7.35871743486974, 7.374749498997996, 7.390781563126253, 7.406813627254509, 7.422845691382766, 7.438877755511022, 7.454909819639279, 7.470941883767535, 7.486973947895792, 7.5030060120240485, 7.519038076152305, 7.5350701402805615, 7.551102204408818, 7.567134268537074, 7.58316633266533, 7.599198396793587, 7.615230460921843, 7.6312625250501, 7.647294589178356, 7.663326653306613, 7.679358717434869, 7.695390781563126, 7.7114228456913825, 7.727454909819639, 7.7434869739478955, 7.759519038076152, 7.775551102204409, 7.791583166332665, 7.807615230460922, 7.823647294589178, 7.839679358717435, 7.855711422845691, 7.871743486973948, 7.887775551102204, 7.903807615230461, 7.919839679358717, 7.935871743486974, 7.95190380761523, 7.967935871743487, 7.9839679358717435, 8.0])
+              .range(['#000004ff', '#000005ff', '#000006ff', '#010007ff', '#010008ff', '#020109ff', '#02010aff', '#03010bff', '#03010cff', '#04020dff', '#04020eff', '#05020fff', '#050210ff', '#060311ff', '#060313ff', '#070314ff', '#070315ff', '#080416ff', '#080417ff', '#090418ff', '#090419ff', '#0a051aff', '#0a051bff', '#0b051cff', '#0b051dff', '#0b051eff', '#0c061fff', '#0c0620ff', '#0d0621ff', '#0d0623ff', '#0e0724ff', '#0e0725ff', '#0f0726ff', '#0f0727ff', '#100828ff', '#100829ff', '#11082aff', '#11082bff', '#12092cff', '#12092dff', '#13092eff', '#13092fff', '#140a30ff', '#140a32ff', '#150a33ff', '#150a34ff', '#160b35ff', '#160b36ff', '#160b37ff', '#170b38ff', '#170b39ff', '#180c3aff', '#180c3bff', '#190c3cff', '#190c3dff', '#1a0d3eff', '#1a0d3fff', '#1b0d41ff', '#1b0d42ff', '#1c0e43ff', '#1c0e44ff', '#1d0e45ff', '#1d0e46ff', '#1e0f47ff', '#1e0f48ff', '#1f0f49ff', '#1f0f4aff', '#20104bff', '#20104cff', '#21104dff', '#21104eff', '#211050ff', '#221150ff', '#231151ff', '#241152ff', '#251152ff', '#261153ff', '#271154ff', '#271154ff', '#281155ff', '#291156ff', '#2a1256ff', '#2b1257ff', '#2c1258ff', '#2d1258ff', '#2d1259ff', '#2e125aff', '#2f125aff', '#30125bff', '#31125cff', '#32125cff', '#33135dff', '#33135eff', '#34135eff', '#35135fff', '#361360ff', '#371360ff', '#381361ff', '#391361ff', '#391362ff', '#3a1363ff', '#3b1363ff', '#3c1464ff', '#3d1465ff', '#3e1465ff', '#3f1466ff', '#3f1467ff', '#401467ff', '#411468ff', '#421469ff', '#431469ff', '#44146aff', '#45156bff', '#45156bff', '#46156cff', '#47156dff', '#48156dff', '#49156eff', '#4a156fff', '#4b156fff', '#4b1570ff', '#4c1571ff', '#4d1671ff', '#4e1672ff', '#4f1673ff', '#501673ff', '#511674ff', '#511675ff', '#521675ff', '#531676ff', '#541677ff', '#551677ff', '#561778ff', '#571779ff', '#581779ff', '#58177aff', '#59177bff', '#5a177bff', '#5b177cff', '#5c177dff', '#5d177dff', '#5e177eff', '#5e187fff', '#5f187fff', '#60187fff', '#61187fff', '#62197fff', '#62197fff', '#63197fff', '#64197fff', '#651a7fff', '#661a7fff', '#661a7fff', '#671b7fff', '#681b7fff', '#691b7fff', '#6a1c7fff', '#6a1c7fff', '#6b1c7fff', '#6c1c7fff', '#6d1d7fff', '#6e1d7fff', '#6e1d7fff', '#6f1e7fff', '#701e7fff', '#711e7fff', '#721f7fff', '#721f7fff', '#731f7fff', '#741f7fff', '#75207fff', '#76207fff', '#76207fff', '#77217fff', '#78217fff', '#79217fff', '#7a217fff', '#7b227fff', '#7b227fff', '#7c2280ff', '#7d2380ff', '#7e2380ff', '#7f2380ff', '#7f2480ff', '#802480ff', '#812480ff', '#822480ff', '#832580ff', '#832580ff', '#842580ff', '#852680ff', '#862680ff', '#872680ff', '#872780ff', '#882780ff', '#892780ff', '#8a2780ff', '#8b2880ff', '#8b2880ff', '#8c2880ff', '#8d2980ff', '#8e2980ff', '#8f2980ff', '#8f2980ff', '#902a80ff', '#912a80ff', '#922a80ff', '#932b80ff', '#932b80ff', '#942b80ff', '#952c80ff', '#962c80ff', '#972c80ff', '#972c80ff', '#982d80ff', '#992d80ff', '#9a2d7fff', '#9b2e7fff', '#9c2e7fff', '#9c2e7fff', '#9d2f7eff', '#9e2f7eff', '#9f2f7eff', '#a0307eff', '#a1307dff', '#a1307dff', '#a2307dff', '#a3317dff', '#a4317cff', '#a5317cff', '#a6327cff', '#a6327cff', '#a7327bff', '#a8337bff', '#a9337bff', '#aa337bff', '#aa347aff', '#ab347aff', '#ac347aff', '#ad347aff', '#ae3579ff', '#af3579ff', '#af3579ff', '#b03679ff', '#b13678ff', '#b23678ff', '#b33778ff', '#b43778ff', '#b43777ff', '#b53877ff', '#b63877ff', '#b73877ff', '#b83876ff', '#b93976ff', '#b93976ff', '#ba3976ff', '#bb3a75ff', '#bc3a75ff', '#bd3a75ff', '#be3b75ff', '#be3b74ff', '#bf3b74ff', '#c03c74ff', '#c13c74ff', '#c23c73ff', '#c33d73ff', '#c33d73ff', '#c43d73ff', '#c53d72ff', '#c63e72ff', '#c73e72ff', '#c83e72ff', '#c83f71ff', '#c93f71ff', '#ca3f71ff', '#cb4071ff', '#cc4070ff', '#cd4070ff', '#cd4170ff', '#ce416fff', '#cf416fff', '#d0416fff', '#d1426fff', '#d2426eff', '#d2426eff', '#d3436eff', '#d4436eff', '#d4446dff', '#d5456dff', '#d5466dff', '#d6466dff', '#d6476cff', '#d7486cff', '#d7486cff', '#d8496cff', '#d84a6bff', '#d94b6bff', '#da4b6bff', '#da4c6bff', '#db4d6aff', '#db4d6aff', '#dc4e6aff', '#dc4f6aff', '#dd5069ff', '#dd5069ff', '#de5169ff', '#de5269ff', '#df5268ff', '#df5368ff', '#e05468ff', '#e05568ff', '#e15567ff', '#e15667ff', '#e25767ff', '#e25767ff', '#e35866ff', '#e35966ff', '#e45a66ff', '#e45a66ff', '#e55b65ff', '#e55c65ff', '#e65d65ff', '#e75d65ff', '#e75e64ff', '#e85f64ff', '#e85f64ff', '#e96064ff', '#e96163ff', '#ea6263ff', '#ea6263ff', '#eb6363ff', '#eb6462ff', '#ec6462ff', '#ec6562ff', '#ed6662ff', '#ed6761ff', '#ee6761ff', '#ee6861ff', '#ef6961ff', '#ef6960ff', '#f06a60ff', '#f06b60ff', '#f16c60ff', '#f16c5fff', '#f26d5fff', '#f36e5fff', '#f36e5fff', '#f46f5eff', '#f4705eff', '#f5715eff', '#f5715dff', '#f6725dff', '#f6735dff', '#f7745dff', '#f7745cff', '#f8755cff', '#f8765cff', '#f9775cff', '#f9775dff', '#f9785dff', '#f9795eff', '#f97a5eff', '#f97b5fff', '#f97c5fff', '#f97d60ff', '#f97e60ff', '#f97f61ff', '#f98061ff', '#f98162ff', '#fa8262ff', '#fa8363ff', '#fa8463ff', '#fa8564ff', '#fa8664ff', '#fa8765ff', '#fa8866ff', '#fa8966ff', '#fa8a67ff', '#fa8b67ff', '#fa8c68ff', '#fa8d68ff', '#fb8e69ff', '#fb8f69ff', '#fb906aff', '#fb916aff', '#fb926bff', '#fb936bff', '#fb946cff', '#fb956cff', '#fb966dff', '#fb976dff', '#fb986eff', '#fb996eff', '#fc9a6fff', '#fc9a6fff', '#fc9b70ff', '#fc9c70ff', '#fc9d71ff', '#fc9e72ff', '#fc9f72ff', '#fca073ff', '#fca173ff', '#fca274ff', '#fca374ff', '#fca475ff', '#fda575ff', '#fda676ff', '#fda776ff', '#fda877ff', '#fda977ff', '#fdaa78ff', '#fdab78ff', '#fdac79ff', '#fdad79ff', '#fdae7aff', '#fdaf7aff', '#feb07bff', '#feb17bff', '#feb27cff', '#feb37cff', '#feb47dff', '#feb57eff', '#feb67eff', '#feb77fff', '#feb87fff', '#feb980ff', '#feba80ff', '#febb81ff', '#febb81ff', '#febc82ff', '#febd83ff', '#febe84ff', '#febf85ff', '#fec086ff', '#fec186ff', '#fec287ff', '#fec388ff', '#fec489ff', '#fec58aff', '#fec68bff', '#fec78cff', '#fec88dff', '#fec98dff', '#fec98eff', '#feca8fff', '#fecb90ff', '#fecc91ff', '#fecd92ff', '#fece93ff', '#fecf94ff', '#fed094ff', '#fed195ff', '#fed296ff', '#fed397ff', '#fed498ff', '#fed599ff', '#fed69aff', '#fed69bff', '#fed79bff', '#fed89cff', '#fed99dff', '#feda9eff', '#fedb9fff', '#fedca0ff', '#fddda1ff', '#fddea2ff', '#fddfa2ff', '#fde0a3ff', '#fde1a4ff', '#fde2a5ff', '#fde3a6ff', '#fde3a7ff', '#fde4a8ff', '#fde5a9ff', '#fde6a9ff', '#fde7aaff', '#fde8abff', '#fde9acff', '#fdeaadff', '#fdebaeff', '#fdecafff', '#fdedb0ff', '#fdeeb0ff', '#fdefb1ff', '#fdf0b2ff', '#fdf0b3ff', '#fdf1b4ff', '#fdf2b5ff', '#fdf3b6ff', '#fdf4b7ff', '#fdf5b7ff', '#fdf6b8ff', '#fdf7b9ff', '#fdf8baff', '#fdf9bbff', '#fdfabcff', '#fdfbbdff', '#fdfcbeff', '#fdfdbeff', '#fcfdbfff']);
+    
+
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.x = d3.scale.linear()
+              .domain([0.0, 8.0])
+              .range([0, 450 - 50]);
+
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.legend = L.control({position: 'topright'});
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.legend.onAdd = function (map) {var div = L.DomUtil.create('div', 'legend'); return div};
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.legend.addTo(map_5fa264c24315414adce4a4115a283b0e);
+
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.xAxis = d3.svg.axis()
+        .scale(color_map_61112c5cd33d2013d4a8f045676c9bcf.x)
+        .orient("top")
+        .tickSize(1)
+        .tickValues([0.0, 1.1428571428571428, 2.2857142857142856, 3.4285714285714284, 4.571428571428571, 5.714285714285714, 6.857142857142857, 8.0]);
+
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.svg = d3.select(".legend.leaflet-control").append("svg")
+        .attr("id", 'legend')
+        .attr("width", 450)
+        .attr("height", 40);
+
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.g = color_map_61112c5cd33d2013d4a8f045676c9bcf.svg.append("g")
+        .attr("class", "key")
+        .attr("fill", "black")
+        .attr("transform", "translate(25,16)");
+
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.g.selectAll("rect")
+        .data(color_map_61112c5cd33d2013d4a8f045676c9bcf.color.range().map(function(d, i) {
+          return {
+            x0: i ? color_map_61112c5cd33d2013d4a8f045676c9bcf.x(color_map_61112c5cd33d2013d4a8f045676c9bcf.color.domain()[i - 1]) : color_map_61112c5cd33d2013d4a8f045676c9bcf.x.range()[0],
+            x1: i < color_map_61112c5cd33d2013d4a8f045676c9bcf.color.domain().length ? color_map_61112c5cd33d2013d4a8f045676c9bcf.x(color_map_61112c5cd33d2013d4a8f045676c9bcf.color.domain()[i]) : color_map_61112c5cd33d2013d4a8f045676c9bcf.x.range()[1],
+            z: d
+          };
+        }))
+      .enter().append("rect")
+        .attr("height", 40 - 30)
+        .attr("x", function(d) { return d.x0; })
+        .attr("width", function(d) { return d.x1 - d.x0; })
+        .style("fill", function(d) { return d.z; });
+
+    color_map_61112c5cd33d2013d4a8f045676c9bcf.g.call(color_map_61112c5cd33d2013d4a8f045676c9bcf.xAxis).append("text")
+        .attr("class", "caption")
+        .attr("y", 21)
+        .attr("fill", "black")
+        .text("Travel Time (hrs.)");
+    
+        function geo_json_9e262f8620bd3cc8525aedd00134f2c0_styler(feature) {
+            switch(feature.id) {
+                default:
+                    return {"color": "teal", "fillOpacity": 0.5, "radius": 5, "weight": 2};
+            }
+        }
+        function geo_json_9e262f8620bd3cc8525aedd00134f2c0_pointToLayer(feature, latlng) {
+            var opts = {"bubblingMouseEvents": true, "color": "#3388ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#3388ff", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 2, "stroke": true, "weight": 3};
+            
+            let style = geo_json_9e262f8620bd3cc8525aedd00134f2c0_styler(feature)
+            Object.assign(opts, style)
+            
+            return new L.CircleMarker(latlng, opts)
+        }
+
+        function geo_json_9e262f8620bd3cc8525aedd00134f2c0_onEachFeature(feature, layer) {
+            layer.on({
+            });
+        };
+        var geo_json_9e262f8620bd3cc8525aedd00134f2c0 = L.geoJson(null, {
+                onEachFeature: geo_json_9e262f8620bd3cc8525aedd00134f2c0_onEachFeature,
+            
+                style: geo_json_9e262f8620bd3cc8525aedd00134f2c0_styler,
+                pointToLayer: geo_json_9e262f8620bd3cc8525aedd00134f2c0_pointToLayer,
+            ...{
+}
+        });
+
+        function geo_json_9e262f8620bd3cc8525aedd00134f2c0_add (data) {
+            geo_json_9e262f8620bd3cc8525aedd00134f2c0
+                .addData(data);
+        }
+            geo_json_9e262f8620bd3cc8525aedd00134f2c0_add({"bbox": [179.19458272222076, -8.518471962960987, 179.19458272222076, -8.518471962960987], "features": [{"bbox": [179.19458272222076, -8.518471962960987, 179.19458272222076, -8.518471962960987], "geometry": {"coordinates": [179.19458272222076, -8.518471962960987], "type": "Point"}, "id": "0", "properties": {"ID": 11, "Pop": 7000.95556640625}, "type": "Feature"}], "type": "FeatureCollection"});
+
+        
+    
+    geo_json_9e262f8620bd3cc8525aedd00134f2c0.bindTooltip(
+    function(layer){
+    let div = L.DomUtil.create('div');
+    
+    let handleObject = feature=>typeof(feature)=='object' ? JSON.stringify(feature) : feature;
+    let fields = ["ID", "Pop"];
+    let aliases = ["ID", "Pop"];
+    let table = '<table>' +
+        String(
+        fields.map(
+        (v,i)=>
+        `<tr>
+            <th>${aliases[i]}</th>
+            
+            <td>${handleObject(layer.feature.properties[v])}</td>
+        </tr>`).join(''))
+    +'</table>';
+    div.innerHTML=table;
+    
+    return div
+    }
+    ,{
+  "sticky": true,
+  "className": "foliumtooltip",
+});
+                     
+    
+            geo_json_9e262f8620bd3cc8525aedd00134f2c0.addTo(map_5fa264c24315414adce4a4115a283b0e);
+        
+    
+            var tile_layer_a3371b9ce11dfb7acf8c2931bd817001 = L.tileLayer(
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                {
+  "minZoom": 0,
+  "maxZoom": 30,
+  "maxNativeZoom": 30,
+  "noWrap": false,
+  "attribution": "Tiles (C) Esri -- Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1.0,
+}
+
+            );
+        
+    
+            var layer_control_bc60c73c7999f523dee7a2c5e9192fba_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_a2325672eb3585a6bd80edbcee16655b,
+                },
+                overlays :  {
+                    "Travel Time Map" : tile_layer_3c3c23651350e8913b32adcd548e8ef0,
+                    "Major Cities" : geo_json_9e262f8620bd3cc8525aedd00134f2c0,
+                    "Imagery (ESRI)" : tile_layer_a3371b9ce11dfb7acf8c2931bd817001,
+                },
+            };
+            let layer_control_bc60c73c7999f523dee7a2c5e9192fba = L.control.layers(
+                layer_control_bc60c73c7999f523dee7a2c5e9192fba_layers.base_layers,
+                layer_control_bc60c73c7999f523dee7a2c5e9192fba_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_5fa264c24315414adce4a4115a283b0e);
+
+        
+</script>
+</html>
