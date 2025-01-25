@@ -72,7 +72,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Automatic Identification System" href="ais_intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 16, 2024"/>
+    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
   </head>
   
   
@@ -184,20 +184,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="ais_emissions.html">Greenhouse Gas Emissions from Maritime Traffic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ais_fishing.html">Fishing Intensity</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Night Time Lights</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../ntl/ch1_intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ntl/ch2_lit.html">Literature Review</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ntl/ch3_dq.html">Data Quality Assessment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ntl/ch4_econ.html">Economic Applications</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ntl/ch5_other.html">Other Use Cases</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ntl/mining.html">Mining and Gas Visualization</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate and Agriculture</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../climate/climate_and_ag.html">Climate and Agriculture Monitoring in the Pacific Island Countries</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../climate/climate_db.html">Climate Database</a></li>
-</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tourism</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../tourism/intro.html">Introduction</a></li>
@@ -228,9 +214,27 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../text/epu.html">Economic Policy Uncertainty Index (EPU)</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://worldbank.github.io/pacific-observatory/interactive/text/text_presentation.slides">Text Presentation</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Market Access</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../access/access_intro.html">Market Access and Connectivity</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Night Time Lights</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../ntl/ch1_intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ntl/ch2_lit.html">Literature Review</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ntl/ch3_dq.html">Data Quality Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ntl/ch4_econ.html">Economic Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ntl/ch5_other.html">Other Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ntl/mining.html">Mining and Gas Visualization</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Geospatial Poverty Map</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../poverty/vanuatu.html">Vanuatu</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Climate and Agriculture</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../climate/climate_and_ag.html">Climate and Agriculture Monitoring in the Pacific Island Countries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../climate/climate_db.html">Climate Database</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Project Targeting Index</span></p>
 <ul class="nav bd-sidenav">
@@ -470,13 +474,13 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="port-arrivals-and-trade-volume">
 <h1>Port Arrivals and Trade Volume<a class="headerlink" href="#port-arrivals-and-trade-volume" title="Permalink to this heading">#</a></h1>
 <p>This page showcases results from our paper <strong>Estimating Trade Volume in the Pacific Islands using Automatic Identification System (AIS)</strong>, where we validate the use of AIS data to produce port-level statistics for the Pacific Islands. The paper is available [link].</p>
-<p>This study covers Fiji, Kiribati, Marshall Islands, Micronesia, Nauru, Palau, Papua New Guinea, Samoa, Solomon Islands, Tonga, Tuvalu, and Vanuatu. The primary data sources are AIS data and ship registry from the UN Global Platform (UNGP), and global port boundaries from the <span id="id1"></span> study. The period covered by this study is from January 2019 to April 2023.</p>
-<p>We follow two existing methodologies on trade volume estimation (<span id="id2"></span>; <span id="id3"></span>) to estimate the cargo carried by each vessel upon arrival and departure. These papers utilize dynamic information on ship movements, static characteristics of each ship, and reported draft (depth of submergence), to estimate the amount of goods offloaded or loaded at a certain port. We find that our derived port calls data accurately capture international trade-related ships, and whilst cargo volume levels are off from official data, they can still capture variation across ports and relative trends within each port.</p>
+<p>This study covers Fiji, Kiribati, Marshall Islands, Micronesia, Nauru, Palau, Papua New Guinea, Samoa, Solomon Islands, Tonga, Tuvalu, and Vanuatu. The primary data sources are AIS data and ship registry from the UN Global Platform (UNGP), and global port boundaries from the <span id="id1">Arslanalp <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id30" title="Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. IMF Working Papers, 2021(225):A001, 2021. URL: https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml, doi:10.5089/9781513593531.001.A001.">2021</a>]</span> study. The period covered by this study is from January 2019 to April 2023.</p>
+<p>We follow two existing methodologies on trade volume estimation (<span id="id2">Arslanalp <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id30" title="Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. IMF Working Papers, 2021(225):A001, 2021. URL: https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml, doi:10.5089/9781513593531.001.A001.">2021</a>]</span>; <span id="id3">Jia <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id27" title="Haiying Jia, Vishnu Prakash, and Tristan Smith. Estimating vessel payloads in bulk shipping using ais data. International Journal of Shipping and Transport Logistics, 11:25, 01 2019. doi:10.1504/IJSTL.2019.096864.">2019</a>]</span>) to estimate the cargo carried by each vessel upon arrival and departure. These papers utilize dynamic information on ship movements, static characteristics of each ship, and reported draft (depth of submergence), to estimate the amount of goods offloaded or loaded at a certain port. We find that our derived port calls data accurately capture international trade-related ships, and whilst cargo volume levels are off from official data, they can still capture variation across ports and relative trends within each port.</p>
 <section id="map-of-ports">
 <h2>Map of Ports<a class="headerlink" href="#map-of-ports" title="Permalink to this heading">#</a></h2>
 <p>The map below shows the location of each port and the buffer area (22 km) used to extract AIS data.</p>
 <div id="content" style="max-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="../interactive/ais/PacificIslandsPorts.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen="">
+  <iframe src="../interactive/ais/PacificIslandsMap.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen="">
   </iframe>
 </div>
 </section>
@@ -496,6 +500,12 @@ document.write(`
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
 <div class="docutils container" id="id4">
 <dl class="citation">
+<dt class="label" id="id33"><span class="brackets">AKV21</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dd><p>Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. <em>IMF Working Papers</em>, 2021(225):A001, 2021. URL: <a class="reference external" href="https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml">https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml</a>, <a class="reference external" href="https://doi.org/10.5089/9781513593531.001.A001">doi:10.5089/9781513593531.001.A001</a>.</p>
+</dd>
+<dt class="label" id="id27"><span class="brackets">BBD16</span></dt>
+<dd><p>Scott R Baker, Nicholas Bloom, and Steven J Davis. Measuring economic policy uncertainty. <em>The quarterly journal of economics</em>, 131(4):1593–1636, 2016.</p>
+</dd>
 <dt class="label" id="id20"><span class="brackets">BCJP16</span></dt>
 <dd><p>Juan Gabriel Brida, Isabel Cortes-Jimenez, and Manuela Pulina. Has the tourism-led growth hypothesis been validated? a literature review. <em>Current Issues in Tourism</em>, 19(5):394–430, 2016.</p>
 </dd>
@@ -504,6 +514,9 @@ document.write(`
 </dd>
 <dt class="label" id="id18"><span class="brackets">GR84</span></dt>
 <dd><p>Clive WJ Granger and Ramu Ramanathan. Improved methods of combining forecasts. <em>Journal of forecasting</em>, 3(2):197–204, 1984.</p>
+</dd>
+<dt class="label" id="id30"><span class="brackets"><a class="fn-backref" href="#id3">JPS19</a></span></dt>
+<dd><p>Haiying Jia, Vishnu Prakash, and Tristan Smith. Estimating vessel payloads in bulk shipping using ais data. <em>International Journal of Shipping and Transport Logistics</em>, 11:25, 01 2019. <a class="reference external" href="https://doi.org/10.1504/IJSTL.2019.096864">doi:10.1504/IJSTL.2019.096864</a>.</p>
 </dd>
 <dt class="label" id="id23"><span class="brackets">LXT+18</span></dt>
 <dd><p>Jingjing Li, Lizhi Xu, Ling Tang, Shouyang Wang, and Ling Li. Big data in tourism research: a literature review. <em>Tourism management</em>, 68:301–323, 2018.</p>
@@ -632,7 +645,7 @@ By World Bank
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Oct 16, 2024.
+  Last updated on Jan 25, 2025.
   <br/>
 </p>
   </div>
