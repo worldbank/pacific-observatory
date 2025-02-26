@@ -24,5 +24,5 @@ The output data from this analysis is publicly available through the [Developmen
 ## References
 
 ```{bibliography}
-:cited:
+:filter: docname in docnames
 ```
