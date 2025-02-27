@@ -1,13 +1,23 @@
 # Port Arrivals and Trade Volume
 
-This page showcases results from our paper **Estimating Trade Volume in the Pacific Islands using Automatic Identification System (AIS)**, where we validate the use of AIS data to produce port-level statistics for the Pacific Islands. The paper is available [link]. 
+This page presents AIS-derived port-level statistics for the Pacific Islands. Motivated by the work of {cite:t}`Arslanalp2021`, our initial study focus on port arrivals and trade volume estimates for Samoa {cite:t}`WBAIS-Samoa`, and to the rest of the pacific countries {cite:t}`WBAIS-Pacific`. We find that our derived port calls data accurately capture international trade-related ships, and whilst cargo volume levels are off from official data, they can still capture variation when pooled together. Here, we present an updated version of these statistics, incorporating AIS data from as early as 2011 providing a longitudinal dataset for further study.
 
-This study covers Fiji, Kiribati, Marshall Islands, Micronesia, Nauru, Palau, Papua New Guinea, Samoa, Solomon Islands, Tonga, Tuvalu, and Vanuatu. The primary data sources are AIS data and ship registry from the UN Global Platform (UNGP), and global port boundaries from the {cite:t}`Arslanalp2021` study. The period covered by this study is from January 2019 to April 2023.
+## Data and Methods
+The datasets used are hourly AIS data within the pacific region from 2011-2024 provided by S&P, ship register data from the UNGP, port boundaries from IMF {cite:t}`Arslanalp2021`. We followed the movement aggregation method from the ADB framework {cite:t}`ADB2023` to capture the port arrivals making use of their helper functions available in the `ais` python package.    
 
-{cite:p}`ADB2023`
+For trade volume estimation, we follow the methods from {cite:t}`Arslanalp2021` which is based on the volume displacement of the ship. To get the volume of the cargo, the vessel's displacement upon arrival and departure are estimated using the formula:
 
-We follow two existing methodologies on trade volume estimation ({cite:t}`Arslanalp2021`; {cite:t}`Jia2019`) to estimate the cargo carried by each vessel upon arrival and departure. These papers utilize dynamic information on ship movements, static characteristics of each ship, and reported draft (depth of submergence), to estimate the amount of goods offloaded or loaded at a certain port. We find that our derived port calls data accurately capture international trade-related ships, and whilst cargo volume levels are off from official data, they can still capture variation across ports and relative trends within each port.
+$$
+Disp_d = L \times W \times D \times \rho \times c_d 
+$$ (dispeq)
 
+Where $Disp_d$ is the vessel displacement given length $L$, width $W$, reported draft $D$, density of salt water $\rho$ and block coefficient $c$ at reported draught $d$. Note that the $c_d$ is a function of $d$ and the *design* block coefficient $c_D$ which is retrieved from external reports. Here, we introduce a derivation of $c_D$ from {eq}`dispeq` by using maximum draught $D$ and maximum displacement $Disp_D$ which are availabe in the ship register data: 
+
+$$
+c_D = \frac{Disp_D}{L \times W \times D \times \rho } 
+$$ (dispeq)
+
+We get the difference between the departure and arrival displacements to get the estimate of volume of cargo loaded/unloaded. If the net displacement is positive, it is assumed that the cargo for exports, and for imports otherwise. 
 
 ## Port Arrivals 
 
@@ -16,6 +26,7 @@ We follow two existing methodologies on trade volume estimation ({cite:t}`Arslan
 ## Trade Volume
 
 <div class="flourish-embed flourish-chart" data-src="visualisation/19837444?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19837444/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+
 
 ## Data Availability
 
