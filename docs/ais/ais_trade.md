@@ -8,10 +8,10 @@ The datasets used are hourly AIS data within the pacific region from 2011-2024 p
 For trade volume estimation, we follow the methods from {cite:t}`Arslanalp2021` which is based on the volume displacement of the ship. To get the volume of the cargo, the vessel's displacement upon arrival and departure are estimated using the formula:
 
 $$
-Disp_d = L \times W \times D \times \rho \times c_d 
+Disp_d = L \times W \times d \times \rho \times c_d 
 $$ (dispeq)
 
-Where $Disp_d$ is the vessel displacement given length $L$, width $W$, reported draft $D$, density of salt water $\rho$ and block coefficient $c$ at reported draught $d$. Note that the $c_d$ is a function of $d$ and the *design* block coefficient $c_D$ which is retrieved from external reports. Here, we introduce a derivation of $c_D$ from {eq}`dispeq` by using maximum draught $D$ and maximum displacement $Disp_D$ which are availabe in the ship register data: 
+Where $Disp_d$ is the vessel displacement given length $L$, width $W$, reported draft $d$, density of salt water $\rho$ and block coefficient at reported draught $c_d$. To get $c_d$, the block coeffient at maximum levels, called *design* block coefficient $c_D$ is required. Here, we introduce a derivation of $c_D$ from {eq}`dispeq` by using maximum draught $D$ and maximum displacement $Disp_D$ which are availabe in the ship register data: 
 
 $$
 c_D = \frac{Disp_D}{L \times W \times D \times \rho } 
@@ -35,5 +35,5 @@ The output data from this analysis is publicly available through the [Developmen
 ## References
 
 ```{bibliography}
-:filter: cited
+:cited:
 ```
