@@ -6,6 +6,7 @@ parts:
     chapters:
       - file: ais/ais_intro
       - file: ais/ais_trade
+      - file: ais/ais_hhi
       - file: ais/ais_emissions
       - file: ais/ais_fishing
   - caption: Tourism
