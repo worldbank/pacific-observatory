@@ -25,6 +25,7 @@ This interactive map contains the following layers:
 ## Applications 
 
 ### [Port Arrivals and Trade Volume](ais_trade.md)
+### [Operator Market Concetration](ais_hhi.md)
 ### [Greenhouse Gas Emissions from Vessels](ais_emissions.md)
 ### [Fishing Intensity (Global Fishing Watch)](ais_fishing.md)
 

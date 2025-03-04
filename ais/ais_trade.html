@@ -64,15 +64,17 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'ais/ais_trade';</script>
     <link rel="canonical" href="https://github.com/worldbank/pacific-observatory/ais/ais_trade.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Greenhouse Gas Emissions from Maritime Traffic" href="ais_emissions.html" />
+    <link rel="next" title="Market concentration of vessel operators" href="ais_hhi.html" />
     <link rel="prev" title="Automatic Identification System" href="ais_intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 04, 2025"/>
   </head>
   
   
@@ -181,6 +183,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="ais_intro.html">Automatic Identification System</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Port Arrivals and Trade Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ais_hhi.html">Market concentration of vessel operators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ais_emissions.html">Greenhouse Gas Emissions from Maritime Traffic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ais_fishing.html">Fishing Intensity</a></li>
 </ul>
@@ -455,7 +458,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#map-of-ports">Map of Ports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-and-methods">Data and Methods</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#port-arrivals">Port Arrivals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-volume">Trade Volume</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-availability">Data Availability</a></li>
@@ -473,16 +476,21 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="port-arrivals-and-trade-volume">
 <h1>Port Arrivals and Trade Volume<a class="headerlink" href="#port-arrivals-and-trade-volume" title="Permalink to this heading">#</a></h1>
-<p>This page showcases results from our paper <strong>Estimating Trade Volume in the Pacific Islands using Automatic Identification System (AIS)</strong>, where we validate the use of AIS data to produce port-level statistics for the Pacific Islands. The paper is available [link].</p>
-<p>This study covers Fiji, Kiribati, Marshall Islands, Micronesia, Nauru, Palau, Papua New Guinea, Samoa, Solomon Islands, Tonga, Tuvalu, and Vanuatu. The primary data sources are AIS data and ship registry from the UN Global Platform (UNGP), and global port boundaries from the <span id="id1">Arslanalp <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id30" title="Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. IMF Working Papers, 2021(225):A001, 2021. URL: https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml, doi:10.5089/9781513593531.001.A001.">2021</a>]</span> study. The period covered by this study is from January 2019 to April 2023.</p>
-<p>We follow two existing methodologies on trade volume estimation (<span id="id2">Arslanalp <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id30" title="Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. IMF Working Papers, 2021(225):A001, 2021. URL: https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml, doi:10.5089/9781513593531.001.A001.">2021</a>]</span>; <span id="id3">Jia <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id27" title="Haiying Jia, Vishnu Prakash, and Tristan Smith. Estimating vessel payloads in bulk shipping using ais data. International Journal of Shipping and Transport Logistics, 11:25, 01 2019. doi:10.1504/IJSTL.2019.096864.">2019</a>]</span>) to estimate the cargo carried by each vessel upon arrival and departure. These papers utilize dynamic information on ship movements, static characteristics of each ship, and reported draft (depth of submergence), to estimate the amount of goods offloaded or loaded at a certain port. We find that our derived port calls data accurately capture international trade-related ships, and whilst cargo volume levels are off from official data, they can still capture variation across ports and relative trends within each port.</p>
-<section id="map-of-ports">
-<h2>Map of Ports<a class="headerlink" href="#map-of-ports" title="Permalink to this heading">#</a></h2>
-<p>The map below shows the location of each port and the buffer area (22 km) used to extract AIS data.</p>
-<div id="content" style="max-width: 100%; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-  <iframe src="../interactive/ais/PacificIslandsMap.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen="">
-  </iframe>
-</div>
+<p>This page presents AIS-derived port-level statistics for the Pacific Islands. Motivated by the work of <span id="id1">Arslanalp <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id30" title="Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. IMF Working Papers, 2021(225):A001, 2021. URL: https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml, doi:10.5089/9781513593531.001.A001.">2021</a>]</span>, our initial study focus on port arrivals and trade volume estimates for Samoa <span id="id2">[<a class="reference internal" href="../tourism/references.html#id33" title="Cherryl Chico and Andres Chamorro. Samoa port statistics using ais. unpublished.">Chico and Chamorro, n.d.</a>]</span>, and to the rest of the pacific countries <span id="id3">[<a class="reference internal" href="../tourism/references.html#id34" title="Cherryl Chico and Andres Chamorro. Estimating trade volume in pacific islands using ais. unpublished.">Chico and Chamorro, n.d.</a>]</span>. We find that our derived port calls data accurately capture international trade-related ships, and whilst cargo volume levels are off from official data, they can still capture variation when pooled together. Here, we present an updated version of these statistics, incorporating AIS data from as early as 2011 providing a longitudinal dataset for further study.</p>
+<section id="data-and-methods">
+<h2>Data and Methods<a class="headerlink" href="#data-and-methods" title="Permalink to this heading">#</a></h2>
+<p>The datasets used are hourly AIS data within the pacific region from 2011-2024 provided by S&amp;P, ship register data from the UNGP, port boundaries from <span id="id4">Arslanalp <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id30" title="Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. IMF Working Papers, 2021(225):A001, 2021. URL: https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml, doi:10.5089/9781513593531.001.A001.">2021</a>]</span>. The countries covered are Fiji, Kiribati, Marshall Islands, Micronesia, Nauru, Palau, Papua New Guinea, Samoa, Solomon Islands, Tonga, Tuvalu, and Vanuatu. We followed the movement aggregation method from the <span id="id5">Asian Development Bank [<a class="reference internal" href="../tourism/references.html#id32" title="Asian Development Bank. Methodological framework for unlocking maritime insights using automatic identification system data. Key Indicators for Asia and the Pacific, 2023. doi:10.22617/FLS230401-2.">2023</a>]</span> to capture the port arrivals making use of their helper functions available in the <code class="docutils literal notranslate"><span class="pre">ais</span></code> python package.</p>
+<p>For trade volume estimation, we follow the methods from <span id="id6">Arslanalp <em>et al.</em> [<a class="reference internal" href="../tourism/references.html#id30" title="Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. IMF Working Papers, 2021(225):A001, 2021. URL: https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml, doi:10.5089/9781513593531.001.A001.">2021</a>]</span> which is based on the volume displacement of the ship. To get the volume of the cargo, the vessel’s displacement upon arrival and departure are estimated using the formula:</p>
+<div class="math notranslate nohighlight" id="equation-dispeq">
+<span class="eqno">(1)<a class="headerlink" href="#equation-dispeq" title="Permalink to this equation">#</a></span>\[
+Disp_d = L \times W \times d \times \rho \times c_d 
+\]</div>
+<p>Where <span class="math notranslate nohighlight">\(Disp_d\)</span> is the vessel displacement given length <span class="math notranslate nohighlight">\(L\)</span>, width <span class="math notranslate nohighlight">\(W\)</span>, reported draft <span class="math notranslate nohighlight">\(d\)</span>, density of salt water <span class="math notranslate nohighlight">\(\rho\)</span> and block coefficient at reported draught <span class="math notranslate nohighlight">\(c_d\)</span>. To get <span class="math notranslate nohighlight">\(c_d\)</span>, the block coeffient at maximum levels, called <em>design</em> block coefficient <span class="math notranslate nohighlight">\(c_D\)</span> is required. Here, we introduce a derivation of <span class="math notranslate nohighlight">\(c_D\)</span> from <a class="reference internal" href="#equation-dispeq">(1)</a> by using maximum draught <span class="math notranslate nohighlight">\(D\)</span> and maximum displacement <span class="math notranslate nohighlight">\(Disp_D\)</span> which are availabe in the ship register data:</p>
+<div class="math notranslate nohighlight" id="equation-cdesign">
+<span class="eqno">(2)<a class="headerlink" href="#equation-cdesign" title="Permalink to this equation">#</a></span>\[
+c_D = \frac{Disp_D}{L \times W \times D \times \rho } 
+\]</div>
+<p>We get the difference between the departure and arrival displacements to get the estimate of volume of cargo loaded/unloaded. If the net displacement is positive, it is assumed that the cargo for exports, and for imports otherwise.</p>
 </section>
 <section id="port-arrivals">
 <h2>Port Arrivals<a class="headerlink" href="#port-arrivals" title="Permalink to this heading">#</a></h2>
@@ -498,52 +506,19 @@ document.write(`
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
-<div class="docutils container" id="id4">
+<div class="docutils container" id="id7">
 <dl class="citation">
-<dt class="label" id="id33"><span class="brackets">AKV21</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dt class="label" id="id36"><span class="brackets">AKV21</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id4">2</a>,<a href="#id6">3</a>)</span></dt>
 <dd><p>Serkan Arslanalp, Robin Koepke, and Jasper Verschuur. Tracking trade from space: an application to pacific island countries. <em>IMF Working Papers</em>, 2021(225):A001, 2021. URL: <a class="reference external" href="https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml">https://www.elibrary.imf.org/view/journals/001/2021/225/article-A001-en.xml</a>, <a class="reference external" href="https://doi.org/10.5089/9781513593531.001.A001">doi:10.5089/9781513593531.001.A001</a>.</p>
 </dd>
-<dt class="label" id="id27"><span class="brackets">BBD16</span></dt>
-<dd><p>Scott R Baker, Nicholas Bloom, and Steven J Davis. Measuring economic policy uncertainty. <em>The quarterly journal of economics</em>, 131(4):1593–1636, 2016.</p>
+<dt class="label" id="id40"><span class="brackets"><a class="fn-backref" href="#id3">CCa</a></span></dt>
+<dd><p>Cherryl Chico and Andres Chamorro. Estimating trade volume in pacific islands using ais. unpublished.</p>
 </dd>
-<dt class="label" id="id20"><span class="brackets">BCJP16</span></dt>
-<dd><p>Juan Gabriel Brida, Isabel Cortes-Jimenez, and Manuela Pulina. Has the tourism-led growth hypothesis been validated? a literature review. <em>Current Issues in Tourism</em>, 19(5):394–430, 2016.</p>
+<dt class="label" id="id39"><span class="brackets"><a class="fn-backref" href="#id2">CCb</a></span></dt>
+<dd><p>Cherryl Chico and Andres Chamorro. Samoa port statistics using ais. unpublished.</p>
 </dd>
-<dt class="label" id="id19"><span class="brackets">DS19</span></dt>
-<dd><p>Francis X Diebold and Minchul Shin. Machine learning for regularized survey forecast combination: partially-egalitarian lasso and its derivatives. <em>International Journal of Forecasting</em>, 35:1679–1691, 2019.</p>
-</dd>
-<dt class="label" id="id18"><span class="brackets">GR84</span></dt>
-<dd><p>Clive WJ Granger and Ramu Ramanathan. Improved methods of combining forecasts. <em>Journal of forecasting</em>, 3(2):197–204, 1984.</p>
-</dd>
-<dt class="label" id="id30"><span class="brackets"><a class="fn-backref" href="#id3">JPS19</a></span></dt>
-<dd><p>Haiying Jia, Vishnu Prakash, and Tristan Smith. Estimating vessel payloads in bulk shipping using ais data. <em>International Journal of Shipping and Transport Logistics</em>, 11:25, 01 2019. <a class="reference external" href="https://doi.org/10.1504/IJSTL.2019.096864">doi:10.1504/IJSTL.2019.096864</a>.</p>
-</dd>
-<dt class="label" id="id23"><span class="brackets">LXT+18</span></dt>
-<dd><p>Jingjing Li, Lizhi Xu, Ling Tang, Shouyang Wang, and Ling Li. Big data in tourism research: a literature review. <em>Tourism management</em>, 68:301–323, 2018.</p>
-</dd>
-<dt class="label" id="id24"><span class="brackets">LLXW21</span></dt>
-<dd><p>Xin Li, Rob Law, Gang Xie, and Shouyang Wang. Review of tourism forecasting research with internet data. <em>Tourism Management</em>, 83:104245, 2021.</p>
-</dd>
-<dt class="label" id="id21"><span class="brackets">Nar04</span></dt>
-<dd><p>Paresh Kumar Narayan. Fiji's tourism demand: the ardl approach to cointegration. <em>Tourism Economics</em>, 10(2):193–206, 2004.</p>
-</dd>
-<dt class="label" id="id6"><span class="brackets">NSB13</span></dt>
-<dd><p>Paresh Kumar Narayan, Susan Sunila Sharma, and Deepa Bannigidadmath. Does tourism predict macroeconomic performance in pacific island countries? <em>Economic Modelling</em>, 33:780–786, 2013.</p>
-</dd>
-<dt class="label" id="id7"><span class="brackets">See11</span></dt>
-<dd><p>Boopen Seetanah. Assessing the dynamic economic impact of tourism for island economies. <em>Annals of tourism research</em>, 38(1):291–308, 2011.</p>
-</dd>
-<dt class="label" id="id11"><span class="brackets">SQP19</span></dt>
-<dd><p>Haiyan Song, Richard TR Qiu, and Jinah Park. A review of research on tourism demand forecasting: launching the annals of tourism research curated collection on tourism demand forecasting. <em>Annals of Tourism Research</em>, 75:338–362, 2019.</p>
-</dd>
-<dt class="label" id="id16"><span class="brackets">SW98</span></dt>
-<dd><p>James H Stock and Mark W Watson. A comparison of linear and nonlinear univariate models for forecasting macroeconomic time series. 1998.</p>
-</dd>
-<dt class="label" id="id13"><span class="brackets">Tim06</span></dt>
-<dd><p>Allan Timmermann. Forecast combinations. <em>Handbook of economic forecasting</em>, 1:135–196, 2006.</p>
-</dd>
-<dt class="label" id="id17"><span class="brackets">WHLK22</span></dt>
-<dd><p>Xiaoqian Wang, Rob J Hyndman, Feng Li, and Yanfei Kang. Forecast combinations: an over 50-year review. <em>International Journal of Forecasting</em>, 2022.</p>
+<dt class="label" id="id38"><span class="brackets"><a class="fn-backref" href="#id5">AsianDBank23</a></span></dt>
+<dd><p>Asian Development Bank. Methodological framework for unlocking maritime insights using automatic identification system data. <em>Key Indicators for Asia and the Pacific</em>, 2023. <a class="reference external" href="https://doi.org/10.22617/FLS230401-2">doi:10.22617/FLS230401-2</a>.</p>
 </dd>
 </dl>
 </div>
@@ -590,11 +565,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="ais_emissions.html"
+       href="ais_hhi.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Greenhouse Gas Emissions from Maritime Traffic</p>
+        <p class="prev-next-title">Market concentration of vessel operators</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -614,7 +589,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#map-of-ports">Map of Ports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-and-methods">Data and Methods</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#port-arrivals">Port Arrivals</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#trade-volume">Trade Volume</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-availability">Data Availability</a></li>
@@ -645,7 +620,7 @@ By World Bank
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jan 25, 2025.
+  Last updated on Mar 04, 2025.
   <br/>
 </p>
   </div>

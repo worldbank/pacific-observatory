@@ -71,10 +71,10 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Fishing Intensity" href="ais_fishing.html" />
-    <link rel="prev" title="Port Arrivals and Trade Volume" href="ais_trade.html" />
+    <link rel="prev" title="Market concentration of vessel operators" href="ais_hhi.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 25, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 04, 2025"/>
   </head>
   
   
@@ -183,6 +183,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="ais_intro.html">Automatic Identification System</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ais_trade.html">Port Arrivals and Trade Volume</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ais_hhi.html">Market concentration of vessel operators</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Greenhouse Gas Emissions from Maritime Traffic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ais_fishing.html">Fishing Intensity</a></li>
 </ul>
@@ -487,9 +488,9 @@ document.write(`
 <p>Emissions are calculated for two groups of greenhouse gas (GHG): energy-based—nitrogen oxide (NO<sub>x</sub>), methane (CH<sub>4</sub>, carbon monoxide (CO), nitrous oxide (N<sub>2</sub>O), particulate matter (PM<sub>10</sub>,PM<sub>2.5</sub> ), and non-methane volatile organic compounds (NMVOCs), and fuel-based—carbon dioxide (CO<sub>2</sub>) and sulphur oxides (SO<sub>x</sub>).</p>
 <p>Black carbon (BC) can either be energy- or fuel-based depending on the fuel type. Energy-based GHG is expressed as the product of emission factor and power demanded adjusted by a correction factor based on engine load (Eq. 1). For fuel-based GHG, power demanded is converted to specific fuel consumption. Emissions is calculated per hour and per engine (i.e. main engine, auxiliary engine, or boiler if available) of the vessel in operation.</p>
 <div class="math notranslate nohighlight" id="equation-my-label">
-<span class="eqno">(1)<a class="headerlink" href="#equation-my-label" title="Permalink to this equation">#</a></span>\[Energy{-}Based\ Emission_{GHG} = \sum_E \sum_i EF_{E,GHG} \cdot P_{E,i} \cdot LCF_{E,i,GHG}\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-my-label" title="Permalink to this equation">#</a></span>\[Energy{-}Based\ Emission_{GHG} = \sum_E \sum_i EF_{E,GHG} \cdot P_{E,i} \cdot LCF_{E,i,GHG}\]</div>
 <div class="math notranslate nohighlight" id="equation-my-label1">
-<span class="eqno">(2)<a class="headerlink" href="#equation-my-label1" title="Permalink to this equation">#</a></span>\[Energy{-}Based\ Emission_{GHG} = \sum_E \sum_i EF_{E,GHG} \cdot P_{E,i} \cdot LCF_{E,i,GHG}\]</div>
+<span class="eqno">(4)<a class="headerlink" href="#equation-my-label1" title="Permalink to this equation">#</a></span>\[Energy{-}Based\ Emission_{GHG} = \sum_E \sum_i EF_{E,GHG} \cdot P_{E,i} \cdot LCF_{E,i,GHG}\]</div>
 <p>Where</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(E\)</span> is the vessel’s engine</p></li>
@@ -506,9 +507,9 @@ document.write(`
 <h3>Power Demanded<a class="headerlink" href="#power-demanded" title="Permalink to this heading">#</a></h3>
 <p>Power demanded is the power required to operate a vessel at a given speed and displacement. In the GHG study, the power demanded by the main engine is a function of the vessel’s speed and draught at any given hour. Power demanded is expressed as the product of engine load and maximum power, where engine load is derived from the admiralty formula including correction factors (CF). The correction factors are meant to increase the engine load due to weather and hull fouling, and to decrease the engine load for some large vessels where maximum speed corresponds to a lower engine load.</p>
 <div class="math notranslate nohighlight" id="equation-my-label2">
-<span class="eqno">(3)<a class="headerlink" href="#equation-my-label2" title="Permalink to this equation">#</a></span>\[P_i = Load_i \times P_{max}\]</div>
+<span class="eqno">(5)<a class="headerlink" href="#equation-my-label2" title="Permalink to this equation">#</a></span>\[P_i = Load_i \times P_{max}\]</div>
 <div class="math notranslate nohighlight" id="equation-my-label3">
-<span class="eqno">(4)<a class="headerlink" href="#equation-my-label3" title="Permalink to this equation">#</a></span>\[Load_i = \left( \frac{draught_i}{draught_{design}} \right)^{\frac{2}{3}} \times \left( \frac{speed_i}{speed_{max}} \right)^3 \times CF\]</div>
+<span class="eqno">(6)<a class="headerlink" href="#equation-my-label3" title="Permalink to this equation">#</a></span>\[Load_i = \left( \frac{draught_i}{draught_{design}} \right)^{\frac{2}{3}} \times \left( \frac{speed_i}{speed_{max}} \right)^3 \times CF\]</div>
 <p>Where</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(i\)</span> is hour</p></li>
@@ -523,7 +524,7 @@ document.write(`
 <h3>Specific Fuel Consumption<a class="headerlink" href="#specific-fuel-consumption" title="Permalink to this heading">#</a></h3>
 <p>Power demanded is converted to fuel consumption using a baseline specific fuel consumption (SFC) adjusted by the load correction factor (LCF). The baseline SFC is a fixed value that varies across engine type, fuel type, and year of built. The load correction factor (LCF) is a parabolic function that results in high values for both low and high inputs of engine load, and low values with engine load near 80%. LCF is only applied for oil and LNG engines for the main engine.</p>
 <div class="math notranslate nohighlight" id="equation-my-label4">
-<span class="eqno">(5)<a class="headerlink" href="#equation-my-label4" title="Permalink to this equation">#</a></span>\[SFC_{E,i} = P_{E,i} SFC_{base} LCF_{i}\]</div>
+<span class="eqno">(7)<a class="headerlink" href="#equation-my-label4" title="Permalink to this equation">#</a></span>\[SFC_{E,i} = P_{E,i} SFC_{base} LCF_{i}\]</div>
 <p>Where</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(i\)</span> is hour</p></li>
@@ -802,12 +803,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="ais_trade.html"
+       href="ais_hhi.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Port Arrivals and Trade Volume</p>
+        <p class="prev-next-title">Market concentration of vessel operators</p>
       </div>
     </a>
     <a class="right-next"
@@ -870,7 +871,7 @@ By World Bank
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jan 25, 2025.
+  Last updated on Mar 04, 2025.
   <br/>
 </p>
   </div>
