@@ -74,7 +74,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="prev" title="Port Arrivals and Trade Volume" href="ais_trade.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 04, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 17, 2025"/>
   </head>
   
   
@@ -458,7 +458,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yearly-hhi-per-country-per-vessel-category">Yearly HHI Per Country per Vessel Category</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hhi-ranked-by-country-vessel-category-2024">HHI ranked by country/vessel category 2024</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-in-hhi-by-country-vessel-category-2009-to-2024">Change in HHI by country/vessel category, 2009 to 2024</a></li>
 </ul>
             </nav>
         </div>
@@ -478,9 +479,15 @@ HHI =  \sum s_i^2
 \)</span>$</p>
 <p>Where <span class="math notranslate nohighlight">\(s_i\)</span> is the  market share of operator <span class="math notranslate nohighlight">\(i\)</span>. HHI value close to 0 indicates near perfect competition, while HHI value close to 1 indicates monopoly.</p>
 <p>Here, the market share is defined by the share of port calls from an operator. We use the <a class="reference internal" href="ais_trade.html"><span class="doc std std-doc">port calls data</span></a> derived from AIS, and the operator information from ship register data. Note that this excludes all vessels not registered with the IMO which is ~12% of port calls from cargo, tanker, and passenger vessels.</p>
-<section id="yearly-hhi-per-country-per-vessel-category">
-<h2>Yearly HHI Per Country per Vessel Category<a class="headerlink" href="#yearly-hhi-per-country-per-vessel-category" title="Permalink to this heading">#</a></h2>
+<section id="hhi-ranked-by-country-vessel-category-2024">
+<h2>HHI ranked by country/vessel category 2024<a class="headerlink" href="#hhi-ranked-by-country-vessel-category-2024" title="Permalink to this heading">#</a></h2>
+<p>The following graph displays the latest HHI values for each country and vessel category in 2024. The countries are ranked from highest (most concentrated) to lowest (most competitive) HHI.</p>
+<div class="flourish-embed flourish-scatter" data-src="visualisation/22163650?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22163650/thumbnail" width="100%" alt="scatter visualization" /></noscript></div>
 </section>
+<section id="change-in-hhi-by-country-vessel-category-2009-to-2024">
+<h2>Change in HHI by country/vessel category, 2009 to 2024<a class="headerlink" href="#change-in-hhi-by-country-vessel-category-2009-to-2024" title="Permalink to this heading">#</a></h2>
+<p>This second graph shows the changes in HHI values for each country and vessel category from 2009 to 2024.</p>
+<div class="flourish-embed flourish-scatter" data-src="visualisation/22102411?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22102411/thumbnail" width="100%" alt="scatter visualization" /></noscript></div></section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -547,7 +554,8 @@ HHI =  \sum s_i^2
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#yearly-hhi-per-country-per-vessel-category">Yearly HHI Per Country per Vessel Category</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hhi-ranked-by-country-vessel-category-2024">HHI ranked by country/vessel category 2024</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#change-in-hhi-by-country-vessel-category-2009-to-2024">Change in HHI by country/vessel category, 2009 to 2024</a></li>
 </ul>
   </nav></div>
 
@@ -574,7 +582,7 @@ By World Bank
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Mar 04, 2025.
+  Last updated on Mar 17, 2025.
   <br/>
 </p>
   </div>
