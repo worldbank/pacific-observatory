@@ -31,8 +31,7 @@ parts:
       - file: tourism/references
   - caption: Text
     chapters:
-      - file: text/intro
-      - file: text/epu
+      - file: text/text_intro
       - url: https://worldbank.github.io/pacific-observatory/interactive/text/text_presentation.slides
         title: Text Presentation
   - caption: Market Access
