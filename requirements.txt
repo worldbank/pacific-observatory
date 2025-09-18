@@ -1,3 +1,0 @@
-docutils==0.17.1 
-jupyter-book==0.15.1
-jupyter-cache==0.5.0

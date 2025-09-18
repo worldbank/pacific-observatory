@@ -24,7 +24,7 @@ def scrape_sb_nso(url: str,
     scraper = SeleniumScraper(driver_path=driver_path,
                               download_path=download_path)
     scraper.start_driver()
-    scraper.driver.get(sb_nso_url)
+    scraper.driver.get(url)
     while True:
         try:
             download_elems = scraper.perform_search(download_xpath)
