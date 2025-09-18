@@ -1,0 +1,16 @@
+[project]
+name = "pacific-observatory"
+version = "0.1.0"
+description = "Compiled analytics supporting the World Bank's Pacific Observatory"
+authors = [
+    {name = "Pacific Observatory"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
