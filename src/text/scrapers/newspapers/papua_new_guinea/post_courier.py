@@ -4,7 +4,7 @@ from ..config import (PROJECT_FOLDER_PATH, POST_COURIER_PAGE_URLS,
                       POST_COURIER_NEWS_ELEMENTS, POST_COURIER_PAGE_ELEMENTS, SCRAPE_ALL)
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
-from src.scraper.scrape import RequestsScraper
+from src.scrapers import RequestsScraper
 
 target_folder = sys.path[0] + "data/text/papua_new_guinea/"
 

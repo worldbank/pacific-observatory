@@ -5,8 +5,8 @@ sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
 import json
-from src.scraper.scrape import RequestsScraper
-from src.scraper.utils import check_latest_date
+from src.scrapers import RequestsScraper
+from src.scrapers.utils import check_latest_date
 
 
 def scrape_ajax_abc(document_id: int,

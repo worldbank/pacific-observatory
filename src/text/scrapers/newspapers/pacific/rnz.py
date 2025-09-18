@@ -4,8 +4,8 @@ from ..config import PROJECT_FOLDER_PATH
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import numpy as np
 import pandas as pd
-from src.scraper.utils import check_latest_date
-from src.scraper.scrape import RequestsScraper
+from src.scrapers.utils import check_latest_date
+from src.scrapers import RequestsScraper
 
 # Basic Setup
 host_url = "https://www.rnz.co.nz"

@@ -4,8 +4,8 @@ import re
 from ..config import PROJECT_FOLDER_PATH
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
-from src.scraper.scrape import SeleniumScraper
-from src.scraper.utils import download_files
+from src.scrapers import SeleniumScraper
+from src.scrapers.utils import download_files
 
 # pre-defined parameters
 KEYWORD = "cpi"

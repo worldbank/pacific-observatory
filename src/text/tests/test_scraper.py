@@ -1,6 +1,6 @@
 import sys
 import unittest
-from src.scraper.scrape import RequestsScraper
+from src.scrapers import RequestsScraper
 
 
 class TestRequestsScraper(unittest.TestCase):

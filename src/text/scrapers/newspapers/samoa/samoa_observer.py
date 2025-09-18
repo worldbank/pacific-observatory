@@ -8,7 +8,7 @@ import requests
 from tqdm import tqdm
 import multiprocessing
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from src.scraper.scrape import RequestsScraper
+from src.scrapers import RequestsScraper
 
 target_dir = sys.path[0] + "data/text/samoa/"
 if not os.path.exists(target_dir):

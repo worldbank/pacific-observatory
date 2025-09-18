@@ -1,6 +1,6 @@
 '''
 To bypass the Cloudflare authentication, one needs to
-1. Import `configure_cookies` and `configure_headers` from src.scraper.utils. 
+1. Import `configure_cookies` and `configure_headers` from src.scrapers.utils. 
     a. It might necessary to change the header accordingly, e.g. if you are using
     Chrome v 119.0.0.0, you might need to change the header in compatiable with your 
     system;
@@ -24,8 +24,8 @@ from ..config import PROJECT_FOLDER_PATH, SCRAPE_ALL, TIS_PAGE_URLS, COOKIES_PAT
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
-from src.scraper.scrape import RequestsScraper
-from src.scraper.utils import configure_cookies, configure_headers
+from src.scrapers import RequestsScraper
+from src.scrapers.utils import configure_cookies, configure_headers
 
 target_dir = sys.path[0] + "data/text/solomon_islands/"
 

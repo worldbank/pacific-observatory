@@ -6,8 +6,8 @@ import numpy as np
 import csv
 import time
 from datetime import datetime
-from src.scraper.scrape import RequestsScraper, SeleniumScraper
-from src.scraper.utils import check_latest_date, handle_mixed_dates
+from src.scrapers import RequestsScraper, SeleniumScraper
+from src.scrapers.utils import check_latest_date, handle_mixed_dates
 from tqdm import tqdm
 
 scrape_all = False
