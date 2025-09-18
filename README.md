@@ -118,4 +118,4 @@ data_startyear = 2009
 
 ## License
 
-Materials under this repository are open-source under an [MIT license](LICENSE). The community is invited to test, adapt, and re-purpose materials as needed.
+Materials under this repository are open-source under an [MIT license](LICENSE.md). The community is invited to test, adapt, and re-purpose materials as needed.
