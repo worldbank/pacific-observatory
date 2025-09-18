@@ -5,7 +5,7 @@ sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
 import json
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 from src.scraper.utils import check_latest_date
 
 
@@ -14,7 +14,7 @@ def scrape_ajax_abc(document_id: int,
                     offset: int = 0
                     ) -> list:
 
-    scraper = WebScraper()
+    scraper = RequestsScraper()
     output = []
 
     total = 5000
@@ -60,7 +60,7 @@ for key, name in ABC_AU_TOPIC_DICT.items():
         urls = df[df.media_type == "article"]["url"].tolist()
 
     ## Scrape articles
-    scraper = WebScraper(parser="html.parser")
+    scraper = RequestsScraper(parser="html.parser")
     expressions = ['RelatedTopics_topicsList__R3TEv', 'paragraph_paragraph___QITb']
     print(f"{name}'s scraping work has started.")
     news_output = scraper.scrape_urls(urls, expressions, speed_up=True)

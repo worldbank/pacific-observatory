@@ -1,12 +1,12 @@
 import sys
 import unittest
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 
 
-class TestWebScraper(unittest.TestCase):
+class TestRequestsScraper(unittest.TestCase):
     def setUp(self):
-        # Initialize WebScraper for testing case
-        self.web_scraper = WebScraper()
+        # Initialize RequestsScraper for testing case
+        self.web_scraper = RequestsScraper()
 
     def tearDown(self):
         pass

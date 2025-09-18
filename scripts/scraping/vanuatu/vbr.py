@@ -2,14 +2,14 @@ import sys
 import os
 sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
 import pandas as pd
-from src.scraper.scrape import SeleniumScraper, WebScraper
+from src.scraper.scrape import SeleniumScraper, RequestsScraper
 
 target_dir = sys.path[0] + "data/text/vanuatu/"
 output_path = target_dir + "vbr_news.csv"
 
 
 page_urls = [f"https://vbr.vu/category/news/page/{num}" for num in range(1,61)]
-vbr = WebScraper("html.parser")
+vbr = RequestsScraper("html.parser")
 urls_raw = vbr.scrape_urls(page_urls, "post has-thumbnail", speed_up=True)
 
 urls_info = {

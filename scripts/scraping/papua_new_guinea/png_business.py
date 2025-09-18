@@ -10,7 +10,7 @@ target_dir = sys.path[0] + "data/text/png/"
 host_url = "https://www.pngbusinessnews.com/"
 news_urls = [host_url + f"articles?page={i}" for i in range(1, 93)]
 
-pngb = WebScraper("html.parser")
+pngb = RequestsScraper("html.parser")
 news_urls_raw = pngb.scrape_urls(
     news_urls, "cell small-12 medium-6 large-6", speed_up=True)
 

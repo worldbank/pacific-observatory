@@ -4,12 +4,12 @@ from ..config import (PROJECT_FOLDER_PATH, POST_COURIER_PAGE_URLS,
                       POST_COURIER_NEWS_ELEMENTS, POST_COURIER_PAGE_ELEMENTS, SCRAPE_ALL)
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 
 target_folder = sys.path[0] + "data/text/papua_new_guinea/"
 
 ## Initialize the Scraper
-scraper = WebScraper('html.parser')
+scraper = RequestsScraper('html.parser')
 pages_raw = scraper.scrape_urls(POST_COURIER_PAGE_URLS,
                                 POST_COURIER_PAGE_ELEMENTS,
                                 speed_up=True)

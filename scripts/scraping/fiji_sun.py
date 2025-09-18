@@ -4,7 +4,7 @@ from .config import PROJECT_FOLDER_PATH, FIJI_SUN_URLS, SCRAPE_ALL
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 
 SCRAPE_ALL = True
 
@@ -12,7 +12,7 @@ SCRAPE_ALL = True
 target_dir = sys.path[0] + "data/text/fiji/"
 
 # Scrape news URLs
-fs = WebScraper(parser="html.parser")
+fs = RequestsScraper(parser="html.parser")
 fs_news_urls_raw = fs.scrape_urls(FIJI_SUN_URLS,
                                   "article-header",
                                   speed_up=True)

@@ -4,12 +4,12 @@ from ..config import PROJECT_FOLDER_PATH, SOLOMON_STAR_URLS, SCRAPE_ALL
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import numpy as np
 import pandas as pd
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 
 SCRAPE_ALL = True
 
 target_dir = sys.path[0] + "data/text/solomon_islands/"
-scraper = WebScraper('html.parser')
+scraper = RequestsScraper('html.parser')
 
 pages_raw = scraper.scrape_urls(SOLOMON_STAR_URLS,
                                 ["blog-content wf-td", "entry-title", "entry-date"],

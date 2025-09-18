@@ -10,7 +10,7 @@ To bypass the Cloudflare authentication, one needs to
 the relevant cookies by (right-click) Inspect -> Application -> Cookies -> 
     https://theislandsun.com.sb, and `cf_clearance` is the cookies that mostly help us bypass
     the cloudflare authentication).
-2. Insert `domain` and `cookies_path` args when initializing the WebScraper class, and the 
+2. Insert `domain` and `cookies_path` args when initializing the RequestsScraper class, and the 
 default `cookies_path` on MacOS should be `/Users/czhang/Library/Application Support/Google/Chrome/Profile/Cookies`.
 3. Make sure that you refresh the https://theislandsun.com.sb periodically (~ every 20mins), becasue
 ~ 30 minutes the cookies would expire and one needs to manually go through cloudflare verification as 
@@ -24,13 +24,13 @@ from ..config import PROJECT_FOLDER_PATH, SCRAPE_ALL, TIS_PAGE_URLS, COOKIES_PAT
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 from src.scraper.utils import configure_cookies, configure_headers
 
 target_dir = sys.path[0] + "data/text/solomon_islands/"
 
 headers = configure_headers()
-scraper = WebScraper(
+scraper = RequestsScraper(
     "html.parser",
     headers=headers,
     domain="https://theislandsun.com.sb/",

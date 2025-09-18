@@ -4,11 +4,11 @@ from ..config import PROJECT_FOLDER_PATH, PINA_URLS, SCRAPE_ALL
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 
 target_dir = sys.path[0] + "data/text/pacific/"
 
-scraper = WebScraper("html.parser")
+scraper = RequestsScraper("html.parser")
 pages_raw = scraper.scrape_urls(PINA_URLS,
                                 ["td_module_10 td_module_wrap td-animation-stack"],
                                 speed_up=True)

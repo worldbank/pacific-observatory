@@ -6,7 +6,7 @@ import numpy as np
 from config import (PROJECT_FOLDER_PATH, MATANGI_PAGE_URLS,
                     MATANGI_PAGE_URLS_ELEMENTS, SCRAPE_ALL)
 sys.path.insert(0, PROJECT_FOLDER_PATH)
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 from src.scraper.utils import check_latest_date, handle_mixed_dates
 
 target_dir = sys.path[0] + "data/text/tonga/"
@@ -14,7 +14,7 @@ if not os.path.exists(target_dir):
     os.mkdir(target_dir)
 
 
-mtg = WebScraper("html.parser")
+mtg = RequestsScraper("html.parser")
 urls_raw = mtg.scrape_urls(MATANGI_PAGE_URLS, MATANGI_PAGE_URLS_ELEMENTS,
                            speed_up=True)
 urls_info = {

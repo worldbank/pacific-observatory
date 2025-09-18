@@ -8,7 +8,7 @@ import requests
 from tqdm import tqdm
 import multiprocessing
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 
 target_dir = sys.path[0] + "data/text/samoa/"
 if not os.path.exists(target_dir):
@@ -56,7 +56,7 @@ so_urls.to_csv(target_dir+"samoa_observer_urls.csv", encoding="utf-8")
 ## Scrape News with non-subscription-needed urls
 so_urls = pd.read_csv(target_dir+"samoa_observer_urls.csv").drop("Unnamed: 0", axis=1)
 so_urls_to_scrape = so_urls[so_urls.is_premium == False]['url'].tolist()
-so = WebScraper("html.parser")
+so = RequestsScraper("html.parser")
 so_raw = so.scrape_urls(so_urls_to_scrape, 
               "article__content text-new-brand-black py-0 leading-big",
               speed_up=True)

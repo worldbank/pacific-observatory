@@ -13,7 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from .utils import configure_cookies
 
 
-class WebScraper(object):
+class RequestsScraper(object):
     def __init__(self, parser="xpath",
                  domain=None,
                  headers=None, 
@@ -195,7 +195,7 @@ class SeleniumScraper:
         perform_search(search_query): Perform a search on the web page.
 
     Usage:
-        scraper = WebScraper(driver_path='/path/to/chromedriver')
+        scraper = RequestsScraper(driver_path='/path/to/chromedriver')
         scraper.start_driver()
         scraper.perform_search('web scraping')
         scraper.close_driver()
@@ -203,7 +203,7 @@ class SeleniumScraper:
 
     def __init__(self, driver_path, download_path):
         """
-        Initialize the WebScraper object.
+        Initialize the RequestsScraper object.
 
         Args:
             driver_path (str): The path to the ChromeDriver executable.

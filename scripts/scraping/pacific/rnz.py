@@ -5,7 +5,7 @@ sys.path.insert(0, PROJECT_FOLDER_PATH)
 import numpy as np
 import pandas as pd
 from src.scraper.utils import check_latest_date
-from src.scraper.scrape import WebScraper
+from src.scraper.scrape import RequestsScraper
 
 # Basic Setup
 host_url = "https://www.rnz.co.nz"
@@ -23,7 +23,7 @@ for country in countries:
     country_base_url = host_url + "/tags/" + str(country) + "?page="
     country_urls = [country_base_url + str(i) for i in range(1, 500)]
 
-    scraper = WebScraper(parser="html.parser")
+    scraper = RequestsScraper(parser="html.parser")
     data = scraper.scrape_urls(country_urls, "o-digest__detail")
 
     output = []
@@ -51,7 +51,7 @@ for country in countries:
     else:
         news_urls = rnz_df[rnz_df.news == True]["url"].tolist()
 
-    scraper = WebScraper(parser="html.parser")
+    scraper = RequestsScraper(parser="html.parser")
     nested_data = scraper.scrape_urls(
         news_urls, "article__body", speed_up=True)
     news_output = []
