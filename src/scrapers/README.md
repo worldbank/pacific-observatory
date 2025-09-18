@@ -1,1 +1,0 @@
-This folder will contain all the source code for scraping web pages.
