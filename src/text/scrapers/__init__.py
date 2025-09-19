@@ -269,7 +269,7 @@ class SeleniumScraper:
             return None
     
 
-class NewspaperScraper(RequestsScraper, SeleniumScraper):
+class NewspaperScraper(RequestsScraper):
     name: str
     domain: str
     region: str
@@ -277,15 +277,17 @@ class NewspaperScraper(RequestsScraper, SeleniumScraper):
     page_urls: list
     urls_df: pd.DataFrame
     previous_news_df: pd.DataFrame
+    parser: str
     
-    def __init__(self, name, domain, region, urls_df=None, *args, **kwargs):
+    def __init__(self, name, domain, region, urls_df=None, parser="html.parser"):
+        super().__init__()
         self.name = name
         self.domain = domain
         self.region = region
         self.urls_df = urls_df
         self.target_dir = os.environ["DATA_FOLDER_PATH"] + f"/text/{self.region}/{self.name}/"
-        super().__init__(*args, **kwargs)
-
+        self.parser = parser
+    
     def get_page_enum(self):
         pass
 
