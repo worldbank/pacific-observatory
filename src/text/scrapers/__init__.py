@@ -269,7 +269,7 @@ class SeleniumScraper:
             return None
     
 
-class NewspaperScraper(RequestsScraper):
+class NewspaperScraper:
     name: str
     domain: str
     region: str
@@ -277,16 +277,79 @@ class NewspaperScraper(RequestsScraper):
     page_urls: list
     urls_df: pd.DataFrame
     previous_news_df: pd.DataFrame
-    parser: str
     
-    def __init__(self, name, domain, region, urls_df=None, parser="html.parser"):
-        super().__init__()
+    def __init__(self, name, domain, region, urls_df=None, parser=None, driver_path=None, download_path=None, **kwargs):
         self.name = name
         self.domain = domain
         self.region = region
         self.urls_df = urls_df
-        self.target_dir = os.environ["DATA_FOLDER_PATH"] + f"/text/{self.region}/{self.name}/"
-        self.parser = parser
+        self.target_dir = os.environ.get("DATA_FOLDER_PATH", "./data") + f"/text/{self.region}/{self.name}/"
+        
+        # Determine which scraper to use based on parameters
+        if driver_path is not None:
+            # Use Selenium scraper
+            self._scraper = SeleniumScraper(driver_path=driver_path, download_path=download_path)
+            self.scraper_type = "selenium"
+        else:
+            # Use Requests scraper (default)
+            parser = parser or "html.parser"
+            self._scraper = RequestsScraper(parser=parser, domain=domain, **kwargs)
+            self.scraper_type = "requests"
+    
+    # Delegate scraping methods to the appropriate scraper
+    def request_url(self, url, timeout=60, retries=3):
+        if self.scraper_type == "requests":
+            return self._scraper.request_url(url, timeout, retries)
+        else:
+            raise NotImplementedError("request_url not available for Selenium scraper")
+    
+    def parse_content(self, content):
+        if self.scraper_type == "requests":
+            return self._scraper.parse_content(content)
+        else:
+            raise NotImplementedError("parse_content not available for Selenium scraper")
+    
+    def extract_items(self, parsed_content, expression):
+        if self.scraper_type == "requests":
+            return self._scraper.extract_items(parsed_content, expression)
+        else:
+            raise NotImplementedError("extract_items not available for Selenium scraper")
+    
+    def scrape_url(self, url, expression):
+        if self.scraper_type == "requests":
+            return self._scraper.scrape_url(url, expression)
+        else:
+            raise NotImplementedError("scrape_url not available for Selenium scraper")
+    
+    def scrape_urls(self, urls, expression, speed_up=False):
+        if self.scraper_type == "requests":
+            return self._scraper.scrape_urls(urls, expression, speed_up)
+        else:
+            raise NotImplementedError("scrape_urls not available for Selenium scraper")
+    
+    def start_driver(self):
+        if self.scraper_type == "selenium":
+            return self._scraper.start_driver()
+        else:
+            raise NotImplementedError("start_driver only available for Selenium scraper")
+    
+    def close_driver(self):
+        if self.scraper_type == "selenium":
+            return self._scraper.close_driver()
+        else:
+            raise NotImplementedError("close_driver only available for Selenium scraper")
+    
+    def perform_search(self, search_query):
+        if self.scraper_type == "selenium":
+            return self._scraper.perform_search(search_query)
+        else:
+            raise NotImplementedError("perform_search only available for Selenium scraper")
+    
+    def scrape_page(self, url, search_query):
+        if self.scraper_type == "selenium":
+            return self._scraper.scrape_page(url, search_query)
+        else:
+            raise NotImplementedError("scrape_page only available for Selenium scraper")
     
     def get_page_enum(self):
         pass

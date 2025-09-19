@@ -18,7 +18,8 @@ class SIBCScraper(NewspaperScraper):
     def __init__(self):
         super().__init__(
             name=name,
-            domain="sibconline.com.sb",
+            # domain="sibconline.com.sb",
+            domain=None,
             region=region,
             parser="html.parser"
         )
