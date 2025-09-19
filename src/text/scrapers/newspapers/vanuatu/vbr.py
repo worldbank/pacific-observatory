@@ -1,5 +1,4 @@
 import sys
-import os
 sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
 import pandas as pd
 from src.scrapers import RequestsScraper
