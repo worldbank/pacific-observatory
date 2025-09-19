@@ -1,9 +1,8 @@
-import os
 import sys
 from ..config import PROJECT_FOLDER_PATH
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
-from src.scrapers import *
+from src.scrapers import RequestsScraper
 
 
 target_dir = sys.path[0] + "data/text/png/"

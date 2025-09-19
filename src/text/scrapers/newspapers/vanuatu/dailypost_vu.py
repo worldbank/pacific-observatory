@@ -2,10 +2,8 @@ import sys
 import os
 sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
 import pandas as pd
-import numpy as np
 import csv
 import time
-from datetime import datetime
 from src.scrapers import RequestsScraper, SeleniumScraper
 from src.scrapers.utils import check_latest_date, handle_mixed_dates
 from tqdm import tqdm

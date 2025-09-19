@@ -1,8 +1,6 @@
-import os
 import sys
 from ..config import PROJECT_FOLDER_PATH, SOLOMON_STAR_URLS, SCRAPE_ALL
 sys.path.insert(0, PROJECT_FOLDER_PATH)
-import numpy as np
 import pandas as pd
 from src.scrapers import RequestsScraper
 

@@ -3,7 +3,6 @@ import sys
 from ..config import PROJECT_FOLDER_PATH, SOLOMON_TIMES_URLS, SCRAPE_ALL
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
-import numpy as np
 from src.scrapers import RequestsScraper
 
 target_dir = sys.path[0] + "data/text/solomon_islands/"

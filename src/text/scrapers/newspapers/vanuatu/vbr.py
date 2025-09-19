@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.insert(0, "/Users/czhang/Desktop/pacific-observatory/")
 import pandas as pd
-from src.scrapers import SeleniumScraper, RequestsScraper
+from src.scrapers import RequestsScraper
 
 target_dir = sys.path[0] + "data/text/vanuatu/"
 output_path = target_dir + "vbr_news.csv"

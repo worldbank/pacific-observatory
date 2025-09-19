@@ -1,4 +1,3 @@
-import os
 import sys
 from ..config import (PROJECT_FOLDER_PATH, POST_COURIER_PAGE_URLS, 
                       POST_COURIER_NEWS_ELEMENTS, POST_COURIER_PAGE_ELEMENTS, SCRAPE_ALL)
