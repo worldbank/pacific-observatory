@@ -62,9 +62,9 @@ def configure_headers():
 
     return headers 
 
-def configure_cookies(host_url: str, cookies_path: str) -> dict:
+def configure_cookies(host_url: str) -> dict:
       
-    cookies = chrome_cookies(host_url, cookies_path)
+    cookies = chrome_cookies(host_url)
     return cookies
 
 def check_latest_date(filepath: str):

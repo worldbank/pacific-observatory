@@ -11,6 +11,8 @@ from selenium.webdriver import ChromeService, ChromeOptions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from .utils import configure_cookies
+import pandas as pd
+import os
 
 
 class RequestsScraper(object):
@@ -58,10 +60,10 @@ class RequestsScraper(object):
         """
         Fetches updated cookies and updates the scraper's cookie jar.
         """
-        new_cookies = configure_cookies(self.domain, self.cookies_path)
+        new_cookies = configure_cookies(self.domain)
         self.cookies.update(new_cookies)
 
-    def request_url(self, url, timeout=30, retries=3):
+    def request_url(self, url, timeout=60, retries=3):
         """
         Sends an HTTP GET request to the specified URL.
 
@@ -265,3 +267,120 @@ class SeleniumScraper:
         except Exception as e:
             self.failed_urls.append((url, str(e)))
             return None
+    
+
+class NewspaperScraper(RequestsScraper, SeleniumScraper):
+    name: str
+    domain: str
+    region: str
+    target_dir: str
+    page_urls: list
+    urls_df: pd.DataFrame
+    previous_news_df: pd.DataFrame
+    
+    def __init__(self, name, domain, region, urls_df=None, *args, **kwargs):
+        self.name = name
+        self.domain = domain
+        self.region = region
+        self.urls_df = urls_df
+        self.target_dir = os.environ["DATA_FOLDER_PATH"] + f"/text/{self.region}/{self.name}/"
+        super().__init__(*args, **kwargs)
+
+    def get_page_enum(self):
+        pass
+
+    def get_news_urls(self):
+        pass
+
+    def save_news_urls(self):
+        """Save the scraped URLs to CSV file."""
+        if self.urls_df is not None:
+            urls_file = self.target_dir + "urls.csv"
+            self.urls_df.to_csv(urls_file, encoding="utf-8", index=False)
+            print(f"Saved URLs to {urls_file}")
+
+    def get_new_news(self):
+        """Get new news URLs to scrape."""
+        if self.urls_df is None:
+            raise ValueError("Must call get_news_urls() first")
+        
+        # Determine which URLs to scrape
+        if len(self.previous_news_df) > 0:
+            previous_urls = set(self.previous_news_df["url"])
+            current_urls = set(self.urls_df["url"])
+            urls_to_scrape = list(current_urls - previous_urls)
+            print(f"Scraping {len(urls_to_scrape)} new articles")
+        else:
+            urls_to_scrape = self.urls_df["url"].tolist()
+            print(f"Scraping all {len(urls_to_scrape)} articles")
+        return urls_to_scrape
+
+    def get_previous_news(self):
+        """Load previously scraped news data."""
+        news_file = self.target_dir + "news.csv"
+        
+        try:
+            self.previous_news_df = pd.read_csv(news_file)
+            if "Unnamed: 0" in self.previous_news_df.columns:
+                self.previous_news_df = self.previous_news_df.drop("Unnamed: 0", axis=1)
+            self.previous_news_df["date"] = pd.to_datetime(
+                self.previous_news_df["date"], format="mixed"
+            )
+            print(f"Loaded {len(self.previous_news_df)} existing articles")
+        except FileNotFoundError:
+            print("No previous news file found, will create new one")
+            self.previous_news_df = pd.DataFrame(columns=["url", "title", "date", "news", "tag"])
+        
+        return self.previous_news_df
+
+    def scrape_news(self):
+        pass
+
+    def save_scraped_news(self, news_df):
+        """Save the scraped news data, combining with previous data if needed."""
+        news_file = self.target_dir + "news.csv"
+        
+        if self.previous_news_df is not None and len(self.previous_news_df) > 0:
+            # Combine with previous data
+            current_news_df = pd.concat([news_df, self.previous_news_df], axis=0)
+            current_news_df = (
+                current_news_df.sort_values(by="date", ascending=False)
+                .reset_index(drop=True)
+            )
+            current_news_df.to_csv(news_file, encoding="utf-8", index=False)
+            print(f"Saved {len(current_news_df)} total articles to {news_file}")
+        else:
+            # Save only new data
+            news_df.to_csv(news_file, encoding="utf-8", index=False)
+            print(f"Saved {len(news_df)} articles to {news_file}")
+
+
+class CountryScraper:
+    def __init__(self, newscraperscrapers):
+        self.newscraperscrapers = newscraperscrapers
+
+    def get_page_enum(self):
+        for newscraperscraper in self.newscraperscrapers:
+            newscraperscraper.get_page_enum()
+
+    def get_news_urls(self):
+        for newscraperscraper in self.newscraperscrapers:
+            newscraperscraper.get_news_urls()
+
+    def save_news_urls(self):
+        for newscraperscraper in self.newscraperscrapers:
+            newscraperscraper.save_news_urls()
+
+    def get_previous_news(self):
+        for newscraperscraper in self.newscraperscrapers:
+            newscraperscraper.get_previous_news()
+
+    def scrape_news(self):
+        for newscraperscraper in self.newscraperscrapers:
+            newscraperscraper.scrape_news()
+
+    def save_scraped_news(self):
+        for newscraperscraper in self.newscraperscrapers:
+            newscraperscraper.save_scraped_news()
+    
+    
