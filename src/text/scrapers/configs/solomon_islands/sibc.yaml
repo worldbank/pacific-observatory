@@ -1,0 +1,44 @@
+# SIBC (Solomon Islands Broadcasting Corporation) Configuration
+# This config file defines all site-specific details for scraping SIBC news
+
+name: "SIBC"
+country: "solomon_islands"  # Solomon Islands ISO code
+base_url: "https://www.sibconline.com.sb"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.sibconline.com.sb/?s&post_type=post&paged={num}"
+  start_page: 1
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+  # Note: Original scraper went up to page 1335, but we'll use dynamic detection
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+
+# CSS selectors for data extraction
+selectors:
+  # Thumbnail/listing page selectors
+  thumbnail: ".item-bot-content"  # Container for each article preview
+  title: ".item-title a::text"    # Article title text
+  url: ".item-title a::attr(href)" # Article URL
+  date: ".item-date-time::text"   # Publication date
+  
+  # Article page selectors  
+  article_body: ".entry-body p"   # Article content paragraphs
+  tags: ".entry-taxonomies a"    # Article tags/categories
+
+# Data cleaning configuration
+cleaning:
+  date: "clean_sibc_date"  # Custom function to handle SIBC date format
+
+# Optional authentication (not needed for SIBC)
+# auth: null
+
+# Site-specific notes:
+# - SIBC uses pagination with ?paged={num} parameter
+# - Articles are in .item-bot-content containers
+# - Date format needs cleaning (removes dashes, whitespace)
+# - Tags are in .entry-taxonomies section
+# - No authentication required

@@ -6,13 +6,17 @@ for concurrent HTTP requests, replacing the synchronous RequestsScraper.
 """
 
 import asyncio
+import logging
 import time
-from typing import Dict, List, Optional, Union, Any
+from typing import List, Dict, Optional, Union, Any
 import httpx
+from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 from lxml import etree
-import logging
-from .utils import configure_cookies
+
+# Disable httpx INFO logging to reduce noise
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
 from .models import ScrapingResult, ThumbnailRecord, ArticleRecord
 
 logger = logging.getLogger(__name__)
@@ -123,12 +127,13 @@ class AsyncHttpClient:
                     
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 404:
-                        logger.debug(f"404 Not Found: {url}")
                         return None
-                    logger.warning(f"HTTP {e.response.status_code} for {url}")
+                    if attempt == retries:  # Only log on final attempt
+                        logger.warning(f"HTTP {e.response.status_code} for {url}")
                     
                 except httpx.RequestError as e:
-                    logger.warning(f"Request error for {url}: {e}")
+                    if attempt == retries:  # Only log on final attempt
+                        logger.warning(f"Request error for {url}: {e}")
                     
                 except Exception as e:
                     logger.error(f"Unexpected error for {url}: {e}")
@@ -261,6 +266,7 @@ class AsyncHttpClient:
                 for url in urls
             ]
             
+            # Use asyncio.gather for concurrent processing
             results = await asyncio.gather(*tasks, return_exceptions=True)
             
             # Handle any exceptions that occurred

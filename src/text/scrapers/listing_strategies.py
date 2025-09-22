@@ -123,28 +123,95 @@ class PaginationStrategy(ListingStrategy):
             # Check if URLs in this batch are accessible
             url_status = await client.check_urls_batch(batch_urls)
             
-            # Count successful URLs in this batch
+            # count successful urls in this batch
             successful_urls = [url for url, success in url_status.items() if success]
             
             if not successful_urls:
-                # No successful URLs in this batch - we've reached the end
-                logger.info(f"No accessible pages found in batch starting at page {current_page}. Stopping pagination.")
+                # no successful urls in this batch - we've reached the end
+                logger.info(f"no accessible pages found in batch starting at page {current_page}. stopping pagination.")
                 break
             
-            # Yield the successful URLs for processing
+            # yield the successful urls for processing
             yield successful_urls
             
-            # If we got fewer successful URLs than the batch size, we might be near the end
+            # if we got fewer successful urls than the batch size, we might be near the end
             if len(successful_urls) < self.batch_size:
-                logger.info(f"Found {len(successful_urls)}/{self.batch_size} accessible pages. Might be near end of pagination.")
+                logger.info(f"found {len(successful_urls)}/{self.batch_size} accessible pages. might be near end of pagination.")
+            
+            # move to next batch
+            current_page += self.batch_size * self.step
+            
+            # add a small delay between batches for politeness
+            await asyncio.sleep(0.5)
+        
+        logger.info("pagination discovery completed")
+    
+    async def discover_and_scrape(
+        self,
+        client: AsyncHttpClient,
+        base_url: str,
+        thumbnail_selector: str
+    ) -> AsyncGenerator[List, None]:
+        """
+        Discover URLs and immediately scrape thumbnails in a single request per URL.
+        
+        This method combines discovery and scraping to ensure each URL is only
+        requested once, improving efficiency and reducing server load.
+        
+        Args:
+            client: HTTP client for making requests
+            base_url: Base URL of the website
+            thumbnail_selector: CSS selector for thumbnail elements
+            
+        Yields:
+            Lists of ScrapingResult objects containing thumbnail data
+        """
+        current_page = self.start_page
+        
+        logger.info(f"Starting combined pagination discovery and scraping from page {current_page}")
+        
+        batch_number = 1
+        total_pages_processed = 0
+        
+        while True:
+            # Generate batch of page URLs
+            batch_urls = self.generate_page_urls(current_page, self.batch_size)
+            
+            # Log batch start
+            logger.info(f"Processing batch {batch_number}: pages {current_page}-{current_page + self.batch_size - 1}")
+            
+            # Scrape all URLs in this batch (this will return 404 for non-existent pages)
+            scraping_results = await client.scrape_urls(batch_urls, thumbnail_selector)
+            
+            # Filter successful results (200 status)
+            successful_results = [result for result in scraping_results if result.success]
+            
+            if not successful_results:
+                # No successful pages in this batch - we've reached the end
+                logger.info(f"Batch {batch_number}: No accessible pages found. Stopping pagination.")
+                break
+            
+            # Update counters
+            total_pages_processed += len(successful_results)
+            
+            # Yield the successful scraping results
+            yield successful_results
+            
+            # Log batch completion
+            logger.info(f"Batch {batch_number} completed: {len(successful_results)} pages processed, {total_pages_processed} total pages")
+            
+            # If we got fewer successful results than the batch size, we might be near the end
+            if len(successful_results) < self.batch_size:
+                logger.info(f"Batch {batch_number}: Found {len(successful_results)}/{self.batch_size} pages. Might be near end of pagination.")
             
             # Move to next batch
             current_page += self.batch_size * self.step
+            batch_number += 1
             
             # Add a small delay between batches for politeness
             await asyncio.sleep(0.5)
         
-        logger.info("Pagination discovery completed")
+        logger.info("Combined pagination discovery and scraping completed")
 
 
 class ArchiveStrategy(ListingStrategy):

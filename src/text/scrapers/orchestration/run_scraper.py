@@ -14,10 +14,41 @@ from pathlib import Path
 from typing import Optional
 
 # Add the parent directory to the path so we can import our modules
-sys.path.insert(0, str(Path(__file__).parent.parent))
+scrapers_dir = Path(__file__).parent.parent
+sys.path.insert(0, str(scrapers_dir))
 
-from factory import create_scraper_from_file, find_config_files, get_default_configs_dir
-from pipelines.storage import JsonlStorage
+# Import with absolute paths to avoid relative import issues
+try:
+    # First try importing as if we're running from the scrapers directory
+    import factory
+    import pipelines.storage
+    create_scraper_from_file = factory.create_scraper_from_file
+    find_config_files = factory.find_config_files
+    get_default_configs_dir = factory.get_default_configs_dir
+    JsonlStorage = pipelines.storage.JsonlStorage
+except ImportError:
+    # If that fails, try adding the scrapers directory to sys.path and importing directly
+    import importlib.util
+    
+    # Import factory module
+    factory_path = scrapers_dir / "factory.py"
+    spec = importlib.util.spec_from_file_location("factory", factory_path)
+    factory = importlib.util.module_from_spec(spec)
+    sys.modules["factory"] = factory
+    spec.loader.exec_module(factory)
+    
+    create_scraper_from_file = factory.create_scraper_from_file
+    find_config_files = factory.find_config_files
+    get_default_configs_dir = factory.get_default_configs_dir
+    
+    # Import storage module
+    storage_path = scrapers_dir / "pipelines" / "storage.py"
+    spec = importlib.util.spec_from_file_location("storage", storage_path)
+    storage = importlib.util.module_from_spec(spec)
+    sys.modules["storage"] = storage
+    spec.loader.exec_module(storage)
+    
+    JsonlStorage = storage.JsonlStorage
 
 
 def setup_logging(level: str = "INFO", log_file: Optional[Path] = None):

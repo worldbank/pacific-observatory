@@ -6,8 +6,8 @@ to ensure consistency and data quality.
 """
 
 from datetime import date, datetime
-from typing import List, Optional, Union
-from pydantic import BaseModel, HttpUrl, validator, Field
+from typing import List, Optional, Union, Any
+from pydantic import BaseModel, HttpUrl, field_validator, Field, ConfigDict
 
 
 class ThumbnailRecord(BaseModel):
@@ -17,27 +17,33 @@ class ThumbnailRecord(BaseModel):
     This represents the basic information extracted from article listings
     or archive pages before scraping the full article content.
     """
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    
     url: HttpUrl = Field(..., description="Full URL to the article")
     title: str = Field(..., min_length=1, description="Article title")
-    date: Union[date, str] = Field(..., description="Publication date")
+    date: str = Field(..., description="Publication date as string")
     
-    @validator('title')
-    def title_must_not_be_empty(cls, v):
+    @field_validator('title')
+    @classmethod
+    def title_must_not_be_empty(cls, v: str) -> str:
         if not v or not v.strip():
             raise ValueError('Title cannot be empty or whitespace only')
         return v.strip()
     
-    @validator('date', pre=True)
-    def parse_date(cls, v):
-        """Parse various date formats into a standardized format."""
+    @field_validator('date', mode='before')
+    @classmethod
+    def parse_date(cls, v: Any) -> str:
+        """Parse various date formats into a string."""
         if isinstance(v, date):
-            return v
+            return v.isoformat()
         if isinstance(v, datetime):
-            return v.date()
+            return v.date().isoformat()
         if isinstance(v, str):
-            # Return as string for now - can be processed by cleaning functions
+            # Return as string - can be processed by cleaning functions
             return v.strip()
-        raise ValueError(f'Invalid date format: {v}')
+        if v is None:
+            return ""
+        return str(v)
 
 
 class ArticleRecord(BaseModel):
@@ -47,29 +53,34 @@ class ArticleRecord(BaseModel):
     This represents the full article information after scraping
     the individual article pages.
     """
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    
     url: HttpUrl = Field(..., description="Full URL to the article")
     title: str = Field(..., min_length=1, description="Article title")
-    date: Union[date, str] = Field(..., description="Publication date")
+    date: str = Field(..., description="Publication date as string")
     body: str = Field(..., min_length=1, description="Full article text content")
     tags: Optional[List[str]] = Field(default_factory=list, description="Article tags/categories")
     source: str = Field(..., description="Name of the news source")
     country: str = Field(..., description="Country code (ISO 3166-1 alpha-2)")
     
-    @validator('title', 'body', 'source')
-    def text_fields_must_not_be_empty(cls, v):
+    @field_validator('title', 'body', 'source')
+    @classmethod
+    def text_fields_must_not_be_empty(cls, v: str) -> str:
         if not v or not v.strip():
             raise ValueError('Text fields cannot be empty or whitespace only')
         return v.strip()
     
-    @validator('country')
-    def country_must_be_valid_code(cls, v):
+    @field_validator('country')
+    @classmethod
+    def country_must_be_valid_code(cls, v: str) -> str:
         """Validate that country is a 2-letter code."""
         if not v or len(v.strip()) != 2:
             raise ValueError('Country must be a 2-letter ISO code')
         return v.strip().upper()
     
-    @validator('tags', pre=True)
-    def parse_tags(cls, v):
+    @field_validator('tags', mode='before')
+    @classmethod
+    def parse_tags(cls, v: Any) -> List[str]:
         """Ensure tags is always a list."""
         if v is None:
             return []
@@ -80,17 +91,20 @@ class ArticleRecord(BaseModel):
             return [str(tag).strip() for tag in v if str(tag).strip()]
         return []
     
-    @validator('date', pre=True)
-    def parse_date(cls, v):
-        """Parse various date formats into a standardized format."""
+    @field_validator('date', mode='before')
+    @classmethod
+    def parse_date(cls, v: Any) -> str:
+        """Parse various date formats into a string."""
         if isinstance(v, date):
-            return v
+            return v.isoformat()
         if isinstance(v, datetime):
-            return v.date()
+            return v.date().isoformat()
         if isinstance(v, str):
-            # Return as string for now - can be processed by cleaning functions
+            # Return as string - can be processed by cleaning functions
             return v.strip()
-        raise ValueError(f'Invalid date format: {v}')
+        if v is None:
+            return ""
+        return str(v)
 
 
 class ScrapingResult(BaseModel):
@@ -99,16 +113,19 @@ class ScrapingResult(BaseModel):
     
     This wraps the scraped data with metadata about the scraping operation.
     """
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    
     success: bool = Field(..., description="Whether the scraping was successful")
-    data: Optional[Union[ThumbnailRecord, ArticleRecord, List[ThumbnailRecord], List[ArticleRecord]]] = None
+    data: Optional[Any] = None  # Simplified to avoid complex Union types
     error: Optional[str] = None
     url: Optional[HttpUrl] = None
     timestamp: datetime = Field(default_factory=datetime.now)
     
-    @validator('error')
-    def error_when_not_success(cls, v, values):
+    @field_validator('error')
+    @classmethod
+    def error_when_not_success(cls, v: Optional[str], info) -> Optional[str]:
         """Ensure error is provided when success is False."""
-        if not values.get('success', True) and not v:
+        if hasattr(info, 'data') and not info.data.get('success', True) and not v:
             raise ValueError('Error message must be provided when success is False')
         return v
 
@@ -120,6 +137,8 @@ class NewspaperConfig(BaseModel):
     This validates the YAML configuration files used to define
     newspaper-specific scraping parameters.
     """
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    
     name: str = Field(..., description="Human-readable newspaper name")
     country: str = Field(..., description="Country code (ISO 3166-1 alpha-2)")
     base_url: HttpUrl = Field(..., description="Base URL of the newspaper website")
@@ -135,22 +154,25 @@ class NewspaperConfig(BaseModel):
     cleaning: Optional[dict] = Field(default=None, description="Data cleaning configuration")
     client: str = Field(default="http", description="Client type: 'http' or 'browser'")
     
-    @validator('country')
-    def country_must_be_valid_code(cls, v):
+    @field_validator('country')
+    @classmethod
+    def country_must_be_valid_code(cls, v: str) -> str:
         """Validate that country is a 2-letter code."""
         if not v or len(v.strip()) != 2:
             raise ValueError('Country must be a 2-letter ISO code')
         return v.strip().upper()
     
-    @validator('client')
-    def client_must_be_valid(cls, v):
+    @field_validator('client')
+    @classmethod
+    def client_must_be_valid(cls, v: str) -> str:
         """Validate client type."""
         if v not in ['http', 'browser']:
             raise ValueError('Client must be either "http" or "browser"')
         return v
     
-    @validator('listing')
-    def listing_must_have_type(cls, v):
+    @field_validator('listing')
+    @classmethod
+    def listing_must_have_type(cls, v: dict) -> dict:
         """Validate listing configuration has required fields."""
         if 'type' not in v:
             raise ValueError('Listing configuration must specify a type')
@@ -158,8 +180,9 @@ class NewspaperConfig(BaseModel):
             raise ValueError('Listing type must be one of: pagination, archive, category, search')
         return v
     
-    @validator('selectors')
-    def selectors_must_have_required_fields(cls, v):
+    @field_validator('selectors')
+    @classmethod
+    def selectors_must_have_required_fields(cls, v: dict) -> dict:
         """Validate selectors have minimum required fields."""
         required_fields = ['thumbnail', 'title', 'url', 'date']
         missing_fields = [field for field in required_fields if field not in v]
