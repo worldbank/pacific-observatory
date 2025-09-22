@@ -627,7 +627,7 @@ class NewspaperScraper:
             thumbnails = await self.discover_and_scrape_thumbnails()
             
             # Step 3: Scrape full articles
-            articles = await self.scrape_articles(thumbnails[:10])
+            articles = await self.scrape_articles(thumbnails)
             
             # Compile results
             results = {
