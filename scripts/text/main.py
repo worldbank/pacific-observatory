@@ -8,7 +8,6 @@ using the new config-driven architecture.
 Usage:
     python scripts/text/main.py --help
     python scripts/text/main.py sibc
-    python scripts/text/main.py sibc --country SB
     python scripts/text/main.py --list-scrapers
     python scripts/text/main.py --list-countries
 """
@@ -175,7 +174,7 @@ def list_available_scrapers():
             for config_file in sorted(config_files):
                 newspaper_name = config_file.stem
                 print(f"  📄 {newspaper_name}")
-                print(f"     Command: python scripts/text/main.py {newspaper_name} --country {country_name}")
+                print(f"     Command: python scripts/text/main.py {newspaper_name}")
     
     if not scrapers_found:
         print("No scrapers configured yet.")
@@ -296,7 +295,6 @@ def main():
         epilog="""
 Examples:
   python scripts/text/main.py sibc                    # Run SIBC scraper
-  python scripts/text/main.py sibc --country SB       # Run SIBC with country filter
   python scripts/text/main.py --list-scrapers         # List all available scrapers
   python scripts/text/main.py --list-countries        # List all countries
   python scripts/text/main.py sibc --no-save          # Run without saving results

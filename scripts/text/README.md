@@ -15,9 +15,6 @@ python scripts/text/main.py --list-countries
 
 # Run the SIBC scraper
 python scripts/text/main.py sibc
-
-# Run with country filter (optional)
-python scripts/text/main.py sibc --country solomon_islands
 ```
 
 ## Available Commands
@@ -28,7 +25,6 @@ python scripts/text/main.py sibc --country solomon_islands
 
 ### Scraping Commands
 - `<newspaper_name>` - Run a specific newspaper scraper
-- `--country <code>` - Filter by country (optional)
 - `--storage-dir <path>` - Custom storage directory
 - `--no-save` - Dry run without saving results
 
@@ -41,9 +37,6 @@ python scripts/text/main.py sibc --country solomon_islands
 ```bash
 # Basic usage
 python scripts/text/main.py sibc
-
-# With country filter
-python scripts/text/main.py sibc --country solomon_islands
 
 # Dry run (no saving)
 python scripts/text/main.py sibc --no-save

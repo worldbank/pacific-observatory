@@ -167,11 +167,6 @@ async def main():
     )
     
     parser.add_argument(
-        "--country",
-        help="Country code (used with newspaper name to find config)"
-    )
-    
-    parser.add_argument(
         "--storage-dir",
         type=Path,
         help="Custom storage directory for results"
