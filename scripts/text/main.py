@@ -105,15 +105,10 @@ async def run_single_scraper(
             'duration_seconds': duration.total_seconds()
         }
         
-        # Save results if requested
-        if save_results and storage and results['success']:
-            logger.info("Saving scraping results...")
-            saved_files = storage.save_scraping_results(
-                results, 
-                scraper.country, 
-                scraper.name,
-                start_time
-            )
+        # Results are already saved by the scraper itself
+        # Just get the file paths from the scraper
+        if save_results and results['success']:
+            saved_files = getattr(scraper, '_saved_files', {})
             results['saved_files'] = {str(k): str(v) for k, v in saved_files.items()}
         
         # Clean up resources

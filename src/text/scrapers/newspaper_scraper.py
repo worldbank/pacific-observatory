@@ -66,9 +66,8 @@ class NewspaperScraper:
         # Data storage
         self.scraped_thumbnails: List[ThumbnailRecord] = []
         self.scraped_articles: List[ArticleRecord] = []
-        
-        # Error tracking
         self.failed_urls: List[Dict[str, Any]] = []
+        self._saved_files = {}  # Track files saved by this scraper
     
     def _get_http_client(self) -> AsyncHttpClient:
         """Get or create HTTP client."""
@@ -205,6 +204,7 @@ class NewspaperScraper:
                 f.write(json.dumps(thumb_data, ensure_ascii=False) + '\n')
         
         logger.info(f"Saved {len(thumbnails)} thumbnails to {filepath}")
+        self._saved_files['urls'] = filepath
         return filepath
 
     async def _load_existing_thumbnails(self) -> Optional[List[ThumbnailRecord]]:
@@ -484,12 +484,6 @@ class NewspaperScraper:
             # Scrape articles with tqdm progress bar
             logger.info(f"Scraping {len(article_urls)} articles...")
             
-            # Create tasks for all articles
-            tasks = []
-            for i, url in enumerate(article_urls):
-                task = client.scrape_url(client._get_http_client()._client if hasattr(client, '_client') else httpx.AsyncClient(), url, list(article_selectors.values()))
-                tasks.append((i, task))
-            
             # Process with tqdm progress bar
             async with httpx.AsyncClient() as http_client:
                 for i, thumbnail in enumerate(tqdm(thumbnails, desc="Scraping articles")):
@@ -574,6 +568,48 @@ class NewspaperScraper:
                 f.write(json.dumps(article_dict, ensure_ascii=False) + '\n')
         
         logger.info(f"Saved {len(articles)} articles to {filepath}")
+        self._saved_files['articles'] = filepath
+        return filepath
+
+    async def _save_metadata(self, results: Dict[str, Any]) -> Path:
+        """
+        Save scraping metadata to JSON file.
+        
+        Args:
+            results: Scraping results dictionary
+            
+        Returns:
+            Path to the saved file
+        """
+        # Get data folder path from environment or use default
+        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
+        
+        # Create structured path: data_folder/text/{country}/{newspaper_name}/
+        structured_path = data_folder / "text" / self.country / self.name.lower()
+        structured_path.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with today's date
+        today = datetime.now().strftime("%Y%m%d")
+        filename = f"results_{today}.json"
+        filepath = structured_path / filename
+        
+        # Save metadata as JSON
+        metadata = {
+            "newspaper": self.name,
+            "country": self.country,
+            "scraped_at": datetime.now().isoformat(),
+            "success": results.get("success", False),
+            "statistics": results.get("statistics", {}),
+            "timing": results.get("timing", {}),
+            "errors": results.get("errors", []),
+            "saved_files": {k: str(v) for k, v in self._saved_files.items()}
+        }
+        
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(metadata, f, ensure_ascii=False, indent=2)
+        
+        logger.info(f"Saved metadata to {filepath}")
+        self._saved_files['metadata'] = filepath
         return filepath
     
     async def run_full_scrape(self) -> Dict[str, Any]:
@@ -591,7 +627,7 @@ class NewspaperScraper:
             thumbnails = await self.discover_and_scrape_thumbnails()
             
             # Step 3: Scrape full articles
-            articles = await self.scrape_articles(thumbnails)
+            articles = await self.scrape_articles(thumbnails[:10])
             
             # Compile results
             results = {
@@ -604,11 +640,30 @@ class NewspaperScraper:
                     "failed_urls": len(self.failed_urls)
                 },
                 "data": {
-                    "thumbnails": [thumb.dict() for thumb in thumbnails],
-                    "articles": [article.dict() for article in articles]
+                    "thumbnails": [
+                        {
+                            "url": str(thumb.url),
+                            "title": thumb.title,
+                            "date": thumb.date
+                        } for thumb in thumbnails
+                    ],
+                    "articles": [
+                        {
+                            "url": str(article.url),
+                            "title": article.title,
+                            "date": article.date,
+                            "body": article.body,
+                            "tags": article.tags,
+                            "source": article.source,
+                            "country": article.country
+                        } for article in articles
+                    ]
                 },
                 "errors": self.failed_urls
             }
+            
+            # Save metadata
+            await self._save_metadata(results)
             
             logger.info(f"Scraping completed for {self.name}: {len(articles)} articles scraped")
             return results

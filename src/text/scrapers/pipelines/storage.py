@@ -184,6 +184,92 @@ class JsonlStorage:
         logger.info(f"Saved {len(articles)} articles to {file_path}")
         return file_path
     
+    def _save_thumbnails_dict(
+        self,
+        thumbnails_data: List[Dict[str, Any]],
+        country: str,
+        newspaper: str,
+        timestamp: datetime = None
+    ) -> Path:
+        """
+        Save thumbnail data directly from dictionary format.
+        
+        Args:
+            thumbnails_data: List of thumbnail dictionaries (already JSON-serializable)
+            country: Country code
+            newspaper: Newspaper name
+            timestamp: Optional timestamp for filename
+            
+        Returns:
+            Path to the saved file
+        """
+        if timestamp is None:
+            timestamp = datetime.now()
+        
+        # Create directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        newspaper_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with timestamp
+        filename = f"thumbnails_{timestamp.strftime('%Y%m%d_%H%M%S')}.jsonl"
+        file_path = newspaper_dir / filename
+        
+        # Save data
+        with open(file_path, 'w', encoding='utf-8') as f:
+            for thumbnail_data in thumbnails_data:
+                # Add metadata
+                data = thumbnail_data.copy()
+                data['_scraped_at'] = timestamp.isoformat()
+                data['_country'] = country
+                data['_newspaper'] = newspaper
+                
+                f.write(json.dumps(data, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(thumbnails_data)} thumbnails to {file_path}")
+        return file_path
+    
+    def _save_articles_dict(
+        self,
+        articles_data: List[Dict[str, Any]],
+        country: str,
+        newspaper: str,
+        timestamp: datetime = None
+    ) -> Path:
+        """
+        Save article data directly from dictionary format.
+        
+        Args:
+            articles_data: List of article dictionaries (already JSON-serializable)
+            country: Country code
+            newspaper: Newspaper name
+            timestamp: Optional timestamp for filename
+            
+        Returns:
+            Path to the saved file
+        """
+        if timestamp is None:
+            timestamp = datetime.now()
+        
+        # Create directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        newspaper_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with timestamp
+        filename = f"articles_{timestamp.strftime('%Y%m%d_%H%M%S')}.jsonl"
+        file_path = newspaper_dir / filename
+        
+        # Save data
+        with open(file_path, 'w', encoding='utf-8') as f:
+            for article_data in articles_data:
+                # Add metadata
+                data = article_data.copy()
+                data['_scraped_at'] = timestamp.isoformat()
+                
+                f.write(json.dumps(data, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(articles_data)} articles to {file_path}")
+        return file_path
+    
     def save_raw_html(
         self,
         url: str,
@@ -257,17 +343,15 @@ class JsonlStorage:
         if 'thumbnails' in results.get('data', {}):
             thumbnails_data = results['data']['thumbnails']
             if thumbnails_data:
-                # Convert dict data back to ThumbnailRecord objects
-                thumbnails = [ThumbnailRecord(**thumb) for thumb in thumbnails_data]
-                saved_files['thumbnails'] = self.save_thumbnails(thumbnails, country, newspaper, timestamp)
+                # Save thumbnails directly as dict data (already JSON-serializable)
+                saved_files['thumbnails'] = self._save_thumbnails_dict(thumbnails_data, country, newspaper, timestamp)
         
         # Save articles if present
         if 'articles' in results.get('data', {}):
             articles_data = results['data']['articles']
             if articles_data:
-                # Convert dict data back to ArticleRecord objects
-                articles = [ArticleRecord(**article) for article in articles_data]
-                saved_files['articles'] = self.save_articles(articles, country, newspaper, timestamp)
+                # Save articles directly as dict data (already JSON-serializable)
+                saved_files['articles'] = self._save_articles_dict(articles_data, country, newspaper, timestamp)
         
         # Save metadata and statistics
         metadata_file = self.save_metadata(results, country, newspaper, timestamp)
