@@ -102,14 +102,23 @@ class NewspaperScraper:
     
     async def discover_and_scrape_thumbnails(self) -> List[ThumbnailRecord]:
         """
-        Discover listing pages and scrape thumbnails in a single pass.
+        Discover listing pages and scrape thumbnails, with smart caching.
         
-        This method combines URL discovery and thumbnail scraping to ensure
-        each URL is only requested once, improving efficiency.
+        First checks if today's thumbnails already exist. If yes, loads them.
+        If no, performs discovery and scraping, then saves the results.
         
         Returns:
             List of ThumbnailRecord objects
         """
+        # Try to load existing thumbnails from today's file
+        existing_thumbnails = await self._load_existing_thumbnails()
+        if existing_thumbnails:
+            logger.info("Using existing thumbnails from today's file - skipping discovery")
+            return existing_thumbnails
+        
+        # No existing file, perform discovery and scraping
+        logger.info("No existing thumbnails found - performing discovery and scraping")
+        
         if self.client_type == "http":
             client = self._get_http_client()
         else:
@@ -160,29 +169,34 @@ class NewspaperScraper:
         
         return thumbnails
 
-    async def _save_thumbnails_to_jsonl(self, thumbnails: List[ThumbnailRecord]) -> None:
+    async def _save_thumbnails_to_jsonl(self, thumbnails: List[ThumbnailRecord]) -> Path:
         """
-        Save thumbnails to JSONL file in the data folder.
+        Save thumbnails to JSONL file in structured data folder.
         
         Args:
             thumbnails: List of ThumbnailRecord objects to save
+            
+        Returns:
+            Path to the saved file
         """
         if not thumbnails:
-            return
+            return None
         
         # Get data folder path from environment or use default
         data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
-        data_folder.mkdir(parents=True, exist_ok=True)
         
-        # Create filename with timestamp
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"{self.country}_{self.name}_thumbnails_{timestamp}.jsonl"
-        filepath = data_folder / filename
+        # Create structured path: data_folder/text/{country}/{newspaper_name}/
+        structured_path = data_folder / "text" / self.country / self.name.lower()
+        structured_path.mkdir(parents=True, exist_ok=True)
         
-        # Save thumbnails as JSONL
+        # Create filename with today's date
+        today = datetime.now().strftime("%Y%m%d")
+        filename = f"urls_{today}.jsonl"
+        filepath = structured_path / filename
+        
+        # Save thumbnails as JSONL (one JSON object per line)
         with open(filepath, 'w', encoding='utf-8') as f:
             for thumbnail in thumbnails:
-                # Convert to dict and keep only essential fields
                 thumb_data = {
                     "url": str(thumbnail.url),
                     "title": thumbnail.title,
@@ -191,6 +205,50 @@ class NewspaperScraper:
                 f.write(json.dumps(thumb_data, ensure_ascii=False) + '\n')
         
         logger.info(f"Saved {len(thumbnails)} thumbnails to {filepath}")
+        return filepath
+
+    async def _load_existing_thumbnails(self) -> Optional[List[ThumbnailRecord]]:
+        """
+        Load existing thumbnails from today's JSONL file if it exists.
+        
+        Returns:
+            List of ThumbnailRecord objects if file exists, None otherwise
+        """
+        # Get data folder path from environment or use default
+        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
+        
+        # Create structured path: data_folder/text/{country}/{newspaper_name}/
+        structured_path = data_folder / "text" / self.country / self.name.lower()
+        
+        # Check for today's file
+        today = datetime.now().strftime("%Y%m%d")
+        filename = f"urls_{today}.jsonl"
+        filepath = structured_path / filename
+        
+        if not filepath.exists():
+            logger.info(f"No existing thumbnails file found for today: {filepath}")
+            return None
+        
+        try:
+            thumbnails = []
+            with open(filepath, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line:  # Skip empty lines
+                        data = json.loads(line)
+                        thumbnail = ThumbnailRecord(
+                            url=data["url"],
+                            title=data["title"],
+                            date=data["date"]
+                        )
+                        thumbnails.append(thumbnail)
+            
+            logger.info(f"Loaded {len(thumbnails)} existing thumbnails from {filepath}")
+            return thumbnails
+            
+        except Exception as e:
+            logger.error(f"Failed to load existing thumbnails from {filepath}: {e}")
+            return None
 
     async def discover_listing_urls(self) -> List[str]:
         """
@@ -399,7 +457,7 @@ class NewspaperScraper:
     
     async def scrape_articles(self, thumbnails: List[ThumbnailRecord]) -> List[ArticleRecord]:
         """
-        Scrape full article content from thumbnail URLs.
+        Scrape full article content from thumbnail URLs with progress tracking.
         
         Args:
             thumbnails: List of ThumbnailRecord objects
@@ -420,65 +478,103 @@ class NewspaperScraper:
                 "tags": self.selectors.get("tags", "")
             }
             
-            # Scrape articles in batches with progress tracking
-            batch_size = 10  # Increased batch size for better performance
-            logger.info(f"Scraping {len(article_urls)} articles in batches of {batch_size}")
+            # Import tqdm for progress tracking
+            from tqdm.asyncio import tqdm
             
-            for i in range(0, len(article_urls), batch_size):
-                batch_urls = article_urls[i:i + batch_size]
-                
-                # Scrape this batch (tqdm progress bar is handled in client.scrape_urls)
-                results = await client.scrape_urls(batch_urls, list(article_selectors.values()))
-                
-                # Process results without verbose logging
-                batch_articles = 0
-                
-                for j, result in enumerate(results):
-                    if not result.success:
-                        self.failed_urls.append({
-                            "url": result.url,
-                            "error": result.error,
-                            "stage": "article_content"
-                        })
-                        continue
-                    
+            # Scrape articles with tqdm progress bar
+            logger.info(f"Scraping {len(article_urls)} articles...")
+            
+            # Create tasks for all articles
+            tasks = []
+            for i, url in enumerate(article_urls):
+                task = client.scrape_url(client._get_http_client()._client if hasattr(client, '_client') else httpx.AsyncClient(), url, list(article_selectors.values()))
+                tasks.append((i, task))
+            
+            # Process with tqdm progress bar
+            async with httpx.AsyncClient() as http_client:
+                for i, thumbnail in enumerate(tqdm(thumbnails, desc="Scraping articles")):
                     try:
-                        # Get corresponding thumbnail
-                        thumb_index = i + j
-                        if thumb_index < len(thumbnails):
-                            thumbnail = thumbnails[thumb_index]
-                            
-                            # Extract article data (simplified - would need more sophisticated extraction)
-                            article_data = {
+                        # Scrape individual article
+                        result = await client.scrape_url(http_client, str(thumbnail.url), list(article_selectors.values()))
+                        
+                        if not result.success:
+                            self.failed_urls.append({
                                 "url": str(thumbnail.url),
-                                "title": thumbnail.title,
-                                "date": thumbnail.date,
-                                "body": "Article content would be extracted here",  # Placeholder
-                                "tags": [],
-                                "source": self.name,
-                                "country": self.country
-                            }
-                            
-                            article = ArticleRecord(**article_data)
-                            articles.append(article)
-                            batch_articles += 1
+                                "error": result.error,
+                                "stage": "article_content"
+                            })
+                            continue
+                        
+                        # Extract article data (simplified - would need more sophisticated extraction)
+                        article_data = {
+                            "url": str(thumbnail.url),
+                            "title": thumbnail.title,
+                            "date": thumbnail.date,
+                            "body": "Article content would be extracted here",  # Placeholder
+                            "tags": [],
+                            "source": self.name,
+                            "country": self.country
+                        }
+                        
+                        article = ArticleRecord(**article_data)
+                        articles.append(article)
                     
                     except Exception as e:
-                        logger.error(f"Failed to create ArticleRecord: {e}")
-                
-                # Log batch progress
-                logger.info(f"Processed batch {i//batch_size + 1}: {batch_articles} articles, {len(articles)} total")
-                
-                # Small delay between batches
-                await asyncio.sleep(0.5)
+                        logger.error(f"Failed to scrape article {thumbnail.url}: {e}")
         
         else:
             # Browser client implementation would go here
             pass
         
         logger.info(f"Scraped {len(articles)} articles from {len(thumbnails)} thumbnails")
+        
+        # Save articles to structured JSONL file
+        await self._save_articles_to_jsonl(articles)
+        
         self.scraped_articles = articles
         return articles
+
+    async def _save_articles_to_jsonl(self, articles: List[ArticleRecord]) -> Path:
+        """
+        Save articles to JSONL file in structured data folder.
+        
+        Args:
+            articles: List of ArticleRecord objects to save
+            
+        Returns:
+            Path to the saved file
+        """
+        if not articles:
+            return None
+        
+        # Get data folder path from environment or use default
+        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
+        
+        # Create structured path: data_folder/text/{country}/{newspaper_name}/
+        structured_path = data_folder / "text" / self.country / self.name.lower()
+        structured_path.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with today's date
+        today = datetime.now().strftime("%Y%m%d")
+        filename = f"news_{today}.jsonl"
+        filepath = structured_path / filename
+        
+        # Save articles as JSONL (one JSON object per line)
+        with open(filepath, 'w', encoding='utf-8') as f:
+            for article in articles:
+                article_dict = {
+                    "url": str(article.url),
+                    "title": article.title,
+                    "date": article.date,
+                    "body": article.body,
+                    "tags": article.tags,
+                    "source": article.source,
+                    "country": article.country
+                }
+                f.write(json.dumps(article_dict, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(articles)} articles to {filepath}")
+        return filepath
     
     async def run_full_scrape(self) -> Dict[str, Any]:
         """

@@ -61,7 +61,7 @@ class ArticleRecord(BaseModel):
     body: str = Field(..., min_length=1, description="Full article text content")
     tags: Optional[List[str]] = Field(default_factory=list, description="Article tags/categories")
     source: str = Field(..., description="Name of the news source")
-    country: str = Field(..., description="Country code (ISO 3166-1 alpha-2)")
+    country: str = Field(..., description="Country identifier (can be any string)")
     
     @field_validator('title', 'body', 'source')
     @classmethod
@@ -72,11 +72,11 @@ class ArticleRecord(BaseModel):
     
     @field_validator('country')
     @classmethod
-    def country_must_be_valid_code(cls, v: str) -> str:
-        """Validate that country is a 2-letter code."""
-        if not v or len(v.strip()) != 2:
-            raise ValueError('Country must be a 2-letter ISO code')
-        return v.strip().upper()
+    def country_must_not_be_empty(cls, v: str) -> str:
+        """Validate that country is not empty."""
+        if not v or not v.strip():
+            raise ValueError('Country cannot be empty')
+        return v.strip()
     
     @field_validator('tags', mode='before')
     @classmethod
@@ -140,7 +140,7 @@ class NewspaperConfig(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
     
     name: str = Field(..., description="Human-readable newspaper name")
-    country: str = Field(..., description="Country code (ISO 3166-1 alpha-2)")
+    country: str = Field(..., description="Country identifier (can be any string)")
     base_url: HttpUrl = Field(..., description="Base URL of the newspaper website")
     
     # Listing configuration
@@ -156,11 +156,11 @@ class NewspaperConfig(BaseModel):
     
     @field_validator('country')
     @classmethod
-    def country_must_be_valid_code(cls, v: str) -> str:
-        """Validate that country is a 2-letter code."""
-        if not v or len(v.strip()) != 2:
-            raise ValueError('Country must be a 2-letter ISO code')
-        return v.strip().upper()
+    def country_must_not_be_empty(cls, v: str) -> str:
+        """Validate that country is not empty."""
+        if not v or not v.strip():
+            raise ValueError('Country cannot be empty')
+        return v.strip()
     
     @field_validator('client')
     @classmethod
