@@ -183,9 +183,99 @@ def clean_title(title: str) -> str:
     return title
 
 
+def clean_solomon_star_date(date_str: str) -> str:
+    """
+    Clean Solomon Star date format.
+    
+    Handles pandas "mixed" format parsing that was used in the original scraper:
+    urls_df["date"] = pd.to_datetime(urls_df["date"], format="mixed")
+    
+    Args:
+        date_str: Raw date string from Solomon Star
+        
+    Returns:
+        Standardized date string (YYYY-MM-DD format)
+    """
+    if not date_str:
+        return ""
+    
+    try:
+        import pandas as pd
+        # Replicate the original pandas "mixed" format processing
+        parsed_date = pd.to_datetime(date_str, format="mixed")
+        return parsed_date.strftime("%Y-%m-%d")
+    except Exception as e:
+        logger.warning(f"Could not parse Solomon Star date '{date_str}': {e}")
+        # Fallback to handle_mixed_dates function
+        return handle_mixed_dates(date_str)
+
+
+def clean_solomon_star_content(content_element) -> str:
+    """
+    Clean Solomon Star article content.
+    
+    Replicates the original scraper logic:
+    text = " ".join(p.text for p in text_entry.find_all("p"))
+    
+    Args:
+        content_element: BeautifulSoup element containing article content
+        
+    Returns:
+        Cleaned content string with paragraphs joined by spaces
+    """
+    if not content_element:
+        return ""
+    
+    try:
+        if hasattr(content_element, 'find_all'):
+            paragraphs = content_element.find_all("p")
+            # Join paragraph text with spaces, filtering out empty paragraphs
+            content_parts = [p.text.strip() for p in paragraphs if p.text.strip()]
+            return " ".join(content_parts)
+        else:
+            # If it's already text, clean it
+            return clean_html_text(str(content_element))
+    except Exception as e:
+        logger.error(f"Error cleaning Solomon Star content: {e}")
+        return clean_html_text(str(content_element))
+
+
+def clean_solomon_star_tags(tags_element) -> str:
+    """
+    Clean Solomon Star tags/categories.
+    
+    Replicates the original scraper logic:
+    tag = ", ".join(p.text for p in tag_entry.find_all("a"))
+    
+    Args:
+        tags_element: BeautifulSoup element containing category links
+        
+    Returns:
+        Comma-separated tags string
+    """
+    if not tags_element:
+        return ""
+    
+    try:
+        if hasattr(tags_element, 'find_all'):
+            links = tags_element.find_all("a")
+            # Join link text with commas, filtering out empty tags
+            tag_parts = [link.text.strip() for link in links if link.text.strip()]
+            return ", ".join(tag_parts)
+        else:
+            # If it's already text, return cleaned version
+            return clean_html_text(str(tags_element))
+    except Exception as e:
+        logger.error(f"Error cleaning Solomon Star tags: {e}")
+        return clean_html_text(str(tags_element))
+
+
 # Registry of available cleaning functions
 CLEANING_FUNCTIONS = {
     'clean_sibc_date': clean_sibc_date,
+    'clean_solomon_star_date': clean_solomon_star_date,
+    'clean_solomon_star_content': clean_solomon_star_content,
+    'clean_solomon_star_tags': clean_solomon_star_tags,
     'handle_mixed_dates': handle_mixed_dates,
     'clean_html_text': clean_html_text,
     'normalize_tags': normalize_tags,
