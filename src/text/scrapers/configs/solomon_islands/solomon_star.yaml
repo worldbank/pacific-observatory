@@ -19,7 +19,7 @@ listing:
 client: "http"  # Use HTTP client (not browser-based)
 concurrency: 20  # Maximum concurrent requests (default: 10)
 rate_limit: 5  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
-retries: 20     # Number of retry attempts for failed requests
+retries: 50     # Number of retry attempts for failed requests
 retry_seconds: 1.0  # Wait time in seconds between retry attempts
 
 headers:
