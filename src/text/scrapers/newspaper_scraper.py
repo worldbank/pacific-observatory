@@ -78,12 +78,16 @@ class NewspaperScraper:
             # Configure client based on auth settings
             auth_config = self.config.auth or {}
             
+            # Get concurrency and rate_limit from config
+            concurrency = self.config.concurrency or 10
+            rate_limit = self.config.rate_limit or 0.1
+            
             self._http_client = AsyncHttpClient(
                 parser="html.parser",  # Default to BeautifulSoup
                 domain=domain if auth_config else None,
                 timeout=60.0,
-                max_concurrent=10,
-                rate_limit=0.5  # Be polite to servers
+                max_concurrent=concurrency,
+                rate_limit=rate_limit
             )
         
         return self._http_client
@@ -185,7 +189,7 @@ class NewspaperScraper:
         data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
         
         # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.lower()
+        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
         structured_path.mkdir(parents=True, exist_ok=True)
         
         # Create filename with today's date
@@ -218,7 +222,7 @@ class NewspaperScraper:
         data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
         
         # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.lower()
+        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
         
         # Check for today's file
         today = datetime.now().strftime("%Y%m%d")
@@ -545,7 +549,7 @@ class NewspaperScraper:
         data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
         
         # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.lower()
+        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
         structured_path.mkdir(parents=True, exist_ok=True)
         
         # Create filename with today's date
@@ -585,7 +589,7 @@ class NewspaperScraper:
         data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
         
         # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.lower()
+        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
         structured_path.mkdir(parents=True, exist_ok=True)
         
         # Create filename with today's date

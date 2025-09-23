@@ -153,6 +153,8 @@ class NewspaperConfig(BaseModel):
     auth: Optional[dict] = Field(default=None, description="Authentication configuration")
     cleaning: Optional[dict] = Field(default=None, description="Data cleaning configuration")
     client: str = Field(default="http", description="Client type: 'http' or 'browser'")
+    concurrency: Optional[int] = Field(default=10, description="Maximum concurrent requests for HTTP client")
+    rate_limit: Optional[float] = Field(default=0.1, description="Minimum delay between requests in seconds")
     
     @field_validator('country')
     @classmethod
@@ -168,6 +170,14 @@ class NewspaperConfig(BaseModel):
         """Validate client type."""
         if v not in ['http', 'browser']:
             raise ValueError('Client must be either "http" or "browser"')
+        return v
+    
+    @field_validator('concurrency')
+    @classmethod
+    def concurrency_must_be_positive(cls, v: Optional[int]) -> Optional[int]:
+        """Validate concurrency is a positive integer."""
+        if v is not None and v <= 0:
+            raise ValueError('Concurrency must be a positive integer')
         return v
     
     @field_validator('listing')

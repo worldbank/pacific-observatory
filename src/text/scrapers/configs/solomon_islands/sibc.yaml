@@ -2,7 +2,7 @@
 # This config file defines all site-specific details for scraping SIBC news
 
 name: "SIBC"
-country: "solomon_islands"  # Solomon Islands ISO code
+country: "solomon_islands"
 base_url: "https://www.sibconline.com.sb"
 
 # Listing discovery configuration
@@ -12,10 +12,11 @@ listing:
   start_page: 1
   step: 1
   batch_size: 10  # Process 10 pages at a time for efficiency
-  # Note: Original scraper went up to page 1335, but we'll use dynamic detection
 
 # Client configuration
 client: "http"  # Use HTTP client (not browser-based)
+concurrency: 5  # Maximum concurrent requests (default: 10)
+rate_limit: 0.1  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
 
 # CSS selectors for data extraction
 selectors:

@@ -95,7 +95,7 @@ class JsonlStorage:
         """
         # Replace spaces with underscores and remove special characters
         import re
-        sanitized = re.sub(r'[^\w\-_.]', '_', name.lower())
+        sanitized = re.sub(r'[^\w\-_.]', '_', name.replace(" ", "_").lower())
         return sanitized.strip('_')
     
     def save_thumbnails(

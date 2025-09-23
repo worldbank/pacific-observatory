@@ -18,6 +18,7 @@ from lxml import etree
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 from .models import ScrapingResult, ThumbnailRecord, ArticleRecord
+from .utils import configure_cookies
 
 logger = logging.getLogger(__name__)
 
@@ -248,7 +249,7 @@ class AsyncHttpClient:
         expression: Union[str, List[str]]
     ) -> List[ScrapingResult]:
         """
-        Scrape multiple URLs concurrently.
+        Scrape multiple URLs concurrently, respecting the concurrency limit.
         
         Args:
             urls: List of URLs to scrape
@@ -261,27 +262,35 @@ class AsyncHttpClient:
             raise TypeError("The 'urls' argument must be a list of URLs.")
         
         async with httpx.AsyncClient() as client:
-            tasks = [
-                self.scrape_url(client, url, expression)
-                for url in urls
-            ]
+            # Process URLs in batches to respect concurrency limits
+            batch_size = self.max_concurrent * 2  # Process 2x concurrency at a time
+            all_results = []
             
-            # Use asyncio.gather for concurrent processing
-            results = await asyncio.gather(*tasks, return_exceptions=True)
+            for i in range(0, len(urls), batch_size):
+                batch_urls = urls[i:i + batch_size]
+                
+                tasks = [
+                    self.scrape_url(client, url, expression)
+                    for url in batch_urls
+                ]
+                
+                # Process this batch
+                batch_results = await asyncio.gather(*tasks, return_exceptions=True)
+                
+                # Handle any exceptions that occurred in this batch
+                for j, result in enumerate(batch_results):
+                    if isinstance(result, Exception):
+                        all_results.append(ScrapingResult(
+                            success=False,
+                            error=str(result),
+                            url=batch_urls[j]
+                        ))
+                    else:
+                        all_results.append(result)
+                
+                logger.info(f"Completed batch {i//batch_size + 1}/{(len(urls) + batch_size - 1)//batch_size}: {len(batch_urls)} URLs")
             
-            # Handle any exceptions that occurred
-            processed_results = []
-            for i, result in enumerate(results):
-                if isinstance(result, Exception):
-                    processed_results.append(ScrapingResult(
-                        success=False,
-                        error=str(result),
-                        url=urls[i]
-                    ))
-                else:
-                    processed_results.append(result)
-            
-            return processed_results
+            return all_results
     
     async def check_urls_batch(
         self,
