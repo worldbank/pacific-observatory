@@ -1,0 +1,33 @@
+# Example configuration
+name: "Example News with Start URL"
+country: "example"
+base_url: "https://example.com"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  start_url: "https://example.com/latest"  # This URL will be scraped FIRST
+  url_template: "https://example.com/news/page/{num}/"
+  start_page: 1
+  step: 1
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 5
+rate_limit: 0.5
+retries: 3                    # Number of retry attempts for failed requests
+retry_seconds: 2.0            # Wait time in seconds between retry attempts
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail: ".article-card"
+  title: "h2 a::text"
+  url: "h2 a::attr(href)"
+  date: ".date::text"
+  article_body: ".content p"
+  tags: ".tags a"
+
+# Data cleaning configuration
+cleaning:
+  date: "clean_example_date"

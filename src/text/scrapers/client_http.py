@@ -39,7 +39,9 @@ class AsyncHttpClient:
         cookies: Optional[Dict[str, str]] = None,
         timeout: float = 60.0,
         max_concurrent: int = 10,
-        rate_limit: float = 0.1  # Minimum delay between requests
+        rate_limit: float = 0.1,  # Minimum delay between requests
+        retries: int = 3,  # Number of retry attempts
+        retry_seconds: float = 2.0  # Wait time between retries
     ):
         """
         Initialize the AsyncHttpClient.
@@ -52,6 +54,8 @@ class AsyncHttpClient:
             timeout: Request timeout in seconds
             max_concurrent: Maximum concurrent requests
             rate_limit: Minimum delay between requests (politeness)
+            retries: Number of retry attempts for failed requests
+            retry_seconds: Wait time in seconds between retry attempts
         """
         if parser not in ["html.parser", "xpath"]:
             raise ValueError("Invalid parser. Use 'html.parser' or 'xpath'.")
@@ -61,6 +65,8 @@ class AsyncHttpClient:
         self.timeout = timeout
         self.max_concurrent = max_concurrent
         self.rate_limit = rate_limit
+        self.retries = retries
+        self.retry_seconds = retry_seconds
         
         # Default headers - merge with custom headers (custom takes precedence)
         default_headers = {
@@ -100,7 +106,7 @@ class AsyncHttpClient:
         self,
         client: httpx.AsyncClient,
         url: str,
-        retries: int = 3
+        retries: Optional[int] = None
     ) -> Optional[bytes]:
         """
         Send an async HTTP GET request to the specified URL.
@@ -108,11 +114,14 @@ class AsyncHttpClient:
         Args:
             client: httpx AsyncClient instance
             url: URL to request
-            retries: Number of retry attempts
+            retries: Number of retry attempts (uses instance default if None)
             
         Returns:
             Response content as bytes, or None if failed
         """
+        # Use instance retry setting if not provided
+        retry_count = retries if retries is not None else self.retries
+        
         async with self._semaphore:
             await self._rate_limit_delay()
             
@@ -122,7 +131,7 @@ class AsyncHttpClient:
             logger.debug(f"Request cookies: {self.cookies}")
             logger.debug(f"Request timeout: {self.timeout}")
             
-            for attempt in range(retries + 1):
+            for attempt in range(retry_count + 1):
                 try:
                     response = await client.get(
                         url,
@@ -146,27 +155,26 @@ class AsyncHttpClient:
                     except Exception:
                         logger.error("Could not read response body")
                     
-                    if attempt == retries:  # Only log retry exhaustion on final attempt
-                        logger.error(f"Failed after {retries + 1} attempts with HTTP {e.response.status_code}")
+                    if attempt == retry_count:  # Only log retry exhaustion on final attempt
+                        logger.error(f"Failed after {retry_count + 1} attempts with HTTP {e.response.status_code}")
                     
                 except httpx.RequestError as e:
-                    if attempt == retries:  # Only log on final attempt
+                    if attempt == retry_count:  # Only log on final attempt
                         logger.error(f"Request error for {url}: {e}")
                     
                 except Exception as e:
                     logger.error(f"Unexpected error for {url}: {e}")
                 
                 # Retry logic
-                if attempt < retries:
-                    wait_time = 2 ** attempt  # Exponential backoff
-                    logger.info(f"Retrying {url} in {wait_time}s (attempt {attempt + 1}/{retries})")
-                    await asyncio.sleep(wait_time)
+                if attempt < retry_count:
+                    logger.info(f"Retrying {url} in {self.retry_seconds}s (attempt {attempt + 1}/{retry_count})")
+                    await asyncio.sleep(self.retry_seconds)
                     
                     # Refresh cookies on retry
                     if self.domain and attempt == 0:
                         self.refresh_cookies()
             
-            logger.error(f"Failed to retrieve {url} after {retries + 1} attempts")
+            logger.error(f"Failed to retrieve {url} after {retry_count + 1} attempts")
             return None
     
     def parse_content(self, content: bytes) -> Union[BeautifulSoup, etree._Element]:

@@ -70,6 +70,7 @@ class PaginationStrategy(ListingStrategy):
         - start_page: Starting page number (default: 1)
         - step: Page increment step (default: 1)
         - batch_size: Number of pages to check per batch (default: 5)
+        - start_url: Optional initial URL to scrape before pagination (default: None)
         """
         super().__init__(config)
         
@@ -77,6 +78,7 @@ class PaginationStrategy(ListingStrategy):
         self.start_page = config.get("start_page", 1)
         self.step = config.get("step", 1)
         self.batch_size = config.get("batch_size", 5)
+        self.start_url = config.get("start_url", None)
         
         if "{num}" not in self.url_template:
             raise ValueError("url_template must contain {num} placeholder")
@@ -107,9 +109,20 @@ class PaginationStrategy(ListingStrategy):
         """
         Discover URLs using dynamic pagination.
         
-        Generates batches of page URLs and stops when an entire
+        If start_url is provided, yields it first before starting pagination.
+        Then generates batches of page URLs and stops when an entire
         batch returns terminal errors (e.g., 404 Not Found).
         """
+        # Handle start_url if provided
+        if self.start_url:
+            logger.info(f"Starting with initial URL: {self.start_url}")
+            # Check if start_url is accessible and yield it
+            url_status = await client.check_urls_batch([self.start_url])
+            if url_status.get(self.start_url, False):
+                yield [self.start_url]
+            else:
+                logger.warning(f"Start URL not accessible: {self.start_url}")
+        
         current_page = self.start_page
         
         logger.info(f"Starting pagination discovery from page {current_page}")
@@ -155,6 +168,7 @@ class PaginationStrategy(ListingStrategy):
         """
         Discover URLs and immediately scrape thumbnails in a single request per URL.
         
+        If start_url is provided, scrapes it first before starting pagination.
         This method combines discovery and scraping to ensure each URL is only
         requested once, improving efficiency and reducing server load.
         
@@ -166,6 +180,19 @@ class PaginationStrategy(ListingStrategy):
         Yields:
             Lists of ScrapingResult objects containing thumbnail data
         """
+        # Handle start_url if provided
+        if self.start_url:
+            logger.info(f"Starting with initial URL scraping: {self.start_url}")
+            # Scrape the start_url first
+            start_results = await client.scrape_urls([self.start_url], thumbnail_selector)
+            successful_start_results = [result for result in start_results if result.success]
+            
+            if successful_start_results:
+                logger.info(f"Successfully scraped start URL: {len(successful_start_results)} results")
+                yield successful_start_results
+            else:
+                logger.warning(f"Failed to scrape start URL: {self.start_url}")
+        
         current_page = self.start_page
         
         logger.info(f"Starting combined pagination discovery and scraping from page {current_page}")

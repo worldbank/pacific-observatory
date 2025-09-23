@@ -78,9 +78,11 @@ class NewspaperScraper:
             # Configure client based on auth settings
             auth_config = self.config.auth or {}
             
-            # Get concurrency and rate_limit from config
+            # Get client configuration parameters from config
             concurrency = self.config.concurrency or 10
             rate_limit = self.config.rate_limit or 0.1
+            retries = self.config.retries or 3
+            retry_seconds = self.config.retry_seconds or 2.0
             
             # Get headers from config - this was the critical missing piece!
             headers = self.config.headers or {}
@@ -89,6 +91,7 @@ class NewspaperScraper:
             logger.info(f"Domain: {domain}")
             logger.info(f"Loading headers from config")
             logger.info(f"Concurrency: {concurrency}, Rate limit: {rate_limit}")
+            logger.info(f"Retries: {retries}, Retry delay: {retry_seconds}s")
             
             self._http_client = AsyncHttpClient(
                 parser="html.parser",  # Default to BeautifulSoup
@@ -96,7 +99,9 @@ class NewspaperScraper:
                 headers=headers,  # Pass config headers to client
                 timeout=60.0,
                 max_concurrent=concurrency,
-                rate_limit=rate_limit
+                rate_limit=rate_limit,
+                retries=retries,
+                retry_seconds=retry_seconds
             )
             
         return self._http_client

@@ -156,6 +156,8 @@ class NewspaperConfig(BaseModel):
     client: str = Field(default="http", description="Client type: 'http' or 'browser'")
     concurrency: Optional[int] = Field(default=10, description="Maximum concurrent requests for HTTP client")
     rate_limit: Optional[float] = Field(default=0.1, description="Minimum delay between requests in seconds")
+    retries: Optional[int] = Field(default=3, description="Number of retry attempts for failed requests")
+    retry_seconds: Optional[float] = Field(default=2.0, description="Wait time in seconds between retry attempts")
     
     @field_validator('country')
     @classmethod
@@ -191,6 +193,22 @@ class NewspaperConfig(BaseModel):
             for key, value in v.items():
                 if not isinstance(key, str) or not isinstance(value, str):
                     raise ValueError('Headers must have string keys and values')
+        return v
+    
+    @field_validator('retries')
+    @classmethod
+    def retries_must_be_non_negative(cls, v: Optional[int]) -> Optional[int]:
+        """Validate retries is a non-negative integer."""
+        if v is not None and v < 0:
+            raise ValueError('Retries must be a non-negative integer')
+        return v
+    
+    @field_validator('retry_seconds')
+    @classmethod
+    def retry_seconds_must_be_positive(cls, v: Optional[float]) -> Optional[float]:
+        """Validate retry_seconds is a positive number."""
+        if v is not None and v <= 0:
+            raise ValueError('Retry seconds must be a positive number')
         return v
     
     @field_validator('listing')
