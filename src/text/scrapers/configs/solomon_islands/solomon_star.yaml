@@ -12,25 +12,25 @@ listing:
   url_template: "https://www.solomonstarnews.com/category/news/news-national/page/{num}/"
   start_page: 2
   step: 1
-  batch_size: 10  # Process 10 pages at a time for efficiency
+  batch_size: 100  # Process 10 pages at a time for efficiency
 
 # Client configuration
 client: "http"  # Use HTTP client (not browser-based)
 concurrency: 1  # Maximum concurrent requests (default: 10)
-rate_limit: 0.5  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+rate_limit: 25  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
 
 headers:
   User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
   Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
   Accept-Language: "en-US,en;q=0.9"
-  Referer: "https://www.solomonstarnews.com/"
+  Referer: "https://www.solomonstarnews.com/category/news/news-national/"
   Cache-Control: "no-cache"
   Pragma: "no-cache"
 
 # CSS selectors for data extraction
 selectors:
   # Thumbnail/listing page selectors (from pages_raw scraping)
-  thumbnail: ".blog-content.wf-td"  # Container for each article preview
+  thumbnail: ".blog-content wf-td"  # Container for each article preview
   title: ".entry-title"             # Article title element
   url: ".entry-title a::attr(href)" # Article URL from title link
   date: ".entry-date"               # Publication date
