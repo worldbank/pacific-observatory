@@ -107,7 +107,7 @@ class AsyncHttpClient:
         client: httpx.AsyncClient,
         url: str,
         retries: Optional[int] = None
-    ) -> Optional[bytes]:
+    ) -> tuple[Optional[bytes], Optional[int]]:
         """
         Send an async HTTP GET request to the specified URL.
         
@@ -117,7 +117,7 @@ class AsyncHttpClient:
             retries: Number of retry attempts (uses instance default if None)
             
         Returns:
-            Response content as bytes, or None if failed
+            Tuple of (response content as bytes or None, status code or None)
         """
         # Use instance retry setting if not provided
         retry_count = retries if retries is not None else self.retries
@@ -141,22 +141,19 @@ class AsyncHttpClient:
                     )
                     
                     response.raise_for_status()
-                    return response.content
+                    return response.content, response.status_code
                     
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 404:
                         logger.info(f"404 Not Found for {url} - page doesn't exist")
-                        return None
+                        return None, 404
                     
                     # Log detailed error information for non-404 errors
                     logger.error(f"HTTP {e.response.status_code} for {url}")
-                    try:
-                        response_text = e.response.text[:500]  # First 500 chars
-                    except Exception:
-                        logger.error("Could not read response body")
-                    
                     if attempt == retry_count:  # Only log retry exhaustion on final attempt
                         logger.error(f"Failed after {retry_count + 1} attempts with HTTP {e.response.status_code}")
+                        # Return the status code even on final failure
+                        return None, e.response.status_code
                     
                 except httpx.RequestError as e:
                     if attempt == retry_count:  # Only log on final attempt
@@ -175,7 +172,7 @@ class AsyncHttpClient:
                         self.refresh_cookies()
             
             logger.error(f"Failed to retrieve {url} after {retry_count + 1} attempts")
-            return None
+            return None, None
     
     def parse_content(self, content: bytes) -> Union[BeautifulSoup, etree._Element]:
         """
@@ -237,11 +234,12 @@ class AsyncHttpClient:
             ScrapingResult with extracted data or error information
         """
         try:
-            content = await self.request_url(client, url)
+            content, status_code = await self.request_url(client, url)
             if content is None:
                 return ScrapingResult(
                     success=False,
                     error="Failed to retrieve content",
+                    status_code=status_code,
                     url=url
                 )
             
@@ -257,6 +255,7 @@ class AsyncHttpClient:
             return ScrapingResult(
                 success=True,
                 data=items,
+                status_code=status_code,
                 url=url
             )
             

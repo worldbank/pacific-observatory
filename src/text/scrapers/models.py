@@ -118,6 +118,7 @@ class ScrapingResult(BaseModel):
     success: bool = Field(..., description="Whether the scraping was successful")
     data: Optional[Any] = None  # Simplified to avoid complex Union types
     error: Optional[str] = None
+    status_code: Optional[int] = Field(default=None, description="HTTP status code if available")
     url: Optional[HttpUrl] = None
     timestamp: datetime = Field(default_factory=datetime.now)
     

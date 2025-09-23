@@ -67,6 +67,7 @@ class NewspaperScraper:
         self.scraped_thumbnails: List[ThumbnailRecord] = []
         self.scraped_articles: List[ArticleRecord] = []
         self.failed_urls: List[Dict[str, Any]] = []
+        self.failed_news: List[Dict[str, Any]] = []
         self._saved_files = {}  # Track files saved by this scraper
     
     def _get_http_client(self) -> AsyncHttpClient:
@@ -151,6 +152,7 @@ class NewspaperScraper:
                     if not result.success:
                         self.failed_urls.append({
                             "url": str(result.url),
+                            "status_code": result.status_code,
                             "error": result.error,
                             "stage": "thumbnail_listing"
                         })
@@ -510,8 +512,9 @@ class NewspaperScraper:
                         result = await client.scrape_url(http_client, str(thumbnail.url), list(article_selectors.values()))
                         
                         if not result.success:
-                            self.failed_urls.append({
+                            self.failed_news.append({
                                 "url": str(thumbnail.url),
+                                "status_code": result.status_code,
                                 "error": result.error,
                                 "stage": "article_content"
                             })
@@ -629,6 +632,74 @@ class NewspaperScraper:
         logger.info(f"Saved metadata to {filepath}")
         self._saved_files['metadata'] = filepath
         return filepath
+
+    async def _save_failed_urls_to_jsonl(self, failed_urls: List[Dict[str, Any]]) -> Optional[Path]:
+        """
+        Save failed URLs to JSONL file in failed subdirectory.
+        
+        Args:
+            failed_urls: List of failed URL dictionaries with url and status_code
+            
+        Returns:
+            Path to the saved file, or None if no failed URLs
+        """
+        if not failed_urls:
+            return None
+        
+        # Get data folder path from environment or use default
+        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
+        
+        # Create structured path: data_folder/text/{country}/{newspaper_name}/failed/
+        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower() / "failed"
+        structured_path.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with today's date
+        today = datetime.now().strftime("%Y%m%d")
+        filename = f"failed_urls_{today}.jsonl"
+        filepath = structured_path / filename
+        
+        # Save failed URLs as JSONL (one JSON object per line)
+        with open(filepath, 'w', encoding='utf-8') as f:
+            for failed_url in failed_urls:
+                f.write(json.dumps(failed_url, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(failed_urls)} failed URLs to {filepath}")
+        self._saved_files['failed_urls'] = filepath
+        return filepath
+
+    async def _save_failed_news_to_jsonl(self, failed_news: List[Dict[str, Any]]) -> Optional[Path]:
+        """
+        Save failed news articles to JSONL file in failed subdirectory.
+        
+        Args:
+            failed_news: List of failed news dictionaries with url and status_code
+            
+        Returns:
+            Path to the saved file, or None if no failed news
+        """
+        if not failed_news:
+            return None
+        
+        # Get data folder path from environment or use default
+        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
+        
+        # Create structured path: data_folder/text/{country}/{newspaper_name}/failed/
+        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower() / "failed"
+        structured_path.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with today's date
+        today = datetime.now().strftime("%Y%m%d")
+        filename = f"failed_news_{today}.jsonl"
+        filepath = structured_path / filename
+        
+        # Save failed news as JSONL (one JSON object per line)
+        with open(filepath, 'w', encoding='utf-8') as f:
+            for failed_article in failed_news:
+                f.write(json.dumps(failed_article, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(failed_news)} failed news articles to {filepath}")
+        self._saved_files['failed_news'] = filepath
+        return filepath
     
     async def run_full_scrape(self) -> Dict[str, Any]:
         """
@@ -645,7 +716,7 @@ class NewspaperScraper:
             thumbnails = await self.discover_and_scrape_thumbnails()
             
             # Step 3: Scrape full articles
-            articles = await self.scrape_articles(thumbnails)
+            articles = await self.scrape_articles(thumbnails[:50])
             
             # Compile results
             results = {
@@ -655,7 +726,8 @@ class NewspaperScraper:
                 "statistics": {
                     "thumbnails_found": len(thumbnails),
                     "articles_scraped": len(articles),
-                    "failed_urls": len(self.failed_urls)
+                    "failed_urls": len(self.failed_urls),
+                    "failed_news": len(self.failed_news)
                 },
                 "data": {
                     "thumbnails": [
@@ -680,6 +752,13 @@ class NewspaperScraper:
                 "errors": self.failed_urls
             }
             
+            # Save failed URLs and news if any
+            if self.failed_urls:
+                await self._save_failed_urls_to_jsonl(self.failed_urls)
+            
+            if self.failed_news:
+                await self._save_failed_news_to_jsonl(self.failed_news)
+            
             # Save metadata
             await self._save_metadata(results)
             
@@ -697,7 +776,8 @@ class NewspaperScraper:
                     "listing_urls": 0,
                     "thumbnails_found": len(self.scraped_thumbnails),
                     "articles_scraped": len(self.scraped_articles),
-                    "failed_urls": len(self.failed_urls)
+                    "failed_urls": len(self.failed_urls),
+                    "failed_news": len(self.failed_news)
                 }
             }
     
