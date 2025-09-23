@@ -62,10 +62,11 @@ class AsyncHttpClient:
         self.max_concurrent = max_concurrent
         self.rate_limit = rate_limit
         
-        # Default headers
-        self.headers = headers or {
+        # Default headers - merge with custom headers (custom takes precedence)
+        default_headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
         }
+        self.headers = {**default_headers, **(headers or {})}
         
         # Cookie management
         self.cookies = cookies or {}
@@ -115,6 +116,12 @@ class AsyncHttpClient:
         async with self._semaphore:
             await self._rate_limit_delay()
             
+            # Log request details for debugging
+            logger.info(f"Making request to: {url}")
+            logger.debug(f"Request headers: {self.headers}")
+            logger.debug(f"Request cookies: {self.cookies}")
+            logger.debug(f"Request timeout: {self.timeout}")
+            
             for attempt in range(retries + 1):
                 try:
                     response = await client.get(
@@ -123,18 +130,28 @@ class AsyncHttpClient:
                         cookies=self.cookies,
                         timeout=self.timeout
                     )
+                    
                     response.raise_for_status()
                     return response.content
                     
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 404:
+                        logger.info(f"404 Not Found for {url} - page doesn't exist")
                         return None
-                    if attempt == retries:  # Only log on final attempt
-                        logger.warning(f"HTTP {e.response.status_code} for {url}")
+                    
+                    # Log detailed error information for non-404 errors
+                    logger.error(f"HTTP {e.response.status_code} for {url}")
+                    try:
+                        response_text = e.response.text[:500]  # First 500 chars
+                    except Exception:
+                        logger.error("Could not read response body")
+                    
+                    if attempt == retries:  # Only log retry exhaustion on final attempt
+                        logger.error(f"Failed after {retries + 1} attempts with HTTP {e.response.status_code}")
                     
                 except httpx.RequestError as e:
                     if attempt == retries:  # Only log on final attempt
-                        logger.warning(f"Request error for {url}: {e}")
+                        logger.error(f"Request error for {url}: {e}")
                     
                 except Exception as e:
                     logger.error(f"Unexpected error for {url}: {e}")

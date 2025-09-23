@@ -152,6 +152,7 @@ class NewspaperConfig(BaseModel):
     # Optional configurations
     auth: Optional[dict] = Field(default=None, description="Authentication configuration")
     cleaning: Optional[dict] = Field(default=None, description="Data cleaning configuration")
+    headers: Optional[dict] = Field(default=None, description="Custom HTTP headers")
     client: str = Field(default="http", description="Client type: 'http' or 'browser'")
     concurrency: Optional[int] = Field(default=10, description="Maximum concurrent requests for HTTP client")
     rate_limit: Optional[float] = Field(default=0.1, description="Minimum delay between requests in seconds")
@@ -178,6 +179,18 @@ class NewspaperConfig(BaseModel):
         """Validate concurrency is a positive integer."""
         if v is not None and v <= 0:
             raise ValueError('Concurrency must be a positive integer')
+        return v
+    
+    @field_validator('headers')
+    @classmethod
+    def headers_must_be_string_dict(cls, v: Optional[dict]) -> Optional[dict]:
+        """Validate headers are string key-value pairs."""
+        if v is not None:
+            if not isinstance(v, dict):
+                raise ValueError('Headers must be a dictionary')
+            for key, value in v.items():
+                if not isinstance(key, str) or not isinstance(value, str):
+                    raise ValueError('Headers must have string keys and values')
         return v
     
     @field_validator('listing')

@@ -82,14 +82,23 @@ class NewspaperScraper:
             concurrency = self.config.concurrency or 10
             rate_limit = self.config.rate_limit or 0.1
             
+            # Get headers from config - this was the critical missing piece!
+            headers = self.config.headers or {}
+            
+            logger.info(f"Creating HTTP client for {self.name}")
+            logger.info(f"Domain: {domain}")
+            logger.info(f"Loading headers from config")
+            logger.info(f"Concurrency: {concurrency}, Rate limit: {rate_limit}")
+            
             self._http_client = AsyncHttpClient(
                 parser="html.parser",  # Default to BeautifulSoup
                 domain=domain if auth_config else None,
+                headers=headers,  # Pass config headers to client
                 timeout=60.0,
                 max_concurrent=concurrency,
                 rate_limit=rate_limit
             )
-        
+            
         return self._http_client
     
     def _get_browser_client(self) -> BrowserClient:
