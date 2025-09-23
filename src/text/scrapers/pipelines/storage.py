@@ -9,7 +9,7 @@ import json
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Any, Union
+from typing import List, Dict, Any, Union, Optional
 import logging
 from ..models import ThumbnailRecord, ArticleRecord
 
@@ -269,52 +269,7 @@ class JsonlStorage:
         
         logger.info(f"Saved {len(articles_data)} articles to {file_path}")
         return file_path
-    
-    def save_raw_html(
-        self,
-        url: str,
-        html_content: str,
-        country: str,
-        newspaper: str,
-        timestamp: datetime = None
-    ) -> Path:
-        """
-        Save raw HTML content for reproducibility.
-        
-        Args:
-            url: URL of the scraped page
-            html_content: Raw HTML content
-            country: Country code
-            newspaper: Newspaper name
-            timestamp: Optional timestamp for filename
-            
-        Returns:
-            Path to the saved file
-        """
-        if timestamp is None:
-            timestamp = datetime.now()
-        
-        # Create directory
-        raw_dir = self.get_raw_dir(country, newspaper)
-        raw_dir.mkdir(parents=True, exist_ok=True)
-        
-        # Create filename from URL and timestamp
-        from urllib.parse import urlparse
-        parsed_url = urlparse(url)
-        url_part = self._sanitize_name(parsed_url.path.strip('/').replace('/', '_'))
-        if not url_part:
-            url_part = 'index'
-        
-        filename = f"{url_part}_{timestamp.strftime('%Y%m%d_%H%M%S')}.html"
-        file_path = raw_dir / filename
-        
-        # Save HTML content
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        
-        logger.debug(f"Saved raw HTML for {url} to {file_path}")
-        return file_path
-    
+       
     def save_scraping_results(
         self,
         results: Dict[str, Any],
@@ -522,3 +477,187 @@ class JsonlStorage:
                 }
         
         return stats
+    
+    def save_failed_urls(
+        self,
+        failed_urls: List[Dict[str, Any]],
+        country: str,
+        newspaper: str,
+        timestamp: datetime = None
+    ) -> Optional[Path]:
+        """
+        Save failed URLs to JSONL file in failed subdirectory.
+        
+        Args:
+            failed_urls: List of failed URL dictionaries with url and status_code
+            country: Country code
+            newspaper: Newspaper name
+            timestamp: Optional timestamp for filename
+            
+        Returns:
+            Path to the saved file, or None if no failed URLs
+        """
+        if not failed_urls:
+            return None
+        
+        if timestamp is None:
+            timestamp = datetime.now()
+        
+        # Create directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        failed_dir = newspaper_dir / "failed"
+        failed_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with timestamp
+        filename = f"failed_urls_{timestamp.strftime('%Y%m%d')}.jsonl"
+        file_path = failed_dir / filename
+        
+        # Save data
+        with open(file_path, 'w', encoding='utf-8') as f:
+            for failed_url in failed_urls:
+                f.write(json.dumps(failed_url, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(failed_urls)} failed URLs to {file_path}")
+        return file_path
+    
+    def save_failed_news(
+        self,
+        failed_news: List[Dict[str, Any]],
+        country: str,
+        newspaper: str,
+        timestamp: datetime = None
+    ) -> Optional[Path]:
+        """
+        Save failed news articles to JSONL file in failed subdirectory.
+        
+        Args:
+            failed_news: List of failed news dictionaries with url and status_code
+            country: Country code
+            newspaper: Newspaper name
+            timestamp: Optional timestamp for filename
+            
+        Returns:
+            Path to the saved file, or None if no failed news
+        """
+        if not failed_news:
+            return None
+        
+        if timestamp is None:
+            timestamp = datetime.now()
+        
+        # Create directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        failed_dir = newspaper_dir / "failed"
+        failed_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with timestamp
+        filename = f"failed_news_{timestamp.strftime('%Y%m%d')}.jsonl"
+        file_path = failed_dir / filename
+        
+        # Save data
+        with open(file_path, 'w', encoding='utf-8') as f:
+            for failed_article in failed_news:
+                f.write(json.dumps(failed_article, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(failed_news)} failed news articles to {file_path}")
+        return file_path
+    
+    def save_thumbnails_as_urls(
+        self,
+        thumbnails: List[ThumbnailRecord],
+        country: str,
+        newspaper: str,
+        timestamp: datetime = None
+    ) -> Optional[Path]:
+        """
+        Save thumbnails to JSONL file with 'urls_' prefix and date-based naming.
+        
+        This method matches the format used by the newspaper scraper for caching.
+        
+        Args:
+            thumbnails: List of ThumbnailRecord objects
+            country: Country code
+            newspaper: Newspaper name
+            timestamp: Optional timestamp for filename (uses date only)
+            
+        Returns:
+            Path to the saved file, or None if no thumbnails
+        """
+        if not thumbnails:
+            return None
+        
+        if timestamp is None:
+            timestamp = datetime.now()
+        
+        # Create directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        newspaper_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Create filename with date only (matching newspaper scraper format)
+        filename = f"urls_{timestamp.strftime('%Y%m%d')}.jsonl"
+        file_path = newspaper_dir / filename
+        
+        # Save thumbnails as JSONL (simplified format for caching)
+        with open(file_path, 'w', encoding='utf-8') as f:
+            for thumbnail in thumbnails:
+                thumb_data = {
+                    "url": str(thumbnail.url),
+                    "title": thumbnail.title,
+                    "date": thumbnail.date
+                }
+                f.write(json.dumps(thumb_data, ensure_ascii=False) + '\n')
+        
+        logger.info(f"Saved {len(thumbnails)} thumbnails to {file_path}")
+        return file_path
+    
+    def load_thumbnails_from_urls_file(
+        self,
+        country: str,
+        newspaper: str,
+        date: datetime = None
+    ) -> Optional[List[ThumbnailRecord]]:
+        """
+        Load thumbnails from a 'urls_' JSONL file.
+        
+        Args:
+            country: Country code
+            newspaper: Newspaper name
+            date: Optional date to load (defaults to today)
+            
+        Returns:
+            List of ThumbnailRecord objects if file exists, None otherwise
+        """
+        if date is None:
+            date = datetime.now()
+        
+        # Get newspaper directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        
+        # Check for date-specific file
+        filename = f"urls_{date.strftime('%Y%m%d')}.jsonl"
+        file_path = newspaper_dir / filename
+        
+        if not file_path.exists():
+            logger.info(f"No existing thumbnails file found: {file_path}")
+            return None
+        
+        try:
+            thumbnails = []
+            with open(file_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line:  # Skip empty lines
+                        data = json.loads(line)
+                        thumbnail = ThumbnailRecord(
+                            url=data["url"],
+                            title=data["title"],
+                            date=data["date"]
+                        )
+                        thumbnails.append(thumbnail)
+            
+            logger.info(f"Loaded {len(thumbnails)} existing thumbnails from {file_path}")
+            return thumbnails
+            
+        except Exception as e:
+            logger.error(f"Failed to load existing thumbnails from {file_path}: {e}")
+            return None

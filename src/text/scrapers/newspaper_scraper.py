@@ -24,6 +24,7 @@ from .models import (
     NewspaperConfig
 )
 from .pipelines.cleaning import apply_cleaning
+from .pipelines.storage import JsonlStorage
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +70,9 @@ class NewspaperScraper:
         self.failed_urls: List[Dict[str, Any]] = []
         self.failed_news: List[Dict[str, Any]] = []
         self._saved_files = {}  # Track files saved by this scraper
+        
+        # Initialize storage system
+        self._storage = JsonlStorage()
     
     def _get_http_client(self) -> AsyncHttpClient:
         """Get or create HTTP client."""
@@ -129,7 +133,7 @@ class NewspaperScraper:
             List of ThumbnailRecord objects
         """
         # Try to load existing thumbnails from today's file
-        existing_thumbnails = await self._load_existing_thumbnails()
+        existing_thumbnails = self._storage.load_thumbnails_from_urls_file(self.country, self.name)
         if existing_thumbnails:
             logger.info("Using existing thumbnails from today's file - skipping discovery")
             return existing_thumbnails
@@ -184,91 +188,11 @@ class NewspaperScraper:
         logger.info(f"Total thumbnails discovered and scraped: {len(thumbnails)}")
         
         # Save thumbnails to JSONL file
-        await self._save_thumbnails_to_jsonl(thumbnails)
+        saved_path = self._storage.save_thumbnails_as_urls(thumbnails, self.country, self.name)
+        if saved_path:
+            self._saved_files['urls'] = saved_path
         
         return thumbnails
-
-    async def _save_thumbnails_to_jsonl(self, thumbnails: List[ThumbnailRecord]) -> Path:
-        """
-        Save thumbnails to JSONL file in structured data folder.
-        
-        Args:
-            thumbnails: List of ThumbnailRecord objects to save
-            
-        Returns:
-            Path to the saved file
-        """
-        if not thumbnails:
-            return None
-        
-        # Get data folder path from environment or use default
-        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
-        
-        # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
-        structured_path.mkdir(parents=True, exist_ok=True)
-        
-        # Create filename with today's date
-        today = datetime.now().strftime("%Y%m%d")
-        filename = f"urls_{today}.jsonl"
-        filepath = structured_path / filename
-        
-        # Save thumbnails as JSONL (one JSON object per line)
-        with open(filepath, 'w', encoding='utf-8') as f:
-            for thumbnail in thumbnails:
-                thumb_data = {
-                    "url": str(thumbnail.url),
-                    "title": thumbnail.title,
-                    "date": thumbnail.date
-                }
-                f.write(json.dumps(thumb_data, ensure_ascii=False) + '\n')
-        
-        logger.info(f"Saved {len(thumbnails)} thumbnails to {filepath}")
-        self._saved_files['urls'] = filepath
-        return filepath
-
-    async def _load_existing_thumbnails(self) -> Optional[List[ThumbnailRecord]]:
-        """
-        Load existing thumbnails from today's JSONL file if it exists.
-        
-        Returns:
-            List of ThumbnailRecord objects if file exists, None otherwise
-        """
-        # Get data folder path from environment or use default
-        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
-        
-        # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
-        
-        # Check for today's file
-        today = datetime.now().strftime("%Y%m%d")
-        filename = f"urls_{today}.jsonl"
-        filepath = structured_path / filename
-        
-        if not filepath.exists():
-            logger.info(f"No existing thumbnails file found for today: {filepath}")
-            return None
-        
-        try:
-            thumbnails = []
-            with open(filepath, 'r', encoding='utf-8') as f:
-                for line in f:
-                    line = line.strip()
-                    if line:  # Skip empty lines
-                        data = json.loads(line)
-                        thumbnail = ThumbnailRecord(
-                            url=data["url"],
-                            title=data["title"],
-                            date=data["date"]
-                        )
-                        thumbnails.append(thumbnail)
-            
-            logger.info(f"Loaded {len(thumbnails)} existing thumbnails from {filepath}")
-            return thumbnails
-            
-        except Exception as e:
-            logger.error(f"Failed to load existing thumbnails from {filepath}: {e}")
-            return None
 
     async def discover_listing_urls(self) -> List[str]:
         """
@@ -544,162 +468,12 @@ class NewspaperScraper:
         logger.info(f"Scraped {len(articles)} articles from {len(thumbnails)} thumbnails")
         
         # Save articles to structured JSONL file
-        await self._save_articles_to_jsonl(articles)
+        saved_path = self._storage.save_articles(articles, self.country, self.name)
+        if saved_path:
+            self._saved_files['articles'] = saved_path
         
         self.scraped_articles = articles
         return articles
-
-    async def _save_articles_to_jsonl(self, articles: List[ArticleRecord]) -> Path:
-        """
-        Save articles to JSONL file in structured data folder.
-        
-        Args:
-            articles: List of ArticleRecord objects to save
-            
-        Returns:
-            Path to the saved file
-        """
-        if not articles:
-            return None
-        
-        # Get data folder path from environment or use default
-        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
-        
-        # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
-        structured_path.mkdir(parents=True, exist_ok=True)
-        
-        # Create filename with today's date
-        today = datetime.now().strftime("%Y%m%d")
-        filename = f"news_{today}.jsonl"
-        filepath = structured_path / filename
-        
-        # Save articles as JSONL (one JSON object per line)
-        with open(filepath, 'w', encoding='utf-8') as f:
-            for article in articles:
-                article_dict = {
-                    "url": str(article.url),
-                    "title": article.title,
-                    "date": article.date,
-                    "body": article.body,
-                    "tags": article.tags,
-                    "source": article.source,
-                    "country": article.country
-                }
-                f.write(json.dumps(article_dict, ensure_ascii=False) + '\n')
-        
-        logger.info(f"Saved {len(articles)} articles to {filepath}")
-        self._saved_files['articles'] = filepath
-        return filepath
-
-    async def _save_metadata(self, results: Dict[str, Any]) -> Path:
-        """
-        Save scraping metadata to JSON file.
-        
-        Args:
-            results: Scraping results dictionary
-            
-        Returns:
-            Path to the saved file
-        """
-        # Get data folder path from environment or use default
-        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
-        
-        # Create structured path: data_folder/text/{country}/{newspaper_name}/
-        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower()
-        structured_path.mkdir(parents=True, exist_ok=True)
-        
-        # Create filename with today's date
-        today = datetime.now().strftime("%Y%m%d")
-        filename = f"results_{today}.json"
-        filepath = structured_path / filename
-        
-        # Save metadata as JSON
-        metadata = {
-            "newspaper": self.name,
-            "country": self.country,
-            "scraped_at": datetime.now().isoformat(),
-            "success": results.get("success", False),
-            "statistics": results.get("statistics", {}),
-            "timing": results.get("timing", {}),
-            "errors": results.get("errors", []),
-            "saved_files": {k: str(v) for k, v in self._saved_files.items()}
-        }
-        
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(metadata, f, ensure_ascii=False, indent=2)
-        
-        logger.info(f"Saved metadata to {filepath}")
-        self._saved_files['metadata'] = filepath
-        return filepath
-
-    async def _save_failed_urls_to_jsonl(self, failed_urls: List[Dict[str, Any]]) -> Optional[Path]:
-        """
-        Save failed URLs to JSONL file in failed subdirectory.
-        
-        Args:
-            failed_urls: List of failed URL dictionaries with url and status_code
-            
-        Returns:
-            Path to the saved file, or None if no failed URLs
-        """
-        if not failed_urls:
-            return None
-        
-        # Get data folder path from environment or use default
-        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
-        
-        # Create structured path: data_folder/text/{country}/{newspaper_name}/failed/
-        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower() / "failed"
-        structured_path.mkdir(parents=True, exist_ok=True)
-        
-        # Create filename with today's date
-        today = datetime.now().strftime("%Y%m%d")
-        filename = f"failed_urls_{today}.jsonl"
-        filepath = structured_path / filename
-        
-        # Save failed URLs as JSONL (one JSON object per line)
-        with open(filepath, 'w', encoding='utf-8') as f:
-            for failed_url in failed_urls:
-                f.write(json.dumps(failed_url, ensure_ascii=False) + '\n')
-        
-        logger.info(f"Saved {len(failed_urls)} failed URLs to {filepath}")
-        self._saved_files['failed_urls'] = filepath
-        return filepath
-
-    async def _save_failed_news_to_jsonl(self, failed_news: List[Dict[str, Any]]) -> Optional[Path]:
-        """
-        Save failed news articles to JSONL file in failed subdirectory.
-        
-        Args:
-            failed_news: List of failed news dictionaries with url and status_code
-            
-        Returns:
-            Path to the saved file, or None if no failed news
-        """
-        if not failed_news:
-            return None
-        
-        # Get data folder path from environment or use default
-        data_folder = Path(os.getenv("DATA_FOLDER_PATH", "data"))
-        
-        # Create structured path: data_folder/text/{country}/{newspaper_name}/failed/
-        structured_path = data_folder / "text" / self.country / self.name.replace(" ", "_").lower() / "failed"
-        structured_path.mkdir(parents=True, exist_ok=True)
-        
-        # Create filename with today's date
-        today = datetime.now().strftime("%Y%m%d")
-        filename = f"failed_news_{today}.jsonl"
-        filepath = structured_path / filename
-        
-        # Save failed news as JSONL (one JSON object per line)
-        with open(filepath, 'w', encoding='utf-8') as f:
-            for failed_article in failed_news:
-                f.write(json.dumps(failed_article, ensure_ascii=False) + '\n')
-        
-        logger.info(f"Saved {len(failed_news)} failed news articles to {filepath}")
-        self._saved_files['failed_news'] = filepath
-        return filepath
     
     async def run_full_scrape(self) -> Dict[str, Any]:
         """
@@ -754,13 +528,19 @@ class NewspaperScraper:
             
             # Save failed URLs and news if any
             if self.failed_urls:
-                await self._save_failed_urls_to_jsonl(self.failed_urls)
+                saved_path = self._storage.save_failed_urls(self.failed_urls, self.country, self.name)
+                if saved_path:
+                    self._saved_files['failed_urls'] = saved_path
             
             if self.failed_news:
-                await self._save_failed_news_to_jsonl(self.failed_news)
+                saved_path = self._storage.save_failed_news(self.failed_news, self.country, self.name)
+                if saved_path:
+                    self._saved_files['failed_news'] = saved_path
             
             # Save metadata
-            await self._save_metadata(results)
+            saved_path = self._storage.save_metadata(results, self.country, self.name)
+            if saved_path:
+                self._saved_files['metadata'] = saved_path
             
             logger.info(f"Scraping completed for {self.name}: {len(articles)} articles scraped")
             return results
