@@ -395,6 +395,154 @@ def clean_sibc_body(body_text: str) -> str:
     return cleaned_text
 
 
+def clean_solomon_times_date(date_str: str, **kwargs) -> str:
+    """
+    Clean Solomon Times date format.
+    
+    For thumbnails: Extract dates from archive URL paths like:
+    "https://www.solomontimes.com/news/latest/2024/05" -> "2024-05-01"
+    
+    For articles: Parse date from article content using standard date parsing.
+    
+    Args:
+        date_str: Raw date string (may be empty for URL-based extraction)
+        **kwargs: Additional context including 'page_url' for URL-based extraction
+        
+    Returns:
+        Standardized date string (YYYY-MM-DD format)
+    """
+    # Check if we have a page_url in kwargs for URL-based extraction
+    page_url = kwargs.get('page_url') or kwargs.get('url')
+    
+    # If we have a page URL and it's an archive URL, extract date from path
+    if page_url and '/news/latest/' in page_url:
+        try:
+            # Extract year/month from URL path like the original scraper
+            # Original: date = "-".join(i for i in page[0].split("/")[-2:])
+            path_parts = page_url.rstrip('/').split('/')
+            if len(path_parts) >= 2:
+                year = path_parts[-2]
+                month = path_parts[-1]
+                
+                # Validate year and month
+                if year.isdigit() and month.isdigit():
+                    year_int = int(year)
+                    month_int = int(month)
+                    
+                    if 2000 <= year_int <= 2030 and 1 <= month_int <= 12:
+                        # Return first day of the month in YYYY-MM-DD format
+                        return f"{year_int:04d}-{month_int:02d}-01"
+        except Exception as e:
+            logger.warning(f"Could not extract date from Solomon Times URL '{page_url}': {e}")
+    
+    # If no URL or URL extraction failed, try to parse date_str from article content
+    if date_str and date_str.strip():
+        try:
+            import pandas as pd
+            # Use pandas "mixed" format like the original scraper
+            parsed_date = pd.to_datetime(date_str, format="mixed")
+            return parsed_date.strftime("%Y-%m-%d")
+        except Exception as e:
+            logger.warning(f"Could not parse Solomon Times date '{date_str}': {e}")
+            # Fallback to handle_mixed_dates function
+            return handle_mixed_dates(date_str)
+    
+    # If we still don't have a date and we have a page URL, try to extract from any URL
+    if page_url:
+        try:
+            # Try to extract date from any URL pattern
+            path_parts = page_url.rstrip('/').split('/')
+            for i in range(len(path_parts) - 1):
+                year = path_parts[i]
+                month = path_parts[i + 1]
+                
+                if year.isdigit() and month.isdigit():
+                    year_int = int(year)
+                    month_int = int(month)
+                    
+                    if 2000 <= year_int <= 2030 and 1 <= month_int <= 12:
+                        return f"{year_int:04d}-{month_int:02d}-01"
+        except Exception as e:
+            logger.debug(f"Could not extract date from any URL pattern '{page_url}': {e}")
+    
+    return ""
+
+
+def clean_solomon_times_content(content_element) -> str:
+    """
+    Clean Solomon Times article content.
+    
+    Extracts and cleans text from article body elements, similar to the original scraper
+    which extracted content from "article-body" selectors.
+    
+    Args:
+        content_element: BeautifulSoup element containing article content
+        
+    Returns:
+        Cleaned content string
+    """
+    if not content_element:
+        return ""
+    
+    try:
+        if hasattr(content_element, 'get_text'):
+            # Extract all text from the element
+            text = content_element.get_text(separator=' ', strip=True)
+            return clean_html_text(text)
+        elif hasattr(content_element, 'find_all'):
+            # If it's a container, extract text from paragraphs
+            paragraphs = content_element.find_all(['p', 'div'])
+            if paragraphs:
+                content_parts = [p.get_text(strip=True) for p in paragraphs if p.get_text(strip=True)]
+                return " ".join(content_parts)
+            else:
+                # Fallback to getting all text
+                text = content_element.get_text(separator=' ', strip=True)
+                return clean_html_text(text)
+        else:
+            # If it's already text, clean it
+            return clean_html_text(str(content_element))
+    except Exception as e:
+        logger.error(f"Error cleaning Solomon Times content: {e}")
+        return clean_html_text(str(content_element))
+
+
+def clean_solomon_times_tags(tags_element) -> str:
+    """
+    Clean Solomon Times tags/categories.
+    
+    Extracts and joins tag text from tag elements, similar to the original scraper
+    which processed "tags" selectors.
+    
+    Args:
+        tags_element: BeautifulSoup element containing tag links
+        
+    Returns:
+        Comma-separated tags string
+    """
+    if not tags_element:
+        return ""
+    
+    try:
+        if hasattr(tags_element, 'find_all'):
+            # Look for links within the tags element
+            links = tags_element.find_all("a")
+            if links:
+                # Join link text with commas, filtering out empty tags
+                tag_parts = [link.get_text(strip=True) for link in links if link.get_text(strip=True)]
+                return ", ".join(tag_parts)
+            else:
+                # If no links, try to get text directly
+                text = tags_element.get_text(strip=True)
+                return clean_html_text(text) if text else ""
+        else:
+            # If it's already text, return cleaned version
+            return clean_html_text(str(tags_element))
+    except Exception as e:
+        logger.error(f"Error cleaning Solomon Times tags: {e}")
+        return clean_html_text(str(tags_element))
+
+
 def normalize_date(date_str: str) -> str:
     """
     Normalize any date string to YYYY-MM-DD format.
@@ -418,6 +566,9 @@ CLEANING_FUNCTIONS = {
     'clean_solomon_star_date': clean_solomon_star_date,
     'clean_solomon_star_content': clean_solomon_star_content,
     'clean_solomon_star_tags': clean_solomon_star_tags,
+    'clean_solomon_times_date': clean_solomon_times_date,
+    'clean_solomon_times_content': clean_solomon_times_content,
+    'clean_solomon_times_tags': clean_solomon_times_tags,
     'handle_mixed_dates': handle_mixed_dates,
     'normalize_date': normalize_date,
     'clean_html_text': clean_html_text,
@@ -440,7 +591,7 @@ def get_cleaning_function(function_name: str):
     return CLEANING_FUNCTIONS.get(function_name)
 
 
-def apply_cleaning(data: Any, cleaning_config: dict, base_url: str = None) -> Any:
+def apply_cleaning(data: Any, cleaning_config: dict, base_url: str = None, page_url: str = None, **kwargs) -> Any:
     """
     Apply cleaning functions to data based on configuration.
     
@@ -448,6 +599,8 @@ def apply_cleaning(data: Any, cleaning_config: dict, base_url: str = None) -> An
         data: Data dictionary to clean
         cleaning_config: Dictionary mapping field names to cleaning function names
         base_url: Base URL for URL cleaning
+        page_url: Page URL for context-aware cleaning (e.g., date extraction from URLs)
+        **kwargs: Additional context for cleaning functions
         
     Returns:
         Cleaned data dictionary
@@ -462,8 +615,17 @@ def apply_cleaning(data: Any, cleaning_config: dict, base_url: str = None) -> An
             cleaning_func = get_cleaning_function(function_name)
             if cleaning_func:
                 try:
+                    # Special handling for functions that need additional context
                     if function_name == 'clean_url' and base_url:
                         cleaned_data[field_name] = cleaning_func(cleaned_data[field_name], base_url)
+                    elif function_name == 'clean_solomon_times_date':
+                        # Pass page URL context for Solomon Times date extraction
+                        cleaned_data[field_name] = cleaning_func(
+                            cleaned_data[field_name], 
+                            page_url=page_url, 
+                            base_url=base_url,
+                            **kwargs
+                        )
                     else:
                         cleaned_data[field_name] = cleaning_func(cleaned_data[field_name])
                 except Exception as e:

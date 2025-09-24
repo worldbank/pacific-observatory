@@ -91,7 +91,7 @@ def extract_thumbnail_data_from_element(
         
         # Apply cleaning functions if configured
         if cleaning_config:
-            data = apply_cleaning(data, cleaning_config, base_url)
+            data = apply_cleaning(data, cleaning_config, base_url, page_url)
         
         return data
         
@@ -151,6 +151,29 @@ def extract_article_data_from_soup(
                             data["body"] = " ".join(body_texts)
                             break
         
+        # Extract article date if specified (separate from thumbnail date)
+        article_date_selector = selectors.get("article_date")
+        data["date"] = ""
+        
+        if article_date_selector:
+            if article_date_selector.endswith("::attr(datetime)"):
+                # CSS selector with datetime attribute extraction
+                clean_selector = article_date_selector.replace("::attr(datetime)", "")
+                date_elem = soup.select_one(clean_selector)
+                if date_elem:
+                    data["date"] = date_elem.get("datetime", "").strip()
+            elif article_date_selector.endswith("::text"):
+                # CSS selector with text extraction
+                clean_selector = article_date_selector.replace("::text", "")
+                date_elem = soup.select_one(clean_selector)
+                if date_elem:
+                    data["date"] = date_elem.get_text(strip=True)
+            else:
+                # Regular CSS selector
+                date_elem = soup.select_one(article_date_selector)
+                if date_elem:
+                    data["date"] = date_elem.get_text(strip=True)
+        
         # Extract tags with fallback selector support
         tags_selector = selectors.get("tags")
         data["tags"] = []
@@ -180,7 +203,7 @@ def extract_article_data_from_soup(
         
         # Apply cleaning functions if configured
         if cleaning_config:
-            data = apply_cleaning(data, cleaning_config, base_url)
+            data = apply_cleaning(data, cleaning_config, base_url, article_url)
         
         return data
         

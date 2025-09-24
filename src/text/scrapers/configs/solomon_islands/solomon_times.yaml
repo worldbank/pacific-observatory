@@ -1,0 +1,59 @@
+# Solomon Times Configuration
+# This config file defines all site-specific details for scraping Solomon Times news
+# Migrated from monolithic scraper: newspapers/solomon_islands/solomon_times.py
+
+name: "Solomon Times"
+country: "solomon_islands"
+base_url: "https://www.solomontimes.com"
+
+# Listing discovery configuration - using archive strategy for date-based URLs
+listing:
+  type: "archive"
+  url_template: "https://www.solomontimes.com/news/latest/{year}/{month}"
+  start_date: "2007-01-01"  # Original scraper: range(2007, 2024)
+  date_format: "monthly"    # Generate URLs for each month
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (conservative for older site)
+rate_limit: 0.2  # Minimum delay between requests in seconds (5 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+  Accept-Language: "en-US,en;q=0.9"
+
+# CSS selectors for data extraction
+selectors:
+  # Thumbnail/listing page selectors - try multiple fallback options
+  thumbnail: ".article-list-item"         # Original selector from monolithic scraper
+  title: "h2::text"                # Article title text (from original: i.find("h2").text)
+  url: "a::attr(href)"             # Article URL (from original: i.find("a")["href"])
+  date: ".date"                    # Placeholder selector (date extracted from archive URL path)
+  
+  # Article page selectors (from original: ["article-timestamp", "article-body", "tags"])
+  article_body: ".article-body"    # Article content container
+  article_date: ".article-timestamp span::attr(datetime)"  # Article date from content
+  tags: ".tags a"                  # Article tags/categories
+
+# Data cleaning configuration
+cleaning:
+  date: "clean_solomon_times_date"     # Custom function for URL-based date extraction (thumbnails) and article date parsing
+  body: "clean_solomon_times_content"  # Custom function for content cleaning
+  tags: "clean_solomon_times_tags"     # Custom function for tag processing
+
+# Optional authentication (not needed for Solomon Times)
+# auth: null
+
+# Site-specific notes:
+# - Solomon Times uses archive URLs: /news/latest/{year}/{month}
+# - Original scraper processed years 2007-2023, months 1-12
+# - Articles are in .article-list-item containers
+# - URLs are relative and need to be made absolute with base_url
+# - Date is extracted from URL path, not from page content
+# - Original scraper used pandas "mixed" format for date parsing
+# - Content extraction from .article-body elements
+# - Tags extraction from .tags a elements
+# - No authentication required

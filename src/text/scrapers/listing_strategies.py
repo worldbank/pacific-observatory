@@ -262,12 +262,31 @@ class ArchiveStrategy(ListingStrategy):
         super().__init__(config)
         
         self.url_template = config["url_template"]
-        self.start_date = datetime.strptime(config["start_date"], "%Y-%m-%d")
-        self.end_date = datetime.strptime(
-            config.get("end_date", datetime.now().strftime("%Y-%m-%d")),
-            "%Y-%m-%d"
-        )
         self.date_format = config.get("date_format", "monthly")
+
+        # Parse start date and normalise based on date format
+        self.start_date = datetime.strptime(config["start_date"], "%Y-%m-%d")
+        if self.date_format == "monthly":
+            self.start_date = self.start_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        else:
+            self.start_date = self.start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        # Determine end date – default to current period if not supplied
+        end_date_str = config.get("end_date")
+        if end_date_str:
+            end_date = datetime.strptime(end_date_str, "%Y-%m-%d")
+        else:
+            end_date = datetime.now()
+
+        if self.date_format == "monthly":
+            end_date = end_date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        else:
+            end_date = end_date.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        if end_date < self.start_date:
+            raise ValueError("end_date must not be earlier than start_date")
+
+        self.end_date = end_date
         
         # Validate template placeholders
         required_placeholders = []
