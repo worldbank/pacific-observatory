@@ -32,37 +32,86 @@ def clean_sibc_date(date_str: str) -> str:
 
 def handle_mixed_dates(date_str: str) -> str:
     """
-    Handle mixed date formats and normalize them.
+    Handle mixed date formats and normalize them with robust cleaning.
+    
+    This function handles various date formats and common formatting issues
+    found in scraped content, including prefixes, suffixes, and extra text.
     
     Args:
         date_str: Date string in various formats
         
     Returns:
-        Normalized date string (ISO format if possible)
+        Normalized date string in YYYY-MM-DD format
     """
     if not date_str:
         return ""
     
-    # Clean common issues
+    # Initial cleanup
     cleaned = date_str.strip()
+    
+    # Remove common prefixes and suffixes that appear in scraped dates
+    # This handles cases like "- September 24, 2025", "• Sep 24, 2025", "| Date: ..."
+    cleaned = re.sub(r'^[-•\*\+\|\s]+', '', cleaned).strip()
+    cleaned = re.sub(r'[-•\*\+\|\s]+$', '', cleaned).strip()
+    
+    # Remove common date-related prefixes (case insensitive)
+    cleaned = re.sub(r'^(Published|Posted|Date|On|Updated|Last\s+modified|Modified):\s*', '', cleaned, flags=re.IGNORECASE).strip()
+    
+    # Remove "By [Author]" patterns that might precede dates
+    cleaned = re.sub(r'^By\s+[^,]+,?\s*', '', cleaned, flags=re.IGNORECASE).strip()
+    
+    # Remove HTML entities and extra whitespace
+    import html
+    cleaned = html.unescape(cleaned)
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    
+    if not cleaned:
+        return ""
     
     # Try to parse and normalize to ISO format
     try:
-        # Common date patterns (most specific first)
+        # Comprehensive date patterns (most specific first)
         patterns = [
-            "%Y-%m-%d",           # 2025-09-24
-            "%d/%m/%Y",           # 24/09/2025
-            "%m/%d/%Y",           # 09/24/2025
-            "%d-%m-%Y",           # 24-09-2025
-            "%Y/%m/%d",           # 2025/09/24
-            "%B %d, %Y",          # September 24, 2025
-            "%b %d, %Y",          # Sep 24, 2025
-            "%d %B %Y",           # 24 September 2025
-            "%d %b %Y",           # 24 Sep 2025
-            "%B %d %Y",           # September 24 2025 (no comma)
-            "%b %d %Y",           # Sep 24 2025 (no comma)
-            "%Y-%m-%dT%H:%M:%S",  # ISO datetime format
-            "%Y-%m-%d %H:%M:%S"   # Standard datetime format
+            # ISO and standard formats
+            "%Y-%m-%d",                    # 2025-09-24
+            "%Y/%m/%d",                    # 2025/09/24
+            "%d/%m/%Y",                    # 24/09/2025
+            "%m/%d/%Y",                    # 09/24/2025
+            "%d-%m-%Y",                    # 24-09-2025
+            "%m-%d-%Y",                    # 09-24-2025
+            
+            # Full month names with various formats
+            "%B %d, %Y",                   # September 24, 2025
+            "%b %d, %Y",                   # Sep 24, 2025
+            "%d %B %Y",                    # 24 September 2025
+            "%d %b %Y",                    # 24 Sep 2025
+            "%B %d %Y",                    # September 24 2025 (no comma)
+            "%b %d %Y",                    # Sep 24 2025 (no comma)
+            
+            # With day names
+            "%A, %B %d, %Y",               # Monday, September 24, 2025
+            "%A %B %d, %Y",                # Monday September 24, 2025
+            "%a, %B %d, %Y",               # Mon, September 24, 2025
+            "%a %B %d, %Y",                # Mon September 24, 2025
+            "%A, %b %d, %Y",               # Monday, Sep 24, 2025
+            "%A %b %d, %Y",                # Monday Sep 24, 2025
+            
+            # With times
+            "%B %d, %Y %H:%M",             # September 24, 2025 14:30
+            "%b %d, %Y %H:%M",             # Sep 24, 2025 14:30
+            "%B %d, %Y %H:%M:%S",          # September 24, 2025 14:30:45
+            "%b %d, %Y %H:%M:%S",          # Sep 24, 2025 14:30:45
+            "%Y-%m-%dT%H:%M:%S",           # ISO datetime format
+            "%Y-%m-%d %H:%M:%S",           # Standard datetime format
+            "%Y-%m-%dT%H:%M:%SZ",          # ISO datetime with Z
+            "%Y-%m-%dT%H:%M:%S.%fZ",       # ISO datetime with microseconds
+            
+            # Alternative formats
+            "%d.%m.%Y",                    # 24.09.2025
+            "%m.%d.%Y",                    # 09.24.2025
+            "%Y.%m.%d",                    # 2025.09.24
+            "%d-%b-%Y",                    # 24-Sep-2025
+            "%d-%B-%Y",                    # 24-September-2025
         ]
         
         for pattern in patterns:
@@ -72,7 +121,34 @@ def handle_mixed_dates(date_str: str) -> str:
             except ValueError:
                 continue
         
-        # If no pattern matches, return cleaned string
+        # Fallback: Try to extract date using regex patterns
+        # This handles cases where there's extra text around the date
+        date_patterns = [
+            # Match "Month DD, YYYY" patterns
+            r'(\w+\s+\d{1,2},?\s+\d{4})',
+            # Match "DD Month YYYY" patterns  
+            r'(\d{1,2}\s+\w+\s+\d{4})',
+            # Match "YYYY-MM-DD" patterns
+            r'(\d{4}[-/]\d{1,2}[-/]\d{1,2})',
+            # Match "MM/DD/YYYY" or "DD/MM/YYYY" patterns
+            r'(\d{1,2}[/-]\d{1,2}[/-]\d{4})',
+        ]
+        
+        for regex_pattern in date_patterns:
+            match = re.search(regex_pattern, cleaned)
+            if match:
+                date_part = match.group(1).strip()
+                
+                # Try to parse the extracted date part
+                for strp_pattern in patterns:
+                    try:
+                        parsed_date = datetime.strptime(date_part, strp_pattern)
+                        logger.info(f"Successfully parsed date using regex fallback: '{date_str}' -> '{parsed_date.strftime('%Y-%m-%d')}'")
+                        return parsed_date.strftime("%Y-%m-%d")
+                    except ValueError:
+                        continue
+        
+        # If still no match, log warning and return cleaned string
         logger.warning(f"Could not parse date format: {date_str}")
         return cleaned
         
