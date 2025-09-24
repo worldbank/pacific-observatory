@@ -155,12 +155,12 @@ class NewspaperScraper:
             async for result_batch in self.listing_strategy.discover_and_scrape(client, self.base_url, thumbnail_selector):
                 for result in result_batch:
                     if not result.success:
-                        self.failed_urls.append({
-                            "url": str(result.url),
-                            "status_code": result.status_code,
-                            "error": result.error,
-                            "stage": "thumbnail_listing"
-                        })
+                        self._add_failed_url(
+                            url=result.url,
+                            status_code=result.status_code,
+                            error=result.error,
+                            stage="thumbnail_listing"
+                        )
                         continue
                     
                     # Parse the scraped content
@@ -196,12 +196,12 @@ class NewspaperScraper:
                         # If still no thumbnails after all retries, mark as failed
                         if not thumbnail_elements:
                             logger.warning(f"No thumbnails found after {max_retries} retries for {result.url}")
-                            self.failed_urls.append({
-                                "url": str(result.url),
-                                "status_code": getattr(result, 'status_code', None),
-                                "error": f"No thumbnails found after {max_retries} retries",
-                                "stage": "thumbnail_listing_no_content"
-                            })
+                            self._add_failed_url(
+                                url=result.url,
+                                status_code=getattr(result, 'status_code', None),
+                                error=f"No thumbnails found after {max_retries} retries",
+                                stage="thumbnail_listing_no_content"
+                            )
                             continue
                     
                     # Extract data from each thumbnail element
@@ -350,12 +350,12 @@ class NewspaperScraper:
             
             for result in results:
                 if not result.success:
-                    self.failed_urls.append({
-                        "url": str(result.url),
-                        "status_code": result.status_code,
-                        "error": result.error,
-                        "stage": "thumbnail_listing"
-                    })
+                    self._add_failed_url(
+                        url=result.url,
+                        status_code=result.status_code,
+                        error=result.error,
+                        stage="thumbnail_listing"
+                    )
                     continue
                 
                 # Parse the scraped content
@@ -391,12 +391,12 @@ class NewspaperScraper:
                     # If still no thumbnails after all retries, mark as failed
                     if not thumbnail_elements:
                         logger.warning(f"No thumbnails found after {max_retries} retries for {result.url}")
-                        self.failed_urls.append({
-                            "url": str(result.url),
-                            "status_code": getattr(result, 'status_code', None),
-                            "error": f"No thumbnails found after {max_retries} retries",
-                            "stage": "thumbnail_listing_no_content"
-                        })
+                        self._add_failed_url(
+                            url=result.url,
+                            status_code=getattr(result, 'status_code', None),
+                            error=f"No thumbnails found after {max_retries} retries",
+                            stage="thumbnail_listing_no_content"
+                        )
                         continue
                 
                 # Extract data from each thumbnail element
@@ -420,11 +420,11 @@ class NewspaperScraper:
                 for url in listing_urls:
                     try:
                         if not browser_client.navigate_to_url(url):
-                            self.failed_urls.append({
-                                "url": url,
-                                "error": "Failed to navigate",
-                                "stage": "thumbnail_listing"
-                            })
+                            self._add_failed_url(
+                                url=url,
+                                error="Failed to navigate",
+                                stage="thumbnail_listing"
+                            )
                             continue
                         
                         # Find thumbnail elements
@@ -460,11 +460,11 @@ class NewspaperScraper:
                             # If still no thumbnails after all retries, mark as failed
                             if not thumbnail_elements:
                                 logger.warning(f"No thumbnails found after {max_retries} retries for {url}")
-                                self.failed_urls.append({
-                                    "url": url,
-                                    "error": f"No thumbnails found after {max_retries} retries",
-                                    "stage": "thumbnail_listing_no_content"
-                                })
+                                self._add_failed_url(
+                                    url=url,
+                                    error=f"No thumbnails found after {max_retries} retries",
+                                    stage="thumbnail_listing_no_content"
+                                )
                                 continue
                         
                         # Extract data from each thumbnail
@@ -488,11 +488,11 @@ class NewspaperScraper:
                                 logger.error(f"Error processing thumbnail element: {e}")
                     
                     except Exception as e:
-                        self.failed_urls.append({
-                            "url": url,
-                            "error": str(e),
-                            "stage": "thumbnail_listing"
-                        })
+                        self._add_failed_url(
+                            url=url,
+                            error=str(e),
+                            stage="thumbnail_listing"
+                        )
             
             finally:
                 browser_client.close_driver()
@@ -551,12 +551,12 @@ class NewspaperScraper:
                         result = await client.scrape_url(http_client, str(thumbnail.url), list(article_selectors.values()))
                         
                         if not result.success:
-                            self.failed_news.append({
-                                "url": str(thumbnail.url),
-                                "status_code": result.status_code,
-                                "error": result.error,
-                                "stage": "article_content"
-                            })
+                            self._add_failed_news(
+                                url=thumbnail.url,
+                                status_code=result.status_code,
+                                error=result.error,
+                                stage="article_content"
+                            )
                             continue
                         
                         # Extract article data (simplified - would need more sophisticated extraction)
@@ -605,43 +605,70 @@ class NewspaperScraper:
             thumbnails = await self.discover_and_scrape_thumbnails()
             
             # Step 3: Scrape full articles
-            articles = await self.scrape_articles(thumbnails)
+            articles = await self.scrape_articles(thumbnails[:5])
             
-            # Compile results
-            results = {
-                "success": True,
-                "newspaper": self.name,
-                "country": self.country,
-                "statistics": {
-                    "thumbnails_found": len(thumbnails),
-                    "articles_scraped": len(articles),
-                    "failed_urls": len(self.failed_urls),
-                    "failed_news": len(self.failed_news)
-                },
-                "data": {
-                    "thumbnails": [
-                        {
-                            "url": str(thumb.url),
-                            "title": thumb.title,
-                            "date": thumb.date
-                        } for thumb in thumbnails
-                    ],
-                    "articles": [
-                        {
-                            "url": str(article.url),
-                            "title": article.title,
-                            "date": article.date,
-                            "body": article.body,
-                            "tags": article.tags,
-                            "source": article.source,
-                            "country": article.country
-                        } for article in articles
-                    ]
-                },
-                "errors": self.failed_urls
-            }
+            # Compile results - ensure all HttpUrl objects are converted to strings
+            try:
+                logger.info("Creating results dictionary...")
+                
+                # Serialize thumbnails and articles first
+                serialized_thumbnails = []
+                for i, thumb in enumerate(thumbnails):
+                    try:
+                        serialized_thumb = self._storage.serialize_for_json(thumb.dict())
+                        serialized_thumbnails.append(serialized_thumb)
+                    except Exception as e:
+                        logger.error(f"Failed to serialize thumbnail {i}: {e}")
+                        logger.error(f"Thumbnail type: {type(thumb)}")
+                        logger.error(f"Thumbnail dict keys: {list(thumb.dict().keys()) if hasattr(thumb, 'dict') else 'No dict method'}")
+                        raise
+                
+                serialized_articles = []
+                for i, article in enumerate(articles):
+                    try:
+                        serialized_article = self._storage.serialize_for_json(article.dict())
+                        serialized_articles.append(serialized_article)
+                    except Exception as e:
+                        logger.error(f"Failed to serialize article {i}: {e}")
+                        logger.error(f"Article type: {type(article)}")
+                        logger.error(f"Article dict keys: {list(article.dict().keys()) if hasattr(article, 'dict') else 'No dict method'}")
+                        raise
+                
+                # Serialize failed URLs
+                try:
+                    serialized_errors = self._storage.serialize_for_json(self.failed_urls)
+                except Exception as e:
+                    logger.error(f"Failed to serialize failed_urls: {e}")
+                    logger.error(f"Failed URLs count: {len(self.failed_urls)}")
+                    for i, failed_url in enumerate(self.failed_urls):
+                        logger.error(f"Failed URL {i}: {failed_url}")
+                        logger.error(f"Failed URL {i} types: {[(k, type(v)) for k, v in failed_url.items()]}")
+                    raise
+                
+                results = {
+                    "success": True,
+                    "newspaper": self.name,
+                    "country": self.country,
+                    "statistics": {
+                        "thumbnails_found": len(thumbnails),
+                        "articles_scraped": len(articles),
+                        "failed_urls": len(self.failed_urls),
+                        "failed_news": len(self.failed_news)
+                    },
+                    "data": {
+                        "thumbnails": serialized_thumbnails,
+                        "articles": serialized_articles
+                    },
+                    "errors": serialized_errors
+                }
+                
+                logger.info("Results dictionary created successfully")
+                
+            except Exception as e:
+                logger.error(f"Failed to create results dictionary: {e}")
+                raise
             
-            # Save failed URLs and news if any
+            # Save failed URLs and news if any - let storage handle serialization
             if self.failed_urls:
                 saved_path = self._storage.save_failed_urls(self.failed_urls, self.country, self.name)
                 if saved_path:
@@ -652,17 +679,43 @@ class NewspaperScraper:
                 if saved_path:
                     self._saved_files['failed_news'] = saved_path
             
-            # Save metadata
-            saved_path = self._storage.save_metadata(results, self.country, self.name)
-            if saved_path:
-                self._saved_files['metadata'] = saved_path
+            # Save metadata - let storage handle serialization
+            try:
+                saved_path = self._storage.save_metadata(results, self.country, self.name)
+                if saved_path:
+                    self._saved_files['metadata'] = saved_path
+            except Exception as e:
+                logger.error(f"Failed to save metadata: {e}")
+                # Debug the structure to find HttpUrl objects
+                import json
+                logger.error("Debugging results structure:")
+                try:
+                    json.dumps(results)
+                    logger.error("Results are JSON serializable - error might be elsewhere")
+                except Exception as json_error:
+                    logger.error(f"Results JSON error: {json_error}")
+                    # Check each part of results
+                    for key, value in results.items():
+                        try:
+                            json.dumps({key: value})
+                            logger.error(f"✓ {key} is serializable")
+                        except Exception as part_error:
+                            logger.error(f"✗ {key} failed: {part_error}")
+                            logger.error(f"  Type: {type(value)}")
+                            if isinstance(value, dict):
+                                for subkey, subvalue in value.items():
+                                    try:
+                                        json.dumps({subkey: subvalue})
+                                    except:
+                                        logger.error(f"    ✗ {subkey}: {type(subvalue)}")
+                raise
             
             logger.info(f"Scraping completed for {self.name}: {len(articles)} articles scraped")
             return results
             
         except Exception as e:
             logger.error(f"Scraping failed for {self.name}: {e}")
-            return {
+            error_results = {
                 "success": False,
                 "newspaper": self.name,
                 "country": self.country,
@@ -675,7 +728,45 @@ class NewspaperScraper:
                     "failed_news": len(self.failed_news)
                 }
             }
+            # Ensure error results are also JSON serializable
+            return self._storage.serialize_for_json(error_results)
     
+    def _add_failed_url(self, url: Any, status_code: Any = None, error: str = None, stage: str = None):
+        """
+        Safely add a failed URL with automatic serialization of HttpUrl objects.
+        
+        Args:
+            url: URL that failed (can be HttpUrl or string)
+            status_code: HTTP status code if available
+            error: Error message
+            stage: Stage where the failure occurred
+        """
+        failed_entry = {
+            "url": str(url) if url else None,
+            "status_code": status_code,
+            "error": error,
+            "stage": stage
+        }
+        self.failed_urls.append(failed_entry)
+    
+    def _add_failed_news(self, url: Any, status_code: Any = None, error: str = None, stage: str = None):
+        """
+        Safely add a failed news article with automatic serialization of HttpUrl objects.
+        
+        Args:
+            url: URL that failed (can be HttpUrl or string)
+            status_code: HTTP status code if available
+            error: Error message
+            stage: Stage where the failure occurred
+        """
+        failed_entry = {
+            "url": str(url) if url else None,
+            "status_code": status_code,
+            "error": error,
+            "stage": stage
+        }
+        self.failed_news.append(failed_entry)
+
     def cleanup(self):
         """Clean up resources."""
         if self._browser_client:

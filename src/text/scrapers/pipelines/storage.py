@@ -98,6 +98,50 @@ class JsonlStorage:
         sanitized = re.sub(r'[^\w\-_.]', '_', name.replace(" ", "_").lower())
         return sanitized.strip('_')
     
+    def serialize_for_json(self, obj: Any) -> Any:
+        """
+        Recursively serialize objects to ensure JSON compatibility.
+        
+        Converts HttpUrl objects and other non-serializable types to strings.
+        
+        Args:
+            obj: Object to serialize
+            
+        Returns:
+            JSON-serializable version of the object
+        """
+        # More robust HttpUrl detection
+        if hasattr(obj, '__class__'):
+            class_name = obj.__class__.__name__
+            module_name = getattr(obj.__class__, '__module__', '')
+            if 'HttpUrl' in class_name or 'pydantic' in module_name and 'Url' in class_name:
+                return str(obj)
+        
+        # Handle Pydantic models by converting to dict first
+        if hasattr(obj, 'dict') and callable(getattr(obj, 'dict')):
+            try:
+                # This is likely a Pydantic model
+                model_dict = obj.dict()
+                return self.serialize_for_json(model_dict)
+            except:
+                # If dict() fails, convert to string
+                return str(obj)
+        
+        # Handle collections recursively
+        if isinstance(obj, dict):
+            return {key: self.serialize_for_json(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [self.serialize_for_json(item) for item in obj]
+        elif isinstance(obj, tuple):
+            return tuple(self.serialize_for_json(item) for item in obj)
+        else:
+            # For any other object that might not be JSON serializable, try to convert to string
+            try:
+                json.dumps(obj)
+                return obj  # It's already JSON serializable
+            except (TypeError, ValueError):
+                return str(obj)  # Convert non-serializable objects to string
+    
     def save_thumbnails(
         self,
         thumbnails: List[ThumbnailRecord],
@@ -137,7 +181,10 @@ class JsonlStorage:
                 data['_country'] = country
                 data['_newspaper'] = newspaper
                 
-                f.write(json.dumps(data, ensure_ascii=False) + '\n')
+                # Serialize to handle HttpUrl objects
+                serialized_data = self.serialize_for_json(data)
+                
+                f.write(json.dumps(serialized_data, ensure_ascii=False) + '\n')
         
         logger.info(f"Saved {len(thumbnails)} thumbnails to {file_path}")
         return file_path
@@ -179,7 +226,10 @@ class JsonlStorage:
                 data = article.dict()
                 data['_scraped_at'] = timestamp.isoformat()
                 
-                f.write(json.dumps(data, ensure_ascii=False) + '\n')
+                # Serialize to handle HttpUrl objects
+                serialized_data = self.serialize_for_json(data)
+                
+                f.write(json.dumps(serialized_data, ensure_ascii=False) + '\n')
         
         logger.info(f"Saved {len(articles)} articles to {file_path}")
         return file_path
@@ -358,9 +408,12 @@ class JsonlStorage:
             }
         }
         
+        # Serialize metadata to handle HttpUrl objects
+        serialized_metadata = self.serialize_for_json(metadata)
+        
         # Save metadata
         with open(file_path, 'w', encoding='utf-8') as f:
-            json.dump(metadata, f, indent=2, ensure_ascii=False)
+            json.dump(serialized_metadata, f, indent=2, ensure_ascii=False)
         
         logger.info(f"Saved metadata to {file_path}")
         return file_path
@@ -512,9 +565,12 @@ class JsonlStorage:
         filename = f"failed_urls_{timestamp.strftime('%Y%m%d')}.jsonl"
         file_path = failed_dir / filename
         
+        # Serialize failed URLs to handle HttpUrl objects
+        serialized_failed_urls = self.serialize_for_json(failed_urls)
+        
         # Save data
         with open(file_path, 'w', encoding='utf-8') as f:
-            for failed_url in failed_urls:
+            for failed_url in serialized_failed_urls:
                 f.write(json.dumps(failed_url, ensure_ascii=False) + '\n')
         
         logger.info(f"Saved {len(failed_urls)} failed URLs to {file_path}")
@@ -554,9 +610,12 @@ class JsonlStorage:
         filename = f"failed_news_{timestamp.strftime('%Y%m%d')}.jsonl"
         file_path = failed_dir / filename
         
+        # Serialize failed news to handle HttpUrl objects
+        serialized_failed_news = self.serialize_for_json(failed_news)
+        
         # Save data
         with open(file_path, 'w', encoding='utf-8') as f:
-            for failed_article in failed_news:
+            for failed_article in serialized_failed_news:
                 f.write(json.dumps(failed_article, ensure_ascii=False) + '\n')
         
         logger.info(f"Saved {len(failed_news)} failed news articles to {file_path}")
