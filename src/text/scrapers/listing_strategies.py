@@ -258,11 +258,15 @@ class ArchiveStrategy(ListingStrategy):
         - start_date: Start date (YYYY-MM-DD format)
         - end_date: End date (YYYY-MM-DD format, optional)
         - date_format: Date format for URL ('monthly' or 'daily')
+        - batch_size: Number of archive URLs to check per batch (optional, default 10)
         """
         super().__init__(config)
         
         self.url_template = config["url_template"]
         self.date_format = config.get("date_format", "monthly")
+        self.batch_size = int(config.get("batch_size", 10))
+        if self.batch_size <= 0:
+            raise ValueError("batch_size must be a positive integer")
 
         # Parse start date and normalise based on date format
         self.start_date = datetime.strptime(config["start_date"], "%Y-%m-%d")
@@ -347,10 +351,8 @@ class ArchiveStrategy(ListingStrategy):
         logger.info(f"Generated {len(archive_urls)} archive URLs from {self.start_date.date()} to {self.end_date.date()}")
         
         # Process archive URLs in batches
-        batch_size = 10  # Process 10 archive pages at a time
-        
-        for i in range(0, len(archive_urls), batch_size):
-            batch = archive_urls[i:i + batch_size]
+        for i in range(0, len(archive_urls), self.batch_size):
+            batch = archive_urls[i:i + self.batch_size]
             
             # Check which archive URLs are accessible
             url_status = await client.check_urls_batch(batch)

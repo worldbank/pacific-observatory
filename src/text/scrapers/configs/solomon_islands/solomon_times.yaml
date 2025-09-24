@@ -12,11 +12,12 @@ listing:
   url_template: "https://www.solomontimes.com/news/latest/{year}/{month}"
   start_date: "2007-01-01"  # Original scraper: range(2007, 2024)
   date_format: "monthly"    # Generate URLs for each month
+  batch_size: 100
 
 # Client configuration
 client: "http"  # Use HTTP client (not browser-based)
-concurrency: 10  # Maximum concurrent requests (conservative for older site)
-rate_limit: 0.2  # Minimum delay between requests in seconds (5 req/sec max)
+concurrency: 20  # Maximum concurrent requests (conservative for older site)
+rate_limit: 0.1  # Minimum delay between requests in seconds (5 req/sec max)
 retries: 3       # Number of retry attempts for failed requests
 retry_seconds: 2.0  # Wait time in seconds between retry attempts
 
@@ -28,7 +29,7 @@ headers:
 # CSS selectors for data extraction
 selectors:
   # Thumbnail/listing page selectors - try multiple fallback options
-  thumbnail: ".article-list-item"         # Original selector from monolithic scraper
+  thumbnail: "div.articles-list section.article-list-item"         # Original selector from monolithic scraper
   title: "h2::text"                # Article title text (from original: i.find("h2").text)
   url: "a::attr(href)"             # Article URL (from original: i.find("a")["href"])
   date: ".date"                    # Placeholder selector (date extracted from archive URL path)

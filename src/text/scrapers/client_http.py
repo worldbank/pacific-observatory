@@ -348,12 +348,41 @@ class AsyncHttpClient:
         try:
             async with self._semaphore:
                 await self._rate_limit_delay()
+
                 response = await client.head(
                     url,
                     headers=self.headers,
                     cookies=self.cookies,
-                    timeout=self.timeout
+                    timeout=self.timeout,
+                    follow_redirects=True
                 )
-                return response.status_code == 200
+
+                if response.status_code == 200:
+                    return True
+
+                # Fallback to GET when HEAD is not supported or returns an error status
+                if response.status_code in {301, 302, 303, 307, 308, 403, 404, 405} or response.status_code >= 500:
+                    get_response = await client.get(
+                        url,
+                        headers=self.headers,
+                        cookies=self.cookies,
+                        timeout=self.timeout,
+                        follow_redirects=True
+                    )
+                    return get_response.status_code == 200
+
+                return False
         except Exception:
-            return False
+            try:
+                async with self._semaphore:
+                    await self._rate_limit_delay()
+                    get_response = await client.get(
+                        url,
+                        headers=self.headers,
+                        cookies=self.cookies,
+                        timeout=self.timeout,
+                        follow_redirects=True
+                    )
+                    return get_response.status_code == 200
+            except Exception:
+                return False
