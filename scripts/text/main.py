@@ -22,7 +22,7 @@ from datetime import datetime
 from typing import Optional
 
 # Set up the data folder path
-os.environ["DATA_FOLDER_PATH"] = "data"
+os.environ["DATA_FOLDER_PATH"] = "data/text"
 
 # Add the src directory to Python path for imports
 project_root = Path(__file__).parent.parent.parent
