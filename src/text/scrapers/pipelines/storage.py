@@ -169,7 +169,7 @@ class JsonlStorage:
         newspaper_dir.mkdir(parents=True, exist_ok=True)
         
         # Create filename with timestamp
-        filename = f"thumbnails_{timestamp.strftime('%Y%m%d_%H%M%S')}.jsonl"
+        filename = f"thumbnails_{timestamp.strftime('%Y%m%d')}.jsonl"
         file_path = newspaper_dir / filename
         
         # Save data
@@ -216,7 +216,7 @@ class JsonlStorage:
         newspaper_dir.mkdir(parents=True, exist_ok=True)
         
         # Create filename with timestamp
-        filename = f"articles_{timestamp.strftime('%Y%m%d_%H%M%S')}.jsonl"
+        filename = f"articles_{timestamp.strftime('%Y%m%d')}.jsonl"
         file_path = newspaper_dir / filename
         
         # Save data
@@ -305,7 +305,7 @@ class JsonlStorage:
         newspaper_dir.mkdir(parents=True, exist_ok=True)
         
         # Create filename with timestamp
-        filename = f"articles_{timestamp.strftime('%Y%m%d_%H%M%S')}.jsonl"
+        filename = f"articles_{timestamp.strftime('%Y%m%d')}.jsonl"
         file_path = newspaper_dir / filename
         
         # Save data
@@ -391,7 +391,7 @@ class JsonlStorage:
         newspaper_dir.mkdir(parents=True, exist_ok=True)
         
         # Create filename
-        filename = f"metadata_{timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+        filename = f"metadata_{timestamp.strftime('%Y%m%d')}.json"
         file_path = newspaper_dir / filename
         
         # Prepare metadata
