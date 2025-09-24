@@ -685,6 +685,165 @@ class NewspaperScraper:
             # Ensure error results are also JSON serializable
             return self._storage.serialize_for_json(error_results)
     
+    async def run_update_scrape(self) -> Dict[str, Any]:
+        """
+        Run an update scraping operation.
+        
+        This mode scrapes all URLs but only processes articles that don't already exist
+        in the news.jsonl file, making it efficient for incremental updates.
+        
+        Returns:
+            Dictionary with scraping results and statistics
+        """
+        logger.info(f"Starting update scrape for {self.name} ({self.country})")
+        
+        try:
+            # Step 1: Load existing articles to get URLs we should skip
+            existing_urls = self._storage.get_existing_article_urls(self.country, self.name)
+            logger.info(f"Found {len(existing_urls)} existing articles to skip")
+            
+            # Step 2: Discover and scrape thumbnails (same as full scrape)
+            thumbnails = await self.discover_and_scrape_thumbnails()
+            logger.info(f"Discovered {len(thumbnails)} thumbnails")
+            
+            # Step 3: Filter thumbnails to only include new articles
+            new_thumbnails = []
+            skipped_count = 0
+            
+            for thumbnail in thumbnails:
+                thumbnail_url = str(thumbnail.url)
+                if thumbnail_url not in existing_urls:
+                    new_thumbnails.append(thumbnail)
+                else:
+                    skipped_count += 1
+            
+            logger.info(f"Filtered thumbnails: {len(new_thumbnails)} new, {skipped_count} already exist")
+            
+            # Step 4: Scrape only new articles
+            if new_thumbnails:
+                new_articles = await self.scrape_articles(new_thumbnails)
+                logger.info(f"Scraped {len(new_articles)} new articles")
+            else:
+                new_articles = []
+                logger.info("No new articles to scrape")
+            
+            # Step 5: If we have new articles, append them to existing file
+            if new_articles:
+                # Load existing articles
+                existing_articles = self._storage.load_existing_articles(self.country, self.name) or []
+                
+                # Combine existing and new articles
+                all_articles = existing_articles + new_articles
+                
+                # Save combined articles
+                saved_path = self._storage.save_articles(all_articles, self.country, self.name)
+                if saved_path:
+                    self._saved_files['news'] = saved_path
+                
+                # Save thumbnails (all discovered thumbnails, not just new ones)
+                saved_path = self._storage.save_thumbnails_as_urls(thumbnails, self.country, self.name)
+                if saved_path:
+                    self._saved_files['urls'] = saved_path
+            else:
+                logger.info("No new articles to save")
+            
+            # Compile results - ensure all HttpUrl objects are converted to strings
+            try:
+                logger.info("Creating update results dictionary...")
+                
+                # Serialize thumbnails and new articles
+                serialized_thumbnails = []
+                for i, thumb in enumerate(thumbnails):
+                    try:
+                        serialized_thumb = self._storage.serialize_for_json(thumb.dict())
+                        serialized_thumbnails.append(serialized_thumb)
+                    except Exception as e:
+                        logger.error(f"Failed to serialize thumbnail {i}: {e}")
+                        raise
+                
+                serialized_new_articles = []
+                for i, article in enumerate(new_articles):
+                    try:
+                        serialized_article = self._storage.serialize_for_json(article.dict())
+                        serialized_new_articles.append(serialized_article)
+                    except Exception as e:
+                        logger.error(f"Failed to serialize new article {i}: {e}")
+                        raise
+                
+                # Serialize failed URLs
+                try:
+                    serialized_errors = self._storage.serialize_for_json(self.failed_urls)
+                except Exception as e:
+                    logger.error(f"Failed to serialize failed_urls: {e}")
+                    raise
+                
+                results = {
+                    "success": True,
+                    "newspaper": self.name,
+                    "country": self.country,
+                    "mode": "update",
+                    "statistics": {
+                        "thumbnails_found": len(thumbnails),
+                        "existing_articles_skipped": skipped_count,
+                        "new_articles_scraped": len(new_articles),
+                        "total_articles_after_update": len(existing_urls) + len(new_articles),
+                        "failed_urls": len(self.failed_urls),
+                        "failed_news": len(self.failed_news)
+                    },
+                    "data": {
+                        "thumbnails": serialized_thumbnails,
+                        "new_articles": serialized_new_articles
+                    },
+                    "errors": serialized_errors
+                }
+                
+                logger.info("Update results dictionary created successfully")
+                
+            except Exception as e:
+                logger.error(f"Failed to create update results dictionary: {e}")
+                raise
+            
+            # Save failed URLs and news if any
+            if self.failed_urls:
+                saved_path = self._storage.save_failed_urls(self.failed_urls, self.country, self.name)
+                if saved_path:
+                    self._saved_files['failed_urls'] = saved_path
+            
+            if self.failed_news:
+                saved_path = self._storage.save_failed_news(self.failed_news, self.country, self.name)
+                if saved_path:
+                    self._saved_files['failed_news'] = saved_path
+            
+            # Save metadata
+            try:
+                saved_path = self._storage.save_metadata(results, self.country, self.name, metadata_type="update")
+                if saved_path:
+                    self._saved_files['metadata'] = saved_path
+            except Exception as e:
+                logger.error(f"Failed to save update metadata: {e}")
+                raise
+            
+            logger.info(f"Update scrape completed for {self.name}: {len(new_articles)} new articles added")
+            return results
+            
+        except Exception as e:
+            logger.error(f"Update scraping failed for {self.name}: {e}")
+            error_results = {
+                "success": False,
+                "newspaper": self.name,
+                "country": self.country,
+                "mode": "update",
+                "error": str(e),
+                "statistics": {
+                    "thumbnails_found": len(self.scraped_thumbnails),
+                    "new_articles_scraped": len(self.scraped_articles),
+                    "failed_urls": len(self.failed_urls),
+                    "failed_news": len(self.failed_news)
+                }
+            }
+            # Ensure error results are also JSON serializable
+            return self._storage.serialize_for_json(error_results)
+    
     def _add_failed_url(self, url: Any, status_code: Any = None, error: str = None, stage: str = None):
         """
         Safely add a failed URL with automatic serialization of HttpUrl objects.

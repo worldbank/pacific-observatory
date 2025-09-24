@@ -416,3 +416,76 @@ class JsonlStorage:
         except Exception as e:
             logger.error(f"Failed to load existing thumbnails from {file_path}: {e}")
             return None
+    
+    def load_existing_articles(
+        self,
+        country: str,
+        newspaper: str
+    ) -> Optional[List[ArticleRecord]]:
+        """
+        Load existing articles from news.jsonl file.
+        
+        Args:
+            country: Country code
+            newspaper: Newspaper name
+            
+        Returns:
+            List of ArticleRecord objects if file exists, None otherwise
+        """
+        # Get newspaper directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        
+        # Check for news.jsonl file
+        filename = "news.jsonl"
+        file_path = newspaper_dir / filename
+        
+        if not file_path.exists():
+            logger.info(f"No existing articles file found: {file_path}")
+            return None
+        
+        try:
+            articles = []
+            with open(file_path, 'r', encoding='utf-8') as f:
+                for line_num, line in enumerate(f, 1):
+                    line = line.strip()
+                    if line:  # Skip empty lines
+                        try:
+                            data = json.loads(line)
+                            # Remove metadata fields that aren't part of ArticleRecord
+                            article_data = {k: v for k, v in data.items() if not k.startswith('_')}
+                            article = ArticleRecord(**article_data)
+                            articles.append(article)
+                        except Exception as line_error:
+                            logger.warning(f"Failed to parse article on line {line_num} in {file_path}: {line_error}")
+                            continue
+            
+            logger.info(f"Loaded {len(articles)} existing articles from {file_path}")
+            return articles
+            
+        except Exception as e:
+            logger.error(f"Failed to load existing articles from {file_path}: {e}")
+            return None
+    
+    def get_existing_article_urls(
+        self,
+        country: str,
+        newspaper: str
+    ) -> set:
+        """
+        Get a set of URLs from existing articles for quick lookup.
+        
+        Args:
+            country: Country code
+            newspaper: Newspaper name
+            
+        Returns:
+            Set of article URLs that already exist
+        """
+        existing_articles = self.load_existing_articles(country, newspaper)
+        if not existing_articles:
+            return set()
+        
+        # Convert URLs to strings for comparison
+        existing_urls = {str(article.url) for article in existing_articles}
+        logger.info(f"Found {len(existing_urls)} existing article URLs for {newspaper}")
+        return existing_urls

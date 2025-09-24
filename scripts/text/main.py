@@ -63,7 +63,8 @@ def setup_logging(level: str = "INFO", log_file: Optional[Path] = None):
 async def run_single_scraper(
     config_path: Path,
     storage_dir: Optional[Path] = None,
-    save_results: bool = True
+    save_results: bool = True,
+    update_mode: bool = False
 ) -> dict:
     """
     Run a single newspaper scraper.
@@ -72,6 +73,7 @@ async def run_single_scraper(
         config_path: Path to the newspaper configuration file
         storage_dir: Optional custom storage directory
         save_results: Whether to save results to disk
+        update_mode: Whether to run in update mode (skip existing articles)
         
     Returns:
         Dictionary with scraping results
@@ -89,10 +91,16 @@ async def run_single_scraper(
             storage = JsonlStorage(storage_dir)
         
         # Run the scraping operation
-        logger.info(f"Starting scrape for {scraper.name} ({scraper.country})")
+        if update_mode:
+            logger.info(f"Starting UPDATE scrape for {scraper.name} ({scraper.country})")
+        else:
+            logger.info(f"Starting FULL scrape for {scraper.name} ({scraper.country})")
         start_time = datetime.now()
         
-        results = await scraper.run_full_scrape()
+        if update_mode:
+            results = await scraper.run_update_scrape()
+        else:
+            results = await scraper.run_full_scrape()
         
         end_time = datetime.now()
         duration = end_time - start_time
@@ -203,13 +211,14 @@ def list_countries():
         print("No countries configured yet.")
 
 
-async def run_scraper_by_name(newspaper_name: str, country: str = None, **kwargs):
+async def run_scraper_by_name(newspaper_name: str, country: str = None, update_mode: bool = False, **kwargs):
     """
     Run a scraper by newspaper name.
     
     Args:
         newspaper_name: Name of the newspaper to scrape
         country: Optional country filter
+        update_mode: Whether to run in update mode (skip existing articles)
         **kwargs: Additional arguments for the scraper
     """
     scrapers_dir = get_scrapers_dir()
@@ -248,7 +257,8 @@ async def run_scraper_by_name(newspaper_name: str, country: str = None, **kwargs
         results = await run_single_scraper(
             config_path=config_path,
             storage_dir=kwargs.get('storage_dir'),
-            save_results=not kwargs.get('no_save', False)
+            save_results=not kwargs.get('no_save', False),
+            update_mode=update_mode
         )
         
         if results['success']:
@@ -294,7 +304,8 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python scripts/text/main.py sibc                    # Run SIBC scraper
+  python scripts/text/main.py sibc                    # Run SIBC scraper (full mode)
+  python scripts/text/main.py sibc --update           # Run SIBC scraper (update mode - skip existing articles)
   python scripts/text/main.py --list-scrapers         # List all available scrapers
   python scripts/text/main.py --list-countries        # List all countries
   python scripts/text/main.py sibc --no-save          # Run without saving results
@@ -339,6 +350,12 @@ Examples:
         help="Don't save results to disk (dry run)"
     )
     
+    parser.add_argument(
+        "--update",
+        action="store_true",
+        help="Run in update mode (scrape URLs but skip articles that already exist in news.jsonl)"
+    )
+    
     # Logging options
     parser.add_argument(
         "--log-level",
@@ -379,6 +396,7 @@ Examples:
         success = asyncio.run(run_scraper_by_name(
             newspaper_name=args.newspaper,
             country=args.country,
+            update_mode=args.update,
             storage_dir=args.storage_dir,
             no_save=args.no_save
         ))
