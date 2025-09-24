@@ -312,8 +312,6 @@ class AsyncHttpClient:
                     else:
                         all_results.append(result)
                 
-                logger.info(f"Completed batch {i//batch_size + 1}/{(len(urls) + batch_size - 1)//batch_size}: {len(batch_urls)} URLs")
-            
             return all_results
     
     async def check_urls_batch(

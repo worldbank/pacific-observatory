@@ -124,10 +124,11 @@ class NewspaperScraper:
     
     async def discover_and_scrape_thumbnails(self) -> List[ThumbnailRecord]:
         """
-        Discover listing pages and scrape thumbnails, with smart caching.
+        Discover listing pages and scrape thumbnails, with smart caching and retry logic.
         
         First checks if today's thumbnails already exist. If yes, loads them.
-        If no, performs discovery and scraping, then saves the results.
+        If no, performs discovery and scraping with retry logic for failed pages.
+        If no thumbnails are found, retries up to 25 times with 2-second delays.
         
         Returns:
             List of ThumbnailRecord objects
@@ -165,8 +166,43 @@ class NewspaperScraper:
                     # Parse the scraped content
                     thumbnail_elements = result.data
                     if not thumbnail_elements:
-                        logger.warning(f"No thumbnails found on {result.url}")
-                        continue
+                        # No thumbnails found - implement retry logic
+                        logger.warning(f"No thumbnails found on {result.url} - starting retry sequence")
+                        
+                        # Retry up to 25 times with 2-second delays
+                        retry_count = 0
+                        max_retries = 25
+                        retry_delay = 2.0
+                        
+                        while retry_count < max_retries:
+                            retry_count += 1
+                            logger.debug(f"Retry {retry_count}/{max_retries} for {result.url}")
+                            
+                            # Wait before retry
+                            await asyncio.sleep(retry_delay)
+                            
+                            # Retry the request
+                            try:
+                                retry_result = await client.scrape_url(client._http_client, str(result.url), thumbnail_selector)
+                                
+                                if retry_result.success and retry_result.data:
+                                    logger.info(f"Thumbnails found on retry {retry_count} for {result.url}")
+                                    thumbnail_elements = retry_result.data
+                                    break
+                                    
+                            except Exception as e:
+                                logger.debug(f"Retry {retry_count} failed for {result.url}: {e}")
+                        
+                        # If still no thumbnails after all retries, mark as failed
+                        if not thumbnail_elements:
+                            logger.warning(f"No thumbnails found after {max_retries} retries for {result.url}")
+                            self.failed_urls.append({
+                                "url": str(result.url),
+                                "status_code": getattr(result, 'status_code', None),
+                                "error": f"No thumbnails found after {max_retries} retries",
+                                "stage": "thumbnail_listing_no_content"
+                            })
+                            continue
                     
                     # Extract data from each thumbnail element
                     for thumb_elem in thumbnail_elements:
@@ -183,7 +219,7 @@ class NewspaperScraper:
         else:
             # Fallback to old method for strategies that don't support combined approach
             listing_urls = await self.discover_listing_urls()
-            thumbnails = await self.scrape_thumbnails(listing_urls)
+            thumbnails = await self.scrape_thumbnails_with_retry(listing_urls)
         
         logger.info(f"Total thumbnails discovered and scraped: {len(thumbnails)}")
         
@@ -293,9 +329,9 @@ class NewspaperScraper:
             logger.error(f"Error extracting thumbnail data: {e}")
             return None
 
-    async def scrape_thumbnails(self, listing_urls: List[str]) -> List[ThumbnailRecord]:
+    async def scrape_thumbnails_with_retry(self, listing_urls: List[str]) -> List[ThumbnailRecord]:
         """
-        Scrape thumbnail data from listing pages.
+        Scrape thumbnail data from listing pages with retry logic.
         
         Args:
             listing_urls: List of listing page URLs
@@ -316,6 +352,7 @@ class NewspaperScraper:
                 if not result.success:
                     self.failed_urls.append({
                         "url": str(result.url),
+                        "status_code": result.status_code,
                         "error": result.error,
                         "stage": "thumbnail_listing"
                     })
@@ -324,12 +361,45 @@ class NewspaperScraper:
                 # Parse the scraped content
                 thumbnail_elements = result.data
                 if not thumbnail_elements:
-                    logger.warning(f"No thumbnails found on {result.url}")
-                    continue
+                    # No thumbnails found - implement retry logic
+                    logger.warning(f"No thumbnails found on {result.url} - starting retry sequence")
+                    
+                    # Retry up to 25 times with 2-second delays
+                    retry_count = 0
+                    max_retries = 25
+                    retry_delay = 2.0
+                    
+                    while retry_count < max_retries:
+                        retry_count += 1
+                        logger.debug(f"Retry {retry_count}/{max_retries} for {result.url}")
+                        
+                        # Wait before retry
+                        await asyncio.sleep(retry_delay)
+                        
+                        # Retry the request
+                        try:
+                            retry_result = await client.scrape_url(client._http_client, str(result.url), thumbnail_selector)
+                            
+                            if retry_result.success and retry_result.data:
+                                logger.info(f"Thumbnails found on retry {retry_count} for {result.url}")
+                                thumbnail_elements = retry_result.data
+                                break
+                                
+                        except Exception as e:
+                            logger.debug(f"Retry {retry_count} failed for {result.url}: {e}")
+                    
+                    # If still no thumbnails after all retries, mark as failed
+                    if not thumbnail_elements:
+                        logger.warning(f"No thumbnails found after {max_retries} retries for {result.url}")
+                        self.failed_urls.append({
+                            "url": str(result.url),
+                            "status_code": getattr(result, 'status_code', None),
+                            "error": f"No thumbnails found after {max_retries} retries",
+                            "stage": "thumbnail_listing_no_content"
+                        })
+                        continue
                 
                 # Extract data from each thumbnail element
-                # We need to extract additional data (title, URL, date) from each thumbnail element
-                # The thumbnail elements are already extracted, but we need the full page context
                 for thumb_elem in thumbnail_elements:
                     thumb_data = self._extract_thumbnail_data_from_element(thumb_elem, str(result.url))
                     if thumb_data:
@@ -341,7 +411,7 @@ class NewspaperScraper:
                             logger.error(f"Data: {thumb_data}")
         
         else:
-            # Browser client implementation
+            # Browser client implementation with retry logic
             browser_client = self._get_browser_client()
             
             try:
@@ -362,8 +432,40 @@ class NewspaperScraper:
                         thumbnail_elements = browser_client.find_elements(thumbnail_selector)
                         
                         if not thumbnail_elements:
-                            logger.warning(f"No thumbnails found on {url}")
-                            continue
+                            # No thumbnails found - implement retry logic
+                            logger.warning(f"No thumbnails found on {url} - starting retry sequence")
+                            
+                            # Retry up to 25 times with 2-second delays
+                            retry_count = 0
+                            max_retries = 25
+                            retry_delay = 2.0
+                            
+                            while retry_count < max_retries:
+                                retry_count += 1
+                                logger.debug(f"Retry {retry_count}/{max_retries} for {url}")
+                                
+                                # Wait before retry
+                                await asyncio.sleep(retry_delay)
+                                
+                                # Retry navigation and element finding
+                                try:
+                                    if browser_client.navigate_to_url(url):
+                                        thumbnail_elements = browser_client.find_elements(thumbnail_selector)
+                                        if thumbnail_elements:
+                                            logger.info(f"Thumbnails found on retry {retry_count} for {url}")
+                                            break
+                                except Exception as e:
+                                    logger.debug(f"Retry {retry_count} failed for {url}: {e}")
+                            
+                            # If still no thumbnails after all retries, mark as failed
+                            if not thumbnail_elements:
+                                logger.warning(f"No thumbnails found after {max_retries} retries for {url}")
+                                self.failed_urls.append({
+                                    "url": url,
+                                    "error": f"No thumbnails found after {max_retries} retries",
+                                    "stage": "thumbnail_listing_no_content"
+                                })
+                                continue
                         
                         # Extract data from each thumbnail
                         for thumb_elem in thumbnail_elements:
@@ -398,6 +500,19 @@ class NewspaperScraper:
         logger.info(f"Scraped {len(thumbnails)} thumbnails from {len(listing_urls)} listing pages")
         self.scraped_thumbnails = thumbnails
         return thumbnails
+
+    async def scrape_thumbnails(self, listing_urls: List[str]) -> List[ThumbnailRecord]:
+        """
+        Scrape thumbnail data from listing pages (legacy method without retry).
+        
+        Args:
+            listing_urls: List of listing page URLs
+            
+        Returns:
+            List of ThumbnailRecord objects
+        """
+        # Delegate to the retry version for consistency
+        return await self.scrape_thumbnails_with_retry(listing_urls)
     
     async def scrape_articles(self, thumbnails: List[ThumbnailRecord]) -> List[ArticleRecord]:
         """
