@@ -29,12 +29,13 @@ selectors:
   date: ".item-date-time::text"   # Publication date
   
   # Article page selectors  
-  article_body: ".entry-body p"   # Article content paragraphs
-  tags: ".entry-taxonomies a"    # Article tags/categories
+  article_body: ".entry-body p::text"   # Article content paragraphs
+  tags: ".entry-taxonomies a::text"    # Article tags/categories
 
 # Data cleaning configuration
 cleaning:
   date: "clean_sibc_date"  # Custom function to handle SIBC date format
+  body: "clean_sibc_body"  # Custom function to remove author bylines
 
 # Optional authentication (not needed for SIBC)
 # auth: null

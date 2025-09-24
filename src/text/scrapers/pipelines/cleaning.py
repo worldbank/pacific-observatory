@@ -273,6 +273,50 @@ def clean_solomon_star_tags(tags_element) -> str:
         return clean_html_text(str(tags_element))
 
 
+def clean_sibc_body(body_text: str) -> str:
+    """
+    Clean SIBC article body by removing author bylines.
+    
+    SIBC articles often start with author bylines like "By Aaron Szetu in Gizo, Western Province".
+    This function removes paragraphs that start with "By " to clean the article content.
+    
+    Args:
+        body_text: Raw article body text
+        
+    Returns:
+        Cleaned article body text with author bylines removed
+    """
+    if not body_text:
+        return ""
+    
+    # Split the text into sentences/paragraphs (assuming they're separated by periods and spaces)
+    # or by common paragraph separators
+    paragraphs = []
+    
+    # Try to split by common paragraph separators first
+    if '. ' in body_text:
+        # Split by '. ' but be careful not to split abbreviations
+        parts = body_text.split('. ')
+        for i, part in enumerate(parts):
+            if i < len(parts) - 1:  # Add the period back except for the last part
+                part = part + '.'
+            paragraphs.append(part.strip())
+    else:
+        # If no clear paragraph separation, treat as single paragraph
+        paragraphs = [body_text.strip()]
+    
+    # Filter out paragraphs that start with "By "
+    cleaned_paragraphs = []
+    for paragraph in paragraphs:
+        if paragraph and not paragraph.startswith("By "):
+            cleaned_paragraphs.append(paragraph)
+    
+    # Join the remaining paragraphs back together
+    cleaned_text = ' '.join(cleaned_paragraphs).strip()
+    
+    return cleaned_text
+
+
 def normalize_date(date_str: str) -> str:
     """
     Normalize any date string to YYYY-MM-DD format.
@@ -292,6 +336,7 @@ def normalize_date(date_str: str) -> str:
 # Registry of available cleaning functions
 CLEANING_FUNCTIONS = {
     'clean_sibc_date': clean_sibc_date,
+    'clean_sibc_body': clean_sibc_body,
     'clean_solomon_star_date': clean_solomon_star_date,
     'clean_solomon_star_content': clean_solomon_star_content,
     'clean_solomon_star_tags': clean_solomon_star_tags,

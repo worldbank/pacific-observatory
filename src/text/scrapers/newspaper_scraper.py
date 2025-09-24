@@ -329,6 +329,78 @@ class NewspaperScraper:
             logger.error(f"Error extracting thumbnail data: {e}")
             return None
 
+    def _extract_article_data_from_soup(self, soup, article_url: str) -> Dict[str, Any]:
+        """
+        Extract article body and tags from a BeautifulSoup object.
+        
+        Args:
+            soup: BeautifulSoup object of the article page
+            article_url: URL of the article page
+            
+        Returns:
+            Dictionary with extracted article data (body, tags)
+        """
+        try:
+            data = {}
+            
+            # Extract article body
+            body_selector = self.selectors.get("article_body")
+            if body_selector:
+                if body_selector.endswith("::text"):
+                    # CSS selector with text extraction
+                    selector = body_selector.replace("::text", "")
+                    body_elements = soup.select(selector)
+                    if body_elements:
+                        # Join all paragraph texts with spaces
+                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
+                        data["body"] = " ".join(body_texts)
+                    else:
+                        data["body"] = ""
+                else:
+                    # Regular CSS selector
+                    body_elements = soup.select(body_selector)
+                    if body_elements:
+                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
+                        data["body"] = " ".join(body_texts)
+                    else:
+                        data["body"] = ""
+            else:
+                data["body"] = ""
+            
+            # Extract tags
+            tags_selector = self.selectors.get("tags")
+            if tags_selector:
+                if tags_selector.endswith("::text"):
+                    # CSS selector with text extraction
+                    selector = tags_selector.replace("::text", "")
+                    tag_elements = soup.select(selector)
+                    if tag_elements:
+                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
+                        data["tags"] = tags
+                    else:
+                        data["tags"] = []
+                else:
+                    # Regular CSS selector
+                    tag_elements = soup.select(tags_selector)
+                    if tag_elements:
+                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
+                        data["tags"] = tags
+                    else:
+                        data["tags"] = []
+            else:
+                data["tags"] = []
+            
+            # Apply cleaning functions if configured
+            cleaning_config = self.config.cleaning
+            if cleaning_config:
+                data = apply_cleaning(data, cleaning_config, self.base_url)
+            
+            return data
+            
+        except Exception as e:
+            logger.error(f"Error extracting article data from {article_url}: {e}")
+            return {"body": "", "tags": []}
+
     async def scrape_thumbnails_with_retry(self, listing_urls: List[str]) -> List[ThumbnailRecord]:
         """
         Scrape thumbnail data from listing pages with retry logic.
@@ -547,25 +619,31 @@ class NewspaperScraper:
             async with httpx.AsyncClient() as http_client:
                 for i, thumbnail in enumerate(tqdm(thumbnails, desc="Scraping articles")):
                     try:
-                        # Scrape individual article
-                        result = await client.scrape_url(http_client, str(thumbnail.url), list(article_selectors.values()))
+                        # Fetch article page HTML content
+                        content, status_code = await client.request_url(http_client, str(thumbnail.url))
                         
-                        if not result.success:
+                        if content is None:
                             self._add_failed_news(
                                 url=thumbnail.url,
-                                status_code=result.status_code,
-                                error=result.error,
+                                status_code=status_code,
+                                error="Failed to retrieve content",
                                 stage="article_content"
                             )
                             continue
                         
-                        # Extract article data (simplified - would need more sophisticated extraction)
+                        # Parse the HTML content
+                        soup = client.parse_content(content)
+                        
+                        # Extract article body and tags using the new extraction function
+                        article_content = self._extract_article_data_from_soup(soup, str(thumbnail.url))
+                        
+                        # Combine thumbnail data with extracted article content
                         article_data = {
                             "url": str(thumbnail.url),
                             "title": thumbnail.title,
                             "date": thumbnail.date,
-                            "body": "Article content would be extracted here",  # Placeholder
-                            "tags": [],
+                            "body": article_content.get("body", ""),
+                            "tags": article_content.get("tags", []),
                             "source": self.name,
                             "country": self.country
                         }
