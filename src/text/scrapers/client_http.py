@@ -126,7 +126,7 @@ class AsyncHttpClient:
             await self._rate_limit_delay()
             
             # Log request details for debugging
-            logger.info(f"Making request to: {url}")
+            logger.debug(f"Making request to: {url}")
             logger.debug(f"Request headers: {self.headers}")
             logger.debug(f"Request cookies: {self.cookies}")
             logger.debug(f"Request timeout: {self.timeout}")
@@ -145,7 +145,7 @@ class AsyncHttpClient:
                     
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 404:
-                        logger.info(f"404 Not Found for {url} - page doesn't exist")
+                        logger.error(f"404 Not Found for {url} - page doesn't exist")
                         return None, 404
                     
                     # Log detailed error information for non-404 errors
@@ -164,7 +164,7 @@ class AsyncHttpClient:
                 
                 # Retry logic
                 if attempt < retry_count:
-                    logger.info(f"Retrying {url} in {self.retry_seconds}s (attempt {attempt + 1}/{retry_count})")
+                    logger.debug(f"Retrying {url} in {self.retry_seconds}s (attempt {attempt + 1}/{retry_count})")
                     await asyncio.sleep(self.retry_seconds)
                     
                     # Refresh cookies on retry
