@@ -33,14 +33,18 @@ class ThumbnailRecord(BaseModel):
     @field_validator('date', mode='before')
     @classmethod
     def parse_date(cls, v: Any) -> str:
-        """Parse various date formats into a string."""
+        """Parse various date formats into YYYY-MM-DD format."""
         if isinstance(v, date):
             return v.isoformat()
         if isinstance(v, datetime):
             return v.date().isoformat()
         if isinstance(v, str):
-            # Return as string - can be processed by cleaning functions
-            return v.strip()
+            # Try to normalize string dates to YYYY-MM-DD format
+            if v.strip():
+                # Import here to avoid circular imports
+                from .pipelines.cleaning import handle_mixed_dates
+                return handle_mixed_dates(v.strip())
+            return ""
         if v is None:
             return ""
         return str(v)
@@ -94,14 +98,18 @@ class ArticleRecord(BaseModel):
     @field_validator('date', mode='before')
     @classmethod
     def parse_date(cls, v: Any) -> str:
-        """Parse various date formats into a string."""
+        """Parse various date formats into YYYY-MM-DD format."""
         if isinstance(v, date):
             return v.isoformat()
         if isinstance(v, datetime):
             return v.date().isoformat()
         if isinstance(v, str):
-            # Return as string - can be processed by cleaning functions
-            return v.strip()
+            # Try to normalize string dates to YYYY-MM-DD format
+            if v.strip():
+                # Import here to avoid circular imports
+                from .pipelines.cleaning import handle_mixed_dates
+                return handle_mixed_dates(v.strip())
+            return ""
         if v is None:
             return ""
         return str(v)

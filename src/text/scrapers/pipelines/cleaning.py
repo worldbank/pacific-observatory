@@ -15,20 +15,19 @@ logger = logging.getLogger(__name__)
 
 def clean_sibc_date(date_str: str) -> str:
     """
-    Clean SIBC date format by removing dashes and extra whitespace.
+    Clean SIBC date format and normalize to YYYY-MM-DD format.
     
     Args:
         date_str: Raw date string from SIBC
         
     Returns:
-        Cleaned date string
+        Normalized date string in YYYY-MM-DD format
     """
     if not date_str:
         return ""
     
-    # Remove dashes and strip whitespace as done in original scraper
-    cleaned = date_str.replace("-", "").strip()
-    return cleaned
+    # Use the handle_mixed_dates function to normalize to YYYY-MM-DD
+    return handle_mixed_dates(date_str)
 
 
 def handle_mixed_dates(date_str: str) -> str:
@@ -49,17 +48,21 @@ def handle_mixed_dates(date_str: str) -> str:
     
     # Try to parse and normalize to ISO format
     try:
-        # Common date patterns
+        # Common date patterns (most specific first)
         patterns = [
-            "%Y-%m-%d",
-            "%d/%m/%Y", 
-            "%m/%d/%Y",
-            "%d-%m-%Y",
-            "%Y/%m/%d",
-            "%B %d, %Y",
-            "%b %d, %Y",
-            "%d %B %Y",
-            "%d %b %Y"
+            "%Y-%m-%d",           # 2025-09-24
+            "%d/%m/%Y",           # 24/09/2025
+            "%m/%d/%Y",           # 09/24/2025
+            "%d-%m-%Y",           # 24-09-2025
+            "%Y/%m/%d",           # 2025/09/24
+            "%B %d, %Y",          # September 24, 2025
+            "%b %d, %Y",          # Sep 24, 2025
+            "%d %B %Y",           # 24 September 2025
+            "%d %b %Y",           # 24 Sep 2025
+            "%B %d %Y",           # September 24 2025 (no comma)
+            "%b %d %Y",           # Sep 24 2025 (no comma)
+            "%Y-%m-%dT%H:%M:%S",  # ISO datetime format
+            "%Y-%m-%d %H:%M:%S"   # Standard datetime format
         ]
         
         for pattern in patterns:
@@ -270,6 +273,22 @@ def clean_solomon_star_tags(tags_element) -> str:
         return clean_html_text(str(tags_element))
 
 
+def normalize_date(date_str: str) -> str:
+    """
+    Normalize any date string to YYYY-MM-DD format.
+    
+    This is a general-purpose date normalization function that can be used
+    by any newspaper configuration to ensure consistent date formatting.
+    
+    Args:
+        date_str: Date string in any supported format
+        
+    Returns:
+        Normalized date string in YYYY-MM-DD format
+    """
+    return handle_mixed_dates(date_str)
+
+
 # Registry of available cleaning functions
 CLEANING_FUNCTIONS = {
     'clean_sibc_date': clean_sibc_date,
@@ -277,6 +296,7 @@ CLEANING_FUNCTIONS = {
     'clean_solomon_star_content': clean_solomon_star_content,
     'clean_solomon_star_tags': clean_solomon_star_tags,
     'handle_mixed_dates': handle_mixed_dates,
+    'normalize_date': normalize_date,
     'clean_html_text': clean_html_text,
     'normalize_tags': normalize_tags,
     'clean_url': clean_url,

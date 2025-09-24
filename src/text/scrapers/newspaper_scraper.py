@@ -570,6 +570,11 @@ class NewspaperScraper:
                             "country": self.country
                         }
                         
+                        # Apply cleaning functions to article data if configured
+                        cleaning_config = self.config.cleaning
+                        if cleaning_config:
+                            article_data = apply_cleaning(article_data, cleaning_config, self.base_url)
+                        
                         article = ArticleRecord(**article_data)
                         articles.append(article)
                     
