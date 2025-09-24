@@ -39,7 +39,9 @@ selectors:
   date: ".entry-date"               # Publication date
   
   # Article page selectors
-  article_body: ".entry-content"    # Article content container
+  article_body: 
+    - ".entry-content"
+    - ".wf-container-main"
   tags: ".category-link"            # Article tags/categories
 
 # Data cleaning configuration

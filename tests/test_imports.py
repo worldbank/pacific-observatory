@@ -15,13 +15,13 @@ try:
     print("Testing imports...")
     
     # Test basic imports
-    from text.scrapers.factory import find_config_files
+    from src.text.scrapers.factory import find_config_files
     print("✅ Factory import successful")
     
-    from text.scrapers.orchestration.run_scraper import run_single_scraper
+    from src.text.scrapers.orchestration.run_scraper import run_single_scraper
     print("✅ Orchestration import successful")
     
-    from text.scrapers.models import NewspaperConfig, ThumbnailRecord, ArticleRecord
+    from src.text.scrapers.models import NewspaperConfig, ThumbnailRecord, ArticleRecord
     print("✅ Models import successful")
     
     # Test model creation

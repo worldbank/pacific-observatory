@@ -308,6 +308,8 @@ def clean_solomon_star_content(content_element) -> str:
     try:
         if hasattr(content_element, 'find_all'):
             paragraphs = content_element.find_all("p")
+            if not paragraphs:
+                paragraphs = content_element.find_all("div")
             # Join paragraph text with spaces, filtering out empty paragraphs
             content_parts = [p.text.strip() for p in paragraphs if p.text.strip()]
             return " ".join(content_parts)

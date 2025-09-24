@@ -123,52 +123,60 @@ def extract_article_data_from_soup(
     try:
         data = {}
         
-        # Extract article body
+        # Extract article body with fallback selector support
         body_selector = selectors.get("article_body")
-        if body_selector:
-            if body_selector.endswith("::text"):
-                # CSS selector with text extraction
-                selector = body_selector.replace("::text", "")
-                body_elements = soup.select(selector)
-                if body_elements:
-                    # Join all paragraph texts with spaces
-                    body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
-                    data["body"] = " ".join(body_texts)
-                else:
-                    data["body"] = ""
-            else:
-                # Regular CSS selector
-                body_elements = soup.select(body_selector)
-                if body_elements:
-                    body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
-                    data["body"] = " ".join(body_texts)
-                else:
-                    data["body"] = ""
-        else:
-            data["body"] = ""
+        data["body"] = ""
         
-        # Extract tags
+        if body_selector:
+            # Handle both single selectors and fallback lists
+            selectors_to_try = body_selector if isinstance(body_selector, list) else [body_selector]
+            
+            for selector in selectors_to_try:
+                if selector.endswith("::text"):
+                    # CSS selector with text extraction
+                    clean_selector = selector.replace("::text", "")
+                    body_elements = soup.select(clean_selector)
+                    if body_elements:
+                        # Join all paragraph texts with spaces
+                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
+                        if body_texts:  # Only use if we found actual content
+                            data["body"] = " ".join(body_texts)
+                            break
+                else:
+                    # Regular CSS selector
+                    body_elements = soup.select(selector)
+                    if body_elements:
+                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
+                        if body_texts:  # Only use if we found actual content
+                            data["body"] = " ".join(body_texts)
+                            break
+        
+        # Extract tags with fallback selector support
         tags_selector = selectors.get("tags")
+        data["tags"] = []
+        
         if tags_selector:
-            if tags_selector.endswith("::text"):
-                # CSS selector with text extraction
-                selector = tags_selector.replace("::text", "")
-                tag_elements = soup.select(selector)
-                if tag_elements:
-                    tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
-                    data["tags"] = tags
+            # Handle both single selectors and fallback lists
+            selectors_to_try = tags_selector if isinstance(tags_selector, list) else [tags_selector]
+            
+            for selector in selectors_to_try:
+                if selector.endswith("::text"):
+                    # CSS selector with text extraction
+                    clean_selector = selector.replace("::text", "")
+                    tag_elements = soup.select(clean_selector)
+                    if tag_elements:
+                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
+                        if tags:  # Only use if we found actual tags
+                            data["tags"] = tags
+                            break
                 else:
-                    data["tags"] = []
-            else:
-                # Regular CSS selector
-                tag_elements = soup.select(tags_selector)
-                if tag_elements:
-                    tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
-                    data["tags"] = tags
-                else:
-                    data["tags"] = []
-        else:
-            data["tags"] = []
+                    # Regular CSS selector
+                    tag_elements = soup.select(selector)
+                    if tag_elements:
+                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
+                        if tags:  # Only use if we found actual tags
+                            data["tags"] = tags
+                            break
         
         # Apply cleaning functions if configured
         if cleaning_config:
