@@ -8,11 +8,10 @@ from newspaper websites, including pagination, archives, categories, and search.
 import asyncio
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta
-from typing import List, Dict, Any, Optional, Generator, AsyncGenerator
+from typing import List, Dict, Any, Optional, AsyncGenerator
 import logging
 from urllib.parse import urljoin
 from .client_http import AsyncHttpClient
-from .client_browser import BrowserClient
 
 logger = logging.getLogger(__name__)
 
@@ -35,21 +34,13 @@ class ListingStrategy(ABC):
         self.config = config
     
     @abstractmethod
-    async def discover_urls(
+    async def discover_and_scrape(
         self,
         client: AsyncHttpClient,
-        base_url: str
-    ) -> AsyncGenerator[List[str], None]:
-        """
-        Discover article URLs using this strategy.
-        
-        Args:
-            client: HTTP client for making requests
-            base_url: Base URL of the newspaper
-            
-        Yields:
-            Batches of discovered URLs
-        """
+        base_url: str,
+        thumbnail_selector: str
+    ) -> AsyncGenerator[List[Any], None]:
+        """Discover listing pages and immediately scrape thumbnails."""
         pass
 
 
@@ -100,64 +91,6 @@ class PaginationStrategy(ListingStrategy):
             url = self.url_template.format(num=page_num)
             urls.append(url)
         return urls
-    
-    async def discover_urls(
-        self,
-        client: AsyncHttpClient,
-        base_url: str
-    ) -> AsyncGenerator[List[str], None]:
-        """
-        Discover URLs using dynamic pagination.
-        
-        If start_url is provided, yields it first before starting pagination.
-        Then generates batches of page URLs and stops when an entire
-        batch returns terminal errors (e.g., 404 Not Found).
-        """
-        # Handle start_url if provided
-        if self.start_url:
-            logger.info(f"Starting with initial URL: {self.start_url}")
-            # Check if start_url is accessible and yield it
-            url_status = await client.check_urls_batch([self.start_url])
-            if url_status.get(self.start_url, False):
-                yield [self.start_url]
-            else:
-                logger.warning(f"Start URL not accessible: {self.start_url}")
-        
-        current_page = self.start_page
-        
-        logger.info(f"Starting pagination discovery from page {current_page}")
-        
-        while True:
-            # Generate batch of page URLs
-            batch_urls = self.generate_page_urls(current_page, self.batch_size)
-            
-            logger.debug(f"Checking batch: pages {current_page} to {current_page + (self.batch_size - 1) * self.step}")
-            
-            # Check if URLs in this batch are accessible
-            url_status = await client.check_urls_batch(batch_urls)
-            
-            # count successful urls in this batch
-            successful_urls = [url for url, success in url_status.items() if success]
-            
-            if not successful_urls:
-                # no successful urls in this batch - we've reached the end
-                logger.info(f"no accessible pages found in batch starting at page {current_page}. stopping pagination.")
-                break
-            
-            # yield the successful urls for processing
-            yield successful_urls
-            
-            # if we got fewer successful urls than the batch size, we might be near the end
-            if len(successful_urls) < self.batch_size:
-                logger.info(f"found {len(successful_urls)}/{self.batch_size} accessible pages. might be near end of pagination.")
-            
-            # move to next batch
-            current_page += self.batch_size * self.step
-            
-            # add a small delay between batches for politeness
-            await asyncio.sleep(0.5)
-        
-        logger.info("pagination discovery completed")
     
     async def discover_and_scrape(
         self,
@@ -338,30 +271,35 @@ class ArchiveStrategy(ListingStrategy):
         
         return urls
     
-    async def discover_urls(
+    async def discover_and_scrape(
         self,
         client: AsyncHttpClient,
-        base_url: str
-    ) -> AsyncGenerator[List[str], None]:
-        """
-        Discover URLs using archive pages.
-        """
+        base_url: str,
+        thumbnail_selector: str
+    ) -> AsyncGenerator[List, None]:
+        """Discover archive pages and scrape thumbnails in a single pass."""
         archive_urls = self.generate_date_urls()
-        
-        logger.info(f"Generated {len(archive_urls)} archive URLs from {self.start_date.date()} to {self.end_date.date()}")
-        
-        # Process archive URLs in batches
+        logger.info(
+            f"Generated {len(archive_urls)} archive URLs from {self.start_date.date()} to {self.end_date.date()}"
+        )
+
+        batch_number = 1
+
         for i in range(0, len(archive_urls), self.batch_size):
             batch = archive_urls[i:i + self.batch_size]
-            
-            # Check which archive URLs are accessible
-            url_status = await client.check_urls_batch(batch)
-            successful_urls = [url for url, success in url_status.items() if success]
-            
-            if successful_urls:
-                yield successful_urls
-            
-            # Small delay between batches
+            logger.info(
+                f"Processing archive batch {batch_number}: {len(batch)} URLs"
+            )
+
+            scraping_results = await client.scrape_urls(batch, thumbnail_selector)
+            successful_results = [result for result in scraping_results if result.success]
+
+            if successful_results:
+                yield successful_results
+            else:
+                logger.info(f"Archive batch {batch_number} returned no accessible pages")
+
+            batch_number += 1
             await asyncio.sleep(0.5)
 
 
@@ -416,24 +354,24 @@ class CategoryStrategy(ListingStrategy):
         
         return urls
     
-    async def discover_urls(
+    async def discover_and_scrape(
         self,
         client: AsyncHttpClient,
-        base_url: str
-    ) -> AsyncGenerator[List[str], None]:
-        """
-        Discover URLs using category pages.
-        """
+        base_url: str,
+        thumbnail_selector: str
+    ) -> AsyncGenerator[List, None]:
+        """Discover category pages and scrape thumbnails immediately."""
         category_urls = self.generate_category_urls(base_url)
-        
-        logger.info(f"Processing {len(category_urls)} category pages")
-        
-        # Check which category URLs are accessible
-        url_status = await client.check_urls_batch(category_urls)
-        successful_urls = [url for url, success in url_status.items() if success]
-        
-        if successful_urls:
-            yield successful_urls
+        logger.info(f"Scraping {len(category_urls)} category pages")
+
+        if not category_urls:
+            return
+
+        scraping_results = await client.scrape_urls(category_urls, thumbnail_selector)
+        successful_results = [result for result in scraping_results if result.success]
+
+        if successful_results:
+            yield successful_results
 
 
 class SearchStrategy(ListingStrategy):
@@ -491,24 +429,24 @@ class SearchStrategy(ListingStrategy):
         
         return urls
     
-    async def discover_urls(
+    async def discover_and_scrape(
         self,
         client: AsyncHttpClient,
-        base_url: str
-    ) -> AsyncGenerator[List[str], None]:
-        """
-        Discover URLs using search queries.
-        """
+        base_url: str,
+        thumbnail_selector: str
+    ) -> AsyncGenerator[List, None]:
+        """Discover search result pages and scrape thumbnails immediately."""
         search_urls = self.generate_search_urls()
-        
-        logger.info(f"Processing {len(search_urls)} search queries")
-        
-        # Check which search URLs are accessible
-        url_status = await client.check_urls_batch(search_urls)
-        successful_urls = [url for url, success in url_status.items() if success]
-        
-        if successful_urls:
-            yield successful_urls
+        logger.info(f"Scraping {len(search_urls)} search queries")
+
+        if not search_urls:
+            return
+
+        scraping_results = await client.scrape_urls(search_urls, thumbnail_selector)
+        successful_results = [result for result in scraping_results if result.success]
+
+        if successful_results:
+            yield successful_results
 
 
 def create_listing_strategy(config: Dict[str, Any]) -> ListingStrategy:

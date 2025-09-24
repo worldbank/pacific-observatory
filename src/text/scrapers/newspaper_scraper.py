@@ -143,90 +143,75 @@ class NewspaperScraper:
         # No existing file, perform discovery and scraping
         logger.info("No existing thumbnails found - performing discovery and scraping")
         
-        if self.client_type == "http":
-            client = self._get_http_client()
-        else:
+        if self.client_type != "http":
             raise NotImplementedError("Browser client not yet supported for combined discovery/scraping")
-        
+
+        client = self._get_http_client()
         thumbnails = []
         thumbnail_selector = self.selectors["thumbnail"]
-        
-        # Use the combined discover_and_scrape method from the pagination strategy
-        if hasattr(self.listing_strategy, 'discover_and_scrape'):
-            async for result_batch in self.listing_strategy.discover_and_scrape(client, self.base_url, thumbnail_selector):
-                for result in result_batch:
-                    if not result.success:
+
+        async for result_batch in self.listing_strategy.discover_and_scrape(client, self.base_url, thumbnail_selector):
+            for result in result_batch:
+                if not result.success:
+                    self._add_failed_url(
+                        url=result.url,
+                        status_code=result.status_code,
+                        error=result.error,
+                        stage="thumbnail_listing"
+                    )
+                    continue
+
+                thumbnail_elements = result.data
+                if not thumbnail_elements:
+                    logger.warning(f"No thumbnails found on {result.url} - starting retry sequence")
+
+                    retry_count = 0
+                    max_retries = 25
+                    retry_delay = 2.0
+
+                    while retry_count < max_retries:
+                        retry_count += 1
+                        logger.debug(f"Retry {retry_count}/{max_retries} for {result.url}")
+                        await asyncio.sleep(retry_delay)
+
+                        try:
+                            retry_result = await client.scrape_url(client._http_client, str(result.url), thumbnail_selector)
+
+                            if retry_result.success and retry_result.data:
+                                logger.info(f"Thumbnails found on retry {retry_count} for {result.url}")
+                                thumbnail_elements = retry_result.data
+                                break
+
+                        except Exception as e:
+                            logger.debug(f"Retry {retry_count} failed for {result.url}: {e}")
+
+                    if not thumbnail_elements:
+                        logger.warning(f"No thumbnails found after {max_retries} retries for {result.url}")
                         self._add_failed_url(
                             url=result.url,
-                            status_code=result.status_code,
-                            error=result.error,
-                            stage="thumbnail_listing"
+                            status_code=getattr(result, 'status_code', None),
+                            error=f"No thumbnails found after {max_retries} retries",
+                            stage="thumbnail_listing_no_content"
                         )
                         continue
-                    
-                    # Parse the scraped content
-                    thumbnail_elements = result.data
-                    if not thumbnail_elements:
-                        # No thumbnails found - implement retry logic
-                        logger.warning(f"No thumbnails found on {result.url} - starting retry sequence")
-                        
-                        # Retry up to 25 times with 2-second delays
-                        retry_count = 0
-                        max_retries = 25
-                        retry_delay = 2.0
-                        
-                        while retry_count < max_retries:
-                            retry_count += 1
-                            logger.debug(f"Retry {retry_count}/{max_retries} for {result.url}")
-                            
-                            # Wait before retry
-                            await asyncio.sleep(retry_delay)
-                            
-                            # Retry the request
-                            try:
-                                retry_result = await client.scrape_url(client._http_client, str(result.url), thumbnail_selector)
-                                
-                                if retry_result.success and retry_result.data:
-                                    logger.info(f"Thumbnails found on retry {retry_count} for {result.url}")
-                                    thumbnail_elements = retry_result.data
-                                    break
-                                    
-                            except Exception as e:
-                                logger.debug(f"Retry {retry_count} failed for {result.url}: {e}")
-                        
-                        # If still no thumbnails after all retries, mark as failed
-                        if not thumbnail_elements:
-                            logger.warning(f"No thumbnails found after {max_retries} retries for {result.url}")
-                            self._add_failed_url(
-                                url=result.url,
-                                status_code=getattr(result, 'status_code', None),
-                                error=f"No thumbnails found after {max_retries} retries",
-                                stage="thumbnail_listing_no_content"
-                            )
-                            continue
-                    
-                    # Extract data from each thumbnail element
-                    for thumb_elem in thumbnail_elements:
-                        thumb_data = extract_thumbnail_data_from_element(
-                            thumb_elem, 
-                            str(result.url), 
-                            self.selectors, 
-                            self.base_url, 
-                            self.config.cleaning
-                        )
-                        if thumb_data:
-                            try:
-                                thumbnail = ThumbnailRecord(**thumb_data)
-                                thumbnails.append(thumbnail)
-                            except Exception as e:
-                                logger.error(f"Failed to create ThumbnailRecord: {e}")
-                                logger.error(f"Data: {thumb_data}")
-                
-                logger.info(f"Processed batch: {len(result_batch)} pages, {len(thumbnails)} total thumbnails")
-        else:
-            # Fallback to old method for strategies that don't support combined approach
-            listing_urls = await self.discover_listing_urls()
-            thumbnails = await self.scrape_thumbnails_with_retry(listing_urls)
+
+                for thumb_elem in thumbnail_elements:
+                    thumb_data = extract_thumbnail_data_from_element(
+                        thumb_elem,
+                        str(result.url),
+                        self.selectors,
+                        self.base_url,
+                        self.config.cleaning
+                    )
+                    if thumb_data:
+                        try:
+                            thumbnail = ThumbnailRecord(**thumb_data)
+                            thumbnails.append(thumbnail)
+                        except Exception as e:
+                            logger.error(f"Failed to create ThumbnailRecord: {e}")
+                            logger.error(f"Data: {thumb_data}")
+
+            logger.info(f"Processed batch: {len(result_batch)} pages, {len(thumbnails)} total thumbnails")
         
         logger.info(f"Total thumbnails discovered and scraped: {len(thumbnails)}")
         
