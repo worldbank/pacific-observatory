@@ -25,6 +25,7 @@ from .models import (
 )
 from .pipelines.cleaning import apply_cleaning
 from .pipelines.storage import JsonlStorage
+from .parser import extract_thumbnail_data_from_element, extract_article_data_from_soup
 
 logger = logging.getLogger(__name__)
 
@@ -206,7 +207,13 @@ class NewspaperScraper:
                     
                     # Extract data from each thumbnail element
                     for thumb_elem in thumbnail_elements:
-                        thumb_data = self._extract_thumbnail_data_from_element(thumb_elem, str(result.url))
+                        thumb_data = extract_thumbnail_data_from_element(
+                            thumb_elem, 
+                            str(result.url), 
+                            self.selectors, 
+                            self.base_url, 
+                            self.config.cleaning
+                        )
                         if thumb_data:
                             try:
                                 thumbnail = ThumbnailRecord(**thumb_data)
@@ -251,155 +258,7 @@ class NewspaperScraper:
         logger.info(f"Total listing URLs discovered: {len(all_urls)}")
         return all_urls
     
-    def _extract_thumbnail_data_from_element(self, thumbnail_element, page_url: str) -> Optional[Dict[str, Any]]:
-        """
-        Extract thumbnail data directly from a thumbnail element.
-        
-        Args:
-            thumbnail_element: Individual thumbnail element (BeautifulSoup element)
-            page_url: URL of the page this element came from
-            
-        Returns:
-            Dictionary with extracted data or None if extraction failed
-        """
-        try:
-            data = {}
-            
-            # Extract title
-            title_selector = self.selectors.get("title")
-            if title_selector:
-                if title_selector.endswith("::text"):
-                    # CSS selector with text extraction
-                    selector = title_selector.replace("::text", "")
-                    title_elem = thumbnail_element.select_one(selector)
-                    data["title"] = title_elem.get_text(strip=True) if title_elem else None
-                elif title_selector.endswith("::attr(href)") or title_selector.endswith("::attr(src)"):
-                    # CSS selector with attribute extraction
-                    attr_name = title_selector.split("::attr(")[1].rstrip(")")
-                    selector = title_selector.split("::attr(")[0]
-                    title_elem = thumbnail_element.select_one(selector)
-                    data["title"] = title_elem.get(attr_name) if title_elem else None
-                else:
-                    # Regular CSS selector
-                    title_elem = thumbnail_element.select_one(title_selector)
-                    data["title"] = title_elem.get_text(strip=True) if title_elem else None
-            
-            # Extract URL
-            url_selector = self.selectors.get("url")
-            if url_selector:
-                if url_selector.endswith("::attr(href)"):
-                    # CSS selector with href extraction
-                    selector = url_selector.replace("::attr(href)", "")
-                    url_elem = thumbnail_element.select_one(selector)
-                    if url_elem:
-                        href = url_elem.get("href")
-                        # Make URL absolute
-                        data["url"] = urljoin(self.base_url, href) if href else None
-                else:
-                    # Regular CSS selector - assume it's a link
-                    url_elem = thumbnail_element.select_one(url_selector)
-                    if url_elem:
-                        href = url_elem.get("href")
-                        data["url"] = urljoin(self.base_url, href) if href else None
-            
-            # Extract date
-            date_selector = self.selectors.get("date")
-            if date_selector:
-                if date_selector.endswith("::text"):
-                    selector = date_selector.replace("::text", "")
-                    date_elem = thumbnail_element.select_one(selector)
-                    data["date"] = date_elem.get_text(strip=True) if date_elem else None
-                else:
-                    date_elem = thumbnail_element.select_one(date_selector)
-                    data["date"] = date_elem.get_text(strip=True) if date_elem else None
-            
-            # Validate that we have the essential data
-            if not data.get("title") or not data.get("url"):
-                logger.warning("Thumbnail missing essential data (title or URL)")
-                return None
-            
-            # Apply cleaning functions if configured
-            cleaning_config = self.config.cleaning
-            if cleaning_config:
-                data = apply_cleaning(data, cleaning_config, self.base_url)
-            
-            return data
-            
-        except Exception as e:
-            logger.error(f"Error extracting thumbnail data: {e}")
-            return None
 
-    def _extract_article_data_from_soup(self, soup, article_url: str) -> Dict[str, Any]:
-        """
-        Extract article body and tags from a BeautifulSoup object.
-        
-        Args:
-            soup: BeautifulSoup object of the article page
-            article_url: URL of the article page
-            
-        Returns:
-            Dictionary with extracted article data (body, tags)
-        """
-        try:
-            data = {}
-            
-            # Extract article body
-            body_selector = self.selectors.get("article_body")
-            if body_selector:
-                if body_selector.endswith("::text"):
-                    # CSS selector with text extraction
-                    selector = body_selector.replace("::text", "")
-                    body_elements = soup.select(selector)
-                    if body_elements:
-                        # Join all paragraph texts with spaces
-                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
-                        data["body"] = " ".join(body_texts)
-                    else:
-                        data["body"] = ""
-                else:
-                    # Regular CSS selector
-                    body_elements = soup.select(body_selector)
-                    if body_elements:
-                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
-                        data["body"] = " ".join(body_texts)
-                    else:
-                        data["body"] = ""
-            else:
-                data["body"] = ""
-            
-            # Extract tags
-            tags_selector = self.selectors.get("tags")
-            if tags_selector:
-                if tags_selector.endswith("::text"):
-                    # CSS selector with text extraction
-                    selector = tags_selector.replace("::text", "")
-                    tag_elements = soup.select(selector)
-                    if tag_elements:
-                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
-                        data["tags"] = tags
-                    else:
-                        data["tags"] = []
-                else:
-                    # Regular CSS selector
-                    tag_elements = soup.select(tags_selector)
-                    if tag_elements:
-                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
-                        data["tags"] = tags
-                    else:
-                        data["tags"] = []
-            else:
-                data["tags"] = []
-            
-            # Apply cleaning functions if configured
-            cleaning_config = self.config.cleaning
-            if cleaning_config:
-                data = apply_cleaning(data, cleaning_config, self.base_url)
-            
-            return data
-            
-        except Exception as e:
-            logger.error(f"Error extracting article data from {article_url}: {e}")
-            return {"body": "", "tags": []}
 
     async def scrape_thumbnails_with_retry(self, listing_urls: List[str]) -> List[ThumbnailRecord]:
         """
@@ -473,7 +332,13 @@ class NewspaperScraper:
                 
                 # Extract data from each thumbnail element
                 for thumb_elem in thumbnail_elements:
-                    thumb_data = self._extract_thumbnail_data_from_element(thumb_elem, str(result.url))
+                    thumb_data = extract_thumbnail_data_from_element(
+                        thumb_elem, 
+                        str(result.url), 
+                        self.selectors, 
+                        self.base_url, 
+                        self.config.cleaning
+                    )
                     if thumb_data:
                         try:
                             thumbnail = ThumbnailRecord(**thumb_data)
@@ -635,7 +500,13 @@ class NewspaperScraper:
                         soup = client.parse_content(content)
                         
                         # Extract article body and tags using the new extraction function
-                        article_content = self._extract_article_data_from_soup(soup, str(thumbnail.url))
+                        article_content = extract_article_data_from_soup(
+                            soup, 
+                            str(thumbnail.url), 
+                            self.selectors, 
+                            self.base_url, 
+                            self.config.cleaning
+                        )
                         
                         # Combine thumbnail data with extracted article content
                         article_data = {
