@@ -559,7 +559,7 @@ class NewspaperScraper:
             thumbnails = await self.discover_and_scrape_thumbnails()
             
             # Step 3: Scrape full articles
-            articles = await self.scrape_articles(thumbnails[:5])
+            articles = await self.scrape_articles(thumbnails)
             
             # Compile results - ensure all HttpUrl objects are converted to strings
             try:
