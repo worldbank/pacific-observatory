@@ -512,7 +512,7 @@ class NewspaperScraper:
                         article_data = {
                             "url": str(thumbnail.url),
                             "title": thumbnail.title,
-                            "date": thumbnail.date,
+                            "date": thumbnail.date if thumbnail.date else article_content.get("date", ""),
                             "body": article_content.get("body", ""),
                             "tags": article_content.get("tags", []),
                             "source": self.name,
