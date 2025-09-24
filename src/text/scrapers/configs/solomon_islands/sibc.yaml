@@ -8,7 +8,6 @@ base_url: "https://www.sibconline.com.sb"
 # Listing discovery configuration
 listing:
   type: "pagination"
-  start_url: None
   url_template: "https://www.sibconline.com.sb/?s&post_type=post&paged={num}"
   start_page: 1
   step: 1

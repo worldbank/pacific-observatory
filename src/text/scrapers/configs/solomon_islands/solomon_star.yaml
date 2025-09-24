@@ -13,14 +13,14 @@ listing:
   url_template: "https://www.solomonstarnews.com/category/news/news-national/page/{num}/"
   start_page: 2
   step: 1
-  batch_size: 50  # Process 10 pages at a time for efficiency
+  batch_size: 10  # Process 10 pages at a time for efficiency
 
 # Client configuration
 client: "http"  # Use HTTP client (not browser-based)
-concurrency: 20  # Maximum concurrent requests (default: 10)
-rate_limit: 5  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
-retries: 50     # Number of retry attempts for failed requests
-retry_seconds: 1.0  # Wait time in seconds between retry attempts
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.1  # Minimum delay between requests in seconds (0.1 = 10 req/sec max)
+retries: 3      # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
 
 headers:
   User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
@@ -53,7 +53,7 @@ cleaning:
 
 # Site-specific notes:
 # - Solomon Star uses pagination with /page/{page} parameter
-# - Articles are in .blog-content.wf-td containers
+# - Articles are in .blog-content wf-td containers
 # - Original scraper used pandas "mixed" date format parsing
 # - Content extraction joins paragraphs with spaces: " ".join(p.text for p in ...)
 # - Tags extraction joins links with commas: ", ".join(p.text for p in ...)
