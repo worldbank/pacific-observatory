@@ -13,11 +13,11 @@ listing:
   url_template: "https://theislandsun.com.sb/category/news/page/{num}/"
   start_page: 2
   step: 1
-  batch_size: 1  # Process 10 pages at a time to detect pagination end gracefully
+  batch_size: 10  # Process 10 pages at a time to detect pagination end gracefully
 
 # Client configuration
 client: "http"
-concurrency: 1     # Conservative concurrency to avoid triggering Cloudflare
+concurrency: 20     # Conservative concurrency to avoid triggering Cloudflare
 rate_limit: 0.5    # Half a second between requests (2 req/sec)
 retries: 3         # Standard retry count
 retry_seconds: 3.0 # Wait time between retry attempts
@@ -52,8 +52,8 @@ cleaning:
   tags: "clean_solomon_star_tags"
 
 # Test/debug options
-max_pages: 3
-max_articles: 5
+max_pages: null
+max_articles: null
 
 # Site-specific notes:
 # - Original scraper paginated across 922 pages using RequestsScraper
