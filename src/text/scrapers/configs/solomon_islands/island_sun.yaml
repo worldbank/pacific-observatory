@@ -13,11 +13,11 @@ listing:
   url_template: "https://theislandsun.com.sb/category/news/page/{num}/"
   start_page: 2
   step: 1
-  batch_size: 10  # Process 10 pages at a time to detect pagination end gracefully
+  batch_size: 1  # Process 10 pages at a time to detect pagination end gracefully
 
 # Client configuration
 client: "http"
-concurrency: 5     # Conservative concurrency to avoid triggering Cloudflare
+concurrency: 1     # Conservative concurrency to avoid triggering Cloudflare
 rate_limit: 0.5    # Half a second between requests (2 req/sec)
 retries: 3         # Standard retry count
 retry_seconds: 3.0 # Wait time between retry attempts
@@ -32,25 +32,28 @@ headers:
 # CSS selectors for data extraction (structured)
 selectors:
   thumbnail:
-    container: ".td-module-meta-info"
-    title: ".entry-title.td-module-title a::text"
-    url: ".entry-title.td-module-title a::attr(href)"
-    date: ".date"
+    container: "#tdi_96 .td-module-meta-info, .td-container .item-details"
+    title:
+      - ".entry-title.td-module-title a::text"
+      - ".td-container .item-details a::text"
+    url:
+      - ".entry-title.td-module-title a::attr(href)"
+      - ".td-container .item-details a::attr(href)"
   article:
-    body: ".td-post-content.tagdiv-type p::text"
+    body: ".td-post-content p::text"
     date: ".td-post-date::text"
-    tags: ".td-post-category a::text"
+    tags: ".td-post-category"
 
 # Data cleaning configuration
 cleaning:
   url: "clean_url"
   title: "clean_title"
   date: "handle_mixed_dates"
-  tags: "normalize_tags"
+  tags: "clean_solomon_star_tags"
 
 # Test/debug options
-max_pages: null
-max_articles: null
+max_pages: 3
+max_articles: 5
 
 # Site-specific notes:
 # - Original scraper paginated across 922 pages using RequestsScraper

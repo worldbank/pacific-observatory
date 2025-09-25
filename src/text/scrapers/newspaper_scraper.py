@@ -65,7 +65,7 @@ class NewspaperScraper:
         
         # Initialize listing strategy
         self.listing_strategy = create_listing_strategy(
-            self.config.listing, self.max_pages
+            self.config.listing, max_pages=self.config.max_pages
         )
         
         # Selectors for data extraction
@@ -698,6 +698,13 @@ class NewspaperScraper:
             # Step 2: Discover and scrape thumbnails (same as full scrape)
             thumbnails = await self.discover_and_scrape_thumbnails()
             logger.info(f"Discovered {len(thumbnails)} thumbnails")
+
+            # Apply max_articles limit if set
+            if self.max_articles is not None and len(thumbnails) > self.max_articles:
+                logger.info(
+                    f"Truncating thumbnails from {len(thumbnails)} to {self.max_articles} based on max_articles config"
+                )
+                thumbnails = thumbnails[: self.max_articles]
             
             # Step 3: Filter thumbnails to only include new articles
             new_thumbnails = []

@@ -185,21 +185,23 @@ def extract_thumbnail_data_from_element(
             if href_value:
                 data["url"] = urljoin(base_url, href_value)
 
-        # Extract date using fallback helper
+        # Extract date if selector is provided
         if selectors.date:
             date_result = extract_with_selector_fallback(
                 thumbnail_element,
                 selectors.date,
                 first_only=True,
             )
-        else:
-            date_result = {"values": []}
-        if date_result["values"]:
-            date_value = date_result["values"][0]
-            if isinstance(date_value, str):
-                data["date"] = date_value.strip()
-            elif hasattr(date_value, "get_text"):
-                data["date"] = date_value.get_text(strip=True)
+            if date_result["values"]:
+                date_value = date_result["values"][0]
+                if isinstance(date_value, str):
+                    data["date"] = date_value.strip()
+                elif hasattr(date_value, "get_text"):
+                    data["date"] = date_value.get_text(strip=True)
+            else:
+                logger.warning(
+                    f"Date selector '{selectors.date}' failed on page {page_url}"
+                )
 
         # Validate that we have the essential data
         if not data.get("title") and not data.get("url"):
@@ -261,8 +263,7 @@ def extract_article_data_from_soup(
                 text_values = [elem.get_text(strip=True) for elem in body_result["values"] if elem.get_text(strip=True)]
             data["body"] = " ".join(text_values)
         
-        # Extract article date if specified (separate from thumbnail date)
-        data["date"] = ""
+        # Extract article date if selector is provided
         if selectors.date:
             date_result = extract_with_selector_fallback(
                 soup,
@@ -277,8 +278,12 @@ def extract_article_data_from_soup(
                     data["date"] = date_value.get_text(strip=True)
                 else:
                     data["date"] = str(date_value).strip()
+            else:
+                logger.warning(
+                    f"Article date selector '{selectors.date}' failed on {article_url}"
+                )
         
-        # Extract tags with fallback selector support
+        # Extract tags if selector is provided
         data["tags"] = []
         if selectors.tags:
             tags_result = extract_with_selector_fallback(
@@ -292,6 +297,10 @@ def extract_article_data_from_soup(
                 else:
                     tags = [elem.get_text(strip=True) for elem in tags_result["values"] if elem.get_text(strip=True)]
                 data["tags"] = tags
+            else:
+                logger.warning(
+                    f"Article tags selector '{selectors.tags}' failed on {article_url}"
+                )
         
         # Apply cleaning functions if configured
         if cleaning_config:

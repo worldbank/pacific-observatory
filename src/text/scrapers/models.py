@@ -21,47 +21,43 @@ class ThumbnailRecord(BaseModel):
     
     url: HttpUrl = Field(..., description="Full URL to the article")
     title: str = Field(..., min_length=1, description="Article title")
-    date: str = Field(..., description="Publication date as string")
-    
+    date: Optional[str] = Field(default=None, description="Publication date as string")
+
     @field_validator('title')
     @classmethod
     def title_must_not_be_empty(cls, v: str) -> str:
         if not v or not v.strip():
             raise ValueError('Title cannot be empty or whitespace only')
         return v.strip()
-    
+
     @field_validator('date', mode='before')
     @classmethod
-    def parse_date(cls, v: Any) -> str:
+    def parse_date(cls, v: Any) -> Optional[str]:
         """Parse various date formats into YYYY-MM-DD format."""
+        if v is None:
+            return None
         if isinstance(v, date):
             return v.isoformat()
         if isinstance(v, datetime):
             return v.date().isoformat()
         if isinstance(v, str):
-            # Try to normalize string dates to YYYY-MM-DD format
             if v.strip():
-                # Import here to avoid circular imports
                 from .pipelines.cleaning import handle_mixed_dates
                 return handle_mixed_dates(v.strip())
-            return ""
-        if v is None:
-            return ""
-        return str(v)
+        return None
 
 
 class ArticleRecord(BaseModel):
     """
-    Model for complete article data.
+    Model for individual article data.
     
-    This represents the full article information after scraping
-    the individual article pages.
+    Represents the full scraped content of a single article.
     """
     model_config = ConfigDict(arbitrary_types_allowed=True)
     
     url: HttpUrl = Field(..., description="Full URL to the article")
     title: str = Field(..., min_length=1, description="Article title")
-    date: str = Field(..., description="Publication date as string")
+    date: str = Field(..., description="Publication date in YYYY-MM-DD format")
     body: str = Field(..., min_length=1, description="Full article text content")
     tags: Optional[List[str]] = Field(default_factory=list, description="Article tags/categories")
     source: str = Field(..., description="Name of the news source")

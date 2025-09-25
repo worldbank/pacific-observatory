@@ -33,7 +33,7 @@ selectors:
     container: "div.articles-list section.article-list-item"         # Original selector from monolithic scraper
     title: "h2::text"                # Article title text (from original: i.find("h2").text)
     url: "a::attr(href)"             # Article URL (from original: i.find("a")["href"])
-    date: ".date"                    # Placeholder selector (date extracted from archive URL path)
+    # date: ".date"                    # Placeholder selector (date extracted from archive URL path)
   article:
     # Article page selectors (from original: ["article-timestamp", "article-body", "tags"])
     body: ".article-body"    # Article content container

@@ -65,7 +65,7 @@ class PaginationStrategy(ListingStrategy):
         - batch_size: Number of pages to check per batch (default: 5)
         - start_url: Optional initial URL to scrape before pagination (default: None)
         """
-        super().__init__(config)
+        super().__init__(config, max_pages)
         
         self.url_template = config["url_template"]
         self.start_page = config.get("start_page", 1)
@@ -212,7 +212,7 @@ class ArchiveStrategy(ListingStrategy):
         - date_format: Date format for URL ('monthly' or 'daily')
         - batch_size: Number of archive URLs to check per batch (optional, default 10)
         """
-        super().__init__(config)
+        super().__init__(config, max_pages)
         
         self.url_template = config["url_template"]
         self.date_format = config.get("date_format", "monthly")
@@ -345,7 +345,7 @@ class CategoryStrategy(ListingStrategy):
         - categories: List of category paths or full URLs
         - url_template: Optional URL template with {category} placeholder
         """
-        super().__init__(config)
+        super().__init__(config, max_pages)
         
         self.categories = config["categories"]
         self.url_template = config.get("url_template")
@@ -388,6 +388,14 @@ class CategoryStrategy(ListingStrategy):
     ) -> AsyncGenerator[List, None]:
         """Discover category pages and scrape thumbnails immediately."""
         category_urls = self.generate_category_urls(base_url)
+
+        # If max_pages is set, truncate the list of categories
+        if self.max_pages is not None and len(category_urls) > self.max_pages:
+            logger.info(
+                f"Truncating category URLs from {len(category_urls)} to {self.max_pages}"
+            )
+            category_urls = category_urls[: self.max_pages]
+
         logger.info(f"Scraping {len(category_urls)} category pages")
 
         if not category_urls:
@@ -417,7 +425,7 @@ class SearchStrategy(ListingStrategy):
         - queries: List of search queries
         - date_range: Optional date range for search results
         """
-        super().__init__(config)
+        super().__init__(config, max_pages)
         
         self.url_template = config["url_template"]
         self.queries = config["queries"]
@@ -463,6 +471,14 @@ class SearchStrategy(ListingStrategy):
     ) -> AsyncGenerator[List, None]:
         """Discover search result pages and scrape thumbnails immediately."""
         search_urls = self.generate_search_urls()
+
+        # If max_pages is set, truncate the list of search queries
+        if self.max_pages is not None and len(search_urls) > self.max_pages:
+            logger.info(
+                f"Truncating search URLs from {len(search_urls)} to {self.max_pages}"
+            )
+            search_urls = search_urls[: self.max_pages]
+
         logger.info(f"Scraping {len(search_urls)} search queries")
 
         if not search_urls:
