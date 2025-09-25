@@ -38,6 +38,10 @@ cleaning:
   date: "clean_sibc_date"  # Custom function to handle SIBC date format
   body: "clean_sibc_body"  # Custom function to remove author bylines
 
+# Test/debug options
+max_pages: null
+max_articles: null
+
 # Optional authentication (not needed for SIBC)
 # auth: null
 

@@ -18,7 +18,7 @@ from lxml import etree
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 from .models import ScrapingResult, ThumbnailRecord, ArticleRecord
-from .utils import configure_cookies
+# from .utils import configure_cookies
 
 logger = logging.getLogger(__name__)
 

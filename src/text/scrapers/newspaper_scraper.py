@@ -53,6 +53,10 @@ class NewspaperScraper:
         self.name = self.config.name
         self.country = self.config.country
         self.base_url = str(self.config.base_url)
+
+        # Store limits from config
+        self.max_pages = self.config.max_pages
+        self.max_articles = self.config.max_articles
         
         # Initialize client based on configuration
         self.client_type = self.config.client
@@ -60,7 +64,9 @@ class NewspaperScraper:
         self._browser_client: Optional[BrowserClient] = None
         
         # Initialize listing strategy
-        self.listing_strategy = create_listing_strategy(self.config.listing)
+        self.listing_strategy = create_listing_strategy(
+            self.config.listing, self.max_pages
+        )
         
         # Selectors for data extraction
         self.thumbnail_selectors = self.config.selectors.thumbnail
@@ -537,6 +543,13 @@ class NewspaperScraper:
             # Step 1 & 2 Combined: Discover and scrape thumbnails in one pass
             # This ensures each URL is only requested once
             thumbnails = await self.discover_and_scrape_thumbnails()
+
+            # Apply max_articles limit if set
+            if self.max_articles is not None and len(thumbnails) > self.max_articles:
+                logger.info(
+                    f"Truncating thumbnails from {len(thumbnails)} to {self.max_articles} based on max_articles config"
+                )
+                thumbnails = thumbnails[: self.max_articles]
             
             # Step 3: Scrape full articles
             articles = await self.scrape_articles(thumbnails)

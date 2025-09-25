@@ -24,14 +24,16 @@ class ListingStrategy(ABC):
     article URLs from a newspaper website.
     """
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: Dict[str, Any], max_pages: Optional[int] = None):
         """
         Initialize the strategy with configuration.
-        
+
         Args:
             config: Strategy-specific configuration dictionary
+            max_pages: Optional limit on the number of pages to discover
         """
         self.config = config
+        self.max_pages = max_pages
     
     @abstractmethod
     async def discover_and_scrape(
@@ -52,7 +54,7 @@ class PaginationStrategy(ListingStrategy):
     batches of URLs until all URLs in a batch return errors.
     """
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: Dict[str, Any], max_pages: Optional[int] = None):
         """
         Initialize pagination strategy.
         
@@ -134,8 +136,25 @@ class PaginationStrategy(ListingStrategy):
         total_pages_processed = 0
         
         while True:
+            # Respect max_pages limit if set
+            if self.max_pages is not None and total_pages_processed >= self.max_pages:
+                logger.info(
+                    f"Reached max_pages limit ({self.max_pages}), stopping pagination."
+                )
+                break
+
+            # Determine how many pages to fetch in this batch
+            pages_to_fetch = self.batch_size
+            if self.max_pages is not None:
+                remaining_pages = self.max_pages - total_pages_processed
+                if remaining_pages < pages_to_fetch:
+                    pages_to_fetch = remaining_pages
+
+            if pages_to_fetch <= 0:
+                break
+
             # Generate batch of page URLs
-            batch_urls = self.generate_page_urls(current_page, self.batch_size)
+            batch_urls = self.generate_page_urls(current_page, pages_to_fetch)
             
             # Log batch start
             logger.info(f"Processing batch {batch_number}: pages {current_page}-{current_page + self.batch_size - 1}")
@@ -182,7 +201,7 @@ class ArchiveStrategy(ListingStrategy):
     (e.g., /2025/01/, /2025/02/) to discover articles.
     """
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: Dict[str, Any], max_pages: Optional[int] = None):
         """
         Initialize archive strategy.
         
@@ -279,6 +298,13 @@ class ArchiveStrategy(ListingStrategy):
     ) -> AsyncGenerator[List, None]:
         """Discover archive pages and scrape thumbnails in a single pass."""
         archive_urls = self.generate_date_urls()
+
+        # If max_pages is set, take the most recent N pages
+        if self.max_pages is not None and len(archive_urls) > self.max_pages:
+            logger.info(
+                f"Truncating archive URLs from {len(archive_urls)} to {self.max_pages} (most recent)"
+            )
+            archive_urls = archive_urls[-self.max_pages :]
         logger.info(
             f"Generated {len(archive_urls)} archive URLs from {self.start_date.date()} to {self.end_date.date()}"
         )
@@ -311,7 +337,7 @@ class CategoryStrategy(ListingStrategy):
     section pages (e.g., /politics/, /sports/, /business/).
     """
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: Dict[str, Any], max_pages: Optional[int] = None):
         """
         Initialize category strategy.
         
@@ -382,7 +408,7 @@ class SearchStrategy(ListingStrategy):
     to discover articles based on specific queries.
     """
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: Dict[str, Any], max_pages: Optional[int] = None):
         """
         Initialize search strategy.
         
@@ -449,7 +475,9 @@ class SearchStrategy(ListingStrategy):
             yield successful_results
 
 
-def create_listing_strategy(config: Dict[str, Any]) -> ListingStrategy:
+def create_listing_strategy(
+    config: Dict[str, Any], max_pages: Optional[int] = None
+) -> ListingStrategy:
     """
     Factory function to create a listing strategy based on configuration.
     
@@ -465,12 +493,12 @@ def create_listing_strategy(config: Dict[str, Any]) -> ListingStrategy:
     strategy_type = config.get("type")
     
     if strategy_type == "pagination":
-        return PaginationStrategy(config)
+        return PaginationStrategy(config, max_pages=max_pages)
     elif strategy_type == "archive":
-        return ArchiveStrategy(config)
+        return ArchiveStrategy(config, max_pages=max_pages)
     elif strategy_type == "category":
-        return CategoryStrategy(config)
+        return CategoryStrategy(config, max_pages=max_pages)
     elif strategy_type == "search":
-        return SearchStrategy(config)
+        return SearchStrategy(config, max_pages=max_pages)
     else:
         raise ValueError(f"Unknown listing strategy type: {strategy_type}")

@@ -196,6 +196,10 @@ class NewspaperConfig(BaseModel):
     retries: Optional[int] = Field(default=3, description="Number of retry attempts for failed requests")
     retry_seconds: Optional[float] = Field(default=2.0, description="Wait time in seconds between retry attempts")
     
+    # Test/debug options
+    max_pages: Optional[int] = Field(default=None, description="Maximum number of listing pages to scrape")
+    max_articles: Optional[int] = Field(default=None, description="Maximum number of articles to scrape")
+    
     @field_validator('country')
     @classmethod
     def country_must_not_be_empty(cls, v: str) -> str:

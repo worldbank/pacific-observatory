@@ -28,6 +28,10 @@ selectors:
   article_body: ".content p"
   tags: ".tags a"
 
+# Test/debug options
+max_pages: null
+max_articles: null
+
 # Data cleaning configuration
 cleaning:
   date: "clean_example_date"

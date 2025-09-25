@@ -46,6 +46,10 @@ cleaning:
   body: "clean_solomon_times_content"  # Custom function for content cleaning
   tags: "clean_solomon_times_tags"     # Custom function for tag processing
 
+# Test/debug options
+max_pages: null
+max_articles: null
+
 # Optional authentication (not needed for Solomon Times)
 # auth: null
 

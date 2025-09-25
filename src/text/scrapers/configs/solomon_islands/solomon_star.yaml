@@ -49,6 +49,10 @@ cleaning:
   content: "clean_solomon_star_content"  # Custom function for paragraph joining
   tags: "clean_solomon_star_tags"     # Custom function for tag joining
 
+# Test/debug options
+max_pages: null
+max_articles: null
+
 # Optional authentication (not needed for Solomon Star)
 # auth: null
 

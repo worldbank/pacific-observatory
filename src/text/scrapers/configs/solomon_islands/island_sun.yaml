@@ -48,6 +48,10 @@ cleaning:
   date: "handle_mixed_dates"
   tags: "normalize_tags"
 
+# Test/debug options
+max_pages: null
+max_articles: null
+
 # Site-specific notes:
 # - Original scraper paginated across 922 pages using RequestsScraper
 # - Listing elements use the `.item-details` container with title/date/category metadata
