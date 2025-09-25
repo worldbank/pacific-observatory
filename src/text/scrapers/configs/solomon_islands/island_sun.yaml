@@ -35,7 +35,7 @@ selectors:
   thumbnail: ".td-module-meta-info"
   title: ".entry-title.td-module-title a::text"
   url: ".entry-title.td-module-title a::attr(href)"
-  date: ".td-post-date::text"
+  date: ".date"
   tags: ".td-post-category a::text"
 
   # Article page selectors

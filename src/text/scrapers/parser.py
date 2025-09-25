@@ -6,11 +6,119 @@ including thumbnail data from listing pages and article content from individual 
 """
 
 import logging
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from urllib.parse import urljoin
 from .pipelines.cleaning import apply_cleaning
 
 logger = logging.getLogger(__name__)
+
+
+def extract_with_selector_fallback(
+    root,
+    selector_config: Optional[Any],
+    *,
+    first_only: bool = False,
+    strip: bool = True
+) -> Dict[str, Any]:
+    """
+    Attempt multiple selectors with fallback logic supporting ::text and ::attr(...) syntax.
+
+    Args:
+        root: BeautifulSoup document or element to query.
+        selector_config: Single selector string or a list of selector strings.
+        first_only: If True, return only the first extracted value (when available).
+        strip: Whether to strip whitespace from extracted text values.
+
+    Returns:
+        Dictionary containing:
+            - selector: The selector string that produced data (or None)
+            - base_selector: The CSS selector used without pseudo suffixes
+            - extraction: One of "elements", "text", or "attr"
+            - attr_name: Attribute name when extraction is "attr"
+            - elements: List of matched elements (may be empty)
+            - values: Extracted values (text, attribute values, or elements)
+    """
+    result: Dict[str, Any] = {
+        "selector": None,
+        "base_selector": None,
+        "extraction": None,
+        "attr_name": None,
+        "elements": [],
+        "values": []
+    }
+
+    if not selector_config:
+        return result
+
+    selectors: List[str] = (
+        selector_config
+        if isinstance(selector_config, list)
+        else [selector_config]
+    )
+
+    for selector in selectors:
+        if not selector:
+            continue
+
+        extraction_mode = "elements"
+        attr_name = None
+        base_selector = selector
+
+        if selector.endswith("::text"):
+            extraction_mode = "text"
+            base_selector = selector[:-6]
+        elif "::attr(" in selector:
+            extraction_mode = "attr"
+            prefix, suffix = selector.split("::attr(", 1)
+            base_selector = prefix
+            attr_name = suffix.rstrip(")")
+
+        base_selector = base_selector.strip()
+
+        try:
+            elements = root.select(base_selector) if base_selector else []
+        except Exception:
+            logger.debug("Failed to apply selector '%s'", base_selector)
+            continue
+
+        if not elements:
+            continue
+
+        values: List[Any]
+        if extraction_mode == "text":
+            values = [
+                (elem.get_text(strip=strip) if strip else elem.get_text())
+                for elem in elements
+                if elem.get_text(strip=True)
+            ]
+        elif extraction_mode == "attr" and attr_name:
+            values = [
+                attr_value.strip() if isinstance(attr_value, str) and strip else attr_value
+                for elem in elements
+                if (attr_value := elem.get(attr_name))
+            ]
+        else:
+            values = elements
+
+        if not values:
+            continue
+
+        if first_only:
+            values = values[:1]
+
+        result.update(
+            {
+                "selector": selector,
+                "base_selector": base_selector,
+                "extraction": extraction_mode,
+                "attr_name": attr_name,
+                "elements": elements,
+                "values": values,
+            }
+        )
+        return result
+
+    return result
 
 
 def extract_thumbnail_data_from_element(
@@ -36,62 +144,74 @@ def extract_thumbnail_data_from_element(
     try:
         data = {}
         
-        # Extract title
-        title_selector = selectors.get("title")
-        if title_selector:
-            if title_selector.endswith("::text"):
-                # CSS selector with text extraction
-                selector = title_selector.replace("::text", "")
-                title_elem = thumbnail_element.select_one(selector)
-                data["title"] = title_elem.get_text(strip=True) if title_elem else None
-            elif title_selector.endswith("::attr(href)") or title_selector.endswith("::attr(src)"):
-                # CSS selector with attribute extraction
-                attr_name = title_selector.split("::attr(")[1].rstrip(")")
-                selector = title_selector.split("::attr(")[0]
-                title_elem = thumbnail_element.select_one(selector)
-                data["title"] = title_elem.get(attr_name) if title_elem else None
-            else:
-                # Regular CSS selector
-                title_elem = thumbnail_element.select_one(title_selector)
-                data["title"] = title_elem.get_text(strip=True) if title_elem else None
-        
-        # Extract URL
-        url_selector = selectors.get("url")
-        if url_selector:
-            if url_selector.endswith("::attr(href)"):
-                # CSS selector with href extraction
-                selector = url_selector.replace("::attr(href)", "")
-                url_elem = thumbnail_element.select_one(selector)
-                if url_elem:
-                    href = url_elem.get("href")
-                    # Make URL absolute
-                    data["url"] = urljoin(base_url, href) if href else None
-            else:
-                # Regular CSS selector - assume it's a link
-                url_elem = thumbnail_element.select_one(url_selector)
-                if url_elem:
-                    href = url_elem.get("href")
-                    data["url"] = urljoin(base_url, href) if href else None
-        
-        # Extract date
-        date_selector = selectors.get("date")
-        if date_selector:
-            if date_selector.endswith("::text"):
-                selector = date_selector.replace("::text", "")
-                date_elem = thumbnail_element.select_one(selector)
-                data["date"] = date_elem.get_text(strip=True) if date_elem else None
-            else:
-                date_elem = thumbnail_element.select_one(date_selector)
-                data["date"] = date_elem.get_text(strip=True) if date_elem else None
-        
+        # Extract title using fallback helper
+        title_result = extract_with_selector_fallback(
+            thumbnail_element,
+            selectors.get("title"),
+            first_only=True,
+        )
+        if title_result["values"]:
+            title_value = title_result["values"][0]
+            if isinstance(title_value, str):
+                data["title"] = title_value.strip()
+            elif hasattr(title_value, "get_text"):
+                data["title"] = title_value.get_text(strip=True)
+
+        # Extract URL using fallback helper (normalize relative URLs)
+        url_result = extract_with_selector_fallback(
+            thumbnail_element,
+            selectors.get("url"),
+            first_only=True,
+        )
+        if url_result["values"]:
+            raw_url = url_result["values"][0]
+            href_value = None
+
+            if isinstance(raw_url, str):
+                href_value = raw_url.strip()
+            elif hasattr(raw_url, "get"):
+                candidate_attrs = []
+                if url_result["attr_name"]:
+                    candidate_attrs.append(url_result["attr_name"])
+                candidate_attrs.extend(["href", "data-href", "data-url"])
+
+                for attr_name in candidate_attrs:
+                    attr_val = raw_url.get(attr_name)
+                    if attr_val:
+                        href_value = attr_val.strip() if isinstance(attr_val, str) else attr_val
+                        break
+
+            if href_value:
+                data["url"] = urljoin(base_url, href_value)
+
+        # Extract date using fallback helper
+        date_result = extract_with_selector_fallback(
+            thumbnail_element,
+            selectors.get("date"),
+            first_only=True,
+        )
+        if date_result["values"]:
+            date_value = date_result["values"][0]
+            if isinstance(date_value, str):
+                data["date"] = date_value.strip()
+            elif hasattr(date_value, "get_text"):
+                data["date"] = date_value.get_text(strip=True)
+
         # Validate that we have the essential data
-        if not data.get("title") or not data.get("url"):
-            logger.warning("Thumbnail missing essential data (title or URL)")
+        if not data.get("title") and not data.get("url"):
+            logger.warning("Thumbnail missing both title and URL")
             return None
-        
+        if not data.get("title"):
+            logger.warning("Thumbnail missing title")
+            return None
+        if not data.get("url"):
+            logger.warning("Thumbnail missing URL")
+            return None
+
         # Apply cleaning functions if configured
         if cleaning_config:
             data = apply_cleaning(data, cleaning_config, base_url, page_url)
+
         
         return data
         
