@@ -9,6 +9,7 @@ import logging
 from typing import Dict, Any, Optional, List
 from urllib.parse import urljoin
 from .pipelines.cleaning import apply_cleaning
+from .models import ThumbnailSelectorConfig, ArticleSelectorConfig
 
 logger = logging.getLogger(__name__)
 
@@ -122,10 +123,10 @@ def extract_with_selector_fallback(
 
 
 def extract_thumbnail_data_from_element(
-    thumbnail_element, 
-    page_url: str, 
-    selectors: Dict[str, str], 
-    base_url: str, 
+    thumbnail_element,
+    page_url: str,
+    selectors: ThumbnailSelectorConfig,
+    base_url: str,
     cleaning_config: Optional[Dict[str, str]] = None
 ) -> Optional[Dict[str, Any]]:
     """
@@ -147,7 +148,7 @@ def extract_thumbnail_data_from_element(
         # Extract title using fallback helper
         title_result = extract_with_selector_fallback(
             thumbnail_element,
-            selectors.get("title"),
+            selectors.title,
             first_only=True,
         )
         if title_result["values"]:
@@ -160,7 +161,7 @@ def extract_thumbnail_data_from_element(
         # Extract URL using fallback helper (normalize relative URLs)
         url_result = extract_with_selector_fallback(
             thumbnail_element,
-            selectors.get("url"),
+            selectors.url,
             first_only=True,
         )
         if url_result["values"]:
@@ -185,11 +186,14 @@ def extract_thumbnail_data_from_element(
                 data["url"] = urljoin(base_url, href_value)
 
         # Extract date using fallback helper
-        date_result = extract_with_selector_fallback(
-            thumbnail_element,
-            selectors.get("date"),
-            first_only=True,
-        )
+        if selectors.date:
+            date_result = extract_with_selector_fallback(
+                thumbnail_element,
+                selectors.date,
+                first_only=True,
+            )
+        else:
+            date_result = {"values": []}
         if date_result["values"]:
             date_value = date_result["values"][0]
             if isinstance(date_value, str):
@@ -221,10 +225,10 @@ def extract_thumbnail_data_from_element(
 
 
 def extract_article_data_from_soup(
-    soup, 
-    article_url: str, 
-    selectors: Dict[str, str], 
-    base_url: str, 
+    soup,
+    article_url: str,
+    selectors: ArticleSelectorConfig,
+    base_url: str,
     cleaning_config: Optional[Dict[str, str]] = None
 ) -> Dict[str, Any]:
     """
@@ -244,82 +248,50 @@ def extract_article_data_from_soup(
         data = {}
         
         # Extract article body with fallback selector support
-        body_selector = selectors.get("article_body")
+        body_result = extract_with_selector_fallback(
+            soup,
+            selectors.body,
+            first_only=False,
+        )
         data["body"] = ""
-        
-        if body_selector:
-            # Handle both single selectors and fallback lists
-            selectors_to_try = body_selector if isinstance(body_selector, list) else [body_selector]
-            
-            for selector in selectors_to_try:
-                if selector.endswith("::text"):
-                    # CSS selector with text extraction
-                    clean_selector = selector.replace("::text", "")
-                    body_elements = soup.select(clean_selector)
-                    if body_elements:
-                        # Join all paragraph texts with spaces
-                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
-                        if body_texts:  # Only use if we found actual content
-                            data["body"] = " ".join(body_texts)
-                            break
-                else:
-                    # Regular CSS selector
-                    body_elements = soup.select(selector)
-                    if body_elements:
-                        body_texts = [elem.get_text(strip=True) for elem in body_elements if elem.get_text(strip=True)]
-                        if body_texts:  # Only use if we found actual content
-                            data["body"] = " ".join(body_texts)
-                            break
+        if body_result["values"]:
+            if body_result["extraction"] in {"text", "attr"}:
+                text_values = [str(value).strip() for value in body_result["values"] if str(value).strip()]
+            else:
+                text_values = [elem.get_text(strip=True) for elem in body_result["values"] if elem.get_text(strip=True)]
+            data["body"] = " ".join(text_values)
         
         # Extract article date if specified (separate from thumbnail date)
-        article_date_selector = selectors.get("article_date")
         data["date"] = ""
-        
-        if article_date_selector:
-            if article_date_selector.endswith("::attr(datetime)"):
-                # CSS selector with datetime attribute extraction
-                clean_selector = article_date_selector.replace("::attr(datetime)", "")
-                date_elem = soup.select_one(clean_selector)
-                if date_elem:
-                    data["date"] = date_elem.get("datetime", "").strip()
-            elif article_date_selector.endswith("::text"):
-                # CSS selector with text extraction
-                clean_selector = article_date_selector.replace("::text", "")
-                date_elem = soup.select_one(clean_selector)
-                if date_elem:
-                    data["date"] = date_elem.get_text(strip=True)
-            else:
-                # Regular CSS selector
-                date_elem = soup.select_one(article_date_selector)
-                if date_elem:
-                    data["date"] = date_elem.get_text(strip=True)
+        if selectors.date:
+            date_result = extract_with_selector_fallback(
+                soup,
+                selectors.date,
+                first_only=True,
+            )
+            if date_result["values"]:
+                date_value = date_result["values"][0]
+                if isinstance(date_value, str):
+                    data["date"] = date_value.strip()
+                elif hasattr(date_value, "get_text"):
+                    data["date"] = date_value.get_text(strip=True)
+                else:
+                    data["date"] = str(date_value).strip()
         
         # Extract tags with fallback selector support
-        tags_selector = selectors.get("tags")
         data["tags"] = []
-        
-        if tags_selector:
-            # Handle both single selectors and fallback lists
-            selectors_to_try = tags_selector if isinstance(tags_selector, list) else [tags_selector]
-            
-            for selector in selectors_to_try:
-                if selector.endswith("::text"):
-                    # CSS selector with text extraction
-                    clean_selector = selector.replace("::text", "")
-                    tag_elements = soup.select(clean_selector)
-                    if tag_elements:
-                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
-                        if tags:  # Only use if we found actual tags
-                            data["tags"] = tags
-                            break
+        if selectors.tags:
+            tags_result = extract_with_selector_fallback(
+                soup,
+                selectors.tags,
+                first_only=False,
+            )
+            if tags_result["values"]:
+                if tags_result["extraction"] in {"text", "attr"}:
+                    tags = [str(value).strip() for value in tags_result["values"] if str(value).strip()]
                 else:
-                    # Regular CSS selector
-                    tag_elements = soup.select(selector)
-                    if tag_elements:
-                        tags = [elem.get_text(strip=True) for elem in tag_elements if elem.get_text(strip=True)]
-                        if tags:  # Only use if we found actual tags
-                            data["tags"] = tags
-                            break
+                    tags = [elem.get_text(strip=True) for elem in tags_result["values"] if elem.get_text(strip=True)]
+                data["tags"] = tags
         
         # Apply cleaning functions if configured
         if cleaning_config:

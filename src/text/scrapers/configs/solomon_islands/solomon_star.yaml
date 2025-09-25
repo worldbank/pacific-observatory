@@ -30,19 +30,18 @@ headers:
   Cache-Control: "no-cache"
   Pragma: "no-cache"
 
-# CSS selectors for data extraction
+# CSS selectors for data extraction (structured)
 selectors:
-  # Thumbnail/listing page selectors
-  thumbnail: ".blog-content wf-td"  # Container for each article preview
-  title: ".entry-title"             # Article title element
-  url: ".entry-title a::attr(href)" # Article URL from title link
-  date: ".entry-date"               # Publication date
-  
-  # Article page selectors
-  article_body: 
-    - ".entry-content"
-    - ".wf-container-main"
-  tags: ".category-link"            # Article tags/categories
+  thumbnail:
+    container: ".blog-content wf-td"  # Container for each article preview
+    title: ".entry-title"             # Article title element
+    url: ".entry-title a::attr(href)" # Article URL from title link
+    date: ".entry-date"               # Publication date
+  article:
+    body:
+      - ".entry-content"
+      - ".wf-container-main"
+    tags: ".category-link"            # Article tags/categories
 
 # Data cleaning configuration
 cleaning:

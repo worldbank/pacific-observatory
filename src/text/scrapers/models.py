@@ -139,6 +139,34 @@ class ScrapingResult(BaseModel):
         return v
 
 
+SelectorType = Union[str, List[str]]
+
+
+class ThumbnailSelectorConfig(BaseModel):
+    """Configuration for thumbnail/listing selectors."""
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    container: SelectorType = Field(..., description="Selector(s) for thumbnail container elements")
+    title: SelectorType = Field(..., description="Selector(s) for thumbnail titles")
+    url: SelectorType = Field(..., description="Selector(s) for thumbnail URLs")
+    date: Optional[SelectorType] = Field(default=None, description="Optional selector(s) for thumbnail dates")
+
+
+class ArticleSelectorConfig(BaseModel):
+    """Configuration for article-level selectors."""
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    body: SelectorType = Field(..., description="Selector(s) for article body content")
+    date: Optional[SelectorType] = Field(default=None, description="Optional selector(s) for article dates")
+    tags: Optional[SelectorType] = Field(default=None, description="Optional selector(s) for article tags")
+
+
+class SelectorsConfig(BaseModel):
+    """Structured selector configuration grouping thumbnail and article selectors."""
+    thumbnail: ThumbnailSelectorConfig
+    article: ArticleSelectorConfig
+
+
 class NewspaperConfig(BaseModel):
     """
     Model for newspaper configuration validation.
@@ -156,7 +184,7 @@ class NewspaperConfig(BaseModel):
     listing: dict = Field(..., description="Listing discovery configuration")
     
     # Selectors for data extraction
-    selectors: dict = Field(..., description="CSS/XPath selectors for data extraction")
+    selectors: SelectorsConfig = Field(..., description="Structured selectors for data extraction")
     
     # Optional configurations
     auth: Optional[dict] = Field(default=None, description="Authentication configuration")
@@ -228,14 +256,4 @@ class NewspaperConfig(BaseModel):
             raise ValueError('Listing configuration must specify a type')
         if v['type'] not in ['pagination', 'archive', 'category', 'search']:
             raise ValueError('Listing type must be one of: pagination, archive, category, search')
-        return v
-    
-    @field_validator('selectors')
-    @classmethod
-    def selectors_must_have_required_fields(cls, v: dict) -> dict:
-        """Validate selectors have minimum required fields."""
-        required_fields = ['thumbnail', 'title', 'url', 'date']
-        missing_fields = [field for field in required_fields if field not in v]
-        if missing_fields:
-            raise ValueError(f'Selectors missing required fields: {missing_fields}')
         return v

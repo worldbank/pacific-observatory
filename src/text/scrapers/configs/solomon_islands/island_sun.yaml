@@ -29,18 +29,17 @@ headers:
   Cache-Control: "no-cache"
   Pragma: "no-cache"
 
-# CSS selectors for data extraction
+# CSS selectors for data extraction (structured)
 selectors:
-  # Thumbnail/listing page selectors
-  thumbnail: ".td-module-meta-info"
-  title: ".entry-title.td-module-title a::text"
-  url: ".entry-title.td-module-title a::attr(href)"
-  date: ".date"
-  tags: ".td-post-category a::text"
-
-  # Article page selectors
-  article_body: ".td-post-content.tagdiv-type p::text"
-  article_date: ".td-post-date::text"
+  thumbnail:
+    container: ".td-module-meta-info"
+    title: ".entry-title.td-module-title a::text"
+    url: ".entry-title.td-module-title a::attr(href)"
+    date: ".date"
+  article:
+    body: ".td-post-content.tagdiv-type p::text"
+    date: ".td-post-date::text"
+    tags: ".td-post-category a::text"
 
 # Data cleaning configuration
 cleaning:

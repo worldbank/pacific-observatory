@@ -26,18 +26,19 @@ headers:
   Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
   Accept-Language: "en-US,en;q=0.9"
 
-# CSS selectors for data extraction
+# CSS selectors for data extraction (structured)
 selectors:
-  # Thumbnail/listing page selectors - try multiple fallback options
-  thumbnail: "div.articles-list section.article-list-item"         # Original selector from monolithic scraper
-  title: "h2::text"                # Article title text (from original: i.find("h2").text)
-  url: "a::attr(href)"             # Article URL (from original: i.find("a")["href"])
-  date: ".date"                    # Placeholder selector (date extracted from archive URL path)
-  
-  # Article page selectors (from original: ["article-timestamp", "article-body", "tags"])
-  article_body: ".article-body"    # Article content container
-  article_date: ".article-timestamp span::attr(datetime)"  # Article date from content
-  tags: ".tags a"                  # Article tags/categories
+  thumbnail:
+    # Thumbnail/listing page selectors - try multiple fallback options
+    container: "div.articles-list section.article-list-item"         # Original selector from monolithic scraper
+    title: "h2::text"                # Article title text (from original: i.find("h2").text)
+    url: "a::attr(href)"             # Article URL (from original: i.find("a")["href"])
+    date: ".date"                    # Placeholder selector (date extracted from archive URL path)
+  article:
+    # Article page selectors (from original: ["article-timestamp", "article-body", "tags"])
+    body: ".article-body"    # Article content container
+    date: ".article-timestamp span::attr(datetime)"  # Article date from content
+    tags: ".tags a"                  # Article tags/categories
 
 # Data cleaning configuration
 cleaning:

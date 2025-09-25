@@ -63,7 +63,8 @@ class NewspaperScraper:
         self.listing_strategy = create_listing_strategy(self.config.listing)
         
         # Selectors for data extraction
-        self.selectors = self.config.selectors
+        self.thumbnail_selectors = self.config.selectors.thumbnail
+        self.article_selectors = self.config.selectors.article
         
         # Data storage
         self.scraped_thumbnails: List[ThumbnailRecord] = []
@@ -148,7 +149,7 @@ class NewspaperScraper:
 
         client = self._get_http_client()
         thumbnails = []
-        thumbnail_selector = self.selectors["thumbnail"]
+        thumbnail_selector = self.thumbnail_selectors.container
 
         async for result_batch in self.listing_strategy.discover_and_scrape(client, self.base_url, thumbnail_selector):
             for result in result_batch:
@@ -199,7 +200,7 @@ class NewspaperScraper:
                     thumb_data = extract_thumbnail_data_from_element(
                         thumb_elem,
                         str(result.url),
-                        self.selectors,
+                        self.thumbnail_selectors,
                         self.base_url,
                         self.config.cleaning
                     )
@@ -261,7 +262,7 @@ class NewspaperScraper:
             client = self._get_http_client()
             
             # Scrape all listing pages
-            thumbnail_selector = self.selectors["thumbnail"]
+            thumbnail_selector = self.thumbnail_selectors.container
             results = await client.scrape_urls(listing_urls, thumbnail_selector)
             
             for result in results:
@@ -320,7 +321,7 @@ class NewspaperScraper:
                     thumb_data = extract_thumbnail_data_from_element(
                         thumb_elem, 
                         str(result.url), 
-                        self.selectors, 
+                        self.thumbnail_selectors, 
                         self.base_url, 
                         self.config.cleaning
                     )
@@ -350,7 +351,7 @@ class NewspaperScraper:
                             continue
                         
                         # Find thumbnail elements
-                        thumbnail_selector = self.selectors["thumbnail"]
+                        thumbnail_selector = self.thumbnail_selectors.container
                         thumbnail_elements = browser_client.find_elements(thumbnail_selector)
                         
                         if not thumbnail_elements:
@@ -392,20 +393,20 @@ class NewspaperScraper:
                         # Extract data from each thumbnail
                         for thumb_elem in thumbnail_elements:
                             try:
-                                # Extract basic data using browser client methods
-                                title = browser_client.extract_element_data(thumb_elem, "text")
-                                href = browser_client.extract_element_data(thumb_elem, "href")
-                                
-                                if title and href:
-                                    thumb_data = {
-                                        "title": title,
-                                        "url": urljoin(self.base_url, href),
-                                        "date": "Unknown"  # Would need more sophisticated extraction
-                                    }
-                                    
-                                    thumbnail = ThumbnailRecord(**thumb_data)
-                                    thumbnails.append(thumbnail)
-                                    
+                                thumb_data = extract_thumbnail_data_from_element(
+                                    thumb_elem,
+                                    url,
+                                    self.thumbnail_selectors,
+                                    self.base_url,
+                                    self.config.cleaning,
+                                )
+                                if thumb_data:
+                                    try:
+                                        thumbnail = ThumbnailRecord(**thumb_data)
+                                        thumbnails.append(thumbnail)
+                                    except Exception as e:
+                                        logger.error(f"Failed to create ThumbnailRecord: {e}")
+                                        logger.error(f"Data: {thumb_data}")
                             except Exception as e:
                                 logger.error(f"Error processing thumbnail element: {e}")
                     
@@ -453,12 +454,6 @@ class NewspaperScraper:
             client = self._get_http_client()
             
             # Create selectors for article extraction
-            article_selectors = {
-                "title": self.selectors.get("title", "h1"),
-                "body": self.selectors.get("article_body", "article"),
-                "tags": self.selectors.get("tags", "")
-            }
-            
             # Import tqdm for progress tracking
             from tqdm.asyncio import tqdm
             
@@ -486,10 +481,10 @@ class NewspaperScraper:
                         
                         # Extract article body and tags using the new extraction function
                         article_content = extract_article_data_from_soup(
-                            soup, 
-                            str(thumbnail.url), 
-                            self.selectors, 
-                            self.base_url, 
+                            soup,
+                            str(thumbnail.url),
+                            self.article_selectors,
+                            self.base_url,
                             self.config.cleaning
                         )
                         

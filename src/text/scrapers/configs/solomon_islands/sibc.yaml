@@ -20,19 +20,18 @@ rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/se
 retries: 3       # Number of retry attempts for failed requests
 retry_seconds: 2.0  # Wait time in seconds between retry attempts
 
-# CSS selectors for data extraction
+# CSS selectors for data extraction (structured)
 selectors:
-  # Thumbnail/listing page selectors
-  thumbnail: ".item-bot-content"  # Container for each article preview
-  title: ".item-title a::text"    # Article title text
-  url: ".item-title a::attr(href)" # Article URL
-  date: ".item-date-time::text"   # Publication date
-  
-  # Article page selectors  
-  article_body: 
-    - ".entry-body p"
-    - "article div.entry-body div"
-  tags: ".entry-taxonomies a::text"    # Article tags/categories
+  thumbnail:
+    container: ".item-bot-content"  # Container for each article preview
+    title: ".item-title a::text"    # Article title text
+    url: ".item-title a::attr(href)" # Article URL
+    date: ".item-date-time::text"   # Publication date
+  article:
+    body:
+      - ".entry-body p"
+      - "article div.entry-body div"
+    tags: ".entry-taxonomies a::text"    # Article tags/categories
 
 # Data cleaning configuration
 cleaning:
