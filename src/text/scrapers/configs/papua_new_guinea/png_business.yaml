@@ -40,5 +40,5 @@ cleaning:
   date: "handle_mixed_dates"
 
 # Test/debug options
-max_pages: 50
-max_articles: 50
+max_pages: null
+max_articles: null
