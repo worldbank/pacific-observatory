@@ -162,7 +162,7 @@ class JsonlStorage:
         with open(file_path, "w", encoding="utf-8") as f:
             for article in articles:
                 # Convert to dict and add metadata
-                data = article.dict()
+                data = article.model_dump()
                 data["_scraped_at"] = timestamp.isoformat()
 
                 # Serialize to handle HttpUrl objects

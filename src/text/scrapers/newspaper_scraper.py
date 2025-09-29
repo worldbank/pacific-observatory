@@ -137,13 +137,27 @@ class NewspaperScraper:
         """
         Discover listing pages and scrape thumbnails, with smart caching and retry logic.
 
-        Performs discovery and scraping with retry logic for failed pages.
+        First checks if today's thumbnails already exist. If yes, loads them.
+        If no, performs discovery and scraping with retry logic for failed pages.
         If no thumbnails are found, retries up to 25 times with 2-second delays.
 
         Returns:
             List of ThumbnailRecord objects
         """
+        # Try to load existing thumbnails from today's file
+        existing_thumbnails = self._storage.load_thumbnails_from_urls_file(
+            self.country, self.name
+        )
+        if existing_thumbnails:
+            logger.info(
+                "Using existing thumbnails from today's file - skipping discovery"
+            )
+            return existing_thumbnails
 
+        # No existing file, perform discovery and scraping
+        logger.info(
+            "No existing thumbnails found - performing discovery and scraping"
+        )
 
         if self.client_type != "http":
             raise NotImplementedError(
@@ -609,12 +623,6 @@ class NewspaperScraper:
             f"Scraped {len(articles)} articles from {len(thumbnails)} thumbnails"
         )
 
-        # Save articles to structured JSONL file
-        saved_path = self._storage.save_articles(
-            articles, self.country, self.name
-        )
-        if saved_path:
-            self._saved_files["articles"] = saved_path
 
         self.scraped_articles = articles
         return articles
@@ -645,6 +653,13 @@ class NewspaperScraper:
 
             # Step 3: Scrape full articles
             articles = await self.scrape_articles(thumbnails)
+
+            # Save articles to structured JSONL file
+            saved_path = self._storage.save_articles(
+                articles, self.country, self.name
+            )
+            if saved_path:
+                self._saved_files["articles"] = saved_path
 
             # Compile results - ensure all HttpUrl objects are converted to strings
             try:
@@ -863,11 +878,8 @@ class NewspaperScraper:
                     or []
                 )
 
-                print("Existing articles:", len(existing_articles))
-                print("New articles:", len(new_articles))
                 # Combine existing and new articles
                 all_articles = existing_articles + new_articles
-                print("All articles:", len(all_articles))
 
                 # Save combined articles
                 saved_path = self._storage.save_articles(
