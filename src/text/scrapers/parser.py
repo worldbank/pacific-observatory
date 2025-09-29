@@ -10,7 +10,7 @@ from typing import Dict, Any, Optional, List
 from urllib.parse import urljoin
 from .pipelines.cleaning import apply_cleaning
 from .models import ThumbnailSelectorConfig, ArticleSelectorConfig
-
+import unicodedata
 logger = logging.getLogger(__name__)
 
 
@@ -257,12 +257,8 @@ def extract_article_data_from_soup(
         )
         data["body"] = ""
         if body_result["values"]:
-            if body_result["extraction"] in {"text", "attr"}:
-                text_values = [str(value).strip() for value in body_result["values"] if str(value).strip()]
-            else:
-                text_values = [elem.get_text(strip=True) for elem in body_result["values"] if elem.get_text(strip=True)]
+            text_values = [unicodedata.normalize('NFKD', elem.get_text(separator=' ', strip=True)) for elem in body_result["values"] if elem.get_text(strip=True)]
             data["body"] = " ".join(text_values)
-        
         # Extract article date if selector is provided
         if selectors.date:
             date_result = extract_with_selector_fallback(

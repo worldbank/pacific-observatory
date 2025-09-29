@@ -6,7 +6,16 @@ import json
 from src.scrapers import RequestsScraper
 from src.scrapers.utils import check_latest_date
 
-
+# ABC AUSTRILIA
+ABC_AU_TOPIC_DICT = {
+    26514: "fiji",
+    26790: "solomon_islands",
+    26730: "papua_new_guinea",
+    26874: "vanuatu",
+    26720: "pacific",
+    26664: "marshall_islands",
+    26832: "tonga"
+}
 def scrape_ajax_abc(document_id: int,
                     size: int = 1000,
                     offset: int = 0

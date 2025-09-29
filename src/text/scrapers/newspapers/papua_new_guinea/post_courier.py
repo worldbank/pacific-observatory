@@ -5,6 +5,13 @@ sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 from src.scrapers import RequestsScraper
 
+# Pupua New Guinea
+# Post Courier
+POST_COURIER_PAGE_URLS = [f"https://www.postcourier.com.pg/national-news/page/{num}"
+                          for num in range(1, 1797)]
+POST_COURIER_PAGE_ELEMENTS = ["entry-title", "posted-on"]
+POST_COURIER_NEWS_ELEMENTS = ["entry-content", "tags-links"]
+
 target_folder = sys.path[0] + "data/text/papua_new_guinea/"
 
 ## Initialize the Scraper

@@ -143,7 +143,7 @@ def handle_mixed_dates(date_str: str) -> str:
                 for strp_pattern in patterns:
                     try:
                         parsed_date = datetime.strptime(date_part, strp_pattern)
-                        logger.info(f"Successfully parsed date using regex fallback: '{date_str}' -> '{parsed_date.strftime('%Y-%m-%d')}'")
+                        # logger.info(f"Successfully parsed date using regex fallback: '{date_str}' -> '{parsed_date.strftime('%Y-%m-%d')}'")
                         return parsed_date.strftime("%Y-%m-%d")
                     except ValueError:
                         continue
@@ -543,6 +543,55 @@ def clean_solomon_times_tags(tags_element) -> str:
         return clean_html_text(str(tags_element))
 
 
+def clean_matangi_url(url: str, base_url: str = None) -> Optional[str]:
+    """
+    Resolve the final article URL for Matangi Tonga by following the 'print' link.
+
+    Matangi Tonga articles are on a separate print-friendly page, so this function
+    scrapes the initial URL to find the print URL.
+
+    Args:
+        url: The initial article URL from the listing page
+        base_url: The base URL for resolving relative links
+
+    Returns:
+        The absolute URL to the print-friendly article page, or None if not found
+    """
+    if not url:
+        return None
+
+    import httpx
+    from bs4 import BeautifulSoup
+    from urllib.parse import urljoin
+
+    try:
+        # Ensure URL is absolute
+        absolute_url = urljoin(base_url, url) if base_url and not url.startswith('http') else url
+
+        # Scrape the initial article page to find the print link
+        with httpx.Client() as client:
+            response = client.get(absolute_url, follow_redirects=True)
+            response.raise_for_status()
+
+        soup = BeautifulSoup(response.content, "html.parser")
+        print_link = soup.select_one(".print-page a, .node-main-content .print a")
+
+        if print_link and print_link.get("href"):
+            print_url = print_link["href"]
+            # Ensure the print URL is absolute
+            final_url = urljoin(base_url, print_url) if base_url else print_url
+            logger.info(f"Resolved Matangi URL: {url} -> {final_url}")
+            return final_url
+        else:
+            logger.warning(f"No print link found for Matangi URL: {url}")
+            # Fallback to the original URL if no print link is found
+            return absolute_url
+
+    except Exception as e:
+        logger.error(f"Failed to resolve Matangi print URL for {url}: {e}")
+        return None
+
+
 def normalize_date(date_str: str) -> str:
     """
     Normalize any date string to YYYY-MM-DD format.
@@ -573,8 +622,9 @@ CLEANING_FUNCTIONS = {
     'normalize_date': normalize_date,
     'clean_html_text': clean_html_text,
     'normalize_tags': normalize_tags,
-    'clean_url': clean_url,
-    'clean_title': clean_title
+    # 'clean_url': clean_url,
+    'clean_title': clean_title,
+    'clean_matangi_url': clean_matangi_url,
 }
 
 
@@ -626,6 +676,8 @@ def apply_cleaning(data: Any, cleaning_config: dict, base_url: str = None, page_
                             base_url=base_url,
                             **kwargs
                         )
+                    elif function_name == 'clean_matangi_url':
+                        cleaned_data[field_name] = cleaning_func(cleaned_data[field_name], base_url=base_url)
                     else:
                         cleaned_data[field_name] = cleaning_func(cleaned_data[field_name])
                 except Exception as e:

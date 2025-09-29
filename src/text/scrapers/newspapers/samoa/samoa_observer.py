@@ -9,6 +9,10 @@ from tqdm import tqdm
 import multiprocessing
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.scrapers import RequestsScraper
+# Samoa
+##
+SAMOA_OBSERVER_URLS = [f"https://www.samoaobserver.ws/stories/page/{num}.json?&category=samoa&api=true"
+                       for num in range(0, 2110)]
 
 target_dir = sys.path[0] + "data/text/samoa/"
 if not os.path.exists(target_dir):

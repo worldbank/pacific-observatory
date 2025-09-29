@@ -4,6 +4,10 @@ sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 from src.scrapers import RequestsScraper
 
+# PINA
+PINA_URLS = [f"https://pina.com.fj/category/news/page/{num}"
+             for num in range(1, 475)]
+
 target_dir = sys.path[0] + "data/text/pacific/"
 
 scraper = RequestsScraper("html.parser")

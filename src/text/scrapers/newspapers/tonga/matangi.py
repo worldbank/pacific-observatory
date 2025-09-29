@@ -12,7 +12,15 @@ from src.scrapers.utils import check_latest_date
 target_dir = sys.path[0] + "data/text/tonga/"
 if not os.path.exists(target_dir):
     os.mkdir(target_dir)
-
+# MATANGI TONGA
+MATANGI_PAGE_URLS = [f"https://matangitonga.to/topic/all?page={num}"
+                     for num in range(1, 937)]
+MATANGI_PAGE_URLS_ELEMENTS = ["views-field views-field-title",  # Title + embedded URL
+                              # Category (e.g. Editorials/Politics/Travel/Business...)
+                              "views-field views-field-term-node-tid",
+                              "views-field views-field-field-first-publication",  # Date
+                              "views-field views-field-field-location"  # News Location
+                              ]
 
 mtg = RequestsScraper("html.parser")
 urls_raw = mtg.scrape_urls(MATANGI_PAGE_URLS, MATANGI_PAGE_URLS_ELEMENTS,

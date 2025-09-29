@@ -1,0 +1,44 @@
+# Matangi Tonga Configuration
+# Migrated from monolithic scraper: src/text/scrapers/newspapers/tonga/matangi.py
+
+name: "Matangi Tonga"
+country: "tonga"
+base_url: "https://matangitonga.to"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://matangitonga.to/topic/all?page={num}"
+  start_page: 0 # Starts from page 0 in the old script
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: .views-row
+    title: ".views-field-title a::text"
+    url: ".views-field-title a::attr(href)"
+    date: ".views-field-field-first-publication .field-content::text"
+  article:
+    body: .field__items p:not(div.premium-message)
+    # Tags are on the thumbnail listing, not the article page
+    tags: ".field--name-field-tags .field__item::text"
+
+# Data cleaning configuration
+cleaning:
+  # url: "clean_matangi_url" # Custom function to resolve the print URL
+  # date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null
