@@ -28,8 +28,9 @@ selectors:
     container: .views-row
     title: ".views-field-title a::text"
     url: ".views-field-title a::attr(href)"
-    date: ".views-field-field-first-publication .field-content::text"
+    # date: ".views-field-field-first-publication .field-content::text"
   article:
+    date: meta[property="article:published_time"]::attr(content)
     body: .field__items p:not(div.premium-message)
     # Tags are on the thumbnail listing, not the article page
     tags: ".field--name-field-tags .field__item::text"
