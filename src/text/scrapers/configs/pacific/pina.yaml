@@ -1,0 +1,43 @@
+# PINA Configuration
+# Migrated from monolithic scraper: src/text/scrapers/newspapers/pacific/pina.py
+
+name: "PINA"
+country: "pacific"
+base_url: "https://pina.com.fj/"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://pina.com.fj/category/news/page/{num}/"
+  start_url: "https://pina.com.fj/category/news/"
+  start_page: 2
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: ".item-details"
+    title: "h3 a::text"
+    url: "h3 a::attr(href)"
+  article:
+    body: ".td-post-content p"
+    date: ".td-post-date"
+    tags: ".td-tags a::text"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: 5
+max_articles: 5
