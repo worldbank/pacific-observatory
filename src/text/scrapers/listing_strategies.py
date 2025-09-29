@@ -61,20 +61,27 @@ class PaginationStrategy(ListingStrategy):
         Expected config keys:
         - url_template: URL template with {num} placeholder
         - start_page: Starting page number (default: 1)
-        - step: Page increment step (default: 1)
         - batch_size: Number of pages to check per batch (default: 5)
         - start_url: Optional initial URL to scrape before pagination (default: None)
         """
         super().__init__(config, max_pages)
         
-        self.url_template = config["url_template"]
+        url_template_config = config["url_template"]
+        if isinstance(url_template_config, str):
+            self.url_templates = [url_template_config]
+        else:
+            self.url_templates = url_template_config
+
         self.start_page = config.get("start_page", 1)
         self.step = config.get("step", 1)
         self.batch_size = config.get("batch_size", 5)
         self.start_url = config.get("start_url", None)
-        
-        if "{num}" not in self.url_template:
-            raise ValueError("url_template must contain {num} placeholder")
+
+        for template in self.url_templates:
+            if "{num}" not in template:
+                raise ValueError(
+                    f"URL template '{template}' must contain {{num}} placeholder"
+                )
     
     def generate_page_urls(self, start_page: int, count: int) -> List[str]:
         """
@@ -88,10 +95,11 @@ class PaginationStrategy(ListingStrategy):
             List of generated URLs
         """
         urls = []
-        for i in range(count):
-            page_num = start_page + (i * self.step)
-            url = self.url_template.format(num=page_num)
-            urls.append(url)
+        for template in self.url_templates:
+            for i in range(count):
+                page_num = start_page + (i * self.step)
+                url = template.format(num=page_num)
+                urls.append(url)
         return urls
     
     async def discover_and_scrape(

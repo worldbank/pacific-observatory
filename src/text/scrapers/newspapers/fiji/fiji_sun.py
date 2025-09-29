@@ -1,12 +1,16 @@
 import os
 import sys
-from .config import PROJECT_FOLDER_PATH, FIJI_SUN_URLS, SCRAPE_ALL
+from .config import PROJECT_FOLDER_PATH
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 import numpy as np
 from src.scrapers import RequestsScraper
-
-SCRAPE_ALL = True
+# Fiji
+# Fiji Sun
+FIJI_SUN_URLS = ["https://fijisun.com.fj/category/fiji-news/page/" + str(i)
+                 for i in range(1, 1547)]
+FIJI_SUN_URLS.extend(["https://fijisun.com.fj/category/news/nation/page/" + str(i)
+                      for i in range(1, 888)])
 
 # Specify the host and saving directory
 target_dir = sys.path[0] + "data/text/fiji/"
