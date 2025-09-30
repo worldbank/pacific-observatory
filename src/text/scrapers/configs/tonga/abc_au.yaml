@@ -1,8 +1,8 @@
 # ABC AU (Australia) Pacific Configuration
 # Migrated from monolithic scraper: src/text/scrapers/newspapers/pacific/abc_au.py
 
-name: "ABC AU Pacific"
-country: "pacific"
+name: "ABC AU Tonga"
+country: "tonga"
 base_url: "https://www.abc.net.au"
 
 # Listing discovery using API strategy with multiple document IDs
@@ -11,7 +11,7 @@ listing:
   pagination_type: "offset"
   offset_start: 0
   offset_step: 100  # The original scraper used 1000, but a smaller size is safer
-  url_template: "https://www.abc.net.au/news-web/api/loader/topicstories?name=PaginationArticles&documentId=26720&offset={offset}&size={size}"  # Pacific
+  url_template: "https://www.abc.net.au/news-web/api/loader/topicstories?name=PaginationArticles&documentId=26832&offset={offset}&size={size}"
   json_paths:
     collection: "paginated.collection"
     total: "paginated.pagination.total"

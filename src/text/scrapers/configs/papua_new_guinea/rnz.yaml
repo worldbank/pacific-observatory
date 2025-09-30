@@ -1,19 +1,15 @@
 # Radio New Zealand (RNZ) Pacific Configuration
 # Migrated from monolithic scraper: src/text/scrapers/newspapers/pacific/rnz.py
 
-name: "RNZ Pacific"
-country: "pacific"
+name: "RNZ Papua New Guinea"
+country: "papua_new_guinea"
 base_url: "https://www.rnz.co.nz"
 
 # Listing discovery configuration
 # This scraper covers multiple Pacific countries using tag-based pagination
 listing:
   type: "pagination"
-  url_template:
-    - "https://www.rnz.co.nz/tags/Solomon%20Islands?page={num}"
-    - "https://www.rnz.co.nz/tags/Samoa?page={num}"
-    - "https://www.rnz.co.nz/tags/Fiji?page={num}"
-    - "https://www.rnz.co.nz/tags/Papua%20New%20Guinea?page={num}"
+  url_template: "https://www.rnz.co.nz/tags/Papua%20New%20Guinea?page={num}"
   start_page: 1
   batch_size: 10
 
