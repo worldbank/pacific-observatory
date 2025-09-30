@@ -67,6 +67,7 @@ class AsyncHttpClient:
         self.rate_limit = rate_limit
         self.retries = retries
         self.retry_seconds = retry_seconds
+        self.cookies = cookies
         
         # Default headers - merge with custom headers (custom takes precedence)
         default_headers = {
@@ -136,7 +137,6 @@ class AsyncHttpClient:
                     response = await client.get(
                         url,
                         headers=self.headers,
-                        cookies=self.cookies,
                         timeout=self.timeout
                     )
                     

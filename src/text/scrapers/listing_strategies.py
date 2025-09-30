@@ -337,6 +337,244 @@ class ArchiveStrategy(ListingStrategy):
             await asyncio.sleep(0.5)
 
 
+class ApiStrategy(ListingStrategy):
+    """
+    API strategy for JSON-based article discovery.
+    
+    This strategy fetches article listings from JSON API endpoints
+    instead of scraping HTML pages. Supports both offset-based and
+    page-based pagination.
+    """
+    
+    def __init__(self, config: Dict[str, Any], max_pages: Optional[int] = None):
+        """
+        Initialize API strategy.
+        
+        Expected config keys:
+        - url_template: API URL template(s) with placeholders like {offset}, {size}, {page}
+        - pagination_type: "offset" or "page"
+        - offset_start: Starting offset (for offset-based, default: 0)
+        - offset_step: Offset increment (for offset-based, default: 100)
+        - page_start: Starting page number (for page-based, default: 0)
+        - page_step: Page increment (for page-based, default: 1)
+        - json_paths: Dictionary mapping field names to JSON paths
+        """
+        super().__init__(config, max_pages)
+        
+        url_template_config = config["url_template"]
+        if isinstance(url_template_config, str):
+            self.url_templates = [url_template_config]
+        else:
+            self.url_templates = url_template_config
+        
+        self.pagination_type = config.get("pagination_type", "page")
+        self.offset_start = config.get("offset_start", 0)
+        self.offset_step = config.get("offset_step", 100)
+        self.page_start = config.get("page_start", 0)
+        self.page_step = config.get("page_step", 1)
+        self.json_paths = config.get("json_paths", {})
+        self.batch_size = config.get("batch_size", 10)
+        
+        # Validate pagination type
+        if self.pagination_type not in ["offset", "page"]:
+            raise ValueError(f"pagination_type must be 'offset' or 'page', got: {self.pagination_type}")
+    
+    def _get_nested_value(self, data: Dict, path: str) -> Any:
+        """
+        Get a value from a nested dictionary using dot notation.
+        
+        Args:
+            data: Dictionary to extract from
+            path: Dot-separated path (e.g., "pagination.total")
+            
+        Returns:
+            Value at the path, or None if not found
+        """
+        keys = path.split(".")
+        value = data
+        
+        for key in keys:
+            if isinstance(value, dict) and key in value:
+                value = value[key]
+            else:
+                return None
+        
+        return value
+    
+    def _extract_thumbnails_from_json(self, json_data: Dict, api_url: str) -> List[Dict[str, Any]]:
+        """
+        Extract thumbnail data from JSON response.
+        
+        Args:
+            json_data: Parsed JSON response
+            api_url: API URL for logging
+            
+        Returns:
+            List of thumbnail dictionaries
+        """
+        thumbnails = []
+        
+        # Get the collection/array of articles
+        collection_path = self.json_paths.get("collection", "")
+        if collection_path:
+            articles = self._get_nested_value(json_data, collection_path)
+        else:
+            # Assume the root is the collection
+            articles = json_data if isinstance(json_data, list) else []
+        
+        if not articles:
+            logger.warning(f"No articles found in API response from {api_url}")
+            return thumbnails
+        
+        # Extract data from each article
+        for article in articles:
+            try:
+                thumbnail_data = {}
+                
+                # Extract each configured field
+                for field, path in self.json_paths.items():
+                    if field in ["collection", "total"]:
+                        continue  # Skip metadata fields
+                    
+                    value = self._get_nested_value(article, path) if path else None
+                    thumbnail_data[field] = value
+                
+                if thumbnail_data:
+                    thumbnails.append(thumbnail_data)
+                    
+            except Exception as e:
+                logger.error(f"Error extracting thumbnail from article in {api_url}: {e}")
+                continue
+        
+        return thumbnails
+    
+    async def discover_and_scrape(
+        self,
+        client: AsyncHttpClient,
+        base_url: str,
+        thumbnail_selector: str
+    ) -> AsyncGenerator[List[Dict[str, Any]], None]:
+        """
+        Discover and fetch article listings from API endpoints.
+        
+        Note: thumbnail_selector is not used for API strategy since we parse JSON.
+        """
+        import json
+        
+        for url_template in self.url_templates:
+            logger.info(f"Starting API discovery for template: {url_template}")
+            
+            if self.pagination_type == "offset":
+                # Offset-based pagination
+                current_offset = self.offset_start
+                total_articles = None
+                pages_scraped = 0
+                
+                while True:
+                    # Check max_pages limit
+                    if self.max_pages and pages_scraped >= self.max_pages:
+                        logger.info(f"Reached max_pages limit: {self.max_pages}")
+                        break
+                    
+                    # Generate API URL with current offset
+                    api_url = url_template.format(
+                        offset=current_offset,
+                        size=self.offset_step
+                    )
+                    
+                    try:
+                        # Fetch JSON response
+                        async with client._http_client as http_client:
+                            content, status_code = await client.request_url(http_client, api_url)
+                        
+                        if content is None:
+                            logger.warning(f"Failed to fetch API URL: {api_url}")
+                            break
+                        
+                        # Parse JSON
+                        json_data = json.loads(content)
+                        
+                        # Get total count if available (first request only)
+                        if total_articles is None:
+                            total_path = self.json_paths.get("total")
+                            if total_path:
+                                total_articles = self._get_nested_value(json_data, total_path)
+                                logger.info(f"API reports {total_articles} total articles")
+                        
+                        # Extract thumbnails from JSON
+                        thumbnails = self._extract_thumbnails_from_json(json_data, api_url)
+                        
+                        if not thumbnails:
+                            logger.info(f"No more articles found at offset {current_offset}")
+                            break
+                        
+                        logger.info(f"Extracted {len(thumbnails)} articles from offset {current_offset}")
+                        yield thumbnails
+                        
+                        # Check if we've reached the end
+                        current_offset += self.offset_step
+                        if total_articles and current_offset >= total_articles:
+                            logger.info(f"Reached end of articles (offset {current_offset} >= total {total_articles})")
+                            break
+                        
+                        pages_scraped += 1
+                        await asyncio.sleep(0.5)
+                        
+                    except json.JSONDecodeError as e:
+                        logger.error(f"Failed to parse JSON from {api_url}: {e}")
+                        break
+                    except Exception as e:
+                        logger.error(f"Error fetching API URL {api_url}: {e}")
+                        break
+            
+            else:
+                # Page-based pagination
+                current_page = self.page_start
+                pages_scraped = 0
+                
+                while True:
+                    # Check max_pages limit
+                    if self.max_pages and pages_scraped >= self.max_pages:
+                        logger.info(f"Reached max_pages limit: {self.max_pages}")
+                        break
+                    
+                    # Generate API URL with current page
+                    api_url = url_template.format(page=current_page)
+                    
+                    try:
+                        # Fetch JSON response
+                        import httpx
+                        async with httpx.AsyncClient() as http_client:
+                            content, status_code = await client.request_url(http_client, api_url)
+                        
+                        if content is None:
+                            logger.warning(f"Failed to fetch API URL: {api_url}")
+                            break
+                        
+                        # Parse JSON
+                        json_data = json.loads(content)
+                        
+                        # Extract thumbnails from JSON
+                        thumbnails = self._extract_thumbnails_from_json(json_data, api_url)
+                        
+                        if not thumbnails:
+                            logger.info(f"No more articles found at page {current_page}")
+                            break
+                        
+                        logger.info(f"Extracted {len(thumbnails)} articles from page {current_page}")
+                        yield thumbnails
+                        
+                        current_page += self.page_step
+                        pages_scraped += 1
+                        await asyncio.sleep(0.5)
+                        
+                    except json.JSONDecodeError as e:
+                        logger.error(f"Failed to parse JSON from {api_url}: {e}")
+                        break
+                    except Exception as e:
+                        logger.error(f"Error fetching API URL {api_url}: {e}")
+                        break
+
 
 def create_listing_strategy(
     config: Dict[str, Any], max_pages: Optional[int] = None
@@ -359,9 +597,7 @@ def create_listing_strategy(
         return PaginationStrategy(config, max_pages=max_pages)
     elif strategy_type == "archive":
         return ArchiveStrategy(config, max_pages=max_pages)
-    elif strategy_type == "category":
-        return CategoryStrategy(config, max_pages=max_pages)
-    elif strategy_type == "search":
-        return SearchStrategy(config, max_pages=max_pages)
+    elif strategy_type == "api":
+        return ApiStrategy(config, max_pages=max_pages)
     else:
         raise ValueError(f"Unknown listing strategy type: {strategy_type}")

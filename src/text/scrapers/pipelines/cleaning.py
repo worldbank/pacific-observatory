@@ -592,6 +592,21 @@ def clean_matangi_url(url: str, base_url: str = None) -> Optional[str]:
         return None
 
 
+def filter_samoa_observer_premium(record: dict) -> bool:
+    """
+    Filter out premium articles from Samoa Observer.
+    
+    Args:
+        record: The record dictionary extracted from the API.
+        
+    Returns:
+        True if the article should be kept, False otherwise.
+    """
+    if record.get("is_premium") is True:
+        return False
+    return True
+
+
 def normalize_date(date_str: str) -> str:
     """
     Normalize any date string to YYYY-MM-DD format.
@@ -622,13 +637,14 @@ CLEANING_FUNCTIONS = {
     'normalize_date': normalize_date,
     'clean_html_text': clean_html_text,
     'normalize_tags': normalize_tags,
-    # 'clean_url': clean_url,
+    'clean_url': clean_url,
     'clean_title': clean_title,
     'clean_matangi_url': clean_matangi_url,
+    'filter_samoa_observer_premium': filter_samoa_observer_premium,
 }
 
 
-def get_cleaning_function(function_name: str):
+def get_cleaning_func(function_name: str):
     """
     Get a cleaning function by name.
     
@@ -662,7 +678,7 @@ def apply_cleaning(data: Any, cleaning_config: dict, base_url: str = None, page_
     
     for field_name, function_name in cleaning_config.items():
         if field_name in cleaned_data:
-            cleaning_func = get_cleaning_function(function_name)
+            cleaning_func = get_cleaning_func(function_name)
             if cleaning_func:
                 try:
                     # Special handling for functions that need additional context

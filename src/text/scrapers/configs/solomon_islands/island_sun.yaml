@@ -40,7 +40,7 @@ selectors:
       - ".entry-title.td-module-title a::attr(href)"
       - ".td-container .item-details a::attr(href)"
   article:
-    body: ".td-post-content p::text"
+    body: ".td-post-content p"
     date: ".td-post-date::text"
     tags: ".td-post-category"
 
