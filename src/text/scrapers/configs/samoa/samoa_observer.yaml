@@ -18,7 +18,6 @@ listing:
     id: "id"  # Article ID used to construct URL
     title: "heading"
     date: "published_date"
-    is_premium: "is_premium"
 
 # Client configuration
 client: "http"
@@ -53,6 +52,6 @@ max_articles: 50
 # Site-specific notes:
 # - Uses JSON API for listing discovery (page-based pagination)
 # - Article URLs are constructed from ID: https://www.samoaobserver.ws/category/samoa/{id}
-# - Original scraper filtered out premium articles (is_premium == True)
+# - Original scraper filtered out premium articles (is_premium == False)
 # - This filtering should be applied in post-processing or via custom cleaning function
 # - Article content is scraped from HTML pages (not available in API)
