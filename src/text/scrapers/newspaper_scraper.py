@@ -23,7 +23,7 @@ from .models import (
     ScrapingResult,
     NewspaperConfig,
 )
-from .pipelines.cleaning import apply_cleaning, get_cleaning_func
+from .pipelines.cleaning import apply_cleaning, get_cleaning_func, clean_url
 from .pipelines.storage import JsonlStorage
 from .parser import (
     extract_thumbnail_data_from_element,
@@ -185,7 +185,11 @@ class NewspaperScraper:
                             continue
 
                         # Handle URL construction from API data (e.g., from an 'id' field)
-                        if 'url' not in thumb_data or not thumb_data['url']:
+                        # Ensure URL is absolute before creating the record
+                        if thumb_data.get('url'):
+                            thumb_data['url'] = clean_url(thumb_data['url'], self.base_url)
+                        # Handle URL construction from API data if URL is still missing
+                        elif 'url' not in thumb_data or not thumb_data['url']:
                             url_template = self.config.listing.get("url_construction_template")
                             if url_template:
                                 thumb_data['url'] = url_template.format(**thumb_data)

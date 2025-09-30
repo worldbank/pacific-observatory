@@ -592,6 +592,25 @@ def clean_matangi_url(url: str, base_url: str = None) -> Optional[str]:
         return None
 
 
+def filter_abc_au_articles(record: dict) -> bool:
+    """
+    Filter out non-article content from ABC AU API results.
+
+    Args:
+        record: The record dictionary extracted from the API.
+
+    Returns:
+        True if the record is an article, False otherwise.
+    """
+    # The media type is derived from the contentUri field
+    content_uri = record.get("contentUri", "")
+    if content_uri:
+        media_type = content_uri.split("//")[-1].split("/")[0]
+        if media_type == "article":
+            return True
+    return False
+
+
 def filter_samoa_observer_premium(record: dict) -> bool:
     """
     Filter out premium articles from Samoa Observer.
@@ -641,6 +660,7 @@ CLEANING_FUNCTIONS = {
     'clean_title': clean_title,
     'clean_matangi_url': clean_matangi_url,
     'filter_samoa_observer_premium': filter_samoa_observer_premium,
+    'filter_abc_au_articles': filter_abc_au_articles,
 }
 
 

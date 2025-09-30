@@ -484,7 +484,8 @@ class ApiStrategy(ListingStrategy):
                     
                     try:
                         # Fetch JSON response
-                        async with client._http_client as http_client:
+                        import httpx
+                        async with httpx.AsyncClient() as http_client:
                             content, status_code = await client.request_url(http_client, api_url)
                         
                         if content is None:
@@ -511,7 +512,7 @@ class ApiStrategy(ListingStrategy):
                         logger.info(f"Extracted {len(thumbnails)} articles from offset {current_offset}")
                         yield thumbnails
                         
-                        # Check if we've reached the end
+                        # Increment offset by the step size
                         current_offset += self.offset_step
                         if total_articles and current_offset >= total_articles:
                             logger.info(f"Reached end of articles (offset {current_offset} >= total {total_articles})")
