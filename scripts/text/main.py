@@ -132,7 +132,6 @@ async def run_single_scraper(
             stats = results["statistics"]
             logger.info(
                 f"Scraping completed successfully in {duration.total_seconds():.1f}s: "
-                f"{stats['new_articles_scraped']} articles from {stats['thumbnails_found']} thumbnails"
             )
         else:
             logger.error(

@@ -641,6 +641,17 @@ def normalize_date(date_str: str) -> str:
     """
     return handle_mixed_dates(date_str)
 
+def join_body_list(body_text_list: list) -> str:
+    """
+    Join body text from a list of strings.
+    
+    Args:
+        body_text_list: List of strings to join
+        
+    Returns:
+        Joined string
+    """
+    return " ".join([s.strip() for s in body_text_list])
 
 # Registry of available cleaning functions
 CLEANING_FUNCTIONS = {
@@ -661,7 +672,8 @@ CLEANING_FUNCTIONS = {
     'clean_matangi_url': clean_matangi_url,
     'filter_samoa_observer_premium': filter_samoa_observer_premium,
     'filter_abc_au_articles': filter_abc_au_articles,
-}
+    'join_body_list': join_body_list,
+    }
 
 
 def get_cleaning_func(function_name: str):

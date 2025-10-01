@@ -38,7 +38,7 @@ selectors:
 # Data cleaning configuration
 cleaning:
   # url: "clean_matangi_url" # Custom function to resolve the print URL
-  # date: "handle_mixed_dates"
+  date: "handle_mixed_dates"
 
 # Test/debug options
 max_pages: null

@@ -18,7 +18,6 @@ from lxml import etree
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 from .models import ScrapingResult, ThumbnailRecord, ArticleRecord
-# from .utils import configure_cookies
 
 logger = logging.getLogger(__name__)
 
@@ -88,7 +87,7 @@ class AsyncHttpClient:
         """Fetch updated cookies for the domain."""
         if self.domain:
             try:
-                new_cookies = configure_cookies(self.domain)
+                new_cookies = self._cookies(self.domain)
                 self.cookies.update(new_cookies)
                 logger.info(f"Refreshed cookies for domain: {self.domain}")
             except Exception as e:

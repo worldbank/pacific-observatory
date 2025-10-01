@@ -78,6 +78,7 @@ class NewspaperScraper:
         # Data storage
         self.scraped_thumbnails: List[ThumbnailRecord] = []
         self.scraped_articles: List[ArticleRecord] = []
+        self.prefetched_articles: List[ArticleRecord] = []  # Built directly from API JSON when available
         self.failed_urls: List[Dict[str, Any]] = []
         self.failed_news: List[Dict[str, Any]] = []
         self._saved_files = {}  # Track files saved by this scraper
@@ -193,6 +194,28 @@ class NewspaperScraper:
                             url_template = self.config.listing.get("url_construction_template")
                             if url_template:
                                 thumb_data['url'] = url_template.format(**thumb_data)
+
+                        # Optionally build ArticleRecord directly from API data if 'body' exists
+                        if thumb_data.get('body'):
+                            article_dict = {
+                                'url': thumb_data['url'],
+                                'title': thumb_data.get('title', ''),
+                                'date': thumb_data.get('date', ''),
+                                'body': thumb_data.get('body', ''),
+                                'tags': thumb_data.get('tags', []),
+                                'source': self.name,
+                                'country': self.country,
+                            }
+                            # Apply cleaning if configured
+                            cleaning_config = self.config.cleaning or {}
+                            if cleaning_config:
+                                article_dict = apply_cleaning(article_dict, cleaning_config, self.base_url)
+                            try:
+                                article = ArticleRecord(**article_dict)
+                                self.prefetched_articles.append(article)
+                            except Exception as e:
+                                logger.error(f"Failed to create ArticleRecord from API data: {e}")
+                                logger.debug(f"Article data: {article_dict}")
 
                         thumbnail = ThumbnailRecord(**thumb_data)
                         thumbnails.append(thumbnail)
@@ -639,8 +662,12 @@ class NewspaperScraper:
                 )
                 thumbnails = thumbnails[: self.max_articles]
 
-            # Step 3: Scrape full articles
-            articles = await self.scrape_articles(thumbnails)
+            # Step 3: Build articles
+            if self.prefetched_articles:
+                logger.info(f"Using {len(self.prefetched_articles)} prefetched articles from API JSON; skipping HTML article scraping")
+                articles = self.prefetched_articles
+            else:
+                articles = await self.scrape_articles(thumbnails)
 
             # Save articles to structured JSONL file
             saved_path = self._storage.save_articles(
@@ -819,6 +846,9 @@ class NewspaperScraper:
                 f"Found {len(existing_urls)} existing articles to skip"
             )
 
+            # Reset prefetched articles for this run
+            self.prefetched_articles = []
+
             # Step 2: Discover and scrape thumbnails (same as full scrape)
             thumbnails = await self.discover_and_scrape_thumbnails()
             logger.info(f"Discovered {len(thumbnails)} thumbnails")
@@ -836,11 +866,17 @@ class NewspaperScraper:
             # Step 3: Filter thumbnails to only include new articles
             new_thumbnails = []
             skipped_count = 0
+            new_prefetched_articles: List[ArticleRecord] = []
+            prefetched_by_url = {
+                str(article.url): article for article in self.prefetched_articles
+            }
 
             for thumbnail in thumbnails:
                 thumbnail_url = str(thumbnail.url)
                 if thumbnail_url not in existing_urls:
                     new_thumbnails.append(thumbnail)
+                    if thumbnail_url in prefetched_by_url:
+                        new_prefetched_articles.append(prefetched_by_url[thumbnail_url])
                 else:
                     skipped_count += 1
 
@@ -849,11 +885,28 @@ class NewspaperScraper:
             )
 
             # Step 4: Scrape only new articles
-            if new_thumbnails:
-                new_articles = await self.scrape_articles(new_thumbnails)
-                logger.info(f"Scraped {len(new_articles)} new articles")
-            else:
-                new_articles = []
+            new_articles: List[ArticleRecord] = []
+
+            if new_prefetched_articles:
+                logger.info(
+                    f"Using {len(new_prefetched_articles)} prefetched articles from API JSON; skipping HTML scraping for these items"
+                )
+                new_articles.extend(new_prefetched_articles)
+
+            # Identify thumbnails that still require HTML scraping
+            remaining_thumbnails = [
+                thumb
+                for thumb in new_thumbnails
+                if str(thumb.url) not in prefetched_by_url
+            ]
+
+            if remaining_thumbnails:
+                scraped_articles = await self.scrape_articles(remaining_thumbnails)
+                logger.info(
+                    f"Scraped {len(scraped_articles)} new articles from HTML pages"
+                )
+                new_articles.extend(scraped_articles)
+            elif not new_prefetched_articles:
                 logger.info("No new articles to scrape")
 
             # Step 5: If we have new articles, append them to existing file
@@ -931,7 +984,7 @@ class NewspaperScraper:
                     "statistics": {
                         "thumbnails_found": len(thumbnails),
                         "existing_articles_skipped": skipped_count,
-                        "new_articles_scraped": len(new_articles),
+                        "articles_scraped": len(new_articles),
                         "total_articles_after_update": len(existing_urls)
                         + len(new_articles),
                         "failed_urls": len(self.failed_urls),

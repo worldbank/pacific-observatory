@@ -381,25 +381,57 @@ class ApiStrategy(ListingStrategy):
     
     def _get_nested_value(self, data: Dict, path: str) -> Any:
         """
-        Get a value from a nested dictionary using dot notation.
-        
+        Get a value from nested dictionaries/lists using dot notation.
+
+        Supports list traversal by aggregating values when a key resolves to a
+        list of dictionaries. Numeric keys are treated as list indices.
+
         Args:
             data: Dictionary to extract from
-            path: Dot-separated path (e.g., "pagination.total")
-            
+            path: Dot-separated path (e.g., "pagination.total" or "tags.slug")
+
         Returns:
-            Value at the path, or None if not found
+            Extracted value(s) or None if the path cannot be resolved
         """
+        if not path:
+            return data
+
         keys = path.split(".")
-        value = data
-        
+        current_values = [data]
+
         for key in keys:
-            if isinstance(value, dict) and key in value:
-                value = value[key]
-            else:
+            next_values = []
+
+            for value in current_values:
+                if isinstance(value, dict):
+                    if key in value and value[key] is not None:
+                        next_values.append(value[key])
+                elif isinstance(value, list):
+                    # Numeric access: treat key as index
+                    if key.isdigit():
+                        idx = int(key)
+                        if 0 <= idx < len(value):
+                            next_values.append(value[idx])
+                        continue
+
+                    # Non-numeric key: apply to each element in the list
+                    for item in value:
+                        if isinstance(item, dict):
+                            if key in item and item[key] is not None:
+                                next_values.append(item[key])
+                        elif isinstance(item, list):
+                            # Preserve nested lists for further traversal
+                            next_values.append(item)
+
+            if not next_values:
                 return None
-        
-        return value
+
+            current_values = next_values
+
+        if len(current_values) == 1:
+            return current_values[0]
+
+        return current_values
     
     def _extract_thumbnails_from_json(self, json_data: Dict, api_url: str) -> List[Dict[str, Any]]:
         """

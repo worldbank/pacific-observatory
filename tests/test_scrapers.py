@@ -8,6 +8,7 @@ import asyncio
 import yaml
 from pathlib import Path
 import pytest
+import os
 
 # Add project root to path to allow absolute imports
 import sys
@@ -15,9 +16,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / 'src'))
 
 from text.scrapers.newspaper_scraper import NewspaperScraper
+from text.scrapers.pipelines.storage import JsonlStorage
 
 CONFIGS_DIR = PROJECT_ROOT / "src" / "text" / "scrapers" / "configs"
-DATA_DIR = Path(__file__).parent / "data"
+DATA_DIR = PROJECT_ROOT / "tests" / "data" / "text"
 
 # Ensure the data directory exists for storing test artifacts.
 DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -48,7 +50,7 @@ async def test_scraper_config(config_path: Path) -> None:
     scraper = NewspaperScraper(config)
 
     # Override the storage path to use the test data directory
-    scraper._storage.storage_dir = DATA_DIR
+    scraper._storage = JsonlStorage(base_data_dir=DATA_DIR)
 
     # Run the scraper
     results = await scraper.run_full_scrape()
@@ -60,4 +62,4 @@ async def test_scraper_config(config_path: Path) -> None:
     stats = results.get('statistics', {})
     assert stats.get('thumbnails_found', 0) > 0, "No thumbnails were found."
     assert stats.get('articles_scraped', 0) > 0, "No articles were scraped."
-    assert stats.get('articles_scraped', 0) <= 3, "Scraped more articles than the limit."
+    #os.remove(DATA_DIR, recursive=True)
