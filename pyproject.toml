@@ -17,7 +17,7 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [dependency-groups]
-scraping = [
+text = [
     "bs4 (>=0.0.2,<0.0.3)",
     "lxml (>=6.0.1,<7.0.0)",
     "numpy (>=2.3.3,<3.0.0)",
