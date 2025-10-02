@@ -1,5 +1,9 @@
 import os
 import sys
+# Add the src directory to Python path for imports
+project_root = Path(__file__).parent.parent.parent
+src_dir = project_root / "src"
+sys.path.insert(0, str(src_dir))
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
