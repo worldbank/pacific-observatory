@@ -22,7 +22,7 @@ listing:
 
 # Client configuration
 client: "http"
-concurrency: 5
+concurrency: 10
 rate_limit: 0.5
 
 headers:
