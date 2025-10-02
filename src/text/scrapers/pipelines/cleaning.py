@@ -611,20 +611,6 @@ def filter_abc_au_articles(record: dict) -> bool:
     return False
 
 
-def filter_samoa_observer_premium(record: dict) -> bool:
-    """
-    Filter out premium articles from Samoa Observer.
-    
-    Args:
-        record: The record dictionary extracted from the API.
-        
-    Returns:
-        True if the article should be kept, False otherwise.
-    """
-    if record.get("is_premium") is True:
-        return False
-    return True
-
 
 def normalize_date(date_str: str) -> str:
     """
@@ -670,7 +656,6 @@ CLEANING_FUNCTIONS = {
     'clean_url': clean_url,
     'clean_title': clean_title,
     'clean_matangi_url': clean_matangi_url,
-    'filter_samoa_observer_premium': filter_samoa_observer_premium,
     'filter_abc_au_articles': filter_abc_au_articles,
     'join_body_list': join_body_list,
     }

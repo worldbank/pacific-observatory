@@ -379,6 +379,7 @@ class ApiStrategy(ListingStrategy):
         self.page_step = config.get("page_step", 1)
         self.json_paths = config.get("json_paths", {})
         self.batch_size = config.get("batch_size", 10)
+        self.exclude = config.get('exclude', None)
         
         # Validate pagination type
         if self.pagination_type not in ["offset", "page"]:
@@ -437,15 +438,15 @@ class ApiStrategy(ListingStrategy):
             return current_values[0]
 
         return current_values
-    
+
     def _extract_thumbnails_from_json(self, json_data: Dict, api_url: str) -> List[Dict[str, Any]]:
         """
         Extract thumbnail data from JSON response.
-        
+
         Args:
             json_data: Parsed JSON response
             api_url: API URL for logging
-            
+
         Returns:
             List of thumbnail dictionaries
         """
@@ -462,28 +463,57 @@ class ApiStrategy(ListingStrategy):
         if not articles:
             logger.warning(f"No articles found in API response from {api_url}")
             return thumbnails
-        
+
         # Extract data from each article
         for article in articles:
             try:
                 thumbnail_data = {}
-                
+
                 # Extract each configured field
                 for field, path in self.json_paths.items():
                     if field in ["collection", "total"]:
                         continue  # Skip metadata fields
-                    
+
                     value = self._get_nested_value(article, path) if path else None
                     thumbnail_data[field] = value
-                
+
                 if thumbnail_data:
                     thumbnails.append(thumbnail_data)
-                    
+
             except Exception as e:
                 logger.error(f"Error extracting thumbnail from article in {api_url}: {e}")
                 continue
-        
+
         return thumbnails
+
+    def _filter_excluded_thumbnails(self, thumbnails: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """Remove thumbnails that match any configured exclusion condition."""
+        if not self.exclude:
+            return thumbnails
+
+        filtered: List[Dict[str, Any]] = []
+
+        for thumb in thumbnails:
+            keep = True
+
+            for condition in self.exclude:
+                if not isinstance(condition, dict):
+                    continue
+
+                if all(thumb.get(key) == expected for key, expected in condition.items()):
+                    keep = False
+                    break
+
+            if keep:
+                filtered.append(thumb)
+
+        excluded_count = len(thumbnails) - len(filtered)
+        if excluded_count:
+            logger.info(
+                f"Excluded {excluded_count} API records based on 'exclude' filters"
+            )
+
+        return filtered
     
     async def discover_and_scrape(
         self,
@@ -546,6 +576,7 @@ class ApiStrategy(ListingStrategy):
                             logger.info(f"No more articles found at offset {current_offset}")
                             break
                         
+                        thumbnails = self._filter_excluded_thumbnails(thumbnails)
                         logger.info(f"Extracted {len(thumbnails)} articles from offset {current_offset}")
                         yield thumbnails
                         
@@ -599,6 +630,8 @@ class ApiStrategy(ListingStrategy):
                             logger.info(f"No more articles found at page {current_page}")
                             break
                         
+
+                        thumbnails = self._filter_excluded_thumbnails(thumbnails)
                         logger.info(f"Extracted {len(thumbnails)} articles from page {current_page}")
                         yield thumbnails
                         
