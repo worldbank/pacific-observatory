@@ -100,12 +100,12 @@ class EPU:
                         newline characters removed from the "news" column,
                         "date" column converted to datetime, and a new "ym" column added.
         """
-        df = pd.read_csv(filepath).drop("Unnamed: 0", axis=1)
+        df = pd.read_json(filepath, lines=True)
         df = df[~df.date.isna()].reset_index(drop=True)
         if subset_condition is not None:
             df = df.query(subset_condition).reset_index(drop=True)
 
-        df["news"] = df["news"].replace("\n", "").str.lower()
+        df["body"] = df["body"].replace("\n", "").str.lower()
         df["date"] = pd.to_datetime(df["date"], format="mixed")
         df["ym"] = [str(d.year) + "-" + str(d.month) for d in df.date]
         return df
@@ -143,12 +143,14 @@ class EPU:
             subset_condition (str): conditionals to pass to EPU().process_data()
         """
         for fp in self.filepath:
-            source = fp.split("/")[-1].replace("_news.csv", "")
+            country = fp.parent.parent.name
+            newspaper = fp.parent.name.replace(country, "").strip('_')
+            source = f"{country}_{newspaper}"
             raw = self.process_data(fp, subset_condition=subset_condition)
             for col, terms in zip(["econ", "policy", "uncertain"],
                                   [self.econ_terms, self.policy_terms, self.uncertainty_terms]):
                 if terms is not None:
-                    raw[col] = raw["news"].str.lower().apply(
+                    raw[col] = raw["body"].str.lower().apply(
                         is_in_word_list, terms=terms)
                 else:
                     raw[col] = True
@@ -157,7 +159,7 @@ class EPU:
 
             # Check for additional terms categoty
             if self.additional_terms:
-                raw["additional"] = raw["news"].str.lower().apply(
+                raw["additional"] = raw["body"].str.lower().apply(
                     is_in_word_list, terms=self.additional_terms)
                 raw["epu"] = (raw.epu) & (raw.additional)
 
@@ -172,7 +174,7 @@ class EPU:
         The function
         
         """
-        news_count = self.get_count(file, "news")
+        news_count = self.get_count(file, "body")
         epu_count = self.get_count(file[file["epu"]], "epu")
         return news_count.merge(epu_count, how="left", on="ym").fillna(0)
 
@@ -181,7 +183,7 @@ class EPU:
         """
         The function calculates the ratio of EPU news in relative to all news.
         """
-        merged_df["ratio"] = merged_df["epu_count"] / merged_df["news_count"]
+        merged_df["ratio"] = merged_df["epu_count"] / merged_df["body_count"]
         return merged_df
 
     def merge_data_frames(self, epu_stats: pd.DataFrame,
@@ -197,7 +199,7 @@ class EPU:
     def _calculate_total_news(self):
 
         self.news_cols = [
-            col for col in self.epu_stats.columns if col.endswith("_news_count")]
+            col for col in self.epu_stats.columns if col.endswith("_body_count")]
         self.epu_stats["news_total"] = self.epu_stats[self.news_cols].sum(
             axis=1)
 
@@ -236,7 +238,7 @@ class EPU:
         self.ratio_cols = [
             col for col in self.epu_stats.columns if col.endswith("_ratio")]
         for col in self.news_cols:
-            new_col = col.replace("_news_count", "_weights")
+            new_col = col.replace("_body_count", "_weights")
             self.epu_stats[new_col] = self.epu_stats[col].div(
                 self.epu_stats["news_total"])
 
