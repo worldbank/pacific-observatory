@@ -54,8 +54,8 @@ cleaning:
   body: "join_body_list"
 
 # Test/debug options
-max_pages: 5
-max_articles: 5
+max_pages: null
+max_articles: null
 
 # Site-specific notes:
 # - Uses JSON API for listing discovery (page-based pagination)

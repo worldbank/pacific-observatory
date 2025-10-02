@@ -29,9 +29,11 @@ selectors:
     container: ".o-digest__detail"
     title: "h3::text"
     url: "a::attr(href)"
-    date: ".o-kicker::text"
   article:
     body: ".article__body p, .article__summary p"
+    date: 
+    - "meta[itemprop='datePublished']::attr(content)"
+    - ".c-dateblock"
     tags: ".tag-item::text"
 
 # Data cleaning configuration

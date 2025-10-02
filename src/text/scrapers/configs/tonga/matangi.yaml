@@ -33,7 +33,9 @@ selectors:
     date: meta[property="article:published_time"]::attr(content)
     body: .field__items p:not(div.premium-message)
     # Tags are on the thumbnail listing, not the article page
-    tags: ".field--name-field-tags .field__item::text"
+    tags:
+    - ".field--name-field-tags .field__item::text"
+    - ".article-topic a"
 
 # Data cleaning configuration
 cleaning:

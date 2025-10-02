@@ -178,6 +178,11 @@ class PaginationStrategy(ListingStrategy):
                 logger.info(f"Batch {batch_number}: No accessible pages found. Stopping pagination.")
                 break
             
+            retrieved_thumbnails = sum([len(result.data) for result in successful_results])
+            if retrieved_thumbnails == 0:
+                logger.info(f"Batch {batch_number}: No thumbnails found. Stopping pagination.")
+                break
+
             # Update counters
             total_pages_processed += len(successful_results)
             

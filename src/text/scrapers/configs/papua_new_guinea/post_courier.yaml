@@ -32,7 +32,7 @@ selectors:
     date: ".entry-date.published::text"
   article:
     body: ".entry-content p"
-    tags: ".tags-links a::text"
+    tags: ".tags-links a"
 
 # Data cleaning configuration
 cleaning:
