@@ -85,3 +85,26 @@ def setup_python_path():
     
     if str(src_dir) not in sys.path:
         sys.path.insert(0, str(src_dir))
+
+def create_progress_display():
+    """
+    Create a Rich progress display for monitoring scrapers.
+    
+    Returns:
+        Tuple of (Progress object, Console object)
+    """
+    from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn, BarColumn
+    from rich.console import Console
+    
+    console = Console()
+    
+    progress = Progress(
+        SpinnerColumn(),
+        TextColumn("[bold blue]{task.fields[country]:20s}[/] / [cyan]{task.fields[newspaper]:20s}[/]"),
+        TextColumn("{task.description}"),
+        TimeElapsedColumn(),
+        console=console,
+        transient=False,  # keep progress bars visible after completion
+    )
+    
+    return progress, console

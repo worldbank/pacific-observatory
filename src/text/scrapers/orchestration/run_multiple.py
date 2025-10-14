@@ -14,6 +14,7 @@ from collections import defaultdict
 
 # Import discovery functions from dedicated module
 from text.scrapers.orchestration.discovery import discover_configs, group_by_newspaper
+from text.scrapers.orchestration.utils import create_progress_display
 
 
 def run_scraper_subprocess(
@@ -90,6 +91,7 @@ def run_scraper_subprocess(
 def monitor_processes(
     processes: List[subprocess.Popen],
     check_interval: float = 2.0,
+    use_progress: bool = True,
 ) -> List[Dict[str, any]]:
     """
     Monitor running processes and report when they complete.
@@ -97,6 +99,7 @@ def monitor_processes(
     Args:
         processes: List of Popen objects to monitor
         check_interval: Seconds between status checks
+        use_progress: Whether to use Rich progress display
     
     Returns:
         List of result dictionaries with status information
@@ -104,48 +107,108 @@ def monitor_processes(
     results = []
     remaining = list(processes)
     
-    print(f"\n🔄 Monitoring {len(processes)} scraper(s)...\n")
-    
-    while remaining:
-        for process in remaining[:]:
-            # Check if process has finished
-            retcode = process.poll()
-            
-            if retcode is not None:
-                # Process finished
-                country = process.country
-                newspaper = process.newspaper
-                log_file = process.log_file
-                
-                # Close log file handle
-                if hasattr(process, 'log_handle'):
-                    process.log_handle.close()
-                
-                # Parse log for status
-                status = parse_log_status(log_file, retcode)
-                
-                result = {
-                    "country": country,
-                    "newspaper": newspaper,
-                    "log_file": log_file,
-                    "exit_code": retcode,
-                    "status": status,
-                }
-                results.append(result)
-                
-                # Print completion message
-                status_icon = {
-                    "success": "✅",
-                    "warning": "⚠️",
-                    "failed": "❌",
-                }.get(status, "❓")
-                
-                print(f"{status_icon} {country}/{newspaper} completed ({status})")
-                
-                remaining.remove(process)
+    if not use_progress:
+        # Legacy mode: simple print statements
+        print(f"\n🔄 Monitoring {len(processes)} scraper(s)...\n")
         
-        if remaining:
-            time.sleep(check_interval)
+        while remaining:
+            for process in remaining[:]:
+                retcode = process.poll()
+                
+                if retcode is not None:
+                    country = process.country
+                    newspaper = process.newspaper
+                    log_file = process.log_file
+                    
+                    if hasattr(process, 'log_handle'):
+                        process.log_handle.close()
+                    
+                    status = parse_log_status(log_file, retcode)
+                    
+                    result = {
+                        "country": country,
+                        "newspaper": newspaper,
+                        "log_file": log_file,
+                        "exit_code": retcode,
+                        "status": status,
+                    }
+                    results.append(result)
+                    
+                    status_icon = {
+                        "success": "✅",
+                        "warning": "⚠️",
+                        "failed": "❌",
+                    }.get(status, "❓")
+                    
+                    print(f"{status_icon} {country}/{newspaper} completed ({status})")
+                    
+                    remaining.remove(process)
+            
+            if remaining:
+                time.sleep(check_interval)
+        
+        return results
+    
+    # Rich progress mode
+    progress, console = create_progress_display()
+    
+    # Create task for each process
+    task_map = {}  # process -> task_id
+    
+    with progress:
+        for process in processes:
+            task_id = progress.add_task(
+                "[yellow]Running...",
+                country=process.country,
+                newspaper=process.newspaper,
+                total=100,
+                completed=0,
+            )
+            task_map[process] = task_id
+        
+        # Monitor processes
+        while remaining:
+            for process in remaining[:]:
+                task_id = task_map[process]
+                retcode = process.poll()
+                
+                if retcode is not None:
+                    # Process finished
+                    country = process.country
+                    newspaper = process.newspaper
+                    log_file = process.log_file
+                    
+                    if hasattr(process, 'log_handle'):
+                        process.log_handle.close()
+                    
+                    status = parse_log_status(log_file, retcode)
+                    
+                    result = {
+                        "country": country,
+                        "newspaper": newspaper,
+                        "log_file": log_file,
+                        "exit_code": retcode,
+                        "status": status,
+                    }
+                    results.append(result)
+                    
+                    # Update progress with final status
+                    if status == "success":
+                        progress.update(task_id, description="[green]✅ Completed", completed=100)
+                    elif status == "warning":
+                        progress.update(task_id, description="[yellow]⚠️  Completed (warnings)", completed=100)
+                    else:
+                        progress.update(task_id, description="[red]❌ Failed", completed=100)
+                    
+                    remaining.remove(process)
+                else:
+                    # Still running - update progress bar
+                    current = progress.tasks[task_id].completed
+                    if current < 90:  # Keep it moving but never reach 100 until done
+                        progress.update(task_id, completed=min(current + 2, 90))
+            
+            if remaining:
+                time.sleep(check_interval)
     
     return results
 
@@ -389,10 +452,13 @@ def run_all_scrapers(
                 
                 try:
                     # Start the sequential group process in the background
+                    # Suppress stdout/stderr - all output goes to log files
                     process = subprocess.Popen(
                         cmd,
                         cwd=str(project_root),
                         start_new_session=True,
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
                     )
                     process.newspaper_group = newspaper_name
                     sequential_processes.append(process)
@@ -411,24 +477,105 @@ def run_all_scrapers(
             group_results = run_multi_country_group_sequential(group, log_dir, project_root, dry_run)
             all_results.extend(group_results)
     
-    # Monitor all parallel processes (single-country newspapers)
-    if parallel_processes and not dry_run:
-        print(f"\n🔄 Monitoring {len(parallel_processes)} parallel scraper(s)...")
-        results = monitor_processes(parallel_processes)
-        all_results.extend(results)
-    
-    # Monitor sequential group processes (they run independently)
-    if sequential_processes and not dry_run:
-        print(f"\n🔄 Monitoring {len(sequential_processes)} sequential group process(es)...")
-        print("   (These run independently and may take longer)\n")
+    # Monitor all processes (parallel + sequential) in unified display
+    if (parallel_processes or sequential_processes) and not dry_run:
+        total_count = len(parallel_processes) + len(sequential_processes)
+        print(f"\n🔄 Monitoring {total_count} scraper(s)...")
+        if sequential_processes:
+            print("   (Multi-country newspapers run sequentially - output in logs)\n")
+        else:
+            print()
         
-        for process in sequential_processes:
-            newspaper_group = getattr(process, 'newspaper_group', 'unknown')
-            print(f"   Waiting for {newspaper_group} group to complete...")
-            process.wait()
-            exit_code = process.returncode
-            status_icon = "✅" if exit_code == 0 else "❌"
-            print(f"   {status_icon} {newspaper_group} group completed (exit code: {exit_code})")
+        # Create unified progress display
+        progress, console = create_progress_display()
+        
+        # Track all processes and their tasks
+        task_map = {}  # process -> task_id
+        process_types = {}  # process -> 'parallel' or 'sequential'
+        
+        with progress:
+            # Add parallel processes
+            for process in parallel_processes:
+                task_id = progress.add_task(
+                    "[yellow]Running...",
+                    country=process.country,
+                    newspaper=process.newspaper,
+                    total=100,
+                    completed=0,
+                )
+                task_map[process] = task_id
+                process_types[process] = 'parallel'
+            
+            # Add sequential group processes
+            for process in sequential_processes:
+                newspaper_group = getattr(process, 'newspaper_group', 'unknown')
+                task_id = progress.add_task(
+                    "[yellow]Running...",
+                    country="multi-country",
+                    newspaper=newspaper_group,
+                    total=100,
+                    completed=0,
+                )
+                task_map[process] = task_id
+                process_types[process] = 'sequential'
+            
+            # Monitor all processes together
+            all_processes = parallel_processes + sequential_processes
+            remaining = list(all_processes)
+            
+            while remaining:
+                for process in remaining[:]:
+                    task_id = task_map[process]
+                    process_type = process_types[process]
+                    retcode = process.poll()
+                    
+                    if retcode is not None:
+                        # Process finished
+                        if process_type == 'parallel':
+                            # Parallel process - parse log for detailed status
+                            country = process.country
+                            newspaper = process.newspaper
+                            log_file = process.log_file
+                            
+                            if hasattr(process, 'log_handle'):
+                                process.log_handle.close()
+                            
+                            status = parse_log_status(log_file, retcode)
+                            
+                            result = {
+                                "country": country,
+                                "newspaper": newspaper,
+                                "log_file": log_file,
+                                "exit_code": retcode,
+                                "status": status,
+                            }
+                            all_results.append(result)
+                            
+                            # Update progress with detailed status
+                            if status == "success":
+                                progress.update(task_id, description="[green]✅ Completed", completed=100)
+                            elif status == "warning":
+                                progress.update(task_id, description="[yellow]⚠️  Completed (warnings)", completed=100)
+                            else:
+                                progress.update(task_id, description="[red]❌ Failed", completed=100)
+                        else:
+                            # Sequential process - simple exit code check
+                            if retcode == 0:
+                                progress.update(task_id, description="[green]✅ Completed", completed=100)
+                            else:
+                                progress.update(task_id, description="[red]❌ Failed", completed=100)
+                        
+                        remaining.remove(process)
+                    else:
+                        # Still running - update progress bar
+                        current = progress.tasks[task_id].completed
+                        if current < 90:
+                            # Slower increment for sequential (they take longer)
+                            increment = 1 if process_type == 'sequential' else 2
+                            progress.update(task_id, completed=min(current + increment, 90))
+                
+                if remaining:
+                    time.sleep(2.0)
     
     # Print summary
     if not dry_run and all_results:
