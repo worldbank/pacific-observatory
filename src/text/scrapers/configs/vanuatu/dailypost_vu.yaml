@@ -16,10 +16,9 @@ listing:
   batch_size: 10
 
 # Client configuration
-# This site requires browser client for JavaScript-rendered content
 client: "http"
-concurrency: 1  # Browser client doesn't support high concurrency
-rate_limit: 5.0  # 5 seconds between requests
+concurrency: 20
+rate_limit: 0.2
 retries: 3
 retry_seconds: 3.0
 

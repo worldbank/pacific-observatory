@@ -8,13 +8,13 @@ From the main `pacific-observatory` directory, you can run:
 
 ```bash
 # List all available scrapers
-python scripts/text/main.py --list-scrapers
+python src/text/scrapers/orchestration/main.py --list-scrapers
 
 # List all countries
-python scripts/text/main.py --list-countries
+python src/text/scrapers/orchestration/main.py --list-countries
 
 # Run the SIBC scraper
-python scripts/text/main.py sibc
+python src/text/scrapers/orchestration/main.py sibc
 ```
 
 ## Available Commands
@@ -36,38 +36,22 @@ python scripts/text/main.py sibc
 
 ```bash
 # Basic usage
-python scripts/text/main.py sibc
+python src/text/scrapers/orchestration/main.py sibc
+
+# Basic usage with update
+python src/text/scrapers/orchestration/main.py sibc --update
 
 # Dry run (no saving)
-python scripts/text/main.py sibc --no-save
+python src/text/scrapers/orchestration/main.py sibc --no-save
 
 # With debug logging
-python scripts/text/main.py sibc --log-level DEBUG
+python src/text/scrapers/orchestration/main.py sibc --log-level DEBUG
 
 # Save logs to file
-python scripts/text/main.py sibc --log-file logs/sibc.log
+python src/text/scrapers/orchestration/main.py sibc --log-file logs/sibc.log
 
 # Custom storage location
-python scripts/text/main.py sibc --storage-dir /path/to/custom/storage
-```
-
-## Data Storage
-
-By default, scraped data is saved to the `data/` directory in the project root with the following structure:
-
-```
-data/
-├── processed/
-│   └── <country>/
-│       └── <newspaper>/
-│           ├── articles_YYYYMMDD_HHMMSS.jsonl
-│           ├── thumbnails_YYYYMMDD_HHMMSS.jsonl
-│           └── metadata_YYYYMMDD_HHMMSS.json
-├── raw/
-│   └── <country>/
-│       └── <newspaper>/
-│           └── *.html
-└── logs/
+python src/text/scrapers/orchestration/main.py sibc --storage-dir /path/to/custom/storage
 ```
 
 ## Adding New Scrapers

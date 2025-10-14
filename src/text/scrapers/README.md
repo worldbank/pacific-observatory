@@ -14,7 +14,6 @@ All site-specific configuration is externalized to YAML files, allowing new news
 
 ### Client Layer
 - **`client_http.py`** - High-performance async HTTP client using `httpx` and `asyncio` for static content scraping with configurable concurrency and rate limiting
-- **`client_browser.py`** - Selenium-based browser client for dynamic JavaScript-rendered sites with cookie management and CDP support
 
 ### Data & Configuration
 - **`models.py`** - Pydantic data models (`ThumbnailRecord`, `ArticleRecord`, `NewspaperConfig`) providing strict validation and type safety
@@ -24,6 +23,7 @@ All site-specific configuration is externalized to YAML files, allowing new news
 - **`newspaper_scraper.py`** - Main orchestrator class that coordinates listing discovery, article extraction, data validation, and file storage
 - **`listing_strategies.py`** - Pluggable strategies for discovering article URLs (pagination, archive, category, search) with dynamic page detection
 - **`factory.py`** - Factory functions for creating scraper instances from YAML configurations
+- **`parser.py`** - HTML parsing and data extraction logic
 
 ### Pipeline Components
 - **`pipelines/`** - Data processing modules:
@@ -60,14 +60,13 @@ All site-specific configuration is externalized to YAML files, allowing new news
 
 ### Authentication & Compatibility
 - **Cookie Support** - Persistent session management for protected sites
-- **Browser Automation** - Selenium fallback for JavaScript-heavy sites
 - **Header Customization** - User-Agent rotation and custom headers
 - **Cloudflare Handling** - Support for protected sites requiring browser sessions
 
 ## 📊 Data Flow
 
 ```
-YAML Config → Factory → NewspaperScraper → Listing Strategy → HTTP/Browser Client
+YAML Config → Factory → NewspaperScraper → Listing Strategy → HTTP Client
      ↓                                                              ↓
 Storage ← Pydantic Models ← Data Cleaning ← Article Extraction ← Raw HTML
 ```
