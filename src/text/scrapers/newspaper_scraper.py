@@ -20,7 +20,6 @@ from .listing_strategies import create_listing_strategy, ApiStrategy
 from .models import (
     ThumbnailRecord,
     ArticleRecord,
-    ScrapingResult,
     NewspaperConfig,
 )
 from .pipelines.cleaning import apply_cleaning, get_cleaning_func, clean_url
@@ -139,33 +138,9 @@ class NewspaperScraper:
         """
         Discover listing pages and scrape thumbnails, with smart caching and retry logic.
 
-        First checks if today's thumbnails already exist. If yes, loads them.
-        If no, performs discovery and scraping with retry logic for failed pages.
-        If no thumbnails are found, retries up to 25 times with 2-second delays.
-
         Returns:
             List of ThumbnailRecord objects
         """
-        # Try to load existing thumbnails from today's file
-        existing_thumbnails = self._storage.load_thumbnails_from_urls_file(
-            self.country, self.name
-        )
-        if existing_thumbnails:
-            logger.info(
-                "Using existing thumbnails from today's file - skipping discovery"
-            )
-            return existing_thumbnails
-
-        # No existing file, perform discovery and scraping
-        logger.info(
-            "No existing thumbnails found - performing discovery and scraping"
-        )
-
-        if self.client_type != "http":
-            raise NotImplementedError(
-                "Browser client not yet supported for combined discovery/scraping"
-            )
-
         client = self._get_http_client()
         thumbnails = []
         thumbnail_selector = self.thumbnail_selectors.container

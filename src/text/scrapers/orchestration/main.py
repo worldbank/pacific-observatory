@@ -17,119 +17,72 @@ import argparse
 import os
 import sys
 from pathlib import Path
-import logging
-from typing import Optional
 
 # Set up the data folder path
 os.environ["DATA_FOLDER_PATH"] = "data/text"
 
 # Add the src directory to Python path for imports
-# File is at: src/text/scrapers/orchestration/main.py
-# Go up 4 levels to get to src/, then up 1 more to project root
 script_dir = Path(__file__).resolve().parent  # orchestration/
 scrapers_dir = script_dir.parent  # scrapers/
 text_dir = scrapers_dir.parent  # text/
 src_dir = text_dir.parent  # src/
-project_root = src_dir.parent  # project root
 
 if str(src_dir) not in sys.path:
     sys.path.insert(0, str(src_dir))
 
-# Import scraper execution functions (after path setup)
+# Import orchestration modules (after path setup)
+from text.scrapers.orchestration.utils import (
+    setup_logging,
+    get_project_paths,
+    get_default_configs_dir,
+)
+from text.scrapers.orchestration.discovery import (
+    get_available_scrapers,
+    get_available_countries,
+)
 from text.scrapers.orchestration.run_scraper import run_scraper_by_name
+from text.scrapers.orchestration.run_multiple import run_all_scrapers
 
-
-def setup_logging(level: str = "INFO", log_file: Optional[Path] = None):
-    """
-    Set up logging configuration.
-
-    Args:
-        level: Logging level (DEBUG, INFO, WARNING, ERROR)
-        log_file: Optional log file path
-    """
-    log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-
-    handlers = [logging.StreamHandler(sys.stdout)]
-
-    if log_file:
-        log_file.parent.mkdir(parents=True, exist_ok=True)
-        handlers.append(logging.FileHandler(log_file))
-
-    logging.basicConfig(
-        level=getattr(logging, level.upper()),
-        format=log_format,
-        handlers=handlers,
-    )
-
-
-def get_scrapers_dir():
-    """Get the scrapers directory path."""
-    return project_root / "src" / "text" / "scrapers"
-
-
-def get_default_configs_dir():
-    """Get the default configs directory path."""
-    return get_scrapers_dir() / "configs"
+# Get project paths
+paths = get_project_paths()
+project_root = paths["project_root"]
 
 
 def list_available_scrapers():
-    """List all available newspaper scrapers."""
-    scrapers_dir = get_scrapers_dir()
-    configs_dir = scrapers_dir / "configs"
+    """CLI wrapper: List all available newspaper scrapers."""
+    scrapers = get_available_scrapers(get_default_configs_dir())
 
-    if not configs_dir.exists():
-        print("❌ No scrapers directory found")
+    if not scrapers:
+        print("❌ No scrapers found")
         return
 
     print("📰 Available Newspaper Scrapers:")
     print("=" * 50)
 
-    scrapers_found = False
-
-    # Iterate through country directories
-    for country_dir in sorted(configs_dir.iterdir()):
-        if not country_dir.is_dir():
-            continue
-
-        country_name = country_dir.name
-        config_files = list(country_dir.glob("*.yaml"))
-
-        if config_files:
-            scrapers_found = True
-            print(f"\n🌍 {country_name.upper()}:")
-
-            for config_file in sorted(config_files):
-                newspaper_name = config_file.stem
-                print(f"  📄 {newspaper_name}")
-                print(
-                    f"     Command: python src/text/scrapers/orchestration/main.py {newspaper_name}"
-                )
-
-    if not scrapers_found:
-        print("No scrapers configured yet.")
+    for country_name, newspapers in scrapers.items():
+        print(f"\n🌍 {country_name.upper()}:")
+        for newspaper_name in newspapers:
+            print(f"  📄 {newspaper_name}")
+            print(
+                f"     Command: python src/text/scrapers/orchestration/main.py {newspaper_name}"
+            )
 
     print("\n" + "=" * 50)
 
 
 def list_countries():
-    """List all available countries."""
-    scrapers_dir = get_scrapers_dir()
-    configs_dir = scrapers_dir / "configs"
+    """CLI wrapper: List all available countries."""
+    countries = get_available_countries(get_default_configs_dir())
 
-    if not configs_dir.exists():
-        print("❌ No configs directory found")
+    if not countries:
+        print("❌ No countries found")
         return
 
-    countries = [d.name for d in configs_dir.iterdir() if d.is_dir()]
-
-    if countries:
-        print("🌍 Available Countries:")
-        print("=" * 30)
-        for country in sorted(countries):
-            print(f"  🏴 {country}")
-        print("=" * 30)
-    else:
-        print("No countries configured yet.")
+    print("🌍 Available Countries:")
+    print("=" * 30)
+    for country in countries:
+        print(f"  🏴 {country}")
+    print("=" * 30)
 
 
 def main():
@@ -139,11 +92,23 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
+  # Single scraper
   python src/text/scrapers/orchestration/main.py sibc                    # Run SIBC scraper (full mode)
-  python src/text/scrapers/orchestration/main.py sibc --update           # Run SIBC scraper (update mode - skip existing articles)
+  python src/text/scrapers/orchestration/main.py sibc --update           # Run SIBC scraper (update mode)
+  python src/text/scrapers/orchestration/main.py sibc --no-save          # Run without saving results
+  
+  # Multi-scraper runner
+  python src/text/scrapers/orchestration/main.py --run-all               # Run all scrapers in parallel
+  python src/text/scrapers/orchestration/main.py --run-all --sequential  # Run all scrapers sequentially
+  python src/text/scrapers/orchestration/main.py --run-all --dry-run     # Preview what would run
+  
+  # List available scrapers
   python src/text/scrapers/orchestration/main.py --list-scrapers         # List all available scrapers
   python src/text/scrapers/orchestration/main.py --list-countries        # List all countries
-  python src/text/scrapers/orchestration/main.py sibc --no-save          # Run without saving results
+  
+  # Automation (for future use)
+  # Add to crontab: 0 2 * * * cd /path/to/project && poetry run python src/text/scrapers/orchestration/main.py --run-all
+  # Or use systemd timer, Airflow DAG, or GitHub Actions workflow
         """,
     )
 
@@ -167,6 +132,25 @@ Examples:
         "--list-countries",
         action="store_true",
         help="List all available countries",
+    )
+
+    # Multi-scraper runner options
+    parser.add_argument(
+        "--run-all",
+        action="store_true",
+        help="Run all newspaper scrapers in parallel",
+    )
+
+    parser.add_argument(
+        "--sequential",
+        action="store_true",
+        help="Force sequential execution (for debugging, use with --run-all)",
+    )
+
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Print what would be executed without actually running (use with --run-all)",
     )
 
     # Scraping options
@@ -210,6 +194,16 @@ Examples:
     if args.list_countries:
         list_countries()
         return
+
+    # Handle run-all command
+    if args.run_all:
+        success = run_all_scrapers(
+            configs_dir=get_default_configs_dir(),
+            project_root=project_root,
+            sequential=args.sequential,
+            dry_run=args.dry_run,
+        )
+        sys.exit(0 if success else 1)
 
     # Validate newspaper argument
     if not args.newspaper:

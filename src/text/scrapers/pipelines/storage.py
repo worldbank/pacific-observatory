@@ -368,59 +368,6 @@ class JsonlStorage:
         logger.info(f"Saved {len(thumbnails)} thumbnails to {file_path}")
         return file_path
 
-    def load_thumbnails_from_urls_file(
-        self, country: str, newspaper: str, date: datetime = None
-    ) -> Optional[List[ThumbnailRecord]]:
-        """
-        Load thumbnails from a 'urls_' JSONL file.
-
-        Args:
-            country: Country code
-            newspaper: Newspaper name
-            date: Optional date to load (defaults to today)
-
-        Returns:
-            List of ThumbnailRecord objects if file exists, None otherwise
-        """
-        if date is None:
-            date = datetime.now()
-
-        # Get newspaper directory
-        newspaper_dir = self.get_newspaper_dir(country, newspaper)
-
-        # Check for urls.jsonl file (new naming convention)
-        filename = "urls.jsonl"
-        file_path = newspaper_dir / filename
-
-        if not file_path.exists():
-            logger.info(f"No existing thumbnails file found: {file_path}")
-            return None
-
-        try:
-            thumbnails = []
-            with open(file_path, "r", encoding="utf-8") as f:
-                for line in f:
-                    line = line.strip()
-                    if line:  # Skip empty lines
-                        data = json.loads(line)
-                        thumbnail = ThumbnailRecord(
-                            url=data["url"],
-                            title=data["title"],
-                            date=data["date"],
-                        )
-                        thumbnails.append(thumbnail)
-
-            logger.info(
-                f"Loaded {len(thumbnails)} existing thumbnails from {file_path}"
-            )
-            return thumbnails
-
-        except Exception as e:
-            logger.error(
-                f"Failed to load existing thumbnails from {file_path}: {e}"
-            )
-            return None
-
     def load_existing_articles(
         self, country: str, newspaper: str
     ) -> Optional[List[ArticleRecord]]:

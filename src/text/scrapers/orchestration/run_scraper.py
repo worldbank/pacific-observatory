@@ -6,9 +6,22 @@ This module contains all the core scraper execution logic, separated from CLI ha
 
 import asyncio
 import logging
+import sys
+import time
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List, Dict
+
+# Set up Python path for imports when run as a script
+# This needs to happen before any text.* imports
+if __name__ == "__main__":
+    script_dir = Path(__file__).resolve().parent  # orchestration/
+    scrapers_dir = script_dir.parent  # scrapers/
+    text_dir = scrapers_dir.parent  # text/
+    src_dir = text_dir.parent  # src/
+    
+    if str(src_dir) not in sys.path:
+        sys.path.insert(0, str(src_dir))
 
 from text.scrapers.factory import create_scraper_from_file, find_config_files
 from text.scrapers.pipelines.storage import JsonlStorage
@@ -205,3 +218,140 @@ async def run_scraper_by_name(
     except Exception as e:
         print(f"\n❌ Error running scraper: {e}")
         return False, None
+
+
+def run_sequential_group_cli(
+    group_configs: List[Dict[str, str]],
+    project_root: Path,
+    log_dir: Path,
+):
+    """
+    CLI entry point for running a multi-country newspaper group sequentially.
+    
+    This function is designed to be called from a subprocess and runs each
+    country's scraper sequentially to avoid rate limiting.
+    
+    Args:
+        group_configs: List of config dictionaries with 'country' and 'newspaper' keys
+        project_root: Project root directory
+        log_dir: Base log directory
+    
+    Returns:
+        Exit code (0 for success, 1 for any failures)
+    """
+    # Set up minimal logging
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+    )
+    
+    exit_code = 0
+    
+    for config in group_configs:
+        country = config["country"]
+        newspaper = config["newspaper"]
+        
+        # Create log directory
+        log_subdir = log_dir / country / newspaper
+        log_subdir.mkdir(parents=True, exist_ok=True)
+        
+        # Generate timestamp for log file
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = log_subdir / f"{timestamp}.log"
+        
+        # Set up file logging for this scraper
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.INFO)
+        file_handler.setFormatter(
+            logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+        )
+        logger = logging.getLogger()
+        logger.addHandler(file_handler)
+        
+        try:
+            logging.info(f"Starting {country}/{newspaper}...")
+            
+            # Run the scraper
+            success, results = asyncio.run(
+                run_scraper_by_name(
+                    newspaper_name=newspaper,
+                    country=country,
+                    update_mode=True,
+                    configs_dir=project_root / "src" / "text" / "scrapers" / "configs",
+                    project_root=project_root,
+                )
+            )
+            
+            if not success:
+                logging.error(f"Failed to run {country}/{newspaper}")
+                exit_code = 1
+            else:
+                logging.info(f"Completed {country}/{newspaper}")
+        
+        except Exception as e:
+            logging.error(f"Error running {country}/{newspaper}: {e}")
+            exit_code = 1
+        
+        finally:
+            # Remove file handler
+            logger.removeHandler(file_handler)
+            file_handler.close()
+        
+        # Small delay between countries in the same group
+        time.sleep(1)
+    
+    return exit_code
+
+
+if __name__ == "__main__":
+    """
+    CLI entry point for running sequential groups.
+    
+    Usage:
+        python run_scraper.py \
+            --group "country1,newspaper1;country2,newspaper2" \
+            --project-root /path/to/project \
+            --log-dir /path/to/logs
+    """
+    import argparse
+    
+    parser = argparse.ArgumentParser(
+        description="Run a multi-country newspaper group sequentially"
+    )
+    parser.add_argument(
+        "--group",
+        required=True,
+        help="Semicolon-separated list of country,newspaper pairs",
+    )
+    parser.add_argument(
+        "--project-root",
+        required=True,
+        type=Path,
+        help="Project root directory",
+    )
+    parser.add_argument(
+        "--log-dir",
+        required=True,
+        type=Path,
+        help="Base log directory",
+    )
+    
+    args = parser.parse_args()
+    
+    # Parse group configs
+    group_configs = []
+    for config_str in args.group.split(";"):
+        country, newspaper = config_str.split(",")
+        group_configs.append({
+            "country": country,
+            "newspaper": newspaper,
+        })
+    
+    # Run the group
+    exit_code = run_sequential_group_cli(
+        group_configs=group_configs,
+        project_root=args.project_root,
+        log_dir=args.log_dir,
+    )
+    
+    sys.exit(exit_code)
