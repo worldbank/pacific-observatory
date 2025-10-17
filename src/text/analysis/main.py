@@ -23,16 +23,7 @@ country_dirs = [
 
 OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "text"
 
-
-for country in country_dirs:
-    country_name = country.name
-    news_dirs = list(country.glob("*/news.jsonl"))
-    e = EPU(news_dirs, cutoff="2020-12-31")
-    e.get_epu_category(subset_condition="date >= '2015-01-01'")
-    e.get_count_stats()
-    e.calculate_epu_score()
-    
-    epu_stats = e.epu_stats
+def plot_epu(epu_stats, country_name, saved_folder):
     fig, ax = plt.subplots(figsize=(8, 6))
     epu_stats.plot(x="date", y="epu_weighted", color="blue", ax=ax)
     epu_stats.plot(x='date', y="epu_unweighted", color="lightgray", alpha=0.5, ax=ax)
@@ -41,8 +32,29 @@ for country in country_dirs:
     ax.set_title(f"{title}'s EPU Score")
     ax.set_xlabel("Date")
     
+    fig.savefig(saved_folder / f"{country_name}_epu.png")
+
+def get_epu(country, cutoff, subset_condition, plot=True, additional_terms=None):
+    country_name = country.name
+    news_dirs = list(country.glob("*/news.jsonl"))
+    e = EPU(news_dirs, cutoff=cutoff, additional_terms=additional_terms)
+    e.get_epu_category(subset_condition=subset_condition)
+    e.get_count_stats()
+    e.calculate_epu_score()
+    
+    epu_stats = e.epu_stats
     saved_folder = OUTPUT_DIR / f"{country_name}/epu/"
     saved_folder.mkdir(parents=True, exist_ok=True)
-    
-    fig.savefig(saved_folder / f"{country_name}_epu.png")
     epu_stats.to_csv(saved_folder / f"{country_name}_epu.csv", encoding="utf-8")
+    
+    if plot:
+        plot_epu(epu_stats, country_name, saved_folder)
+    
+    return epu_stats
+
+if __name__ == "__main__":
+    cutoff = "2020-12-31"
+    subset_condition = "date >= '2015-01-01'"
+    additional_terms = None
+    for country in country_dirs:
+        get_epu(country, cutoff, subset_condition, plot=True, additional_terms=additional_terms)
