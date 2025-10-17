@@ -1,12 +1,18 @@
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from dateutil.parser import parse
 import pandas as pd
+
+try:
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer
+except ImportError:
+    import nltk
+    nltk.download('vader_lexicon')
+    from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 def sentiment_analysis(df):
 
     sid = SentimentIntensityAnalyzer()
     results = []
-    for news in df.news:
+    for news in df.body:
         scores = sid.polarity_scores(str(news))
         results.append(scores)
     return results

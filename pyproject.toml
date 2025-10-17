@@ -36,6 +36,7 @@ scraping = [
     "spacy (>=3.8.7,<4.0.0); python_version >= '3.11' and python_version < '3.13'",
     "gensim (>=4.3.3,<5.0.0)",
     "matplotlib (>=3.10.6,<4.0.0)",
+    "nltk (>=3.9.2,<4.0.0)",
 ]
 docs = [
     "docutils (==0.17.1)",
