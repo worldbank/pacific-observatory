@@ -21,7 +21,7 @@ We get the difference between the departure and arrival displacements to get the
 
 ## Port Arrivals 
 
-<div id="content" style="max-width: 100%; position: relative; height: 0; overflow: hidden;"><iframe src="../interactive/ais/port calls.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen=""></iframe></div>
+<div class="port-call-embed"><iframe src="../interactive/ais/port calls.html" name="Pacific Islands Map" id="Pacific Islands Map" style="border: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%;" allowfullscreen=""></iframe></div>
 
 
 
