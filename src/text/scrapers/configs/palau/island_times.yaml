@@ -1,0 +1,41 @@
+# Island Times (Palau) Configuration
+# This config file defines all site-specific details for scraping Island Times news
+
+name: "Island Times"
+country: "palau"
+base_url: "https://www.islandtimes.org"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://islandtimes.org/category/top-stories/page/{num}/"
+  start_url: "https://islandtimes.org/category/top-stories/"
+  start_page: 2
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "div.entry-container"  # Container for each article preview
+    title: "h2.entry-title::text"  # Article title text from <h2> inside <a> tag with class "titleNews"
+    url: "h2.entry-title a::attr(href)" # Article URL from the second "a" tag
+    date: "time.entry-date::attr(datetime)"
+  article:
+    body: "div.entry-content p"
+    tags: "span.tags-links a::text"
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+cleaning:
+  body: "clean_island_times_body"
+  date: "handle_mixed_dates"

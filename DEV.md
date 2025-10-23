@@ -70,6 +70,12 @@
   - Create template config file for new newspapers
   - Document selector discovery process and best practices
 
+
+  I've included Antara and Jakarta Post scrapers.
+
+  I need to create an Index Strategy for Tempo later:
+  https://en.tempo.co/index/2025-10-23/
+
 ### 2. Online Shopping Scraper Structure
 
 - [ ] **Design online shopping scraper architecture**

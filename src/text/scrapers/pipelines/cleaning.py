@@ -12,13 +12,25 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def clean_jakarta_post_body(body: str) -> str:
-    body = re.sub(r"\bThe Jakarta Post’s Most-Read Articles of \d{4}\b", "", body)
+def clean_island_times_body(body: str) -> str:
     # split by paragraphs
     paragraphs = [p.strip() for p in re.split(r'\.\s', body) if p.strip()]
     
-    # remove sentences that start with "View More Newsletter"
-    remove_keys = ["View More Newsletter", "Delivered straight to your inbox", "By registering, you agree with The Jakarta Post"]
+    remove_keys = ["By: "]
+    for key in remove_keys:
+        paragraphs = [p for p in paragraphs if not p.startswith(key)]
+    # join back together
+    body = '. '.join(paragraphs)
+    return body
+
+
+def clean_jakarta_post_body(body: str) -> str:
+    # remove "The Jakarta Post’s Most-Read Articles of 2025"
+    body = re.sub(r"\bThe Jakarta Post’s Most-Read Articles of \d{4}\b", "", body)
+    # split by paragraphs
+    paragraphs = [p.strip() for p in re.split(r'\.', body) if p.strip()]
+    
+    remove_keys = ["By: ", "View More Newsletter", "Delivered straight to your inbox", "By registering, you agree with The Jakarta Post"]
     for key in remove_keys:
         paragraphs = [p for p in paragraphs if not p.startswith(key)]
     # join back together
@@ -682,6 +694,7 @@ CLEANING_FUNCTIONS = {
     'join_body_list': join_body_list,
     'clean_antara_body': clean_antara_body,
     'clean_jakarta_post_body': clean_jakarta_post_body,
+    'clean_island_times_body': clean_island_times_body,
     }
 
 
