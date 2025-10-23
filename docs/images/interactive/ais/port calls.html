@@ -22,7 +22,7 @@
   </style>
 </head>
 <body>
-  <h2>Port Arrivals</h2>
+
 
   <label for="countrySelect">Country:</label>
   <select id="countrySelect"></select>
@@ -150,7 +150,7 @@
 
       const layout = {
         title: {
-          text: `Monthly Port Arrivals - ${selectedPort === "__ALL__" ? "All Ports" : selectedPort}, ${selectedCountry === "__ALL__" ? "All Countries" : selectedCountry}`,
+          text: `<b>Monthly Port Arrivals - ${selectedPort === "__ALL__" ? "All Ports" : selectedPort}, ${selectedCountry === "__ALL__" ? "All Countries" : selectedCountry}</b>`,
           font: {
             family: 'Open Sans, sans-serif',
             size: 20
@@ -160,10 +160,7 @@
           rangeslider: { visible: true },
           title: ''
         },
-        yaxis: {
-          title: 'Number of Arrivals'
-        },
-          legend: {
+        legend: {
     orientation: 'h',
     x: 0,
     y: 1
