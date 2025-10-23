@@ -13,6 +13,15 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+def clean_antara_body(body: str) -> str:
+    to_remove = "Jakarta (ANTARA) - "
+    remove_keys = ["Related news: ", "Translator: ", "Editor", "Copyright"]
+    for key in remove_keys:
+        body = body.replace(key, "")
+    if body.startswith(to_remove):
+        body = body[len(to_remove):]
+    return body
+
 def clean_sibc_date(date_str: str) -> str:
     """
     Clean SIBC date format and normalize to YYYY-MM-DD format.
@@ -105,6 +114,7 @@ def handle_mixed_dates(date_str: str) -> str:
             "%Y-%m-%d %H:%M:%S",           # Standard datetime format
             "%Y-%m-%dT%H:%M:%SZ",          # ISO datetime with Z
             "%Y-%m-%dT%H:%M:%S.%fZ",       # ISO datetime with microseconds
+            "%Y-%m-%dT%H:%M:%S.%f",       # ISO datetime with microseconds
             
             # Alternative formats
             "%d.%m.%Y",                    # 24.09.2025
@@ -658,6 +668,7 @@ CLEANING_FUNCTIONS = {
     'clean_matangi_url': clean_matangi_url,
     'filter_abc_au_articles': filter_abc_au_articles,
     'join_body_list': join_body_list,
+    'clean_antara_body': clean_antara_body,
     }
 
 
