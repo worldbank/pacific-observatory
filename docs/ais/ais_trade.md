@@ -21,15 +21,18 @@ We get the difference between the departure and arrival displacements to get the
 
 ## Port Arrivals 
 
-<div style="position: relative; width: 100%; height: 600px; overflow: hidden;">
+<div class="custom-embed port-calls-chart">
   <iframe
-    src="../interactive/ais/port calls.html"
-    name="Pacific Islands Map"
-    id="Pacific Islands Map"
-    style="border: 0; width: 100%; height: 100%; position: absolute; top: 0; left: 0;"
+    src="interactive/ais/port%20calls.html"
+    style="border: 0; width: 100%; height: 600px;"
+    title="Port Calls Dashboard"
     allowfullscreen>
   </iframe>
+  <noscript>
+    <p><a href="interactive/ais/port%20calls.html">View the dashboard</a></p>
+  </noscript>
 </div>
+
 
 
 ## Trade Volume
