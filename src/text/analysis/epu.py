@@ -41,6 +41,7 @@ class EPU:
         policy_terms (list): List of terms related to policy.
         uncertainty_terms (list): List of terms related to uncertainty.
         additional_terms (Union[List, None]): Additional terms for further categorization.
+        additional_name (Union[str, None]): Name for the additional category (e.g., 'inflation', 'jobs').
         raw_files (list): List to store raw data from files.
         stds (list): List to store standard deviations for EPU scores.
         news_cols (list): List to store news count columns.
@@ -60,7 +61,8 @@ class EPU:
                  econ_terms: list = ECON_LIST,
                  policy_terms: list = POLICY_LIST,
                  uncertainty_terms: list = UNCERTAINTY_LIST,
-                 additional_terms: Union[List, None] = None):
+                 additional_terms: Union[List, None] = None,
+                 additional_name: Union[str, None] = None):
     
         if isinstance(filepath, str):
             self.filepath = [filepath]
@@ -74,6 +76,7 @@ class EPU:
         self.policy_terms = policy_terms
         self.uncertainty_terms = uncertainty_terms
         self.additional_terms = additional_terms
+        self.additional_name = additional_name
         self.raw_files = []
         self.cutoff = cutoff
         self.non_epu_urls = non_epu_urls if non_epu_urls is not None else []
@@ -100,7 +103,7 @@ class EPU:
                         newline characters removed from the "news" column,
                         "date" column converted to datetime, and a new "ym" column added.
         """
-        df = pd.read_json(filepath, lines=True)
+        df = pd.read_csv(filepath, encoding="utf-8")
         df = df[~df.date.isna()].reset_index(drop=True)
         if subset_condition is not None:
             df = df.query(subset_condition).reset_index(drop=True)
@@ -281,3 +284,7 @@ class EPU:
                 (self.epu_stats[self.epu_stats.date < self.cutoff][col].mean())
             self.epu_stats[f"epu_{name}"] = scaling_factor * \
                 self.epu_stats[col]
+        
+        # Add additional_name column if provided
+        if self.additional_name:
+            self.epu_stats[f"epu_{self.additional_name}"] = self.epu_stats["epu_weighted"]

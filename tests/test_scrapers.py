@@ -16,7 +16,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / 'src'))
 
 from text.scrapers.newspaper_scraper import NewspaperScraper
-from text.scrapers.pipelines.storage import JsonlStorage
+from text.scrapers.pipelines.storage import CSVStorage
 
 CONFIGS_DIR = PROJECT_ROOT / "src" / "text" / "scrapers" / "configs"
 DATA_DIR = PROJECT_ROOT / "tests" / "data" / "text"
@@ -50,7 +50,7 @@ async def test_scraper_config(config_path: Path) -> None:
     scraper = NewspaperScraper(config)
 
     # Override the storage path to use the test data directory
-    scraper._storage = JsonlStorage(base_data_dir=DATA_DIR)
+    scraper._storage = CSVStorage(base_data_dir=DATA_DIR)
 
     # Run the scraper
     results = await scraper.run_full_scrape()

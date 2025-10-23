@@ -23,7 +23,7 @@ from .client_browser import BrowserClient
 from .newspaper_scraper import NewspaperScraper
 from .models import ThumbnailRecord, ArticleRecord, NewspaperConfig
 from .factory import create_scraper, create_scraper_from_file
-from .pipelines.storage import JsonlStorage
+from .pipelines.storage import CSVStorage
 
 # Legacy aliases for backward compatibility
 RequestsScraper = AsyncHttpClient  # Note: This is now async
@@ -38,7 +38,7 @@ __all__ = [
     'NewspaperConfig',
     'create_scraper',
     'create_scraper_from_file',
-    'JsonlStorage',
+    'CSVStorage',
     # Legacy aliases
     'RequestsScraper',
     'SeleniumScraper'

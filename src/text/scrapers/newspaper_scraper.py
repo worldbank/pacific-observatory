@@ -23,7 +23,7 @@ from .models import (
     NewspaperConfig,
 )
 from .pipelines.cleaning import apply_cleaning, get_cleaning_func, clean_url
-from .pipelines.storage import JsonlStorage
+from .pipelines.storage import CSVStorage
 from .parser import (
     extract_thumbnail_data_from_element,
     extract_article_data_from_soup,
@@ -83,7 +83,7 @@ class NewspaperScraper:
         self._saved_files = {}  # Track files saved by this scraper
 
         # Initialize storage system
-        self._storage = JsonlStorage()
+        self._storage = CSVStorage()
 
     def _get_http_client(self) -> AsyncHttpClient:
         """Get or create HTTP client."""

@@ -24,7 +24,7 @@ if __name__ == "__main__":
         sys.path.insert(0, str(src_dir))
 
 from text.scrapers.factory import create_scraper_from_file, find_config_files
-from text.scrapers.pipelines.storage import JsonlStorage
+from text.scrapers.pipelines.storage import CSVStorage
 
 
 async def run_single_scraper(
@@ -55,7 +55,7 @@ async def run_single_scraper(
         # Initialize storage if needed
         storage = None
         if save_results:
-            storage = JsonlStorage(storage_dir)
+            storage = CSVStorage(storage_dir)
 
         # Run the scraping operation
         if update_mode:

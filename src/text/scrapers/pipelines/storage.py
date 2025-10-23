@@ -2,7 +2,8 @@
 Storage pipeline for saving scraped data.
 
 This module provides storage functionality for saving scraped data
-in JSONL format with proper organization by country and newspaper.
+in CSV format with proper organization by country and newspaper.
+Metadata and error logs are saved in JSON format.
 """
 
 import json
@@ -16,9 +17,9 @@ from ..models import ThumbnailRecord, ArticleRecord
 logger = logging.getLogger(__name__)
 
 
-class JsonlStorage:
+class CSVStorage:
     """
-    Storage class for saving scraped data in JSONL format.
+    Storage class for saving scraped data in CSV format.
 
     Organizes data by country/newspaper structure and maintains
     both raw HTML and processed data.
@@ -136,7 +137,7 @@ class JsonlStorage:
         timestamp: datetime = None,
     ) -> Path:
         """
-        Save article records to JSONL file.
+        Save article records to CSV file.
 
         Args:
             articles: List of ArticleRecord objects
@@ -147,6 +148,8 @@ class JsonlStorage:
         Returns:
             Path to the saved file
         """
+        import pandas as pd
+        
         if timestamp is None:
             timestamp = datetime.now()
 
@@ -154,21 +157,25 @@ class JsonlStorage:
         newspaper_dir = self.get_newspaper_dir(country, newspaper)
         newspaper_dir.mkdir(parents=True, exist_ok=True)
 
-        # Create filename - articles are saved as news.jsonl
-        filename = "news.jsonl"
+        # Create filename - articles are saved as news.csv
+        filename = "news.csv"
         file_path = newspaper_dir / filename
 
-        # Save data
-        with open(file_path, "w", encoding="utf-8") as f:
-            for article in articles:
-                # Convert to dict and add metadata
-                data = article.model_dump()
-                data["_scraped_at"] = timestamp.isoformat()
+        # Convert articles to dictionaries
+        data = []
+        for article in articles:
+            article_dict = article.model_dump()
+            article_dict["_scraped_at"] = timestamp.isoformat()
+            # Convert tags list to comma-separated string
+            if isinstance(article_dict.get("tags"), list):
+                article_dict["tags"] = ",".join(article_dict["tags"])
+            # Convert HttpUrl to string
+            article_dict["url"] = str(article_dict["url"])
+            data.append(article_dict)
 
-                # Serialize to handle HttpUrl objects
-                serialized_data = self.serialize_for_json(data)
-
-                f.write(json.dumps(serialized_data, ensure_ascii=False) + "\n")
+        # Create DataFrame and save to CSV
+        df = pd.DataFrame(data)
+        df.to_csv(file_path, index=None, encoding="utf-8")
 
         logger.info(f"Saved {len(articles)} articles to {file_path}")
         return file_path
@@ -238,7 +245,7 @@ class JsonlStorage:
         timestamp: datetime = None,
     ) -> Optional[Path]:
         """
-        Save failed URLs to JSONL file in failed subdirectory.
+        Save failed URLs to CSV file in failed subdirectory.
 
         Args:
             failed_urls: List of failed URL dictionaries with url and status_code
@@ -249,6 +256,8 @@ class JsonlStorage:
         Returns:
             Path to the saved file, or None if no failed URLs
         """
+        import pandas as pd
+        
         if not failed_urls:
             return None
 
@@ -261,16 +270,17 @@ class JsonlStorage:
         failed_dir.mkdir(parents=True, exist_ok=True)
 
         # Create filename with timestamp
-        filename = f"failed_urls_{timestamp.strftime('%Y%m%d')}.jsonl"
+        filename = f"failed_urls_{timestamp.strftime('%Y%m%d')}.csv"
         file_path = failed_dir / filename
 
-        # Serialize failed URLs to handle HttpUrl objects
-        serialized_failed_urls = self.serialize_for_json(failed_urls)
-
-        # Save data
-        with open(file_path, "w", encoding="utf-8") as f:
-            for failed_url in serialized_failed_urls:
-                f.write(json.dumps(failed_url, ensure_ascii=False) + "\n")
+        # Convert to DataFrame and save to CSV
+        df = pd.DataFrame(failed_urls)
+        # Convert any HttpUrl objects to strings
+        for col in df.columns:
+            if df[col].dtype == 'object':
+                df[col] = df[col].apply(lambda x: str(x) if hasattr(x, '__class__') and 'HttpUrl' in x.__class__.__name__ else x)
+        
+        df.to_csv(file_path, index=False, encoding="utf-8")
 
         logger.info(f"Saved {len(failed_urls)} failed URLs to {file_path}")
         return file_path
@@ -283,7 +293,7 @@ class JsonlStorage:
         timestamp: datetime = None,
     ) -> Optional[Path]:
         """
-        Save failed news articles to JSONL file in failed subdirectory.
+        Save failed news articles to CSV file in failed subdirectory.
 
         Args:
             failed_news: List of failed news dictionaries with url and status_code
@@ -294,6 +304,8 @@ class JsonlStorage:
         Returns:
             Path to the saved file, or None if no failed news
         """
+        import pandas as pd
+        
         if not failed_news:
             return None
 
@@ -306,16 +318,17 @@ class JsonlStorage:
         failed_dir.mkdir(parents=True, exist_ok=True)
 
         # Create filename with timestamp
-        filename = f"failed_news_{timestamp.strftime('%Y%m%d')}.jsonl"
+        filename = f"failed_news_{timestamp.strftime('%Y%m%d')}.csv"
         file_path = failed_dir / filename
 
-        # Serialize failed news to handle HttpUrl objects
-        serialized_failed_news = self.serialize_for_json(failed_news)
-
-        # Save data
-        with open(file_path, "w", encoding="utf-8") as f:
-            for failed_article in serialized_failed_news:
-                f.write(json.dumps(failed_article, ensure_ascii=False) + "\n")
+        # Convert to DataFrame and save to CSV
+        df = pd.DataFrame(failed_news)
+        # Convert any HttpUrl objects to strings
+        for col in df.columns:
+            if df[col].dtype == 'object':
+                df[col] = df[col].apply(lambda x: str(x) if hasattr(x, '__class__') and 'HttpUrl' in x.__class__.__name__ else x)
+        
+        df.to_csv(file_path, index=False, encoding="utf-8")
 
         logger.info(
             f"Saved {len(failed_news)} failed news articles to {file_path}"
@@ -330,7 +343,7 @@ class JsonlStorage:
         timestamp: datetime = None,
     ) -> Optional[Path]:
         """
-        Save thumbnails to urls.jsonl file.
+        Save thumbnails to urls.csv file.
 
         Args:
             thumbnails: List of ThumbnailRecord objects
@@ -341,6 +354,8 @@ class JsonlStorage:
         Returns:
             Path to the saved file, or None if no thumbnails
         """
+        import pandas as pd
+        
         if not thumbnails:
             return None
 
@@ -351,19 +366,23 @@ class JsonlStorage:
         newspaper_dir = self.get_newspaper_dir(country, newspaper)
         newspaper_dir.mkdir(parents=True, exist_ok=True)
 
-        # Save as urls.jsonl (new naming convention)
-        filename = "urls.jsonl"
+        # Save as urls.csv
+        filename = "urls.csv"
         file_path = newspaper_dir / filename
 
-        # Save thumbnails as JSONL
-        with open(file_path, "w", encoding="utf-8") as f:
-            for thumbnail in thumbnails:
-                thumb_data = {
-                    "url": str(thumbnail.url),
-                    "title": thumbnail.title,
-                    "date": thumbnail.date,
-                }
-                f.write(json.dumps(thumb_data, ensure_ascii=False) + "\n")
+        # Convert thumbnails to dictionaries
+        data = []
+        for thumbnail in thumbnails:
+            thumb_data = {
+                "url": str(thumbnail.url),
+                "title": thumbnail.title,
+                "date": thumbnail.date,
+            }
+            data.append(thumb_data)
+
+        # Create DataFrame and save to CSV
+        df = pd.DataFrame(data)
+        df.to_csv(file_path, index=False, encoding="utf-8")
 
         logger.info(f"Saved {len(thumbnails)} thumbnails to {file_path}")
         return file_path
@@ -372,7 +391,7 @@ class JsonlStorage:
         self, country: str, newspaper: str
     ) -> Optional[List[ArticleRecord]]:
         """
-        Load existing articles from news.jsonl file.
+        Load existing articles from news.csv file.
 
         Args:
             country: Country code
@@ -381,11 +400,13 @@ class JsonlStorage:
         Returns:
             List of ArticleRecord objects if file exists, None otherwise
         """
+        import pandas as pd
+        
         # Get newspaper directory
         newspaper_dir = self.get_newspaper_dir(country, newspaper)
 
-        # Check for news.jsonl file
-        filename = "news.jsonl"
+        # Check for news.csv file
+        filename = "news.csv"
         file_path = newspaper_dir / filename
 
         if not file_path.exists():
@@ -393,26 +414,39 @@ class JsonlStorage:
             return None
 
         try:
+            # Read CSV file
+            df = pd.read_csv(file_path, encoding="utf-8")
             articles = []
-            with open(file_path, "r", encoding="utf-8") as f:
-                for line_num, line in enumerate(f, 1):
-                    line = line.strip()
-                    if line:  # Skip empty lines
-                        try:
-                            data = json.loads(line)
-                            # Remove metadata fields that aren't part of ArticleRecord
-                            article_data = {
-                                k: v
-                                for k, v in data.items()
-                                if not k.startswith("_")
-                            }
-                            article = ArticleRecord(**article_data)
-                            articles.append(article)
-                        except Exception as line_error:
-                            logger.warning(
-                                f"Failed to parse article on line {line_num} in {file_path}: {line_error}"
-                            )
-                            continue
+            
+            for _, row in df.iterrows():
+                try:
+                    # Convert row to dictionary
+                    article_data = row.to_dict()
+                    
+                    # Remove metadata fields that aren't part of ArticleRecord
+                    article_data = {
+                        k: v
+                        for k, v in article_data.items()
+                        if not k.startswith("_")
+                    }
+                    
+                    # Handle NaN values
+                    article_data = {
+                        k: v if pd.notna(v) else None
+                        for k, v in article_data.items()
+                    }
+                    
+                    # Parse tags from comma-separated string back to list
+                    if "tags" in article_data and isinstance(article_data["tags"], str):
+                        article_data["tags"] = [tag.strip() for tag in article_data["tags"].split(",") if tag.strip()]
+                    
+                    article = ArticleRecord(**article_data)
+                    articles.append(article)
+                except Exception as row_error:
+                    logger.warning(
+                        f"Failed to parse article row in {file_path}: {row_error}"
+                    )
+                    continue
 
             logger.info(
                 f"Loaded {len(articles)} existing articles from {file_path}"
@@ -425,24 +459,41 @@ class JsonlStorage:
             )
             return None
 
-    def get_existing_article_urls(self, country: str, newspaper: str) -> set:
+    def get_existing_article_urls(
+        self, country: str, newspaper: str
+    ) -> set:
         """
-        Get a set of URLs from existing articles for quick lookup.
+        Get set of existing article URLs from news.csv file.
 
         Args:
             country: Country code
             newspaper: Newspaper name
 
         Returns:
-            Set of article URLs that already exist
+            Set of existing article URLs
         """
-        existing_articles = self.load_existing_articles(country, newspaper)
-        if not existing_articles:
+        import pandas as pd
+        
+        # Get newspaper directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+
+        # Check for news.csv file
+        filename = "news.csv"
+        file_path = newspaper_dir / filename
+
+        if not file_path.exists():
+            logger.info(f"No existing articles file found: {file_path}")
             return set()
 
-        # Convert URLs to strings for comparison
-        existing_urls = {str(article.url) for article in existing_articles}
-        logger.info(
-            f"Found {len(existing_urls)} existing article URLs for {newspaper}"
-        )
-        return existing_urls
+        try:
+            # Read CSV file and extract URLs
+            df = pd.read_csv(file_path, encoding="utf-8")
+            urls = set(df["url"].astype(str).unique())
+            logger.info(f"Found {len(urls)} existing article URLs")
+            return urls
+
+        except Exception as e:
+            logger.error(
+                f"Failed to get existing article URLs from {file_path}: {e}"
+            )
+            return set()
