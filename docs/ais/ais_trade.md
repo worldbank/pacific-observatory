@@ -26,8 +26,6 @@ We get the difference between the departure and arrival displacements to get the
   </iframe>
 </div>
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/19836784?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19836784/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
-
 ## Trade Volume
 
 <div class="flourish-embed flourish-chart" data-src="visualisation/19837444?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19837444/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
