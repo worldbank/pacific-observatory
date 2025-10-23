@@ -23,13 +23,13 @@ We get the difference between the departure and arrival displacements to get the
 
 <div class="custom-embed port-calls-chart">
   <iframe
-    src="interactive/ais/port%20calls.html"
+    src="../interactive/ais/port%20calls.html"
     style="border: 0; width: 100%; height: 600px;"
     title="Port Calls Dashboard"
     allowfullscreen>
   </iframe>
   <noscript>
-    <p><a href="interactive/ais/port%20calls.html">View the dashboard</a></p>
+    <p><a href="../interactive/ais/port%20calls.html">View the dashboard</a></p>
   </noscript>
 </div>
 
