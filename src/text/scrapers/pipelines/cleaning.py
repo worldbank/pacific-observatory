@@ -12,6 +12,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def clean_philstar_body(body: str) -> str:
+    return body.replace('  ', ' ')
+
+
 def clean_inquirer_body(body: str) -> str:
     body = body.replace(' Subscribe to our daily newsletter By providing an email address. I agree to the Terms of Use and acknowledge that I have read the Privacy Policy', '')
     # split by paragraphs
@@ -717,6 +721,7 @@ CLEANING_FUNCTIONS = {
     'clean_island_times_body': clean_island_times_body,
     'clean_nz_herald_body': clean_nz_herald_body,
     'clean_inquirer_body': clean_inquirer_body,
+    'clean_philstar_body': clean_philstar_body,
     }
 
 
