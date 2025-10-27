@@ -12,7 +12,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def clean_ann_body(body: str) -> str:
+    if " – " in body:
+        body = body.split(" – ")[1]
+    remove_keys = [
+        "READ: ",
+    ]
+    paragraphs = [p.strip() for p in re.split(r'\.', body) if p.strip()]
+    for key in remove_keys:
+        paragraphs = [p for p in paragraphs if not p.startswith(key)]
+    # join back together
+    body = '. '.join(paragraphs)
+    return body
+
 def clean_philstar_body(body: str) -> str:
+    if " – " in body:
+        body = body.split(" – ")[1]
     return body.replace('  ', ' ')
 
 
@@ -722,6 +737,7 @@ CLEANING_FUNCTIONS = {
     'clean_nz_herald_body': clean_nz_herald_body,
     'clean_inquirer_body': clean_inquirer_body,
     'clean_philstar_body': clean_philstar_body,
+    'clean_ann_body': clean_ann_body,
     }
 
 

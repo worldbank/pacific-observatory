@@ -1,0 +1,44 @@
+# Asia News Network Configuration
+
+name: "Asia News Network"
+country: "phillipines"
+base_url: "https://asianews.network/"
+
+# Listing discovery configuration
+# This scraper covers multiple Pacific countries using tag-based pagination
+listing:
+  type: "pagination"
+  start_url: "https://asianews.network/tag/philippines/"
+  url_template: "https://asianews.network/tag/philippines/page/{num}/"
+  start_page: 2
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: 'article div.entry-content'
+    title: "h2.entry-title a::text"
+    url: "h2.entry-title a[href^='https://asianews.network/']::attr(href)"
+    date: "time.entry-date"
+  article:
+    body: "div[class='entry-content articlebody'] p"
+    # tags: ".tag-item::text"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+  body: "clean_ann_body"
+
+# Test/debug options
+max_pages: null
+max_articles: null
