@@ -12,6 +12,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def clean_nz_herald_body(body: str) -> str:
+    body = body.replace("Sign up to The Daily H , a free newsletter curated by our editors and delivered straight to your inbox every weekday.", "")
+    return body
+
 def clean_island_times_body(body: str) -> str:
     # split by paragraphs
     paragraphs = [p.strip() for p in re.split(r'\.\s', body) if p.strip()]
@@ -139,6 +143,8 @@ def handle_mixed_dates(date_str: str) -> str:
             "%Y-%m-%dT%H:%M:%SZ",          # ISO datetime with Z
             "%Y-%m-%dT%H:%M:%S.%fZ",       # ISO datetime with microseconds
             "%Y-%m-%dT%H:%M:%S.%f",       # ISO datetime with microseconds
+            "%d %b, %Y %I:%M %p",          # 24 Sep, 2025 02:30 PM
+
             
             # Alternative formats
             "%d.%m.%Y",                    # 24.09.2025
@@ -695,6 +701,7 @@ CLEANING_FUNCTIONS = {
     'clean_antara_body': clean_antara_body,
     'clean_jakarta_post_body': clean_jakarta_post_body,
     'clean_island_times_body': clean_island_times_body,
+    'clean_nz_herald_body': clean_nz_herald_body,
     }
 
 
