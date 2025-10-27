@@ -12,6 +12,20 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def clean_inquirer_body(body: str) -> str:
+    body = body.replace(' Subscribe to our daily newsletter By providing an email address. I agree to the Terms of Use and acknowledge that I have read the Privacy Policy', '')
+    # split by paragraphs
+    paragraphs = [p.strip() for p in re.split(r'\.', body) if p.strip()]
+    
+    remove_keys = [
+        "READ: ",
+    ]
+    for key in remove_keys:
+        paragraphs = [p for p in paragraphs if not p.startswith(key)]
+    # join back together
+    body = '. '.join(paragraphs)
+    return body
+
 def clean_nz_herald_body(body: str) -> str:
     body = body.replace("Sign up to The Daily H , a free newsletter curated by our editors and delivered straight to your inbox every weekday.", "")
     return body
@@ -702,6 +716,7 @@ CLEANING_FUNCTIONS = {
     'clean_jakarta_post_body': clean_jakarta_post_body,
     'clean_island_times_body': clean_island_times_body,
     'clean_nz_herald_body': clean_nz_herald_body,
+    'clean_inquirer_body': clean_inquirer_body,
     }
 
 

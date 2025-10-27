@@ -1,0 +1,44 @@
+# Inquirer Configuration
+
+name: "Inquirer"
+country: "phillipines"
+base_url: "https://newsinfo.inquirer.net/"
+
+# Listing discovery configuration
+# This scraper covers multiple Pacific countries using tag-based pagination
+listing:
+  type: "pagination"
+  start_url: "https://newsinfo.inquirer.net/category/latest-stories"
+  url_template: "https://newsinfo.inquirer.net/category/latest-stories/page/{num}"
+  start_page: 2
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: 'div[id="ch-ls-box"]'
+    title: "h2 a::text"
+    url: "h2 a::attr(href)"
+  article:
+    body: "div[id='article_content'] p"
+    date: "meta[property='article:published_time']::attr(content)"
+    # tags: ".tag-item::text"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+  body: "clean_inquirer_body"
+
+# Test/debug options
+max_pages: null
+max_articles: null
