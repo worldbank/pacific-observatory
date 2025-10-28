@@ -1,0 +1,51 @@
+# Radio New Zealand (RNZ) Pacific Configuration
+# Migrated from monolithic scraper: src/text/scrapers/newspapers/pacific/rnz.py
+
+name: "RNZ Marshall Islands"
+country: "marshall_islands"
+base_url: "https://www.rnz.co.nz"
+
+# Listing discovery configuration
+# This scraper covers multiple Pacific countries using tag-based pagination
+listing:
+  type: "pagination"
+  url_template: "https://www.rnz.co.nz/tags/Indonesia?page={num}"
+  start_page: 1
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: ".o-digest__detail"
+    title: "h3::text"
+    url: "a::attr(href)"
+  article:
+    body: ".article__body p, .article__summary p"
+    date: 
+    - "meta[itemprop='datePublished']::attr(content)"
+    - ".c-dateblock"
+    tags: ".tag-item::text"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+# Site-specific notes:
+# - Scrapes multiple Pacific countries from RNZ using tag-based pagination
+# - Original scraper filtered out articles under /programmes/ (non-news content)
+# - Countries covered: Solomon Islands, Samoa, Fiji, Papua New Guinea
+# - URL template uses %20 for spaces in country names
