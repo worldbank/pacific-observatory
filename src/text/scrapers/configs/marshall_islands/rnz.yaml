@@ -9,7 +9,7 @@ base_url: "https://www.rnz.co.nz"
 # This scraper covers multiple Pacific countries using tag-based pagination
 listing:
   type: "pagination"
-  url_template: "https://www.rnz.co.nz/tags/Indonesia?page={num}"
+  url_template: "https://www.rnz.co.nz/tags/Marshall%20Islands?page={num}"
   start_page: 1
   batch_size: 10
 
