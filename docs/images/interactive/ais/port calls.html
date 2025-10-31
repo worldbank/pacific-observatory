@@ -7,13 +7,21 @@
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
       font-family: 'Open Sans', sans-serif;
-      margin: 20px;
     }
     h2 {
       font-size: 24px;
       margin-bottom: 10px;
+    }
+    #chart {
+      width: 100%;
+      height: 600px; /* or use 100vh for full screen */
+      margin: 0;
+      padding: 0;
     }
     label, select {
       font-size: 16px;
@@ -149,6 +157,13 @@
       });
 
       const layout = {
+        autosize: true,
+        margin: {
+          l: 20,
+          r: 20,
+          t: 40,
+          b: 40
+        },
         title: {
           text: `<b>Monthly Port Arrivals - ${selectedPort === "__ALL__" ? "All Ports" : selectedPort}, ${selectedCountry === "__ALL__" ? "All Countries" : selectedCountry}</b>`,
           font: {
