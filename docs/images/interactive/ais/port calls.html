@@ -28,10 +28,37 @@
       margin-right: 10px;
       font-family: 'Open Sans', sans-serif;
     }
+    select {
+      border: none;
+      border-bottom: 1px solid #888;
+      background-color: transparent;
+      font-size: 14px;
+      padding: 5px 0;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
 
+<div id="titleRow" style="
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 10px;
+">
+  <h2 id="chartTitle" style="
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  ">
+    Monthly Port Arrivals
+  </h2>
+</div>
 
   <label for="countrySelect">Country:</label>
   <select id="countrySelect"></select>
@@ -181,13 +208,6 @@
           r: 20,
           t: 80,
           b: 50
-        },
-        title: {
-          text: `<b>Monthly Port Arrivals - ${selectedPort === "__ALL__" ? "All Ports" : selectedPort}, ${selectedCountry === "__ALL__" ? "All Countries" : selectedCountry}</b>`,
-          font: {
-            family: 'Open Sans, sans-serif',
-            size: 20
-          }
         },
         yaxis: {
           showline:true,
