@@ -117,24 +117,108 @@ def get_sentiment(
 
 if __name__ == "__main__":
     cutoff = "2020-12-31"
-    subset_condition = "date >= '2015-01-01' and date < '2024-01-01'"
-    additional_terms = None
-    additional_name = None
+    subset_condition = "date >= '2015-01-01' and date < '2025-10-01'"
+    additional_terms_job = [
+        "job",
+        "labor",
+        "jobs",
+        'career',
+        "vacancies",
+        "vacancy",
+        'employment',
+        "salary",
+        'unemployment',
+        'full-time',
+        'part-time',
+        'contractual',
+        'freelance',
+        'remote work',
+        'gig',
+        'employed',
+        'resume',
+        'cv',
+        'cover letter',
+        'hiring',
+        'recruitment',
+        'unemployed',
+        'underemployed',
+        'self-employed',
+        'jobless',
+        'retired',
+        'layoffs',
+        'job application',
+        "occupation",
+        "soft skills"
+        'hard skills',
+        'labor force',
+        'job market',
+        'minimum wage'
+        'disabled worker',
+        'career advancement',
+        'workplace culture',
+        'retirement plans',
+        'maternity leave',
+        'paternity leave',
+    ]
+    additional_name_job = "job"
+
+    additional_terms_inflation = [
+        'inflation',
+        'cpi',
+        'price',
+        'expense',
+        'budget',
+        'income',
+        'demand',
+        'cost',
+        'supply',
+        'goods',
+        'food',
+        "tabcco",
+        'rent',
+        'salary',
+        "utilies",
+        "fuel",
+        'clothing',
+        "rice",
+        "noodle",
+        "flour",
+        "sugar",
+        "salt",
+        "consumer"
+    ]
+    additional_name_inflation = "inflation"
     for country in country_dirs:
         get_epu(
             country,
             cutoff,
             subset_condition,
             plot=True,
-            additional_terms=additional_terms,
-            additional_name=additional_name,
+            additional_terms=additional_terms_job,
+            additional_name=additional_name_job,
+        )
+        get_epu(
+            country,
+            cutoff,
+            subset_condition,
+            plot=True,
+            additional_terms=additional_terms_inflation,
+            additional_name=additional_name_inflation,
         )
         get_sentiment(
             country,
             cutoff,
             subset_condition,
             plot=True,
-            additional_terms=additional_terms,
-            additional_name=additional_name,
+            additional_terms=additional_terms_job,
+            additional_name=additional_name_job,
+        )
+        get_sentiment(
+            country,
+            cutoff,
+            subset_condition,
+            plot=True,
+            additional_terms=additional_terms_inflation,
+            additional_name=additional_name_inflation,
         )
 
