@@ -9,7 +9,7 @@
   <style>
     html, body {
       height: 100%;
-      margin: ;
+      margin-bottom: 5px;
       padding: 5px;
       font-family: 'Open Sans', sans-serif;
     }
@@ -39,7 +39,8 @@
   <label for="portSelect">Port:</label>
   <select id="portSelect"></select>
 
-  <div id="chart" style="width:100%;height:100%;"></div>
+  <div id="chart" style="width:100%;height:100%;position:relative;"></div>
+  
 
   <script>
     const hlCategories = ["Cargo", "Fishing", "Passenger", "Tanker"];
@@ -163,7 +164,7 @@
           l: 40,
           r: 20,
           t: 80,
-          b: 80
+          b: 50
         },
         title: {
           text: `<b>Monthly Port Arrivals - ${selectedPort === "__ALL__" ? "All Ports" : selectedPort}, ${selectedCountry === "__ALL__" ? "All Countries" : selectedCountry}</b>`,
@@ -199,45 +200,46 @@
         hoverlabel:{
           font:{family: 'Open Sans, sans-serif'}
         },
-         images: [
-          {
-            source: 'https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png',
-            xref: 'paper',
-            yref: 'paper',
-            x: 1,
-            y:-0.34,
-            xanchor: 'right',
-            yanchor: 'bottom',
-            sizex: 0.20,         // adjust size as needed
-            sizey: 0.15,
-            xshift: -10,         // optional: nudge inward
-            yshift: 10,
-            opacity: 1,
-            layer: 'above'
-          }
-        ],
-          annotations: [
-        {
-          text: 'Source: <a href="https://worldbank.org/" target="_blank" style="color:#888;text-decoration:underline;">World Bank Group</a>',
-          xref: 'paper',
-          yref: 'paper',
-          x: -0.05,
-          y: -0.34,                // 👈 places it below the chart and slider
-          xanchor: 'left',
-          yanchor: 'bottom',
-          showarrow: false,
-          font: {
-            size: 12,
-            color: '#888',
-            family: 'Open Sans, sans-serif'
-          },
-          xshift: 10,
-          yshift: 0
-        }
-  ],
       };
 
       Plotly.newPlot('chart', traces, layout, {responsive: true});
+
+      const chartDiv = document.getElementById('chart');
+
+// Create footer container
+const footer = document.createElement('div');
+footer.style.position = 'absolute';
+footer.style.bottom = '0px';
+footer.style.left = '0';
+footer.style.width = '100%';
+footer.style.display = 'flex';
+footer.style.justifyContent = 'space-between';
+footer.style.alignItems = 'center';
+footer.style.padding = '10px 20px';
+footer.style.fontFamily = 'Open Sans, sans-serif';
+footer.style.fontSize = '14px';
+footer.style.color = '#888';
+
+// Add link
+const link = document.createElement('div');
+link.innerHTML = 'Source: <a href="https://www.worldbank.org" target="_blank" style="text-decoration: underline; color: #888;">World Bank Group</a>';
+link.style.color = '#888';
+link.style.fontFamily = 'Open Sans, sans-serif';
+link.style.fontSize = '12px';
+
+
+// Add logo
+const logo = document.createElement('img');
+logo.src = 'https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png';
+logo.style.height = '30px';
+logo.style.objectFit = 'contain';
+logo.style.marginRight = '5px';
+
+// Append to footer
+footer.appendChild(link);
+footer.appendChild(logo);
+chartDiv.appendChild(footer);
+
     }
   </script>
 </body>
