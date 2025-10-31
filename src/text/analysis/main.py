@@ -42,11 +42,21 @@ def plot_epu(epu_stats, country_name, saved_folder):
 
 
 def get_epu(
-    country, cutoff, subset_condition, plot=True, additional_terms=None, additional_name=None
+    country,
+    cutoff,
+    subset_condition,
+    plot=True,
+    additional_terms=None,
+    additional_name=None,
 ):
     country_name = country.name
     news_dirs = list(country.glob("*/news.csv"))
-    e = EPU(news_dirs, cutoff=cutoff, additional_terms=additional_terms, additional_name=additional_name)
+    e = EPU(
+        news_dirs,
+        cutoff=cutoff,
+        additional_terms=additional_terms,
+        additional_name=additional_name,
+    )
     e.get_epu_category(subset_condition=subset_condition)
     e.get_count_stats()
     e.calculate_epu_score()
@@ -54,16 +64,14 @@ def get_epu(
     epu_stats = e.epu_stats
     saved_folder = OUTPUT_DIR / f"{country_name}/epu/"
     saved_folder.mkdir(parents=True, exist_ok=True)
-    
+
     # Determine filename based on additional_name
     if additional_name:
         filename = f"{country_name}_epu_{additional_name}.csv"
     else:
         filename = f"{country_name}_epu.csv"
-    
-    epu_stats.to_csv(
-        saved_folder / filename, encoding="utf-8", index=False
-    )
+
+    epu_stats.to_csv(saved_folder / filename, encoding="utf-8", index=False)
 
     if plot:
         plot_epu(epu_stats, country_name, saved_folder)
@@ -83,11 +91,21 @@ def plot_sentiment(sent_df, country_name, saved_folder):
 
 
 def get_sentiment(
-    country, cutoff, subset_condition, plot=True, additional_terms=None, additional_name=None
+    country,
+    cutoff,
+    subset_condition,
+    plot=True,
+    additional_terms=None,
+    additional_name=None,
 ):
     country_name = country.name
     news_dirs = list(country.glob("*/news.csv"))
-    e = EPU(news_dirs, cutoff=cutoff, additional_terms=additional_terms, additional_name=additional_name)
+    e = EPU(
+        news_dirs,
+        cutoff=cutoff,
+        additional_terms=additional_terms,
+        additional_name=additional_name,
+    )
     e.get_epu_category(subset_condition=subset_condition)
 
     dfs = pd.DataFrame()
@@ -108,7 +126,9 @@ def get_sentiment(
     saved_folder = OUTPUT_DIR / f"{country_name}/sentiment/"
     saved_folder.mkdir(parents=True, exist_ok=True)
     sent_df.to_csv(
-        saved_folder / f"{country_name}_sentiment.csv", encoding="utf-8", index=False
+        saved_folder / f"{country_name}_sentiment.csv",
+        encoding="utf-8",
+        index=False,
     )
 
     if plot:
@@ -122,70 +142,68 @@ if __name__ == "__main__":
         "job",
         "labor",
         "jobs",
-        'career',
+        "career",
         "vacancies",
         "vacancy",
-        'employment',
+        "employment",
         "salary",
-        'unemployment',
-        'full-time',
-        'part-time',
-        'contractual',
-        'freelance',
-        'remote work',
-        'gig',
-        'employed',
-        'resume',
-        'cv',
-        'cover letter',
-        'hiring',
-        'recruitment',
-        'unemployed',
-        'underemployed',
-        'self-employed',
-        'jobless',
-        'retired',
-        'layoffs',
-        'job application',
+        "unemployment",
+        "full-time",
+        "part-time",
+        "contractual",
+        "freelance",
+        "remote work",
+        "gig",
+        "employed",
+        "resume",
+        "cv",
+        "cover letter",
+        "hiring",
+        "recruitment",
+        "unemployed",
+        "underemployed",
+        "self-employed",
+        "jobless",
+        "retired",
+        "layoffs",
+        "job application",
         "occupation",
-        "soft skills"
-        'hard skills',
-        'labor force',
-        'job market',
-        'minimum wage'
-        'disabled worker',
-        'career advancement',
-        'workplace culture',
-        'retirement plans',
-        'maternity leave',
-        'paternity leave',
+        "soft skills" "hard skills",
+        "labor force",
+        "job market",
+        "minimum wage" "disabled worker",
+        "career advancement",
+        "workplace culture",
+        "retirement plans",
+        "maternity leave",
+        "paternity leave",
     ]
     additional_name_job = "job"
 
     additional_terms_inflation = [
-        'inflation',
-        'cpi',
-        'price',
-        'expense',
-        'budget',
-        'income',
-        'demand',
-        'cost',
-        'supply',
-        'goods',
-        'food',
+        "inflation",
+        "cpi",
+        "price",
+        "expense",
+        "budget",
+        "income",
+        "demand",
+        "cost",
+        "supply",
+        "goods",
+        "food",
         "tabcco",
-        'rent',
-        'salary',
+        "rent",
+        "salary",
         "utilies",
         "fuel",
-        'clothing',
+        "clothing",
         "rice",
         "noodle",
         "flour",
         "sugar",
         "salt",
-        "consumer"
+        "consumer",
     ]
     additional_name_inflation = "inflation"
     for country in country_dirs:
@@ -221,4 +239,3 @@ if __name__ == "__main__":
             additional_terms=additional_terms_inflation,
             additional_name=additional_name_inflation,
         )
-
