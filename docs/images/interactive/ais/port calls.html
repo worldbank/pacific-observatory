@@ -9,12 +9,12 @@
   <style>
     html, body {
       height: 100%;
-      margin: 0;
-      padding: 0;
+      margin: ;
+      padding: 5px;
       font-family: 'Open Sans', sans-serif;
     }
     h2 {
-      font-size: 24px;
+      font-size: 20px;
       margin-bottom: 10px;
     }
     #chart {
@@ -24,8 +24,9 @@
       padding: 0;
     }
     label, select {
-      font-size: 16px;
+      font-size: 14px;
       margin-right: 10px;
+      font-family: 'Open Sans', sans-serif;
     }
   </style>
 </head>
@@ -159,10 +160,10 @@
       const layout = {
         autosize: true,
         margin: {
-          l: 20,
+          l: 40,
           r: 20,
-          t: 40,
-          b: 40
+          t: 80,
+          b: 80
         },
         title: {
           text: `<b>Monthly Port Arrivals - ${selectedPort === "__ALL__" ? "All Ports" : selectedPort}, ${selectedCountry === "__ALL__" ? "All Countries" : selectedCountry}</b>`,
@@ -171,16 +172,69 @@
             size: 20
           }
         },
+        yaxis: {
+          showline:true,
+          linecolor: '#ccc',
+          griddash: 'dot',
+          gridcolor: '#ccc',
+          ticks: 'outside',
+          tickcolor: '#ccc',
+          zeroline: false
+        },
         xaxis: {
-          rangeslider: { visible: true },
-          title: ''
+          rangeslider: { visible: true},
+          title: '',
+          showgrid: false,
+          ticks: 'outside',
+          tickson: 'boundaries',
+          tickcolor:'#ccc',
+          showline: true,
+          linecolor : '#ccc'
         },
         legend: {
-    orientation: 'h',
-    x: 0,
-    y: 1
-  }
-
+          orientation: 'h',
+          x: 0,
+          y: 1,
+        },
+        hoverlabel:{
+          font:{family: 'Open Sans, sans-serif'}
+        },
+         images: [
+          {
+            source: 'https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png',
+            xref: 'paper',
+            yref: 'paper',
+            x: 1,
+            y:-0.34,
+            xanchor: 'right',
+            yanchor: 'bottom',
+            sizex: 0.20,         // adjust size as needed
+            sizey: 0.15,
+            xshift: -10,         // optional: nudge inward
+            yshift: 10,
+            opacity: 1,
+            layer: 'above'
+          }
+        ],
+          annotations: [
+        {
+          text: 'Source: <a href="https://worldbank.org/" target="_blank" style="color:#888;text-decoration:underline;">World Bank Group</a>',
+          xref: 'paper',
+          yref: 'paper',
+          x: -0.05,
+          y: -0.34,                // 👈 places it below the chart and slider
+          xanchor: 'left',
+          yanchor: 'bottom',
+          showarrow: false,
+          font: {
+            size: 12,
+            color: '#888',
+            family: 'Open Sans, sans-serif'
+          },
+          xshift: 10,
+          yshift: 0
+        }
+  ],
       };
 
       Plotly.newPlot('chart', traces, layout, {responsive: true});
