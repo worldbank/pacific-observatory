@@ -21,7 +21,7 @@ We get the difference between the departure and arrival displacements to get the
 
 ## Port Arrivals 
 
-<div id="content">
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
   <iframe src="../interactive/ais/port calls.html"
           frameborder="0"
           scrolling="no"
