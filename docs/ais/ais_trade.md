@@ -21,7 +21,7 @@ We get the difference between the departure and arrival displacements to get the
 
 ## Port Arrivals 
 
-<div class="flourish-embed flourish-chart"><iframe src="../interactive/ais/port calls.html" name="Pacific Islands Map" id="Pacific Islands Map"></iframe></div>
+<div id="content"><iframe src="../interactive/ais/port calls.html"></iframe></div>
 
 ## Trade Volume
 
