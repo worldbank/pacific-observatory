@@ -1,0 +1,43 @@
+# The Korea Times Configuration
+
+name: "The Korea Herald"
+country: "south_korea"
+base_url: "https://www.koreaherald.com"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.koreaherald.com/National?page={num}&pageTop=true#pagetop"
+  start_page: 1 # Starts from page 0 in the old script
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: ul.news_list li
+    title: "p.news_title"
+    url: "a::attr(href)"
+    # date: ".views-field-field-first-publication .field-content::text"
+  article:
+    date: meta[property="article:published_time"]::attr(content)
+    body: article#articleText
+    # Tags are on the thumbnail listing, not the article page
+
+# Data cleaning configuration
+cleaning:
+  # url: "clean_matangi_url" # Custom function to resolve the print URL
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null
