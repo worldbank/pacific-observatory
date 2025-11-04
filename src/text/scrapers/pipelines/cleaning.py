@@ -11,6 +11,9 @@ from typing import Any, Optional
 import logging
 
 logger = logging.getLogger(__name__)
+def clean_laotian_times_body(body: str) -> str:
+    body = body.replace(" The leading English language news website in Laos. Contact us info@laotiantimes.com © Laotiantimes.com", "")
+    return body
 
 def clean_ann_body(body: str) -> str:
     if " – " in body:
@@ -738,6 +741,7 @@ CLEANING_FUNCTIONS = {
     'clean_inquirer_body': clean_inquirer_body,
     'clean_philstar_body': clean_philstar_body,
     'clean_ann_body': clean_ann_body,
+    'clean_laotian_times_body': clean_laotian_times_body,
     }
 
 
