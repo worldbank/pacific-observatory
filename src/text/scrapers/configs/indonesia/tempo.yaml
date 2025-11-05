@@ -1,0 +1,45 @@
+# Tempo English Configuration
+
+name: "Tempo"
+country: "indonesia"
+base_url: "https://en.tempo.co"
+
+# Listing discovery configuration - using archive strategy for date-based URLs
+listing:
+  type: "archive"
+  url_template: "https://en.tempo.co/index/{year}-{month}-{day}/news"
+  start_date: "2003-07-21"  # Original scraper: range(2007, 2024)
+  date_format: "daily"    # Generate URLs for each month
+  batch_size: 10
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (conservative for older site)
+rate_limit: 0.1  # Minimum delay between requests in seconds (5 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "main.main-left article.text-card"
+    title: "h2.title::text"
+    url: "h2.title a::attr(href)"
+  article:
+    body: "div.detail-in"
+    date:
+      - "meta[property='article:published_time']::attr(content)"
+      - "meta[property='article:published time']::attr(content)"
+      - "meta[property='article:publishedtime']::attr(content)"
+    tags: "div.box-tag-detail a::text"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: 5000
+max_articles: 50000

@@ -282,7 +282,7 @@ class ArchiveStrategy(ListingStrategy):
             if self.date_format == "monthly":
                 url = self.url_template.format(
                     year=current_date.year,
-                    month=current_date.month
+                    month=f"{current_date.month:02d}"
                 )
                 # Move to next month
                 if current_date.month == 12:
@@ -293,8 +293,8 @@ class ArchiveStrategy(ListingStrategy):
             elif self.date_format == "daily":
                 url = self.url_template.format(
                     year=current_date.year,
-                    month=current_date.month,
-                    day=current_date.day
+                    month=f"{current_date.month:02d}",
+                    day=f"{current_date.day:02d}"
                 )
                 # Move to next day
                 current_date += timedelta(days=1)
