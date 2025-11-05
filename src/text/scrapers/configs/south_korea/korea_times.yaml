@@ -1,15 +1,21 @@
-# The Korea Herald Configuration
+# The Korea Times Configuration
 
-name: "The Korea Herald"
+name: "The Korea Times"
 country: "south_korea"
-base_url: "https://www.koreaherald.com"
+base_url: "https://www.koreatimes.co.kr"
 
 # Listing discovery configuration
 listing:
-  type: "pagination"
-  url_template: "https://www.koreaherald.com/National?page={num}&pageTop=true#pagetop"
-  start_page: 1 # Starts from page 0 in the old script
-  batch_size: 10
+  type: "api"
+  url_template: "https://goatway.koreatimes.co.kr/api/home/section/K113/recent-article?sortDir=desc&page={page}&size=10"
+  pagination_type: "page"
+  page_start: 0
+  page_step: 1
+  json_paths:
+    collection: "data.contents"  # Array of articles in the JSON response
+    title: "pcTitle"
+    date: "pubDt"
+    url: slugUrl
 
 # Client configuration
 client: "http"
@@ -24,14 +30,13 @@ headers:
 # CSS selectors for data extraction
 selectors:
   thumbnail:
-    container: ul.news_list li
-    title: "p.news_title"
-    url: "a::attr(href)"
+    container: filler
+    title: filler
+    url: filler
+    date: filler
     # date: ".views-field-field-first-publication .field-content::text"
   article:
-    date: meta[property="article:published_time"]::attr(content)
-    body: article#articleText
-    # Tags are on the thumbnail listing, not the article page
+    body: div[data-article-content='true'] p
 
 # Data cleaning configuration
 cleaning:
@@ -40,4 +45,4 @@ cleaning:
 
 # Test/debug options
 max_pages: null
-max_articles: null
+max_articles: 100000
