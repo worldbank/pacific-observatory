@@ -11,6 +11,13 @@ from typing import Any, Optional
 import logging
 
 logger = logging.getLogger(__name__)
+def clean_the_independent_body(body: str) -> str:
+    body = body.replace("/TISG ", "")
+    if "Read also: " in body:
+        body = body.split("Read also: ")[0].strip()
+    return body
+
+
 def clean_laotian_times_body(body: str) -> str:
     body = body.replace(" The leading English language news website in Laos. Contact us info@laotiantimes.com © Laotiantimes.com", "")
     return body
@@ -742,6 +749,7 @@ CLEANING_FUNCTIONS = {
     'clean_philstar_body': clean_philstar_body,
     'clean_ann_body': clean_ann_body,
     'clean_laotian_times_body': clean_laotian_times_body,
+    'clean_the_independent_body': clean_the_independent_body,
     }
 
 
