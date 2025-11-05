@@ -1,0 +1,38 @@
+# Japan News (Japan) Configuration
+
+name: "Japan News"
+country: "japan"
+base_url: "https://japannews.yomiuri.co.jp/"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  start_url: "https://japannews.yomiuri.co.jp/latestnews/"
+  url_template: "https://japannews.yomiuri.co.jp/latestnews/page/{num}/"
+  start_page: 2
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "ul.listarticles_ul li.clearfix"  # Container for each article preview
+    title: "a h2::text"  # Article title text from <h2> inside <a> tag with class "titleNews"
+    url: "a::attr(href)" # Article URL from the second "a" tag
+  article:
+    body: "div#p-article-block p"
+    date: head meta[property='article:published_time']::attr(content)
+
+# Test/debug options
+max_pages: 200
+max_articles: 50000
+
+cleaning:
+  date: "handle_mixed_dates"

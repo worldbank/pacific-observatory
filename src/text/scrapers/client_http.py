@@ -143,6 +143,9 @@ class AsyncHttpClient:
                     return response.content, response.status_code
                     
                 except httpx.HTTPStatusError as e:
+                    if e.response.status_code == 301:
+                        if e.response.headers.get("Location"):
+                            return await self.request_url(client, e.response.headers["Location"], retries)
                     if e.response.status_code == 404:
                         logger.error(f"404 Not Found for {url} - page doesn't exist")
                         return None, 404
