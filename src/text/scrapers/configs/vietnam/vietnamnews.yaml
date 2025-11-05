@@ -24,9 +24,9 @@ headers:
 # CSS selectors for data extraction
 selectors:
   thumbnail:
-    container: article.story
-    title: "a.story__title::text"
-    url: "a.story__title::attr(href)"
+    container: div.timeline > article[class='story']
+    title: "article[class='story']::text"
+    url: "article[class='story']::attr(href)"
   article:
     date: div.detail__meta div.datetime::text
     body: div#abody p
