@@ -199,6 +199,56 @@ def plot_sentiment(countries, output_path):
     layout = column(select, p)
     show(layout)
     
+def plot_news_count(countries, output_path):
+    output_file(filename=output_path)
+    countries = sorted(countries)
+    
+    # Load all country data and create separate sources
+    sources = {}
+    for country in countries:
+        epu_file = OUTPUT_DIR / f"{country}/epu/{country}_epu.csv"
+        epu = pd.read_csv(epu_file)
+        epu["date"] = pd.to_datetime(epu["date"], format="mixed")
+        sources[country] = ColumnDataSource(epu)
+    
+    # Create initial plot with first country
+    initial_source = sources[countries[0]]
+    
+    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
+                                ('News Count', '@news_total')],
+                    formatters={'@date': 'datetime'})
+
+    p = figure(height=400,
+            width=700,
+            title='News Article Count',
+            x_axis_type="datetime",
+            x_range=(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-10-31")),
+            tools=[hover, BoxZoomTool(), ResetTool()])
+
+    line = p.line("date",
+        "news_total",
+        source=initial_source,
+        name="news_total",
+        color='#2aa8f7',
+        line_width=3,
+        legend_label="News Count")
+
+    p.legend.location = "top_left"
+    p.legend.click_policy = "mute"
+    
+    # Create dropdown selector
+    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
+    
+    # CustomJS callback to update source when dropdown changes
+    callback = CustomJS(args=dict(sources=sources, line=line), code="""
+        const selected_country = this.value;
+        const new_source = sources[selected_country];
+        line.data_source.data = new_source.data;
+    """)
+    select.js_on_change('value', callback)
+    
+    layout = column(select, p)
+    show(layout)
 
 if __name__ == '__main__':
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -213,3 +263,4 @@ if __name__ == '__main__':
     plot_epu(countries, OUTPUT_DIR / "epu_pic.html")
     plot_epu_topics(countries, ["inflation", "job"], OUTPUT_DIR / "epu_topics_pic.html")
     plot_sentiment(countries, OUTPUT_DIR / "sentiment_pic.html")
+    plot_news_count(countries, OUTPUT_DIR / "news_count_pic.html")
