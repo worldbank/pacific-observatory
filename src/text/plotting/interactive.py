@@ -5,7 +5,7 @@ import pandas as pd
 from bokeh.layouts import Row, column, gridplot
 from bokeh.models import (Title, Legend, ColumnDataSource, Select, HoverTool,
                           BoxZoomTool, ResetTool, DataTable, DateFormatter,
-                          TableColumn)
+                          TableColumn, CustomJS)
 from bokeh.models.layouts import TabPanel, Tabs
 from bokeh.plotting import figure, output_file, show, output_notebook
 from pathlib import Path
@@ -13,62 +13,74 @@ from pathlib import Path
 
 def plot_epu(countries, output_path):
     output_file(filename=output_path)
-    tabs = []
     countries = sorted(countries)
+    
+    # Load all country data and create separate sources
+    sources = {}
     for country in countries:
         epu_file = OUTPUT_DIR / f"{country}/epu/{country}_epu.csv"
         epu = pd.read_csv(epu_file)
         epu["date"] = pd.to_datetime(epu["date"], format="mixed")
         epu["epu_weighted_ma3"] = epu["epu_weighted"].rolling(window=3).mean()
+        sources[country] = ColumnDataSource(epu)
+    
+    # Create initial plot with first country
+    initial_source = sources[countries[0]]
+    
+    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
+                                ('EPU Weighted', '@epu_weighted'),
+                                ('EPU Weighted Moving Average (MA 3)', '@epu_weighted_ma3')],
+                    formatters={'@date': 'datetime'})
 
-        source = ColumnDataSource(epu)
+    p = figure(height=400,
+            width=700,
+            x_axis_type="datetime",
+            tools=[hover, BoxZoomTool(), ResetTool()])
 
-        hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
-                                    ('EPU Weighted', '@epu_weighted'),
-                                    # ('EPU unweighted', '@epu_unweighted'),
-                                    ('EPU Weighted Moving Average (MA 3)', '@epu_weighted_ma3')],
-                        formatters={'@date': 'datetime'})
+    line1 = p.line("date",
+        "epu_weighted",
+        source=initial_source,
+        name="epu_weighted",
+        color='blue',
+        line_width=1.5,
+        line_dash='dotted',
+        legend_label="EPU Weighted")
 
-        p = figure(height=400,
-                width=700,
-                x_axis_type="datetime",
-                tools=[hover, BoxZoomTool(), ResetTool()])
+    line2 = p.line("date",
+        "epu_weighted_ma3",
+        source=initial_source,
+        name="epu_weighted_ma3",
+        color='blue',
+        line_width=2,
+        legend_label="EPU Weighted Moving Average (MA 3)")
 
-        p.line("date",
-            "epu_weighted",
-            source=source,
-            name="epu_weighted",
-            color='blue',
-            line_width=1.5,
-            line_dash='dotted',
-            legend_label="EPU Weighted")
-
-        p.line("date",
-            "epu_weighted_ma3",
-            source=source,
-            name="epu_weighted_ma3",
-            color='blue',
-            line_width=2,
-            legend_label="EPU Weighted Moving Average (MA 3)")
-
-        p.legend.location = "top_left"
-        p.legend.click_policy = "mute"
-
-        # Uppercase the first letter of the country name
-        title = " ".join(w[0].upper() + w[1:] for w in country.split("_"))
-        tab = TabPanel(child=p, title=title)
-        tabs.append(tab)
-
-    show(Tabs(tabs=tabs))
+    p.legend.location = "top_left"
+    p.legend.click_policy = "mute"
+    
+    # Create dropdown selector
+    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
+    
+    # CustomJS callback to update source when dropdown changes
+    callback = CustomJS(args=dict(sources=sources, line1=line1, line2=line2), code="""
+        const selected_country = this.value;
+        const new_source = sources[selected_country];
+        line1.data_source.data = new_source.data;
+        line2.data_source.data = new_source.data;
+    """)
+    select.js_on_change('value', callback)
+    
+    layout = column(select, p)
+    show(layout)
 
 def plot_epu_topics(countries, topics, output_path):
     output_file(filename=output_path)
-    tabs = []
     
     # Color mapping for topics
     colors = ['green', 'orange']
     countries = sorted(countries)
     
+    # Load all country data and create separate sources
+    sources = {}
     for country in countries:
         epu_data = None
         
@@ -85,41 +97,55 @@ def plot_epu_topics(countries, topics, output_path):
                 epu_data = epu_data.merge(epu[["date", f"epu_{topic}"]], on="date", how="outer")
         
         epu_data = epu_data.sort_values("date").reset_index(drop=True)
-        source = ColumnDataSource(epu_data)
-        
-        # Build tooltip list dynamically
-        tooltips = [('Date', '@date{%Y-%m}')]
-        for topic in topics:
-            display_name = " ".join(w.capitalize() for w in topic.split("_"))
-            tooltips.append((f'{display_name} EPU', f'@epu_{topic}'))
-        
-        hover = HoverTool(tooltips=tooltips, formatters={'@date': 'datetime'})
-        
-        p = figure(height=400,
-                width=700,
-                x_axis_type="datetime",
-                tools=[hover, BoxZoomTool(), ResetTool()])
-        
-        # Plot each topic as a line
-        for idx, topic in enumerate(topics):
-            display_name = " ".join(w.capitalize() for w in topic.split("_"))
-            p.line("date",
-                f"epu_{topic}",
-                source=source,
-                name=f"epu_{topic}",
-                color=colors[idx],
-                line_width=2,
-                legend_label=f"{display_name} EPU")
-        
-        p.legend.location = "top_left"
-        p.legend.click_policy = "mute"
-        
-        # Uppercase the first letter of the country name
-        title = " ".join(w[0].upper() + w[1:] for w in country.split("_"))
-        tab = TabPanel(child=p, title=title)
-        tabs.append(tab)
+        sources[country] = ColumnDataSource(epu_data)
     
-    show(Tabs(tabs=tabs))
+    # Create initial plot with first country
+    initial_source = sources[countries[0]]
+    
+    # Build tooltip list dynamically
+    tooltips = [('Date', '@date{%Y-%m}')]
+    for topic in topics:
+        display_name = " ".join(w.capitalize() for w in topic.split("_"))
+        tooltips.append((f'{display_name} EPU', f'@epu_{topic}'))
+    
+    hover = HoverTool(tooltips=tooltips, formatters={'@date': 'datetime'})
+    
+    p = figure(height=400,
+            width=700,
+            x_axis_type="datetime",
+            tools=[hover, BoxZoomTool(), ResetTool()])
+    
+    # Plot each topic as a line and store references
+    lines = []
+    for idx, topic in enumerate(topics):
+        display_name = " ".join(w.capitalize() for w in topic.split("_"))
+        line = p.line("date",
+            f"epu_{topic}",
+            source=initial_source,
+            name=f"epu_{topic}",
+            color=colors[idx],
+            line_width=2,
+            legend_label=f"{display_name} EPU")
+        lines.append(line)
+    
+    p.legend.location = "top_left"
+    p.legend.click_policy = "mute"
+    
+    # Create dropdown selector
+    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
+    
+    # CustomJS callback to update source when dropdown changes
+    callback = CustomJS(args=dict(sources=sources, lines=lines), code="""
+        const selected_country = this.value;
+        const new_source = sources[selected_country];
+        for (let i = 0; i < lines.length; i++) {
+            lines[i].data_source.data = new_source.data;
+        }
+    """)
+    select.js_on_change('value', callback)
+    
+    layout = column(select, p)
+    show(layout)
 
 if __name__ == '__main__':
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -129,6 +155,7 @@ if __name__ == '__main__':
     OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "text"
 
 
-    countries = os.listdir(PROJECT_ROOT / "testing_outputs" / "text")
+    # Filter to only include directories (countries), excluding files like .html
+    countries = [d for d in os.listdir(OUTPUT_DIR) if (OUTPUT_DIR / d).is_dir()]
     plot_epu(countries, OUTPUT_DIR / "epu_pic.html")
     plot_epu_topics(countries, ["inflation", "job"], OUTPUT_DIR / "epu_topics_pic.html")
