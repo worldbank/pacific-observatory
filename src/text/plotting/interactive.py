@@ -34,6 +34,7 @@ def plot_epu(countries, output_path):
 
     p = figure(height=400,
             width=700,
+            title = 'Economic Policy Uncertainty Index',
             x_axis_type="datetime",
             tools=[hover, BoxZoomTool(), ResetTool()])
 
@@ -112,6 +113,7 @@ def plot_epu_topics(countries, topics, output_path):
     
     p = figure(height=400,
             width=700,
+            title='Economic Policy Uncertainty, Topic-based',
             x_axis_type="datetime",
             tools=[hover, BoxZoomTool(), ResetTool()])
     
@@ -147,6 +149,57 @@ def plot_epu_topics(countries, topics, output_path):
     layout = column(select, p)
     show(layout)
 
+def plot_sentiment(countries, output_path):
+    output_file(filename=output_path)
+    countries = sorted(countries)
+    
+    # Load all country data and create separate sources
+    sources = {}
+    for country in countries:
+        sentiment_file = OUTPUT_DIR / f"{country}/sentiment/{country}_sentiment.csv"
+        sentiment = pd.read_csv(sentiment_file)
+        sentiment["date"] = pd.to_datetime(sentiment["date"], format="mixed")
+        sources[country] = ColumnDataSource(sentiment)
+    
+    # Create initial plot with first country
+    initial_source = sources[countries[0]]
+    
+    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
+                                ('Sentiment Score', '@score')],
+                    formatters={'@date': 'datetime'})
+
+    p = figure(height=400,
+            width=700,
+            title='Sentiment Analysis',
+            x_axis_type="datetime",
+            tools=[hover, BoxZoomTool(), ResetTool()])
+
+    line = p.line("date",
+        "score",
+        source=initial_source,
+        name="score",
+        color='#2aa8f7',
+        line_width=3,
+        legend_label="Sentiment Score")
+
+    p.legend.location = "top_left"
+    p.legend.click_policy = "mute"
+    
+    # Create dropdown selector
+    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
+    
+    # CustomJS callback to update source when dropdown changes
+    callback = CustomJS(args=dict(sources=sources, line=line), code="""
+        const selected_country = this.value;
+        const new_source = sources[selected_country];
+        line.data_source.data = new_source.data;
+    """)
+    select.js_on_change('value', callback)
+    
+    layout = column(select, p)
+    show(layout)
+    
+
 if __name__ == '__main__':
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
     if str(PROJECT_ROOT) not in sys.path:
@@ -159,3 +212,4 @@ if __name__ == '__main__':
     countries = [d for d in os.listdir(OUTPUT_DIR) if (OUTPUT_DIR / d).is_dir()]
     plot_epu(countries, OUTPUT_DIR / "epu_pic.html")
     plot_epu_topics(countries, ["inflation", "job"], OUTPUT_DIR / "epu_topics_pic.html")
+    plot_sentiment(countries, OUTPUT_DIR / "sentiment_pic.html")
