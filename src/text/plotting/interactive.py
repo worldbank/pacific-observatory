@@ -41,7 +41,7 @@ def plot_epu(countries, output_path):
         "epu_weighted",
         source=initial_source,
         name="epu_weighted",
-        color='blue',
+        color='#aacddd',
         line_width=1.5,
         line_dash='dotted',
         legend_label="EPU Weighted")
@@ -50,8 +50,8 @@ def plot_epu(countries, output_path):
         "epu_weighted_ma3",
         source=initial_source,
         name="epu_weighted_ma3",
-        color='blue',
-        line_width=2,
+        color='#1d77b2',
+        line_width=3,
         legend_label="EPU Weighted Moving Average (MA 3)")
 
     p.legend.location = "top_left"
@@ -76,7 +76,7 @@ def plot_epu_topics(countries, topics, output_path):
     output_file(filename=output_path)
     
     # Color mapping for topics
-    colors = ['green', 'orange']
+    colors = ['#00a37c', '#d95e10']
     countries = sorted(countries)
     
     # Load all country data and create separate sources
@@ -124,7 +124,7 @@ def plot_epu_topics(countries, topics, output_path):
             source=initial_source,
             name=f"epu_{topic}",
             color=colors[idx],
-            line_width=2,
+            line_width=3,
             legend_label=f"{display_name} EPU")
         lines.append(line)
     
