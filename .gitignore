@@ -94,3 +94,4 @@ notebooks/R/.Rhistory
 # data files
 data/
 logs/
+testing_outputs/
