@@ -31,7 +31,7 @@ selectors:
     date: head meta[property='article:published_time']::attr(content)
 
 # Test/debug options
-max_pages: 200
+max_pages: null
 max_articles: 50000
 
 cleaning:

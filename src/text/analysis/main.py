@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.text.analysis.epu import EPU
 from src.text.analysis.sentiment import calculate_sentiment
 from src.text.analysis.utils import generate_continous_df
+from tqdm import tqdm
 
 DATA_ROOT = PROJECT_ROOT / "data" / "text"
 # EXCLUDED_COUNTRIES = {"marshall_islands", "tonga"}
@@ -206,12 +207,21 @@ if __name__ == "__main__":
         "consumer",
     ]
     additional_name_inflation = "inflation"
-    for country in country_dirs:
+    plot = False
+    for country in tqdm(country_dirs):
+        print("Doing", country.name)
         get_epu(
             country,
             cutoff,
             subset_condition,
-            plot=True,
+            plot=plot,
+        )
+
+        get_epu(
+            country,
+            cutoff,
+            subset_condition,
+            plot=plot,
             additional_terms=additional_terms_job,
             additional_name=additional_name_job,
         )
@@ -219,15 +229,23 @@ if __name__ == "__main__":
             country,
             cutoff,
             subset_condition,
-            plot=True,
+            plot=plot,
             additional_terms=additional_terms_inflation,
             additional_name=additional_name_inflation,
         )
+
         get_sentiment(
             country,
             cutoff,
             subset_condition,
-            plot=True,
+            plot=plot,
+        )
+
+        get_sentiment(
+            country,
+            cutoff,
+            subset_condition,
+            plot=plot,
             additional_terms=additional_terms_job,
             additional_name=additional_name_job,
         )
@@ -235,7 +253,7 @@ if __name__ == "__main__":
             country,
             cutoff,
             subset_condition,
-            plot=True,
+            plot=plot,
             additional_terms=additional_terms_inflation,
             additional_name=additional_name_inflation,
         )

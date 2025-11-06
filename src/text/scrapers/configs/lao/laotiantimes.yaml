@@ -42,4 +42,4 @@ cleaning:
 
 # Test/debug options
 max_pages: null
-max_articles: null
+max_articles: 50000

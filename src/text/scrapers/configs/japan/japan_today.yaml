@@ -35,7 +35,7 @@ selectors:
     date: time[itemprop='datePublished']::attr(datetime)
 
 # Test/debug options
-max_pages: 500
+max_pages: null
 max_articles: 50000
 
 cleaning:
