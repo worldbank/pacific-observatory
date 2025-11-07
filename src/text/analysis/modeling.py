@@ -65,7 +65,21 @@ CPI_DATA_ROOT = PROJECT_ROOT / "data" / "auxiliary_data"
 EPU_DATA_ROOT = PROJECT_ROOT / "testing_outputs" / "text"
 TOPICS = ["inflation", "job"]
 
-EXCLUDE_COUNTRIES = []
+EXCLUDE_COUNTRIES = [
+    'american_samoa', # No Data
+    "guam", # No Data
+    "malaysia", # Not enough news yet
+    'marshall_islands', # No Data
+    "new_zealand", # Quarterly Data
+    "pacific", # No Data
+    "palau", # Quarterly Data
+    "papua_new_guinea", # Quarterly Data
+    "south_korea", # Not enough news yet
+    "singapore", # Not enough news yet
+    "thailand", # Not enough news yet
+    "tuvalu", # No Data
+    "vanuatu", # Quarterly Data
+    ]
 
 # Set random seed for reproducibility
 np.random.seed(123)
