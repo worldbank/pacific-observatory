@@ -81,6 +81,14 @@ EXCLUDE_COUNTRIES = [
     "vanuatu", # Quarterly Data
     ]
 
+PREDICT_COUNTRIES = [
+    "marshall_islands",
+    "new_zealand",
+    "papua_new_guinea",
+    "tuvalu",
+    "vanuatu",
+]
+
 # Set random seed for reproducibility
 np.random.seed(123)
 
@@ -365,6 +373,41 @@ if __name__ == '__main__':
     print("COUNTRY-SPECIFIC ACCURACY SUMMARY")
     print("="*70)
     print(country_results_df.to_string(index=False))
+
+    # ============================================================================
+    # SAVE MONTHLY PREDICTIONS FOR EACH COUNTRY
+    # ============================================================================
+    print("\n" + "="*70)
+    print("SAVING MONTHLY PREDICTIONS")
+    print("="*70)
+
+    for country in countries:
+        country_mask = df_pooled['country'] == country
+        df_country = df_pooled[country_mask].copy()
+        
+        if len(df_country) == 0:
+            print(f"Skipping {country}: No data")
+            continue
+        
+        # Get predictions for this country
+        y_pred_country = pred_interactions[country_mask.values]
+        
+        # Create predictions dataframe
+        predictions_df = pd.DataFrame({
+            'date': df_country['date'].values,
+            'actual_inflation': df_country['cpi_inflation_ma3'].values,
+            'predicted_inflation': y_pred_country
+        })
+        
+        # Create output directory
+        output_dir = PROJECT_ROOT / "testing_outputs" / "text" / country / "lasso_preds"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Save predictions
+        output_file = output_dir / "predictions.csv"
+        predictions_df.to_csv(output_file, index=False)
+        print(f"Saved predictions for {country} to {output_file}")
+        print(f"  Records: {len(predictions_df)}")
 
     # ============================================================================
     # SECTION 3: OVERALL MODEL PERFORMANCE
