@@ -212,19 +212,6 @@ class EPU:
         EPU score calculation.
         """
         for (source, file) in self.raw_files:
-            # news_count = self.get_count(file, "news")
-            # epu_count = self.get_count(file[file["epu"] == True], "epu")
-            # self.epu_stat = news_count.merge(
-            #     epu_count, how="left", on="ym").fillna(0)
-            # self.epu_stat["ratio"] = self.epu_stat["epu_count"] / \
-            #     self.epu_stat["news_count"]
-            # self.epu_stat.columns = [f"{source}_{col}" if col != "ym" else col
-            #  for col in self.epu_stat.columns]
-            # if self.epu_stats.empty:
-            #     self.epu_stats = self.epu_stat
-            # else:
-            #     self.epu_stats = self.epu_stats.merge(
-            #         self.epu_stat, how="outer", on="ym")
             counts_df = self.calculate_news_and_epu_counts(file)
             ratios_df = self.calculate_ratios(counts_df)
             self.epu_stats = self.merge_data_frames(
