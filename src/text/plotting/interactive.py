@@ -264,6 +264,88 @@ def plot_news_count(countries, data_dir, output_path):
     layout = column(select, p)
     show(layout)
 
+def plot_train_predictions(countries, data_dir, output_path):
+    output_file(filename=output_path)
+    countries = sorted(countries)
+    EXCLUDE_COUNTRIES = [
+        'american_samoa', # No Data
+        "guam", # No Data
+        "malaysia", # Not enough news yet
+        'marshall_islands', # No Data
+        "new_zealand", # Quarterly Data
+        "pacific", # No Data
+        "palau", # Quarterly Data
+        "papua_new_guinea", # Quarterly Data
+        "south_korea", # Not enough news yet
+        "singapore", # Not enough news yet
+        "thailand", # Not enough news yet
+        "tuvalu", # No Data
+        "vanuatu", # Quarterly Data
+    ]
+    countries = [c for c in countries if c not in EXCLUDE_COUNTRIES]
+    # Load all country data and create separate sources
+    sources = {}
+    for country in countries:
+        pred_file = data_dir / f"{country}/lasso_preds/predictions.csv"
+        pred = pd.read_csv(pred_file)
+        pred["date"] = pd.to_datetime(pred["date"], format="mixed")
+        sources[country] = ColumnDataSource(pred)
+    
+    # Create initial plot with first country
+    initial_source = sources[countries[0]]
+    
+    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
+                                ('Predicted Inflation', '@predicted_inflation'),
+                                ('Actual Inflation', '@actual_inflation'),
+                                ],
+                    formatters={'@date': 'datetime'})
+
+    p = figure(height=400,
+            width=700,
+            title='Predicted Inflation',
+            x_axis_type="datetime",
+            x_range=(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-10-31")),
+            tools=[hover, BoxZoomTool(), ResetTool()])
+
+    line = p.line("date",
+        "predicted_inflation",
+        source=initial_source,
+        name="predicted_inflation",
+        color='#ff9a00',
+        line_width=3,
+        legend_label="Predicted Inflation")
+
+    line2 = p.line("date",
+        "actual_inflation",
+        source=initial_source,
+        name="actual_inflation",
+        color='#43a5e3',
+        line_width=3,
+        legend_label="Actual Inflation")
+
+    p.legend.location = "top_left"
+    p.legend.click_policy = "mute"
+    
+    # Create dropdown selector
+    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
+    
+    # CustomJS callback to update source when dropdown changes
+    callback = CustomJS(args=dict(sources=sources, line=line, line2=line2), code="""
+        const c = cb_obj.value;
+        const src = sources[c];  // this is a ColumnDataSource
+
+        // Reassign the entire data_source (not just .data)
+        line.data_source = src;
+        line2.data_source = src;
+
+        line.change.emit();
+        line2.change.emit();
+    """)
+    select.js_on_change('value', callback)
+    
+    layout = column(select, p)
+    show(layout)
+
 if __name__ == '__main__':
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
     if str(PROJECT_ROOT) not in sys.path:
@@ -280,3 +362,4 @@ if __name__ == '__main__':
     plot_epu_topics(countries, ["inflation", "job"], DATA_DIR, OUTPUT_DIR / "epu_topics_pic.html")
     plot_sentiment(countries, DATA_DIR, OUTPUT_DIR / "sentiment_pic.html")
     plot_news_count(countries, DATA_DIR, OUTPUT_DIR / "news_count_pic.html")
+    plot_train_predictions(countries, DATA_DIR, OUTPUT_DIR / "train_predictions_pic.html")
