@@ -49,19 +49,28 @@ The construction of the EPU index follows a systematic approach where a news art
 - Compute $M$, the mean value of $Z_t$ over the period $T_1$
 - Normalize the EPU index by multiplying $Z_t$ by $ \left( \frac{100}{M} \right) $ for $T_1$, resulting in the normalized EPU time-series index with a mean of 100 over $T_1$.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/22204379?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22204379/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div>
+<iframe src="../interactive/text/epu_pic.html"
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+</div>
 
 ### Topic-based EPU
 
 The EPU index can also be computed for news sources related to specific policy topics. To qualify, articles need to contain at least one keyword in each of the four criteria, namely (1) Economy, (2) Uncertainty, (3) Policy, and (4) Policy Topic - a list of terms for a specific theme (labor, inflation, climate, food security). Because the sample of articles that meet this refined criteria decreases, a topic-based EPU is constructed at the quarterly time frequency. The graphs below display quarterly EPU for jobs and inflation.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/22205009?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22205009/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div>
+<iframe src="../interactive/text/epu_topics_pic.html"
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+</div>
 
 ### Economic Policy Sentiment
 
 We use the EPU to filter news articles that align with the economic and policy categories for targeted sentiment analysis. The sentiment analysis uses VADER (Valence Aware Dictionary and sEntiment Reasoner), a rule-based model that handles social media and news text (Hutto and Gilbert, 2014). VADER calculates the sentiment score S based on the sum of lexical features (positive, neutral, and negative words). The final sentiment score S ranges between -1 (most negative) and +1 (most positive), with neutral scores around 0.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/22205348?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22205348/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div>
+<iframe src="../interactive/text/sentiment_pic.html"
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+</div>
 
 ### CPI and Inflation
 
@@ -73,7 +82,10 @@ Once we have obtained the EPU index for each country and period, we use the resu
 
 At the country level, Fiji achieves the lowest RMSE at 0.739, indicating that the model’s predictions deviate by approximately 0.76 percentage points from the actual inflation values. Although Samoa and the Solomon Islands fail to accurately capture the magnitude of inflation, they exhibit stronger directional accuracy, correctly identifying inflationary and deflationary trends in the model evaluation with accuracies of 63.6 percent and 68.5 percent, respectively. Inflation volatility and the rapid alternation between deflation and inflation in PICs reduce prediction accuracy. Smoothing techniques considerably enhance the performance of the pooled model compared to country-specific approaches.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/22209056?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22209056/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div>
+<iframe src="../interactive/text/train_predictions_pic.html"
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+</div>
 
 ### Pooled Model
 

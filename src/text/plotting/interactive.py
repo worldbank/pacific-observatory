@@ -1,365 +1,153 @@
-import os
-import sys
-
-import pandas as pd
-from bokeh.layouts import Row, column, gridplot
-from bokeh.models import (Title, Legend, ColumnDataSource, Select, HoverTool,
-                          BoxZoomTool, ResetTool, DataTable, DateFormatter,
-                          TableColumn, CustomJS)
-from bokeh.models.layouts import TabPanel, Tabs
-from bokeh.plotting import figure, output_file, show, output_notebook
+"""Generate standalone HTML plots with dropdown menus"""
+import os, sys, json, pandas as pd
 from pathlib import Path
 
+EXCLUDE_COUNTRIES = ['american_samoa','guam','malaysia','marshall_islands','pacific','palau','south_korea','singapore','thailand',"timor_leste",'tuvalu','vanuatu']
+EXCLUDE_PREDS = ['american_samoa','guam','malaysia','marshall_islands','mongolia','singapore','south_korea','thailand','timor_leste','tuvalu']
 
-def plot_epu(countries, data_dir, output_path):
-    output_file(filename=output_path)
-    countries = sorted(countries)
-    
-    # Load all country data and create separate sources
-    sources = {}
-    for country in countries:
-        epu_file = data_dir / f"{country}/epu/{country}_epu.csv"
-        epu = pd.read_csv(epu_file)
-        epu["date"] = pd.to_datetime(epu["date"], format="mixed")
-        epu["epu_weighted_ma3"] = epu["epu_weighted"].rolling(window=3).mean()
-        sources[country] = ColumnDataSource(epu)
-    
-    # Create initial plot with first country
-    initial_source = sources[countries[0]]
-    
-    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
-                                ('EPU Weighted', '@epu_weighted'),
-                                ('EPU Weighted Moving Average (MA 3)', '@epu_weighted_ma3')],
-                    formatters={'@date': 'datetime'})
+def fmt_country(c): return " ".join(w[0].upper() + w[1:] for w in c.split("_"))
 
-    p = figure(height=400,
-            width=700,
-            title = 'Economic Policy Uncertainty Index',
-            x_axis_type="datetime",
-            tools=[hover, BoxZoomTool(), ResetTool()])
+def load_epu(country, data_dir):
+    f = data_dir / f"{country}/epu/{country}_epu.csv"
+    if not f.exists(): return None
+    df = pd.read_csv(f)
+    df["date"] = pd.to_datetime(df["date"], format="mixed")
+    df["epu_weighted_ma3"] = df["epu_weighted"].rolling(window=3).mean()
+    return df.sort_values("date")
 
-    line1 = p.line("date",
-        "epu_weighted",
-        source=initial_source,
-        name="epu_weighted",
-        color='#aacddd',
-        line_width=1.5,
-        line_dash='dotted',
-        legend_label="EPU Weighted")
+def load_epu_topics(country, topics, data_dir):
+    df = None
+    for t in topics:
+        f = data_dir / f"{country}/epu/{country}_epu_{t}.csv"
+        if not f.exists(): continue
+        d = pd.read_csv(f)
+        d["date"] = pd.to_datetime(d["date"], format="mixed")
+        d[f"epu_{t}"] = d[f"epu_{t}"].rolling(window=3).mean()
+        df = d[["date", f"epu_{t}"]].copy() if df is None else df.merge(d[["date", f"epu_{t}"]], on="date", how="outer")
+    return df.sort_values("date") if df is not None else None
 
-    line2 = p.line("date",
-        "epu_weighted_ma3",
-        source=initial_source,
-        name="epu_weighted_ma3",
-        color='#1d77b2',
-        line_width=3,
-        legend_label="EPU Weighted Moving Average (MA 3)")
+def load_sentiment(country, data_dir):
+    f = data_dir / f"{country}/sentiment/{country}_sentiment.csv"
+    if not f.exists(): return None
+    df = pd.read_csv(f)
+    df["date"] = pd.to_datetime(df["date"], format="mixed")
+    return df.sort_values("date")
 
-    p.legend.location = "top_left"
-    p.legend.click_policy = "mute"
-    
-    # Create dropdown selector
-    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
-    
-    callback = CustomJS(args=dict(sources=sources, line1=line1, line2=line2), code="""
-        const country = cb_obj.value;
-        const new_src = sources[country];
-        line1.data_source = new_src;
-        line2.data_source = new_src;
-        line1.change.emit();
-        line2.change.emit();
-    """)
+def load_pred(country, data_dir):
+    f = data_dir / f"{country}/lasso_preds/predictions.csv"
+    if not f.exists(): return None
+    df = pd.read_csv(f)
+    df["date"] = pd.to_datetime(df["date"], format="mixed")
+    return df.sort_values("date")
 
+def df_to_json(df):
+    data = []
+    for _, row in df.iterrows():
+        r = {}
+        for col in df.columns:
+            v = row[col]
+            if pd.isna(v): r[col] = None
+            elif isinstance(v, pd.Timestamp): r[col] = v.strftime("%Y-%m-%d")
+            elif isinstance(v, (int, float)): r[col] = float(v) if not pd.isna(v) else None
+            else: r[col] = str(v)
+        data.append(r)
+    return data
 
-    select.js_on_change('value', callback)
-    
-    layout = column(select, p)
-    show(layout)
+def gen_html(title, subtitle, chart_id, all_data, countries, script_content):
+    opts = "\n".join(f'<option value="{c}">{fmt_country(c)}</option>' for c in countries if (c in all_data)&(c not in EXCLUDE_COUNTRIES))
+    return f"""<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+<style>*{{margin:0;padding:0;box-sizing:border-box}}body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:15px;background:#fff}}
+.controls{{margin-bottom:15px;display:flex;align-items:center;gap:10px}}label{{font-weight:600;color:#333;font-size:0.95em}}select{{padding:8px 12px;border:1px solid #ddd;border-radius:4px;font-size:0.9em;cursor:pointer;background:#fff}}
+select:hover{{border-color:#667eea}}select:focus{{outline:0;border-color:#667eea}}.chart-wrapper{{position:relative;height:350px}}</style></head>
+<body><div class="controls"><label for="country-select">Country:</label><select id="country-select">{opts}</select></div>
+<div class="chart-wrapper"><canvas id="chart"></canvas></div>
+<script>const allData={json.dumps(all_data)};let currentChart=null;{script_content}</script></body></html>"""
 
-def plot_epu_topics(countries, topics, data_dir, output_path):
-    output_file(filename=output_path)
-    
-    # Color mapping for topics
+def gen_epu_html(countries, data_dir, out):
+    countries = sorted([c for c in countries if c not in EXCLUDE_COUNTRIES])
+    all_data = {c: df_to_json(load_epu(c, data_dir)) for c in countries if (load_epu(c, data_dir) is not None)}
+    if not all_data: return
+    script = """function formatDate(d){const date=new Date(d);return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`}
+function renderChart(c){const d=allData[c];if(!d||!d.length)return;const l=d.map(r=>formatDate(r.date)),e=d.map(r=>r.epu_weighted),m=d.map(r=>r.epu_weighted_ma3);
+const ctx=document.getElementById('chart').getContext('2d');if(currentChart)currentChart.destroy();currentChart=new Chart(ctx,{type:'line',data:{labels:l,datasets:[{label:'EPU Weighted',data:e,borderColor:'#aacddd',borderWidth:1.5,borderDash:[5,5],fill:false,tension:0.1,pointRadius:0,pointHoverRadius:5},
+{label:'EPU Weighted MA(3)',data:m,borderColor:'#1d77b2',borderWidth:3,fill:false,tension:0.1,pointRadius:0,pointHoverRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:15}},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(0,0,0,0.8)',padding:12}},scales:{x:{display:true,title:{display:true,text:'Date'}},y:{display:true,title:{display:true,text:'EPU Index'}}}}})
+}
+document.getElementById('country-select').addEventListener('change',e=>renderChart(e.target.value));renderChart(document.getElementById('country-select').value);
+document.getElementById('info').innerHTML='<p><strong>EPU Weighted:</strong> Dotted line showing raw Economic Policy Uncertainty Index</p><p><strong>EPU Weighted MA(3):</strong> Solid line showing 3-month moving average</p>'"""
+    with open(out, 'w') as f: f.write(gen_html("Economic Policy Uncertainty Index", "EPU Weighted and 3-Month Moving Average", "epu-chart", all_data, countries, script))
+    print(f"Created {out}")
+
+def gen_epu_topics_html(countries, topics, data_dir, out):
+    countries = sorted([c for c in countries if c not in EXCLUDE_COUNTRIES])
+    all_data = {c: df_to_json(load_epu_topics(c, topics, data_dir)) for c in countries if (load_epu_topics(c, topics, data_dir) is not None)}
+    if not all_data: return
     colors = ['#00a37c', '#d95e10']
-    countries = sorted(countries)
-    
-    # Load all country data and create separate sources
-    sources = {}
-    for country in countries:
-        epu_data = None
-        
-        # Load data for each topic
-        for topic in topics:
-            epu_file = data_dir / f"{country}/epu/{country}_epu_{topic}.csv"
-            epu = pd.read_csv(epu_file)
-            epu["date"] = pd.to_datetime(epu["date"], format="mixed")
-            epu[f"epu_{topic}"] = epu[f"epu_{topic}"].rolling(window=3).mean()
-            
-            if epu_data is None:
-                epu_data = epu[["date", f"epu_{topic}"]].copy()
-            else:
-                epu_data = epu_data.merge(epu[["date", f"epu_{topic}"]], on="date", how="outer")
-        
-        epu_data = epu_data.sort_values("date").reset_index(drop=True)
-        sources[country] = ColumnDataSource(epu_data)
-    
-    # Create initial plot with first country
-    initial_source = sources[countries[0]]
-    
-    # Build tooltip list dynamically
-    tooltips = [('Date', '@date{%Y-%m}')]
-    for topic in topics:
-        display_name = " ".join(w.capitalize() for w in topic.split("_"))
-        tooltips.append((f'{display_name} EPU', f'@epu_{topic}'))
-    
-    hover = HoverTool(tooltips=tooltips, formatters={'@date': 'datetime'})
-    
-    p = figure(height=400,
-            width=700,
-            title='Economic Policy Uncertainty, Topic-based',
-            x_axis_type="datetime",
-            tools=[hover, BoxZoomTool(), ResetTool()])
-    
-    # Plot each topic as a line and store references
-    lines = []
-    for idx, topic in enumerate(topics):
-        display_name = " ".join(w.capitalize() for w in topic.split("_"))
-        line = p.line("date",
-            f"epu_{topic}",
-            source=initial_source,
-            name=f"epu_{topic}",
-            color=colors[idx],
-            line_width=3,
-            legend_label=f"{display_name} EPU")
-        lines.append(line)
-    
-    p.legend.location = "top_left"
-    p.legend.click_policy = "mute"
-    
-    # Create dropdown selector
-    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
-    
-    # CustomJS callback to update source when dropdown changes
-    callback = CustomJS(args=dict(sources=sources, lines=lines), code="""
-        const c = cb_obj.value;
-        const src = sources[c];  // this is a ColumnDataSource
+    labels = [" ".join(w.capitalize() for w in t.split("_")) for t in topics]
+    topics_json = json.dumps(topics)
+    colors_json = json.dumps(colors)
+    labels_json = json.dumps(labels)
+    script = "const topics=" + topics_json + ";const colors=" + colors_json + ";const labels=" + labels_json + """;
+function formatDate(d){const date=new Date(d);return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`}
+function renderChart(c){const d=allData[c];if(!d||!d.length)return;const l=d.map(r=>formatDate(r.date)),ds=[];
+topics.forEach((t,i)=>{ds.push({label:`${labels[i]} EPU`,data:d.map(r=>r[`epu_${t}`]),borderColor:colors[i],borderWidth:3,fill:false,tension:0.1,pointRadius:0,pointHoverRadius:5})});
+const ctx=document.getElementById('chart').getContext('2d');if(currentChart)currentChart.destroy();currentChart=new Chart(ctx,{type:'line',data:{labels:l,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:15}},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(0,0,0,0.8)',padding:12}},scales:{x:{display:true,title:{display:true,text:'Date'}},y:{display:true,title:{display:true,text:'EPU Index'}}}}})
+}
+document.getElementById('country-select').addEventListener('change',e=>renderChart(e.target.value));renderChart(document.getElementById('country-select').value);
+document.getElementById('info').innerHTML='<p><strong>Topic-based EPU:</strong> Comparing Economic Policy Uncertainty across different topics</p>'"""
+    with open(out, 'w') as f: f.write(gen_html("Economic Policy Uncertainty by Topic", "Topic-based EPU Analysis", "epu-topics-chart", all_data, countries, script))
+    print(f"Created {out}")
 
-        // Reassign the entire data_source (not just .data)
-        for (let i = 0; i < lines.length; i++) {
-            lines[i].data_source = src;
-            lines[i].change.emit();
-        }
-    """)
-    select.js_on_change('value', callback)
-    
-    layout = column(select, p)
-    show(layout)
+def gen_sentiment_html(countries, data_dir, out):
+    countries = sorted([c for c in countries if c not in EXCLUDE_COUNTRIES])
+    all_data = {c: df_to_json(load_sentiment(c, data_dir)) for c in countries if (load_sentiment(c, data_dir) is not None)}
+    if not all_data: return
+    script = """function formatDate(d){const date=new Date(d);return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`}
+function renderChart(c){const d=allData[c];if(!d||!d.length)return;const l=d.map(r=>formatDate(r.date)),s=d.map(r=>r.score);
+const ctx=document.getElementById('chart').getContext('2d');if(currentChart)currentChart.destroy();currentChart=new Chart(ctx,{type:'line',data:{labels:l,datasets:[{label:'Sentiment Score',data:s,borderColor:'#2aa8f7',backgroundColor:'rgba(42,168,247,0.1)',borderWidth:3,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:15}},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(0,0,0,0.8)',padding:12}},scales:{x:{display:true,title:{display:true,text:'Date'}},y:{display:true,title:{display:true,text:'Sentiment Score'}}}}})
+}
+document.getElementById('country-select').addEventListener('change',e=>renderChart(e.target.value));renderChart(document.getElementById('country-select').value);
+document.getElementById('info').innerHTML='<p><strong>Sentiment Score:</strong> Analysis of news sentiment over time</p>'"""
+    with open(out, 'w') as f: f.write(gen_html("Sentiment Analysis", "News Sentiment Score Over Time", "sentiment-chart", all_data, countries, script))
+    print(f"Created {out}")
 
-def plot_sentiment(countries, data_dir, output_path):
-    output_file(filename=output_path)
-    countries = sorted(countries)
-    
-    # Load all country data and create separate sources
-    sources = {}
-    for country in countries:
-        sentiment_file = data_dir / f"{country}/sentiment/{country}_sentiment.csv"
-        sentiment = pd.read_csv(sentiment_file)
-        sentiment["date"] = pd.to_datetime(sentiment["date"], format="mixed")
-        sources[country] = ColumnDataSource(sentiment)
-    
-    # Create initial plot with first country
-    initial_source = sources[countries[0]]
-    
-    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
-                                ('Sentiment Score', '@score')],
-                    formatters={'@date': 'datetime'})
+def gen_news_html(countries, data_dir, out):
+    countries = sorted([c for c in countries if c not in EXCLUDE_COUNTRIES])
+    all_data = {c: df_to_json(load_epu(c, data_dir)) for c in countries if (load_epu(c, data_dir) is not None)}
+    if not all_data: return
+    script = """function formatDate(d){const date=new Date(d);return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`}
+function renderChart(c){const d=allData[c];if(!d||!d.length)return;const l=d.map(r=>formatDate(r.date)),n=d.map(r=>r.news_total);
+const ctx=document.getElementById('chart').getContext('2d');if(currentChart)currentChart.destroy();currentChart=new Chart(ctx,{type:'line',data:{labels:l,datasets:[{label:'News Count',data:n,borderColor:'#2aa8f7',backgroundColor:'rgba(42,168,247,0.1)',borderWidth:3,fill:true,tension:0.1,pointRadius:0,pointHoverRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:15}},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(0,0,0,0.8)',padding:12}},scales:{x:{display:true,title:{display:true,text:'Date'}},y:{display:true,title:{display:true,text:'Article Count'}}}}})
+}
+document.getElementById('country-select').addEventListener('change',e=>renderChart(e.target.value));renderChart(document.getElementById('country-select').value);
+document.getElementById('info').innerHTML='<p><strong>News Article Count:</strong> Number of articles scraped per month</p>'"""
+    with open(out, 'w') as f: f.write(gen_html("News Article Count", "Number of Articles Scraped Per Month", "news-chart", all_data, countries, script))
+    print(f"Created {out}")
 
-    p = figure(height=400,
-            width=700,
-            title='Sentiment Analysis',
-            x_axis_type="datetime",
-            tools=[hover, BoxZoomTool(), ResetTool()])
-
-    line = p.line("date",
-        "score",
-        source=initial_source,
-        name="score",
-        color='#2aa8f7',
-        line_width=3,
-        legend_label="Sentiment Score")
-
-    p.legend.location = "top_left"
-    p.legend.click_policy = "mute"
-    
-    # Create dropdown selector
-    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
-    
-    # CustomJS callback to update source when dropdown changes
-    callback = CustomJS(args=dict(sources=sources, line=line), code="""
-        const c = cb_obj.value;
-        const src = sources[c];  // this is a ColumnDataSource
-
-        // Reassign the entire data_source (not just .data)
-        line.data_source = src;
-
-        line.change.emit();
-    """)
-    select.js_on_change('value', callback)
-    
-    layout = column(select, p)
-    show(layout)
-    
-def plot_news_count(countries, data_dir, output_path):
-    output_file(filename=output_path)
-    countries = sorted(countries)
-    
-    # Load all country data and create separate sources
-    sources = {}
-    for country in countries:
-        epu_file = data_dir / f"{country}/epu/{country}_epu.csv"
-        epu = pd.read_csv(epu_file)
-        epu["date"] = pd.to_datetime(epu["date"], format="mixed")
-        sources[country] = ColumnDataSource(epu)
-    
-    # Create initial plot with first country
-    initial_source = sources[countries[0]]
-    
-    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
-                                ('News Count', '@news_total')],
-                    formatters={'@date': 'datetime'})
-
-    p = figure(height=400,
-            width=700,
-            title='News Article Count',
-            x_axis_type="datetime",
-            x_range=(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-10-31")),
-            tools=[hover, BoxZoomTool(), ResetTool()])
-
-    line = p.line("date",
-        "news_total",
-        source=initial_source,
-        name="news_total",
-        color='#2aa8f7',
-        line_width=3,
-        legend_label="News Count")
-
-    p.legend.location = "top_left"
-    p.legend.click_policy = "mute"
-    
-    # Create dropdown selector
-    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
-    
-    # CustomJS callback to update source when dropdown changes
-    callback = CustomJS(args=dict(sources=sources, line=line), code="""
-        const c = cb_obj.value;
-        const src = sources[c];  // this is a ColumnDataSource
-
-        // Reassign the entire data_source (not just .data)
-        line.data_source = src;
-
-        line.change.emit();
-    """)
-    select.js_on_change('value', callback)
-    
-    layout = column(select, p)
-    show(layout)
-
-def plot_train_predictions(countries, data_dir, output_path):
-    output_file(filename=output_path)
-    countries = sorted(countries)
-    EXCLUDE_COUNTRIES = [
-        'american_samoa', # No Data
-        "guam", # No Data
-        "malaysia", # Not enough news yet
-        'marshall_islands', # No Data
-        "new_zealand", # Quarterly Data
-        "pacific", # No Data
-        "palau", # Quarterly Data
-        "papua_new_guinea", # Quarterly Data
-        "south_korea", # Not enough news yet
-        "singapore", # Not enough news yet
-        "thailand", # Not enough news yet
-        "tuvalu", # No Data
-        "vanuatu", # Quarterly Data
-    ]
-    countries = [c for c in countries if c not in EXCLUDE_COUNTRIES]
-    # Load all country data and create separate sources
-    sources = {}
-    for country in countries:
-        pred_file = data_dir / f"{country}/lasso_preds/predictions.csv"
-        pred = pd.read_csv(pred_file)
-        pred["date"] = pd.to_datetime(pred["date"], format="mixed")
-        sources[country] = ColumnDataSource(pred)
-    
-    # Create initial plot with first country
-    initial_source = sources[countries[0]]
-    
-    hover = HoverTool(tooltips=[('Date', '@date{%Y-%m}'),
-                                ('Predicted Inflation', '@predicted_inflation'),
-                                ('Actual Inflation', '@actual_inflation'),
-                                ],
-                    formatters={'@date': 'datetime'})
-
-    p = figure(height=400,
-            width=700,
-            title='Predicted Inflation',
-            x_axis_type="datetime",
-            x_range=(pd.Timestamp("2015-01-01"), pd.Timestamp("2025-10-31")),
-            tools=[hover, BoxZoomTool(), ResetTool()])
-
-    line = p.line("date",
-        "predicted_inflation",
-        source=initial_source,
-        name="predicted_inflation",
-        color='#ff9a00',
-        line_width=3,
-        legend_label="Predicted Inflation")
-
-    line2 = p.line("date",
-        "actual_inflation",
-        source=initial_source,
-        name="actual_inflation",
-        color='#43a5e3',
-        line_width=3,
-        legend_label="Actual Inflation")
-
-    p.legend.location = "top_left"
-    p.legend.click_policy = "mute"
-    
-    # Create dropdown selector
-    select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
-    
-    # CustomJS callback to update source when dropdown changes
-    callback = CustomJS(args=dict(sources=sources, line=line, line2=line2), code="""
-        const c = cb_obj.value;
-        const src = sources[c];  // this is a ColumnDataSource
-
-        // Reassign the entire data_source (not just .data)
-        line.data_source = src;
-        line2.data_source = src;
-
-        line.change.emit();
-        line2.change.emit();
-    """)
-    select.js_on_change('value', callback)
-    
-    layout = column(select, p)
-    show(layout)
+def gen_pred_html(countries, data_dir, out):
+    countries = sorted([c for c in countries if c not in EXCLUDE_PREDS])
+    all_data = {c: df_to_json(load_pred(c, data_dir)) for c in countries if (load_pred(c, data_dir) is not None)}
+    if not all_data: return
+    script = """function formatDate(d){const date=new Date(d);return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}`}
+function renderChart(c){const d=allData[c];if(!d||!d.length)return;const l=d.map(r=>formatDate(r.date)),p=d.map(r=>r.predicted_inflation),a=d.map(r=>r.actual_inflation);
+const ctx=document.getElementById('chart').getContext('2d');if(currentChart)currentChart.destroy();currentChart=new Chart(ctx,{type:'line',data:{labels:l,datasets:[{label:'Predicted Inflation',data:p,borderColor:'#ff9a00',borderWidth:3,fill:false,tension:0.1,pointRadius:0,pointHoverRadius:5},
+{label:'Actual Inflation',data:a,borderColor:'#43a5e3',borderWidth:3,fill:false,tension:0.1,pointRadius:0,pointHoverRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:15}},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(0,0,0,0.8)',padding:12}},scales:{x:{display:true,title:{display:true,text:'Date'}},y:{display:true,title:{display:true,text:'Inflation Rate'}}}}})
+}
+document.getElementById('country-select').addEventListener('change',e=>renderChart(e.target.value));renderChart(document.getElementById('country-select').value);
+document.getElementById('info').innerHTML='<p><strong>Predicted Inflation:</strong> Orange line showing model predictions</p><p><strong>Actual Inflation:</strong> Blue line showing actual inflation rates</p>'"""
+    with open(out, 'w') as f: f.write(gen_html("Predicted Inflation", "Model Predictions vs Actual Inflation", "pred-chart", all_data, countries, script))
+    print(f"Created {out}")
 
 if __name__ == '__main__':
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
-    if str(PROJECT_ROOT) not in sys.path:
-        sys.path.insert(0, str(PROJECT_ROOT))
-
     DATA_DIR = PROJECT_ROOT / "testing_outputs" / "text"
-    OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "interactive"
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-
-    # Filter to only include directories (countries), excluding files like .html
+    OUTPUT_DIR = PROJECT_ROOT / "docs/images/interactive/text"
+    
     countries = [d for d in os.listdir(DATA_DIR) if (DATA_DIR / d).is_dir()]
-    plot_epu(countries, DATA_DIR, OUTPUT_DIR / "epu_pic.html")
-    plot_epu_topics(countries, ["inflation", "job"], DATA_DIR, OUTPUT_DIR / "epu_topics_pic.html")
-    plot_sentiment(countries, DATA_DIR, OUTPUT_DIR / "sentiment_pic.html")
-    plot_news_count(countries, DATA_DIR, OUTPUT_DIR / "news_count_pic.html")
-    plot_train_predictions(countries, DATA_DIR, OUTPUT_DIR / "train_predictions_pic.html")
+    
+    gen_epu_html(countries, DATA_DIR, OUTPUT_DIR / "epu_pic.html")
+    gen_epu_topics_html(countries, ["inflation", "job"], DATA_DIR, OUTPUT_DIR / "epu_topics_pic.html")
+    gen_sentiment_html(countries, DATA_DIR, OUTPUT_DIR / "sentiment_pic.html")
+    gen_news_html(countries, DATA_DIR, OUTPUT_DIR / "news_count_pic.html")
+    gen_pred_html(countries, DATA_DIR, OUTPUT_DIR / "train_predictions_pic.html")
+    print("All plots generated successfully!")
