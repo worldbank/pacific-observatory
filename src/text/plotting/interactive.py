@@ -63,11 +63,17 @@ def plot_epu(countries, output_path):
     
     # CustomJS callback to update source when dropdown changes
     callback = CustomJS(args=dict(sources=sources, line1=line1, line2=line2), code="""
-        const selected_country = this.value;
-        const new_source = sources[selected_country];
-        line1.data_source.data = new_source.data;
-        line2.data_source.data = new_source.data;
+        const c = cb_obj.value;
+        const src = sources[c];  // this is a ColumnDataSource
+
+        // Reassign the entire data_source (not just .data)
+        line1.data_source = src;
+        line2.data_source = src;
+
+        line1.change.emit();
+        line2.change.emit();
     """)
+
     select.js_on_change('value', callback)
     
     layout = column(select, p)
@@ -138,10 +144,13 @@ def plot_epu_topics(countries, topics, output_path):
     
     # CustomJS callback to update source when dropdown changes
     callback = CustomJS(args=dict(sources=sources, lines=lines), code="""
-        const selected_country = this.value;
-        const new_source = sources[selected_country];
+        const c = cb_obj.value;
+        const src = sources[c];  // this is a ColumnDataSource
+
+        // Reassign the entire data_source (not just .data)
         for (let i = 0; i < lines.length; i++) {
-            lines[i].data_source.data = new_source.data;
+            lines[i].data_source = src;
+            lines[i].change.emit();
         }
     """)
     select.js_on_change('value', callback)
@@ -190,9 +199,13 @@ def plot_sentiment(countries, output_path):
     
     # CustomJS callback to update source when dropdown changes
     callback = CustomJS(args=dict(sources=sources, line=line), code="""
-        const selected_country = this.value;
-        const new_source = sources[selected_country];
-        line.data_source.data = new_source.data;
+        const c = cb_obj.value;
+        const src = sources[c];  // this is a ColumnDataSource
+
+        // Reassign the entire data_source (not just .data)
+        line.data_source = src;
+
+        line.change.emit();
     """)
     select.js_on_change('value', callback)
     
@@ -241,9 +254,13 @@ def plot_news_count(countries, output_path):
     
     # CustomJS callback to update source when dropdown changes
     callback = CustomJS(args=dict(sources=sources, line=line), code="""
-        const selected_country = this.value;
-        const new_source = sources[selected_country];
-        line.data_source.data = new_source.data;
+        const c = cb_obj.value;
+        const src = sources[c];  // this is a ColumnDataSource
+
+        // Reassign the entire data_source (not just .data)
+        line.data_source = src;
+
+        line.change.emit();
     """)
     select.js_on_change('value', callback)
     
