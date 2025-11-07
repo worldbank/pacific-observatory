@@ -272,7 +272,8 @@ if __name__ == '__main__':
     if str(PROJECT_ROOT) not in sys.path:
         sys.path.insert(0, str(PROJECT_ROOT))
 
-    OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "text"
+    OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "text" / "interactive"
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
     # Filter to only include directories (countries), excluding files like .html
