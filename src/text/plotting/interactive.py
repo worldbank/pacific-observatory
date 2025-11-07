@@ -11,14 +11,15 @@ from bokeh.plotting import figure, output_file, show, output_notebook
 from pathlib import Path
 
 
-def plot_epu(countries, output_path):
+def plot_epu(countries, data_dir, output_path):
     output_file(filename=output_path)
     countries = sorted(countries)
     
     # Load all country data and create separate sources
     sources = {}
+    print(data_dir)
     for country in countries:
-        epu_file = OUTPUT_DIR / f"{country}/epu/{country}_epu.csv"
+        epu_file = data_dir / f"{country}/epu/{country}_epu.csv"
         epu = pd.read_csv(epu_file)
         epu["date"] = pd.to_datetime(epu["date"], format="mixed")
         epu["epu_weighted_ma3"] = epu["epu_weighted"].rolling(window=3).mean()
@@ -61,25 +62,22 @@ def plot_epu(countries, output_path):
     # Create dropdown selector
     select = Select(title="Country:", value=countries[0], options=[(c, " ".join(w[0].upper() + w[1:] for w in c.split("_"))) for c in countries])
     
-    # CustomJS callback to update source when dropdown changes
     callback = CustomJS(args=dict(sources=sources, line1=line1, line2=line2), code="""
-        const c = cb_obj.value;
-        const src = sources[c];  // this is a ColumnDataSource
-
-        // Reassign the entire data_source (not just .data)
-        line1.data_source = src;
-        line2.data_source = src;
-
+        const country = cb_obj.value;
+        const new_src = sources[country];
+        line1.data_source = new_src;
+        line2.data_source = new_src;
         line1.change.emit();
         line2.change.emit();
     """)
+
 
     select.js_on_change('value', callback)
     
     layout = column(select, p)
     show(layout)
 
-def plot_epu_topics(countries, topics, output_path):
+def plot_epu_topics(countries, topics, data_dir, output_path):
     output_file(filename=output_path)
     
     # Color mapping for topics
@@ -93,7 +91,7 @@ def plot_epu_topics(countries, topics, output_path):
         
         # Load data for each topic
         for topic in topics:
-            epu_file = OUTPUT_DIR / f"{country}/epu/{country}_epu_{topic}.csv"
+            epu_file = data_dir / f"{country}/epu/{country}_epu_{topic}.csv"
             epu = pd.read_csv(epu_file)
             epu["date"] = pd.to_datetime(epu["date"], format="mixed")
             epu[f"epu_{topic}"] = epu[f"epu_{topic}"].rolling(window=3).mean()
@@ -158,14 +156,14 @@ def plot_epu_topics(countries, topics, output_path):
     layout = column(select, p)
     show(layout)
 
-def plot_sentiment(countries, output_path):
+def plot_sentiment(countries, data_dir, output_path):
     output_file(filename=output_path)
     countries = sorted(countries)
     
     # Load all country data and create separate sources
     sources = {}
     for country in countries:
-        sentiment_file = OUTPUT_DIR / f"{country}/sentiment/{country}_sentiment.csv"
+        sentiment_file = data_dir / f"{country}/sentiment/{country}_sentiment.csv"
         sentiment = pd.read_csv(sentiment_file)
         sentiment["date"] = pd.to_datetime(sentiment["date"], format="mixed")
         sources[country] = ColumnDataSource(sentiment)
@@ -212,14 +210,14 @@ def plot_sentiment(countries, output_path):
     layout = column(select, p)
     show(layout)
     
-def plot_news_count(countries, output_path):
+def plot_news_count(countries, data_dir, output_path):
     output_file(filename=output_path)
     countries = sorted(countries)
     
     # Load all country data and create separate sources
     sources = {}
     for country in countries:
-        epu_file = OUTPUT_DIR / f"{country}/epu/{country}_epu.csv"
+        epu_file = data_dir / f"{country}/epu/{country}_epu.csv"
         epu = pd.read_csv(epu_file)
         epu["date"] = pd.to_datetime(epu["date"], format="mixed")
         sources[country] = ColumnDataSource(epu)
@@ -272,13 +270,14 @@ if __name__ == '__main__':
     if str(PROJECT_ROOT) not in sys.path:
         sys.path.insert(0, str(PROJECT_ROOT))
 
-    OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "text" / "interactive"
+    DATA_DIR = PROJECT_ROOT / "testing_outputs" / "text"
+    OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "interactive"
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
     # Filter to only include directories (countries), excluding files like .html
-    countries = [d for d in os.listdir(OUTPUT_DIR) if (OUTPUT_DIR / d).is_dir()]
-    plot_epu(countries, OUTPUT_DIR / "epu_pic.html")
-    plot_epu_topics(countries, ["inflation", "job"], OUTPUT_DIR / "epu_topics_pic.html")
-    plot_sentiment(countries, OUTPUT_DIR / "sentiment_pic.html")
-    plot_news_count(countries, OUTPUT_DIR / "news_count_pic.html")
+    countries = [d for d in os.listdir(DATA_DIR) if (DATA_DIR / d).is_dir()]
+    plot_epu(countries, DATA_DIR, OUTPUT_DIR / "epu_pic.html")
+    plot_epu_topics(countries, ["inflation", "job"], DATA_DIR, OUTPUT_DIR / "epu_topics_pic.html")
+    plot_sentiment(countries, DATA_DIR, OUTPUT_DIR / "sentiment_pic.html")
+    plot_news_count(countries, DATA_DIR, OUTPUT_DIR / "news_count_pic.html")
