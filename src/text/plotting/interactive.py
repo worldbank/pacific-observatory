@@ -17,7 +17,6 @@ def plot_epu(countries, data_dir, output_path):
     
     # Load all country data and create separate sources
     sources = {}
-    print(data_dir)
     for country in countries:
         epu_file = data_dir / f"{country}/epu/{country}_epu.csv"
         epu = pd.read_csv(epu_file)

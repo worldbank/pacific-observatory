@@ -16,7 +16,7 @@ if str(PROJECT_ROOT) not in sys.path:
 DATA_ROOT = PROJECT_ROOT / "data" / "auxiliary_data"
 
 def get_cpi_data(
-    country: Union[List, str], frequency: Union["M", "Q", "Y"] = "M", start_period: int = 2015, component: str = "_T"
+    country: Union[List, str], frequency: Union["M", "Q", "Y"] = "M", start_period: int = 2014, component: str = "_T"
 ) -> pd.DataFrame:
     IMF_DATA = sdmx.Client("IMF_DATA")
     if isinstance(country, list):
@@ -46,6 +46,7 @@ def get_cpi_data(
         except Exception as e:
             print(f"Error for {country}: {e}")
             return None
+    output['date'] = pd.to_datetime(output['TIME_PERIOD'], format='%Y-M%m')
     return output
 
 
