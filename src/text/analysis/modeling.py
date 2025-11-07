@@ -122,7 +122,7 @@ def prepare_cpi(countries_slugs):
         if var in cpi.columns and not var.endswith('_ma3'):
             cpi[f'{var}_ma3'] = cpi.groupby('country_id')[var].transform(lambda x: x.rolling(window=3, center=True).mean())
     cpi['country'] = cpi['country'].map(country_map)
-    cpi = cpi[["country", 'date', 'cpi', 'l1_cpi', 'cpi_inflation', 'cpi_inflation_ma3']]
+    cpi = cpi[["country", "country_id", 'date', 'cpi', 'l1_cpi', 'cpi_inflation', 'cpi_inflation_ma3']]
     return cpi
 
 # ============================================================================
@@ -235,7 +235,7 @@ if __name__ == '__main__':
     df = df.sort_values(['country', 'date']).reset_index(drop=True)
     pd.set_option('display.max_columns', 99)
     print(df.tail(50))
-    raise Exception("Stop")
+    # raise Exception("Stop")
     # ============================================================================
     # SECTION 1: ALL COUNTRIES ANALYSIS WITH INTERACTION TERMS
     # ============================================================================
@@ -258,9 +258,9 @@ if __name__ == '__main__':
 
     # Add lagged inflation
     for lag in [1, 2]:
-        df_pooled[f'imf_inflation_ma3_lag{lag}'] = df_pooled.groupby('country_id')['imf_inflation_ma3'].shift(lag)
+        df_pooled[f'cpi_inflation_ma3_lag{lag}'] = df_pooled.groupby('country_id')['cpi_inflation_ma3'].shift(lag)
 
-    feature_cols_with_lags = [f'imf_inflation_ma3_lag{i}' for i in [1, 2]] + feature_cols_base
+    feature_cols_with_lags = [f'cpi_inflation_ma3_lag{i}' for i in [1, 2]] + feature_cols_base
 
     # Create country dummy variables
     for country in countries:
@@ -284,7 +284,7 @@ if __name__ == '__main__':
     # Model with interaction terms
     print("\nModel: LASSO with country interaction terms (MA3)")
     X_interactions = df_pooled[all_features]
-    y = df_pooled['imf_inflation_ma3']
+    y = df_pooled['cpi_inflation_ma3']
 
     lasso_interactions, pred_interactions, coef_interactions = run_lasso_model(X_interactions, y, "LASSO with interactions")
 
@@ -320,7 +320,7 @@ if __name__ == '__main__':
         
         # Get predictions for this country from the pooled model
         country_mask = df_pooled['country'] == country
-        y_true_country = df_pooled[country_mask]['imf_inflation_ma3'].values
+        y_true_country = df_pooled[country_mask]['cpi_inflation_ma3'].values
         y_pred_country = pred_interactions[country_mask.values]
         
         # Calculate metrics for this country
