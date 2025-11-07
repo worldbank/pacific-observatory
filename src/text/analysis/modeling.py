@@ -257,7 +257,6 @@ if __name__ == '__main__':
     df = df.sort_values(['country', 'date']).reset_index(drop=True)
     pd.set_option('display.max_columns', 99)
     print(df.tail(50))
-    # raise Exception("Stop")
     # ============================================================================
     # SECTION 1: ALL COUNTRIES ANALYSIS WITH INTERACTION TERMS
     # ============================================================================
