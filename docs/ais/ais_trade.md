@@ -21,7 +21,13 @@ We get the difference between the departure and arrival displacements to get the
 
 ## Port Arrivals 
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/19836784?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19836784/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/port calls.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%; height: 650px;">
+  </iframe>
+</div>
 
 ## Trade Volume
 
