@@ -38,6 +38,10 @@ class CSVStorage:
 
         self.base_data_dir = Path(base_data_dir)
         self.ensure_directories()
+        
+        # Streaming state tracking
+        self._streaming_file_handles: Dict[str, Any] = {}  # Track open file handles by newspaper
+        self._streaming_headers_written: Dict[str, bool] = {}  # Track if headers written
 
     def ensure_directories(self):
         """Ensure the base directory structure exists."""
@@ -77,6 +81,111 @@ class CSVStorage:
 
         sanitized = re.sub(r"[^\w\-_.]", "_", name.replace(" ", "_").lower())
         return sanitized.strip("_")
+
+    def _get_streaming_key(self, country: str, newspaper: str) -> str:
+        """Get a unique key for streaming state tracking."""
+        country = self._sanitize_name(country)
+        newspaper = self._sanitize_name(newspaper)
+        return f"{country}/{newspaper}"
+
+    def initialize_csv(
+        self,
+        country: str,
+        newspaper: str,
+        timestamp: datetime = None,
+    ) -> Path:
+        """
+        Initialize CSV file with headers for streaming writes.
+
+        Args:
+            country: Country code
+            newspaper: Newspaper name
+            timestamp: Optional timestamp for metadata
+
+        Returns:
+            Path to the initialized CSV file
+        """
+        import csv
+        
+        if timestamp is None:
+            timestamp = datetime.now()
+
+        # Create directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        newspaper_dir.mkdir(parents=True, exist_ok=True)
+
+        # Create filename
+        filename = "news.csv"
+        file_path = newspaper_dir / filename
+
+        # Define CSV headers
+        headers = ["url", "title", "date", "body", "tags", "source", "country", "_scraped_at"]
+
+        # Write headers to file
+        with open(file_path, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=headers)
+            writer.writeheader()
+
+        logger.info(f"Initialized CSV file: {file_path}")
+        
+        # Track that headers have been written
+        key = self._get_streaming_key(country, newspaper)
+        self._streaming_headers_written[key] = True
+
+        return file_path
+
+    def append_article(
+        self,
+        article: ArticleRecord,
+        country: str,
+        newspaper: str,
+        timestamp: datetime = None,
+    ) -> Path:
+        """
+        Append a single article to the CSV file (streaming write).
+
+        Args:
+            article: ArticleRecord object to append
+            country: Country code
+            newspaper: Newspaper name
+            timestamp: Optional timestamp for metadata
+
+        Returns:
+            Path to the CSV file
+        """
+        import csv
+        
+        if timestamp is None:
+            timestamp = datetime.now()
+
+        # Get newspaper directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+        newspaper_dir.mkdir(parents=True, exist_ok=True)
+
+        # Get file path
+        filename = "news.csv"
+        file_path = newspaper_dir / filename
+
+        # Convert article to dictionary
+        article_dict = article.model_dump()
+        article_dict["_scraped_at"] = timestamp.isoformat()
+        
+        # Convert tags list to comma-separated string
+        if isinstance(article_dict.get("tags"), list):
+            article_dict["tags"] = ",".join(article_dict["tags"])
+        
+        # Convert HttpUrl to string
+        article_dict["url"] = str(article_dict["url"])
+
+        # Define CSV headers
+        headers = ["url", "title", "date", "body", "tags", "source", "country", "_scraped_at"]
+
+        # Append to CSV file
+        with open(file_path, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=headers)
+            writer.writerow(article_dict)
+
+        return file_path
 
     def serialize_for_json(self, obj: Any) -> Any:
         """

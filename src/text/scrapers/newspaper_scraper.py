@@ -516,23 +516,25 @@ class NewspaperScraper:
 
     async def scrape_articles(
         self, thumbnails: List[ThumbnailRecord]
-    ) -> List[ArticleRecord]:
+    ) -> Dict[str, Any]:
         """
-        Scrape full article content from thumbnail URLs with progress tracking.
+        Scrape full article content from thumbnail URLs with streaming CSV writes.
+
+        Articles are written to CSV as they are scraped, not accumulated in memory.
 
         Args:
             thumbnails: List of ThumbnailRecord objects
 
         Returns:
-            List of ArticleRecord objects
+            Dictionary with scraping statistics (articles_scraped, failed_count, etc.)
         """
-        articles = []
         article_urls = [str(thumb.url) for thumb in thumbnails]
+        articles_scraped = 0
+        articles_failed = 0
 
         if self.client_type == "http":
             client = self._get_http_client()
 
-            # Create selectors for article extraction
             # Import tqdm for progress tracking
             from tqdm.asyncio import tqdm
 
@@ -557,6 +559,7 @@ class NewspaperScraper:
                                 error="Failed to retrieve content",
                                 stage="article_content",
                             )
+                            articles_failed += 1
                             continue
 
                         # Parse the HTML content
@@ -594,28 +597,40 @@ class NewspaperScraper:
                             )
 
                         article = ArticleRecord(**article_data)
-                        articles.append(article)
+                        
+                        # Stream write to CSV instead of accumulating in memory
+                        self._storage.append_article(
+                            article, self.country, self.name
+                        )
+                        articles_scraped += 1
 
                     except Exception as e:
                         logger.error(
                             f"Failed to scrape article {thumbnail.url}: {e}"
                         )
+                        articles_failed += 1
 
         else:
             # Browser client implementation would go here
             pass
 
         logger.info(
-            f"Scraped {len(articles)} articles from {len(thumbnails)} thumbnails"
+            f"Scraped {articles_scraped} articles from {len(thumbnails)} thumbnails "
+            f"({articles_failed} failed)"
         )
 
-
-        self.scraped_articles = articles
-        return articles
+        # Return statistics instead of article list
+        return {
+            "articles_scraped": articles_scraped,
+            "articles_failed": articles_failed,
+            "total_attempted": len(thumbnails),
+        }
 
     async def run_full_scrape(self) -> Dict[str, Any]:
         """
-        Run a complete scraping operation.
+        Run a complete scraping operation with streaming CSV writes.
+
+        Articles are written to CSV as they are scraped, not accumulated in memory.
 
         Returns:
             Dictionary with scraping results and statistics
@@ -623,6 +638,11 @@ class NewspaperScraper:
         logger.info(f"Starting full scrape for {self.name} ({self.country})")
 
         try:
+            # Initialize CSV file with headers before scraping
+            csv_path = self._storage.initialize_csv(self.country, self.name)
+            self._saved_files["articles"] = csv_path
+            logger.info(f"Initialized CSV file for streaming writes: {csv_path}")
+
             # Step 1 & 2 Combined: Discover and scrape thumbnails in one pass
             # This ensures each URL is only requested once
             thumbnails = await self.discover_and_scrape_thumbnails()
@@ -637,25 +657,27 @@ class NewspaperScraper:
                 )
                 thumbnails = thumbnails[: self.max_articles]
 
-            # Step 3: Build articles
+            # Step 3: Build articles with streaming CSV writes
+            articles_stats = {}
             if self.prefetched_articles:
                 logger.info(f"Using {len(self.prefetched_articles)} prefetched articles from API JSON; skipping HTML article scraping")
-                articles = self.prefetched_articles
+                # Stream write prefetched articles to CSV
+                for article in self.prefetched_articles:
+                    self._storage.append_article(article, self.country, self.name)
+                articles_stats = {
+                    "articles_scraped": len(self.prefetched_articles),
+                    "articles_failed": 0,
+                    "total_attempted": len(self.prefetched_articles),
+                }
             else:
-                articles = await self.scrape_articles(thumbnails)
+                # Scrape articles with streaming writes
+                articles_stats = await self.scrape_articles(thumbnails)
 
-            # Save articles to structured JSONL file
-            saved_path = self._storage.save_articles(
-                articles, self.country, self.name
-            )
-            if saved_path:
-                self._saved_files["articles"] = saved_path
-
-            # Compile results - ensure all HttpUrl objects are converted to strings
+            # Compile results - serialize thumbnails for metadata
             try:
                 logger.info("Creating results dictionary...")
 
-                # Serialize thumbnails and articles first
+                # Serialize thumbnails for metadata
                 serialized_thumbnails = []
                 for i, thumb in enumerate(thumbnails):
                     try:
@@ -666,24 +688,6 @@ class NewspaperScraper:
                     except Exception as e:
                         logger.error(f"Failed to serialize thumbnail {i}: {e}")
                         logger.error(f"Thumbnail type: {type(thumb)}")
-                        logger.error(
-                            f"Thumbnail dict keys: {list(thumb.dict().keys()) if hasattr(thumb, 'dict') else 'No dict method'}"
-                        )
-                        raise
-
-                serialized_articles = []
-                for i, article in enumerate(articles):
-                    try:
-                        serialized_article = self._storage.serialize_for_json(
-                            article.model_dump()
-                        )
-                        serialized_articles.append(serialized_article)
-                    except Exception as e:
-                        logger.error(f"Failed to serialize article {i}: {e}")
-                        logger.error(f"Article type: {type(article)}")
-                        logger.error(
-                            f"Article dict keys: {list(article.dict().keys()) if hasattr(article, 'dict') else 'No dict method'}"
-                        )
                         raise
 
                 # Serialize failed URLs
@@ -694,11 +698,6 @@ class NewspaperScraper:
                 except Exception as e:
                     logger.error(f"Failed to serialize failed_urls: {e}")
                     logger.error(f"Failed URLs count: {len(self.failed_urls)}")
-                    for i, failed_url in enumerate(self.failed_urls):
-                        logger.error(f"Failed URL {i}: {failed_url}")
-                        logger.error(
-                            f"Failed URL {i} types: {[(k, type(v)) for k, v in failed_url.items()]}"
-                        )
                     raise
 
                 results = {
@@ -707,13 +706,15 @@ class NewspaperScraper:
                     "country": self.country,
                     "statistics": {
                         "thumbnails_found": len(thumbnails),
-                        "articles_scraped": len(articles),
+                        "articles_scraped": articles_stats.get("articles_scraped", 0),
+                        "articles_failed": articles_stats.get("articles_failed", 0),
                         "failed_urls": len(self.failed_urls),
                         "failed_news": len(self.failed_news),
                     },
                     "data": {
                         "thumbnails": serialized_thumbnails,
-                        "articles": serialized_articles,
+                        # Note: articles are now in CSV, not in memory
+                        "articles": "(streamed to CSV)",
                     },
                     "errors": serialized_errors,
                 }
@@ -748,37 +749,10 @@ class NewspaperScraper:
                     self._saved_files["metadata"] = saved_path
             except Exception as e:
                 logger.error(f"Failed to save metadata: {e}")
-                # Debug the structure to find HttpUrl objects
-                import json
-
-                logger.error("Debugging results structure:")
-                try:
-                    json.dumps(results)
-                    logger.error(
-                        "Results are JSON serializable - error might be elsewhere"
-                    )
-                except Exception as json_error:
-                    logger.error(f"Results JSON error: {json_error}")
-                    # Check each part of results
-                    for key, value in results.items():
-                        try:
-                            json.dumps({key: value})
-                            logger.error(f"✓ {key} is serializable")
-                        except Exception as part_error:
-                            logger.error(f"✗ {key} failed: {part_error}")
-                            logger.error(f"  Type: {type(value)}")
-                            if isinstance(value, dict):
-                                for subkey, subvalue in value.items():
-                                    try:
-                                        json.dumps({subkey: subvalue})
-                                    except:
-                                        logger.error(
-                                            f"    ✗ {subkey}: {type(subvalue)}"
-                                        )
                 raise
 
             logger.info(
-                f"Scraping completed for {self.name}: {len(articles)} articles scraped"
+                f"Scraping completed for {self.name}: {articles_stats.get('articles_scraped', 0)} articles scraped"
             )
             return results
 
@@ -792,7 +766,7 @@ class NewspaperScraper:
                 "statistics": {
                     "listing_urls": 0,
                     "thumbnails_found": len(self.scraped_thumbnails),
-                    "articles_scraped": len(self.scraped_articles),
+                    "articles_scraped": 0,
                     "failed_urls": len(self.failed_urls),
                     "failed_news": len(self.failed_news),
                 },
@@ -802,10 +776,11 @@ class NewspaperScraper:
 
     async def run_update_scrape(self) -> Dict[str, Any]:
         """
-        Run an update scraping operation.
+        Run an update scraping operation with streaming CSV writes.
 
         This mode scrapes all URLs but only processes articles that don't already exist
-        in the news.jsonl file, making it efficient for incremental updates.
+        in the news.csv file, making it efficient for incremental updates.
+        New articles are streamed to CSV as they are scraped.
 
         Returns:
             Dictionary with scraping results and statistics
@@ -859,14 +834,18 @@ class NewspaperScraper:
                 f"Filtered thumbnails: {len(new_thumbnails)} new, {skipped_count} already exist"
             )
 
-            # Step 4: Scrape only new articles
-            new_articles: List[ArticleRecord] = []
+            # Step 4: Stream new articles directly to CSV
+            new_articles_count = 0
+            new_articles_failed = 0
 
+            # Stream prefetched articles directly to CSV
             if new_prefetched_articles:
                 logger.info(
-                    f"Using {len(new_prefetched_articles)} prefetched articles from API JSON; skipping HTML scraping for these items"
+                    f"Using {len(new_prefetched_articles)} prefetched articles from API JSON; streaming to CSV"
                 )
-                new_articles.extend(new_prefetched_articles)
+                for article in new_prefetched_articles:
+                    self._storage.append_article(article, self.country, self.name)
+                    new_articles_count += 1
 
             # Identify thumbnails that still require HTML scraping
             remaining_thumbnails = [
@@ -876,70 +855,42 @@ class NewspaperScraper:
             ]
 
             if remaining_thumbnails:
-                scraped_articles = await self.scrape_articles(remaining_thumbnails)
+                # Scrape remaining articles with streaming writes
+                scrape_stats = await self.scrape_articles(remaining_thumbnails)
+                new_articles_count += scrape_stats.get("articles_scraped", 0)
+                new_articles_failed += scrape_stats.get("articles_failed", 0)
                 logger.info(
-                    f"Scraped {len(scraped_articles)} new articles from HTML pages"
+                    f"Scraped {scrape_stats.get('articles_scraped', 0)} new articles from HTML pages"
                 )
-                new_articles.extend(scraped_articles)
             elif not new_prefetched_articles:
                 logger.info("No new articles to scrape")
 
-            # Step 5: If we have new articles, append them to existing file
-            if new_articles:
-                # Load existing articles
-                existing_articles = (
-                    self._storage.load_existing_articles(
-                        self.country, self.name
-                    )
-                    or []
-                )
+            # Save thumbnails (all discovered thumbnails, not just new ones)
+            saved_path = self._storage.save_thumbnails_as_urls(
+                thumbnails, self.country, self.name
+            )
+            if saved_path:
+                self._saved_files["urls"] = saved_path
 
-                # Combine existing and new articles
-                all_articles = existing_articles + new_articles
-
-                # Save combined articles
-                saved_path = self._storage.save_articles(
-                    all_articles, self.country, self.name
-                )
-                if saved_path:
-                    self._saved_files["news"] = saved_path
-
-                # Save thumbnails (all discovered thumbnails, not just new ones)
-                saved_path = self._storage.save_thumbnails_as_urls(
-                    thumbnails, self.country, self.name
-                )
-                if saved_path:
-                    self._saved_files["urls"] = saved_path
-            else:
-                logger.info("No new articles to save")
+            # Mark articles file as saved (already streamed)
+            csv_path = self._storage.get_newspaper_dir(self.country, self.name) / "news.csv"
+            if csv_path.exists():
+                self._saved_files["articles"] = csv_path
 
             # Compile results - ensure all HttpUrl objects are converted to strings
             try:
                 logger.info("Creating update results dictionary...")
 
-                # Serialize thumbnails and new articles
+                # Serialize thumbnails for metadata
                 serialized_thumbnails = []
                 for i, thumb in enumerate(thumbnails):
                     try:
                         serialized_thumb = self._storage.serialize_for_json(
-                            thumb.dict()
+                            thumb.model_dump()
                         )
                         serialized_thumbnails.append(serialized_thumb)
                     except Exception as e:
                         logger.error(f"Failed to serialize thumbnail {i}: {e}")
-                        raise
-
-                serialized_new_articles = []
-                for i, article in enumerate(new_articles):
-                    try:
-                        serialized_article = self._storage.serialize_for_json(
-                            article.dict()
-                        )
-                        serialized_new_articles.append(serialized_article)
-                    except Exception as e:
-                        logger.error(
-                            f"Failed to serialize new article {i}: {e}"
-                        )
                         raise
 
                 # Serialize failed URLs
@@ -959,15 +910,17 @@ class NewspaperScraper:
                     "statistics": {
                         "thumbnails_found": len(thumbnails),
                         "existing_articles_skipped": skipped_count,
-                        "articles_scraped": len(new_articles),
+                        "articles_scraped": new_articles_count,
+                        "articles_failed": new_articles_failed,
                         "total_articles_after_update": len(existing_urls)
-                        + len(new_articles),
+                        + new_articles_count,
                         "failed_urls": len(self.failed_urls),
                         "failed_news": len(self.failed_news),
                     },
                     "data": {
                         "thumbnails": serialized_thumbnails,
-                        "new_articles": serialized_new_articles,
+                        # Note: new articles are now streamed to CSV
+                        "new_articles": "(streamed to CSV)",
                     },
                     "errors": serialized_errors,
                 }
@@ -1007,7 +960,7 @@ class NewspaperScraper:
                 raise
 
             logger.info(
-                f"Update scrape completed for {self.name}: {len(new_articles)} new articles added"
+                f"Update scrape completed for {self.name}: {new_articles_count} new articles added"
             )
             return results
 
@@ -1021,7 +974,7 @@ class NewspaperScraper:
                 "error": str(e),
                 "statistics": {
                     "thumbnails_found": len(self.scraped_thumbnails),
-                    "new_articles_scraped": len(self.scraped_articles),
+                    "new_articles_scraped": 0,
                     "failed_urls": len(self.failed_urls),
                     "failed_news": len(self.failed_news),
                 },

@@ -31,7 +31,7 @@ selectors:
 
 # Test/debug options
 max_pages: null
-max_articles: 50000
+max_articles: null
 
 cleaning:
   date: "handle_mixed_dates"
