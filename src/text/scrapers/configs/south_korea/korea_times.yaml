@@ -36,7 +36,9 @@ selectors:
     date: filler
     # date: ".views-field-field-first-publication .field-content::text"
   article:
-    body: div[data-article-content='true'] p
+    body: 
+      - div[data-article-content='true'] p
+      - div[data-testid="article-top-view"] figure figcaption::text
 
 # Data cleaning configuration
 cleaning:
