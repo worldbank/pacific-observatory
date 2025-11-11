@@ -104,6 +104,7 @@ class EPU:
                         "date" column converted to datetime, and a new "ym" column added.
         """
         df = pd.read_csv(filepath, encoding="utf-8")
+        df = df.drop_duplicates()
         df = df[~df.date.isna()].reset_index(drop=True)
         if subset_condition is not None:
             df = df.query(subset_condition).reset_index(drop=True)
@@ -215,7 +216,7 @@ class EPU:
             counts_df = self.calculate_news_and_epu_counts(file)
             ratios_df = self.calculate_ratios(counts_df)
             self.epu_stats = self.merge_data_frames(
-                self.epu_stats, ratios_df, source).fillna(0)
+                self.epu_stats, ratios_df, source)#.fillna(0)
 
         # Check for date integrity
         self.epu_stats["date"] = pd.to_datetime(

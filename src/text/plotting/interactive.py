@@ -7,7 +7,7 @@ from pathlib import Path
 
 # Countries to exclude from EPU and sentiment visualizations
 EXCLUDE_COUNTRIES = [
-    'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'pacific', 'palau',
+    'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'palau',
     'south_korea', 'singapore', 'thailand', 'timor_leste', 'tuvalu', 'vanuatu'
 ]
 
@@ -203,7 +203,7 @@ def gen_epu_html(countries, data_dir, out):
                             pointHoverRadius: 5
                         },
                         {
-                            label: 'EPU Weighted MA(3)',
+                            label: 'EPU Weighted Moving Average',
                             data: epuMA3,
                             borderColor: '#1d77b2',
                             borderWidth: 3,

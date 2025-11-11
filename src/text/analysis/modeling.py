@@ -447,7 +447,3 @@ if __name__ == '__main__':
     interaction_coefs_sorted = interaction_coefs.sort_values('Coefficient', key=abs, ascending=False)
     print("\nTop 20 interaction term coefficients:")
     print(interaction_coefs_sorted.head(20).to_string(index=False))
-
-    print("\n" + "="*70)
-    print("Analysis complete!")
-    print("="*70)
