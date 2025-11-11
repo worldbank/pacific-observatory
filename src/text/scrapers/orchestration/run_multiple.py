@@ -22,6 +22,7 @@ def run_scraper_subprocess(
     log_dir: Path,
     project_root: Path,
     dry_run: bool = False,
+    urls_from_scratch: bool = True,
 ) -> Optional[subprocess.Popen]:
     """
     Run a single scraper as a subprocess with nohup.
@@ -31,6 +32,7 @@ def run_scraper_subprocess(
         log_dir: Base directory for logs
         project_root: Project root directory
         dry_run: If True, print command without executing
+        urls_from_scratch: Whether to discover URLs from scratch (True) or load from urls.csv (False)
     
     Returns:
         Popen object if started, None if dry_run or error
@@ -53,6 +55,7 @@ def run_scraper_subprocess(
         str(project_root / "src" / "text" / "scrapers" / "orchestration" / "main.py"),
         newspaper,
         "--update",
+        "--urls-from-scratch", str(urls_from_scratch),
     ]
     
     if dry_run:
@@ -322,6 +325,7 @@ def run_multi_country_group_sequential(
     log_dir: Path,
     project_root: Path,
     dry_run: bool = False,
+    urls_from_scratch: bool = True,
 ) -> List[Dict[str, any]]:
     """
     Run a multi-country newspaper group sequentially.
@@ -334,6 +338,7 @@ def run_multi_country_group_sequential(
         log_dir: Base directory for logs
         project_root: Project root directory
         dry_run: If True, print command without executing
+        urls_from_scratch: Whether to discover URLs from scratch (True) or load from urls.csv (False)
     
     Returns:
         List of result dictionaries
@@ -344,7 +349,7 @@ def run_multi_country_group_sequential(
     results = []
     for config in group:
         print(f"      Starting {config['country']}/{config['newspaper']}...")
-        process = run_scraper_subprocess(config, log_dir, project_root, dry_run)
+        process = run_scraper_subprocess(config, log_dir, project_root, dry_run, urls_from_scratch)
         if process:
             # Wait for this scraper to complete before starting the next one
             group_results = monitor_processes([process])
@@ -358,6 +363,7 @@ def run_all_scrapers(
     project_root: Path,
     sequential: bool = False,
     dry_run: bool = False,
+    urls_from_scratch: bool = True,
 ) -> bool:
     """
     Run all newspaper scrapers with intelligent parallel/sequential execution.
@@ -370,6 +376,7 @@ def run_all_scrapers(
         project_root: Project root directory
         sequential: If True, run all scrapers sequentially (for debugging)
         dry_run: If True, print what would be executed without running
+        urls_from_scratch: Whether to discover URLs from scratch (True) or load from urls.csv (False)
     
     Returns:
         True if all scrapers succeeded, False if any failed
@@ -412,7 +419,7 @@ def run_all_scrapers(
             # Debug mode: run everything sequentially
             for config in single_country:
                 print(f"   Starting {config['country']}/{config['newspaper']}...")
-                process = run_scraper_subprocess(config, log_dir, project_root, dry_run)
+                process = run_scraper_subprocess(config, log_dir, project_root, dry_run, urls_from_scratch)
                 if process:
                     results = monitor_processes([process])
                     all_results.extend(results)
@@ -420,7 +427,7 @@ def run_all_scrapers(
             # Parallel mode: start all at once
             for config in single_country:
                 print(f"   Starting {config['country']}/{config['newspaper']}...")
-                process = run_scraper_subprocess(config, log_dir, project_root, dry_run)
+                process = run_scraper_subprocess(config, log_dir, project_root, dry_run, urls_from_scratch)
                 if process:
                     parallel_processes.append(process)
     
@@ -474,7 +481,7 @@ def run_all_scrapers(
         # Debug mode: run multi-country groups sequentially in main process
         print(f"\n🔗 Processing {len(multi_country)} multi-country newspaper group(s) sequentially...")
         for group in multi_country:
-            group_results = run_multi_country_group_sequential(group, log_dir, project_root, dry_run)
+            group_results = run_multi_country_group_sequential(group, log_dir, project_root, dry_run, urls_from_scratch)
             all_results.extend(group_results)
     
     # Monitor all processes (parallel + sequential) in unified display

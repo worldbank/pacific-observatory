@@ -32,6 +32,7 @@ async def run_single_scraper(
     storage_dir: Optional[Path] = None,
     save_results: bool = True,
     update_mode: bool = False,
+    urls_from_scratch: bool = True,
 ) -> dict:
     """
     Run a single newspaper scraper.
@@ -41,6 +42,7 @@ async def run_single_scraper(
         storage_dir: Optional custom storage directory
         save_results: Whether to save results to disk
         update_mode: Whether to run in update mode (skip existing articles)
+        urls_from_scratch: Whether to discover URLs from scratch (True) or load from urls.csv (False)
 
     Returns:
         Dictionary with scraping results
@@ -62,16 +64,22 @@ async def run_single_scraper(
             logger.info(
                 f"Starting UPDATE scrape for {scraper.name} ({scraper.country})"
             )
-        else:
+        elif urls_from_scratch:
             logger.info(
                 f"Starting FULL scrape for {scraper.name} ({scraper.country})"
+            )
+        else:
+            logger.info(
+                f"Starting scrape FROM URLS for {scraper.name} ({scraper.country})"
             )
         start_time = datetime.now()
 
         if update_mode:
             results = await scraper.run_update_scrape()
-        else:
+        elif urls_from_scratch:
             results = await scraper.run_full_scrape()
+        else:
+            results = await scraper.run_scrape_from_urls()
 
         end_time = datetime.now()
         duration = end_time - start_time
@@ -129,6 +137,7 @@ async def run_scraper_by_name(
     newspaper_name: str,
     country: str = None,
     update_mode: bool = False,
+    urls_from_scratch: bool = True,
     configs_dir: Path = None,
     project_root: Path = None,
     **kwargs,
@@ -140,6 +149,7 @@ async def run_scraper_by_name(
         newspaper_name: Name of the newspaper to scrape
         country: Optional country filter
         update_mode: Whether to run in update mode (skip existing articles)
+        urls_from_scratch: Whether to discover URLs from scratch (True) or load from urls.csv (False)
         configs_dir: Directory containing config files
         project_root: Project root directory for relative path display
         **kwargs: Additional arguments for the scraper
@@ -182,6 +192,7 @@ async def run_scraper_by_name(
             storage_dir=kwargs.get("storage_dir"),
             save_results=not kwargs.get("no_save", False),
             update_mode=update_mode,
+            urls_from_scratch=urls_from_scratch,
         )
 
         if results["success"]:

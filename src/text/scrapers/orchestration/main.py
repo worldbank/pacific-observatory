@@ -93,18 +93,20 @@ def main():
         epilog="""
 Examples:
   # Single scraper
-  python src/text/scrapers/orchestration/main.py sibc                    # Run SIBC scraper (full mode)
-  python src/text/scrapers/orchestration/main.py sibc --update           # Run SIBC scraper (update mode)
-  python src/text/scrapers/orchestration/main.py sibc --no-save          # Run without saving results
+  python src/text/scrapers/orchestration/main.py sibc                                # Run SIBC scraper (full mode)
+  python src/text/scrapers/orchestration/main.py sibc --update                       # Run SIBC scraper (update mode)
+  python src/text/scrapers/orchestration/main.py sibc --urls-from-scratch False      # Use cached URLs from urls.csv
+  python src/text/scrapers/orchestration/main.py sibc --no-save                      # Run without saving results
   
   # Multi-scraper runner
-  python src/text/scrapers/orchestration/main.py --run-all               # Run all scrapers in parallel
-  python src/text/scrapers/orchestration/main.py --run-all --sequential  # Run all scrapers sequentially
-  python src/text/scrapers/orchestration/main.py --run-all --dry-run     # Preview what would run
+  python src/text/scrapers/orchestration/main.py --run-all                           # Run all scrapers in parallel
+  python src/text/scrapers/orchestration/main.py --run-all --urls-from-scratch False # Run all with cached URLs
+  python src/text/scrapers/orchestration/main.py --run-all --sequential              # Run all scrapers sequentially
+  python src/text/scrapers/orchestration/main.py --run-all --dry-run                 # Preview what would run
   
   # List available scrapers
-  python src/text/scrapers/orchestration/main.py --list-scrapers         # List all available scrapers
-  python src/text/scrapers/orchestration/main.py --list-countries        # List all countries
+  python src/text/scrapers/orchestration/main.py --list-scrapers                     # List all available scrapers
+  python src/text/scrapers/orchestration/main.py --list-countries                    # List all countries
   
   # Automation (for future use)
   # Add to crontab: 0 2 * * * cd /path/to/project && poetry run python src/text/scrapers/orchestration/main.py --run-all
@@ -171,6 +173,13 @@ Examples:
         help="Run in update mode (scrape URLs but skip articles that already exist in news.jsonl)",
     )
 
+    parser.add_argument(
+        "--urls-from-scratch",
+        type=lambda x: x.lower() in ('true', '1', 'yes'),
+        default=True,
+        help="Discover URLs from scratch (True) or load from urls.csv (False). Default: True",
+    )
+
     # Logging options
     parser.add_argument(
         "--log-level",
@@ -202,6 +211,7 @@ Examples:
             project_root=project_root,
             sequential=args.sequential,
             dry_run=args.dry_run,
+            urls_from_scratch=args.urls_from_scratch,
         )
         sys.exit(0 if success else 1)
 
@@ -221,6 +231,7 @@ Examples:
                 newspaper_name=args.newspaper,
                 country=args.country,
                 update_mode=args.update,
+                urls_from_scratch=args.urls_from_scratch,
                 configs_dir=get_default_configs_dir(),
                 project_root=project_root,
                 storage_dir=args.storage_dir,

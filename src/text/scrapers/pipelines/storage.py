@@ -606,3 +606,64 @@ class CSVStorage:
                 f"Failed to get existing article URLs from {file_path}: {e}"
             )
             return set()
+
+    def load_urls_from_csv(
+        self, country: str, newspaper: str
+    ) -> Optional[List[ThumbnailRecord]]:
+        """
+        Load thumbnail URLs from urls.csv file.
+
+        Args:
+            country: Country code
+            newspaper: Newspaper name
+
+        Returns:
+            List of ThumbnailRecord objects if file exists, None otherwise
+        """
+        import pandas as pd
+        
+        # Get newspaper directory
+        newspaper_dir = self.get_newspaper_dir(country, newspaper)
+
+        # Check for urls.csv file
+        filename = "urls.csv"
+        file_path = newspaper_dir / filename
+
+        if not file_path.exists():
+            logger.warning(f"No URLs file found: {file_path}")
+            return None
+
+        try:
+            # Read CSV file
+            df = pd.read_csv(file_path, encoding="utf-8")
+            thumbnails = []
+            
+            for _, row in df.iterrows():
+                try:
+                    # Convert row to dictionary
+                    thumb_data = row.to_dict()
+                    
+                    # Handle NaN values
+                    thumb_data = {
+                        k: v if pd.notna(v) else None
+                        for k, v in thumb_data.items()
+                    }
+                    
+                    thumbnail = ThumbnailRecord(**thumb_data)
+                    thumbnails.append(thumbnail)
+                except Exception as row_error:
+                    logger.warning(
+                        f"Failed to parse thumbnail row in {file_path}: {row_error}"
+                    )
+                    continue
+
+            logger.info(
+                f"Loaded {len(thumbnails)} thumbnails from {file_path}"
+            )
+            return thumbnails
+
+        except Exception as e:
+            logger.error(
+                f"Failed to load URLs from {file_path}: {e}"
+            )
+            return None

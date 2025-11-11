@@ -982,6 +982,167 @@ class NewspaperScraper:
             # Ensure error results are also JSON serializable
             return self._storage.serialize_for_json(error_results)
 
+    async def run_scrape_from_urls(self) -> Dict[str, Any]:
+        """
+        Run scraping using pre-loaded URLs from urls.csv file.
+
+        This mode skips the expensive thumbnail discovery phase and uses
+        cached URLs from a previous scrape. Falls back to full discovery
+        if urls.csv doesn't exist.
+
+        Returns:
+            Dictionary with scraping results and statistics
+        """
+        logger.info(f"Starting scrape from URLs for {self.name} ({self.country})")
+
+        try:
+            # Initialize CSV file with headers before scraping
+            csv_path = self._storage.initialize_csv(self.country, self.name)
+            self._saved_files["articles"] = csv_path
+            logger.info(f"Initialized CSV file for streaming writes: {csv_path}")
+
+            # Step 1: Try to load URLs from urls.csv
+            thumbnails = self._storage.load_urls_from_csv(self.country, self.name)
+            
+            if thumbnails is None:
+                # Fall back to full discovery if urls.csv doesn't exist
+                logger.info(
+                    f"urls.csv not found for {self.name}. Falling back to full thumbnail discovery."
+                )
+                thumbnails = await self.discover_and_scrape_thumbnails()
+            else:
+                logger.info(
+                    f"Loaded {len(thumbnails)} URLs from urls.csv"
+                )
+
+            # Apply max_articles limit if set
+            if (
+                self.max_articles is not None
+                and len(thumbnails) > self.max_articles
+            ):
+                logger.info(
+                    f"Truncating thumbnails from {len(thumbnails)} to {self.max_articles} based on max_articles config"
+                )
+                thumbnails = thumbnails[: self.max_articles]
+
+            # Step 2: Build articles with streaming CSV writes
+            articles_stats = {}
+            if self.prefetched_articles:
+                logger.info(f"Using {len(self.prefetched_articles)} prefetched articles from API JSON; skipping HTML article scraping")
+                # Stream write prefetched articles to CSV
+                for article in self.prefetched_articles:
+                    self._storage.append_article(article, self.country, self.name)
+                articles_stats = {
+                    "articles_scraped": len(self.prefetched_articles),
+                    "articles_failed": 0,
+                    "total_attempted": len(self.prefetched_articles),
+                }
+            else:
+                # Scrape articles with streaming writes
+                articles_stats = await self.scrape_articles(thumbnails)
+
+            # Compile results - serialize thumbnails for metadata
+            try:
+                logger.info("Creating results dictionary...")
+
+                # Serialize thumbnails for metadata
+                serialized_thumbnails = []
+                for i, thumb in enumerate(thumbnails):
+                    try:
+                        serialized_thumb = self._storage.serialize_for_json(
+                            thumb.model_dump()
+                        )
+                        serialized_thumbnails.append(serialized_thumb)
+                    except Exception as e:
+                        logger.error(f"Failed to serialize thumbnail {i}: {e}")
+                        logger.error(f"Thumbnail type: {type(thumb)}")
+                        raise
+
+                # Serialize failed URLs
+                try:
+                    serialized_errors = self._storage.serialize_for_json(
+                        self.failed_urls
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to serialize failed_urls: {e}")
+                    logger.error(f"Failed URLs count: {len(self.failed_urls)}")
+                    raise
+
+                results = {
+                    "success": True,
+                    "newspaper": self.name,
+                    "country": self.country,
+                    "mode": "from_urls",
+                    "statistics": {
+                        "thumbnails_found": len(thumbnails),
+                        "articles_scraped": articles_stats.get("articles_scraped", 0),
+                        "articles_failed": articles_stats.get("articles_failed", 0),
+                        "failed_urls": len(self.failed_urls),
+                        "failed_news": len(self.failed_news),
+                    },
+                    "data": {
+                        "thumbnails": serialized_thumbnails,
+                        # Note: articles are now in CSV, not in memory
+                        "articles": "(streamed to CSV)",
+                    },
+                    "errors": serialized_errors,
+                }
+
+                logger.info("Results dictionary created successfully")
+
+            except Exception as e:
+                logger.error(f"Failed to create results dictionary: {e}")
+                raise
+
+            # Save failed URLs and news if any - let storage handle serialization
+            if self.failed_urls:
+                saved_path = self._storage.save_failed_urls(
+                    self.failed_urls, self.country, self.name
+                )
+                if saved_path:
+                    self._saved_files["failed_urls"] = saved_path
+
+            if self.failed_news:
+                saved_path = self._storage.save_failed_news(
+                    self.failed_news, self.country, self.name
+                )
+                if saved_path:
+                    self._saved_files["failed_news"] = saved_path
+
+            # Save metadata - let storage handle serialization
+            try:
+                saved_path = self._storage.save_metadata(
+                    results, self.country, self.name, metadata_type="from_urls"
+                )
+                if saved_path:
+                    self._saved_files["metadata"] = saved_path
+            except Exception as e:
+                logger.error(f"Failed to save metadata: {e}")
+                raise
+
+            logger.info(
+                f"Scraping from URLs completed for {self.name}: {articles_stats.get('articles_scraped', 0)} articles scraped"
+            )
+            return results
+
+        except Exception as e:
+            logger.error(f"Scraping from URLs failed for {self.name}: {e}")
+            error_results = {
+                "success": False,
+                "newspaper": self.name,
+                "country": self.country,
+                "mode": "from_urls",
+                "error": str(e),
+                "statistics": {
+                    "thumbnails_found": len(self.scraped_thumbnails),
+                    "articles_scraped": 0,
+                    "failed_urls": len(self.failed_urls),
+                    "failed_news": len(self.failed_news),
+                },
+            }
+            # Ensure error results are also JSON serializable
+            return self._storage.serialize_for_json(error_results)
+
     def _add_failed_url(
         self,
         url: Any,
