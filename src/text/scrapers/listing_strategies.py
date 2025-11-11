@@ -142,6 +142,7 @@ class PaginationStrategy(ListingStrategy):
         
         batch_number = 1
         total_pages_processed = 0
+        previous_batch_urls = set()
         
         while True:
             # Respect max_pages limit if set
@@ -163,6 +164,7 @@ class PaginationStrategy(ListingStrategy):
 
             # Generate batch of page URLs
             batch_urls = self.generate_page_urls(current_page, pages_to_fetch)
+            current_batch_urls = set(batch_urls)
             
             # Log batch start
             logger.info(f"Processing batch {batch_number}: pages {current_page}-{current_page + self.batch_size - 1}")
@@ -183,6 +185,11 @@ class PaginationStrategy(ListingStrategy):
                 logger.info(f"Batch {batch_number}: No thumbnails found. Stopping pagination.")
                 break
 
+            # Check if current batch URLs are the same as previous batch
+            if current_batch_urls == previous_batch_urls:
+                logger.info(f"Batch {batch_number}: Batch URLs identical to previous batch. Stopping pagination.")
+                break
+
             # Update counters
             total_pages_processed += len(successful_results)
             
@@ -195,6 +202,9 @@ class PaginationStrategy(ListingStrategy):
             # If we got fewer successful results than the batch size, we might be near the end
             if len(successful_results) < self.batch_size:
                 logger.info(f"Batch {batch_number}: Found {len(successful_results)}/{self.batch_size} pages. Might be near end of pagination.")
+            
+            # Store current batch URLs for next iteration comparison
+            previous_batch_urls = current_batch_urls
             
             # Move to next batch
             current_page += self.batch_size * self.step
