@@ -166,9 +166,11 @@ class CSVStorage:
         filename = "news.csv"
         file_path = newspaper_dir / filename
 
+        # Define CSV headers in the correct order
+        headers = ["url", "title", "date", "body", "tags", "source", "country", "_scraped_at"]
+
         # Convert article to dictionary
         article_dict = article.model_dump()
-        article_dict["_scraped_at"] = timestamp.isoformat()
         
         # Convert tags list to comma-separated string
         if isinstance(article_dict.get("tags"), list):
@@ -176,14 +178,19 @@ class CSVStorage:
         
         # Convert HttpUrl to string
         article_dict["url"] = str(article_dict["url"])
-
-        # Define CSV headers
-        headers = ["url", "title", "date", "body", "tags", "source", "country", "_scraped_at"]
+        
+        # Add timestamp
+        article_dict["_scraped_at"] = timestamp.isoformat()
+        
+        # Build row with only the fields in headers, in the correct order
+        row = {}
+        for header in headers:
+            row[header] = article_dict.get(header, "")
 
         # Append to CSV file
         with open(file_path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=headers)
-            writer.writerow(article_dict)
+            writer = csv.DictWriter(f, fieldnames=headers, restval="", extrasaction="ignore")
+            writer.writerow(row)
 
         return file_path
 
