@@ -41,12 +41,13 @@ class NewspaperScraper:
     other site-specific parameters.
     """
 
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: Dict[str, Any], urls_from_scratch: bool = True):
         """
         Initialize the newspaper scraper with configuration.
 
         Args:
             config: Configuration dictionary (validated against NewspaperConfig)
+            urls_from_scratch: Whether to discover URLs from scratch (True) or load from urls.csv (False)
         """
         # Validate configuration
         self.config = NewspaperConfig(**config)
@@ -59,6 +60,9 @@ class NewspaperScraper:
         # Store limits from config
         self.max_pages = self.config.max_pages
         self.max_articles = self.config.max_articles
+
+        # Store URL discovery preference
+        self.urls_from_scratch = urls_from_scratch
 
         # Initialize client based on configuration
         self.client_type = self.config.client
@@ -799,9 +803,20 @@ class NewspaperScraper:
             # Reset prefetched articles for this run
             self.prefetched_articles = []
 
-            # Step 2: Discover and scrape thumbnails (same as full scrape)
-            thumbnails = await self.discover_and_scrape_thumbnails()
-            logger.info(f"Discovered {len(thumbnails)} thumbnails")
+            # Step 2: Discover and scrape thumbnails (or load from cache)
+            if self.urls_from_scratch:
+                # Full discovery from scratch
+                thumbnails = await self.discover_and_scrape_thumbnails()
+                logger.info(f"Discovered {len(thumbnails)} thumbnails")
+            else:
+                # Try to load from urls.csv, fall back to discovery if not available
+                thumbnails = self._storage.load_urls_from_csv(self.country, self.name)
+                if thumbnails is None:
+                    logger.info("urls.csv not found. Falling back to full thumbnail discovery.")
+                    thumbnails = await self.discover_and_scrape_thumbnails()
+                    logger.info(f"Discovered {len(thumbnails)} thumbnails")
+                else:
+                    logger.info(f"Loaded {len(thumbnails)} thumbnails from urls.csv")
 
             # Apply max_articles limit if set
             if (

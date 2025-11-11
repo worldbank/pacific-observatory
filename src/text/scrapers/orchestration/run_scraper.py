@@ -52,7 +52,7 @@ async def run_single_scraper(
     try:
         # Create scraper from config file
         logger.info(f"Loading scraper configuration from: {config_path}")
-        scraper = create_scraper_from_file(config_path)
+        scraper = create_scraper_from_file(config_path, urls_from_scratch=urls_from_scratch)
 
         # Initialize storage if needed
         storage = None
