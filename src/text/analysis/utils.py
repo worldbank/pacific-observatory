@@ -126,7 +126,7 @@ def generate_continous_df(checked_df: pd.DataFrame,
     if "date" in checked_df.columns:
         checked_df["date"] = pd.to_datetime(checked_df["date"], format="mixed")
         checked_df = dates_df.merge(
-            checked_df, how="outer", on="date")#.fillna(0)
+            checked_df, how="left", on="date").fillna(0)
         return checked_df
     else:
         raise ValueError(
