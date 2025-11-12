@@ -6,9 +6,11 @@ Last modified:
 """
 import re
 import spacy
-from typing import List, Any
+from typing import List, Any, Dict, Union
 import pandas as pd
 from gensim.utils import simple_preprocess
+import json
+from pathlib import Path
 
 
 def is_in_word_list(row: str, terms: list) -> bool:
@@ -131,3 +133,43 @@ def generate_continous_df(checked_df: pd.DataFrame,
     else:
         raise ValueError(
             "cannot find `date` column in dataframe being checked.")
+
+
+def load_topics_words(
+    additional_name: Union[str, None] = None,
+) -> Dict[str, Union[List[str], Dict[str, List[str]]]]:
+    """
+    Load topic words from the topics_words.json configuration file.
+
+    Args:
+        additional_name (Union[str, None]): Optional name of additional topic category
+            (e.g., 'job', 'inflation'). If provided, returns only that category's terms.
+
+    Returns:
+        Dict containing:
+        - If additional_name is None: All topics with keys 'economic', 'policy', 'uncertainty', 'additional_terms'
+        - If additional_name is provided: Only the specified additional_terms category
+
+    Raises:
+        FileNotFoundError: If topics_words.json is not found.
+        KeyError: If additional_name is provided but not found in additional_terms.
+    """
+    config_path = Path(__file__).parent / "topics_words.json"
+
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"topics_words.json not found at {config_path}"
+        )
+
+    with open(config_path, "r", encoding="utf-8") as f:
+        topics_data = json.load(f)
+
+    if additional_name is None:
+        return topics_data
+    else:
+        if additional_name not in topics_data.get("additional_terms", {}):
+            raise KeyError(
+                f"additional_name '{additional_name}' not found in topics_words.json. "
+                f"Available options: {list(topics_data.get('additional_terms', {}).keys())}"
+            )
+        return topics_data["additional_terms"][additional_name]

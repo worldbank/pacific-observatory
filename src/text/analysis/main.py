@@ -12,7 +12,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.text.analysis.epu import EPU
 from src.text.analysis.sentiment import calculate_sentiment
-from src.text.analysis.utils import generate_continous_df
+from src.text.analysis.utils import generate_continous_df, load_topics_words
 from tqdm import tqdm
 
 DATA_ROOT = PROJECT_ROOT / "data" / "text"
@@ -139,73 +139,13 @@ def get_sentiment(
 if __name__ == "__main__":
     cutoff = "2020-12-31"
     subset_condition = "date >= '2015-01-01' and date < '2025-10-01'"
-    additional_terms_job = [
-        "job",
-        "labor",
-        "jobs",
-        "career",
-        "vacancies",
-        "vacancy",
-        "employment",
-        "salary",
-        "unemployment",
-        "full-time",
-        "part-time",
-        "contractual",
-        "freelance",
-        "remote work",
-        "gig",
-        "employed",
-        "resume",
-        "cv",
-        "cover letter",
-        "hiring",
-        "recruitment",
-        "unemployed",
-        "underemployed",
-        "self-employed",
-        "jobless",
-        "retired",
-        "layoffs",
-        "job application",
-        "occupation",
-        "soft skills" "hard skills",
-        "labor force",
-        "job market",
-        "minimum wage" "disabled worker",
-        "career advancement",
-        "workplace culture",
-        "retirement plans",
-        "maternity leave",
-        "paternity leave",
-    ]
+    
+    additional_terms_keys = ["inflation", "job"]
+    # Load additional terms from topics_words.json
+    additional_terms_job = load_topics_words(additional_name="job")
     additional_name_job = "job"
 
-    additional_terms_inflation = [
-        "inflation",
-        "cpi",
-        "price",
-        "expense",
-        "budget",
-        "income",
-        "demand",
-        "cost",
-        "supply",
-        "goods",
-        "food",
-        "tabcco",
-        "rent",
-        "salary",
-        "utilies",
-        "fuel",
-        "clothing",
-        "rice",
-        "noodle",
-        "flour",
-        "sugar",
-        "salt",
-        "consumer",
-    ]
+    additional_terms_inflation = load_topics_words(additional_name="inflation")
     additional_name_inflation = "inflation"
     plot = False
     for country in tqdm(country_dirs):
@@ -216,44 +156,29 @@ if __name__ == "__main__":
             subset_condition,
             plot=plot,
         )
-
-        get_epu(
-            country,
-            cutoff,
-            subset_condition,
-            plot=plot,
-            additional_terms=additional_terms_job,
-            additional_name=additional_name_job,
-        )
-        get_epu(
-            country,
-            cutoff,
-            subset_condition,
-            plot=plot,
-            additional_terms=additional_terms_inflation,
-            additional_name=additional_name_inflation,
-        )
-
         get_sentiment(
             country,
             cutoff,
             subset_condition,
             plot=plot,
         )
-
-        get_sentiment(
-            country,
-            cutoff,
-            subset_condition,
+        for names in additional_terms_keys:
+            additional_terms = load_topics_words(additional_name=names)
+            additional_name = names
+            get_epu(
+                country,
+                cutoff,
+                subset_condition,
             plot=plot,
-            additional_terms=additional_terms_job,
-            additional_name=additional_name_job,
-        )
-        get_sentiment(
-            country,
-            cutoff,
-            subset_condition,
-            plot=plot,
-            additional_terms=additional_terms_inflation,
-            additional_name=additional_name_inflation,
-        )
+            additional_terms=additional_terms,
+            additional_name=additional_name,
+            )
+            
+            get_sentiment(
+                country,
+                cutoff,
+                subset_condition,
+                plot=plot,
+                additional_terms=additional_terms,
+                additional_name=additional_name,
+            )

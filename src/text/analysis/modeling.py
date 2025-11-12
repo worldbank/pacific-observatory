@@ -63,7 +63,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 CPI_DATA_ROOT = PROJECT_ROOT / "data" / "auxiliary_data"
 EPU_DATA_ROOT = PROJECT_ROOT / "testing_outputs" / "text"
-TOPICS = ["inflation", "job"]
+TOPICS = ["inflation"]
 
 EXCLUDE_COUNTRIES = [
     'american_samoa', # No Data

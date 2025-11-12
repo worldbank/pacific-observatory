@@ -51,7 +51,7 @@ def group_monthly(data):
     data["date"] = data["date"].apply(lambda x: pd.to_datetime(str(x.year) + '-' + str(x.month).zfill(2) + '-01'))
     date_country_cols = ["date", "country"]
     sum_columns = [col for col in data.columns if "news_count" in col]
-    mean_columns = ["epu_weighted", "epu_unweighted", "epu_inflation", "epu_job", "sentiment_score", "sentiment_z_score"]
+    mean_columns = [col for col in data.columns if ("epu_" in col) | ("sentiment_" in col)]
     sum_data = data[date_country_cols + sum_columns].groupby(date_country_cols).sum()
     mean_data = data[date_country_cols + mean_columns].groupby(date_country_cols).mean()
     data = pd.concat([sum_data, mean_data], axis=1)

@@ -53,44 +53,13 @@ import re
 from typing import List, Union
 import pandas as pd
 import numpy as np
-from .utils import is_in_word_list, generate_continous_df
+from .utils import is_in_word_list, generate_continous_df, load_topics_words
 
-
-ECON_LIST = ["economy", "economic", "business", "finance", "financial"]
-
-POLICY_LIST = [
-    "government",
-    "governmental",
-    "authority",
-    "authorities",
-    "minister",
-    "ministry",
-    "parliament",
-    "parliamentary",
-    "tax",
-    "regulation",
-    "legislation",
-    "central bank",
-    "imf",
-    "international monetary fund",
-    "world bank",
-]
-
-UNCERTAINTY_LIST = [
-    "uncertain",
-    "uncertainty",
-    "uncertainties",
-    "unknown",
-    "unstable",
-    "unsure",
-    "undetermined",
-    "risky",
-    "risk",
-    "not certain",
-    "non-reliable",
-    "fluctuations",
-    "unpredictable",
-]
+# Load topic words from configuration file
+_topics_data = load_topics_words()
+ECON_LIST = _topics_data["economic"]
+POLICY_LIST = _topics_data["policy"]
+UNCERTAINTY_LIST = _topics_data["uncertainty"]
 
 
 class EPU:
