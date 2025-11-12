@@ -1,8 +1,8 @@
 import pandas as pd
 
-def read_epu_files(data_dir, countries):
+def read_epu_files(data_dir, countries_slugs):
     epu_list = []
-    for country in countries:
+    for country in countries_slugs:
         epu_file = data_dir / f"{country}/epu/{country}_epu.csv"
         epu = pd.read_csv(epu_file)
         epu["date"] = pd.to_datetime(epu["date"], format="mixed")
@@ -14,9 +14,9 @@ def read_epu_files(data_dir, countries):
         epu_list.append(epu)
     return pd.concat(epu_list).reset_index(drop=True)
 
-def read_epu_topics_files(data_dir, topics, countries):
+def read_epu_topics_files(data_dir, topics, countries_slugs):
     epu_list = []
-    for country in countries:
+    for country in countries_slugs:
         epu_topics_list = []
         for topic in topics:
             epu_topics_file = data_dir / f"{country}/epu/{country}_epu_{topic}.csv"
@@ -33,9 +33,9 @@ def read_epu_topics_files(data_dir, topics, countries):
         epu_list.append(topic_output)
     return pd.concat(epu_list).reset_index()
 
-def read_sentiment_files(data_dir, countries):
+def read_sentiment_files(data_dir, countries_slugs):
     sentiment_list = []
-    for country in countries:
+    for country in countries_slugs:
         sentiment_file = data_dir / f"{country}/sentiment/{country}_sentiment.csv"
         sentiment = pd.read_csv(sentiment_file)
         sentiment["date"] = pd.to_datetime(sentiment["date"], format="mixed")

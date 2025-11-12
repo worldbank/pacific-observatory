@@ -61,9 +61,9 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-CPI_DATA_ROOT = PROJECT_ROOT / "data" / "auxiliary_data"
+CPI_DATA_ROOT = PROJECT_ROOT / "data" / "cpi"
 EPU_DATA_ROOT = PROJECT_ROOT / "testing_outputs" / "text"
-TOPICS = ["inflation"]
+TOPICS = ["inflation", "job"]
 
 EXCLUDE_COUNTRIES = [
     'american_samoa', # No Data
@@ -107,8 +107,8 @@ def prepare_epu_data(countries):
             sentiment.set_index(['date', 'country'])
             ).reset_index()
     df = group_monthly(df)
-    # Create country ID
 
+    df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d')
     # Create period variable (months since Jan 2015)
     df['period'] = (df['date'].dt.year - 2015) * 12 + df['date'].dt.month - 1
 
@@ -127,7 +127,8 @@ def prepare_cpi(countries_slugs):
     countries_list = countries["iso3"].tolist()
     country_map = countries.set_index("iso3")["slug"].to_dict()
     cpi = get_cpi_data(countries_list).rename(columns={"value": "cpi"})
-    cpi = cpi.rename(columns={"COUNTRY": "country"})
+    cpi['date'] = pd.to_datetime(cpi['date'], format='%Y-%m-%d')
+    cpi["country"] = cpi["COUNTRY"].map(country_map)
     cpi['country_id'] = pd.factorize(cpi['country'])[0] + 1
     # Calculate inflation rates
     col_prefix = 'cpi'
@@ -142,8 +143,7 @@ def prepare_cpi(countries_slugs):
     ma3_vars = [col for col in cpi.columns if 'inflation' in col]
     for var in ma3_vars:
         if var in cpi.columns and not var.endswith('_ma3'):
-            cpi[f'{var}_ma3'] = cpi.groupby('country_id')[var].transform(lambda x: x.rolling(window=3, center=True).mean())
-    cpi['country'] = cpi['country'].map(country_map)
+            cpi[f'{var}_ma3'] = cpi.groupby('country_id')[var].transform(lambda x: x.rolling(window=3).mean())
     cpi = cpi[["country", "country_id", 'date', 'cpi', 'l1_cpi', 'cpi_inflation', 'cpi_inflation_ma3']]
     return cpi
 
@@ -256,7 +256,6 @@ if __name__ == '__main__':
     ).reset_index()
     df = df.sort_values(['country', 'date']).reset_index(drop=True)
     pd.set_option('display.max_columns', 99)
-    print(df.tail(50))
     # ============================================================================
     # SECTION 1: ALL COUNTRIES ANALYSIS WITH INTERACTION TERMS
     # ============================================================================

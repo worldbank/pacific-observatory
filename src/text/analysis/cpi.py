@@ -6,51 +6,57 @@ from typing import Union, List, Dict, Tuple, Optional
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import re
-import sys
+import sys, os
 from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 
-DATA_ROOT = PROJECT_ROOT / "data" / "auxiliary_data"
+DATA_ROOT = PROJECT_ROOT / "data" / "cpi"
+os.makedirs(DATA_ROOT, exist_ok=True)
 
-def get_cpi_data(
-    country: Union[List, str], frequency: Union["M", "Q", "Y"] = "M", start_period: int = 2014, component: str = "_T"
+def _get_country_cpi_data(
+    country: str, frequency: Union["M", "Q", "Y"] = "M", start_period: int = 2012, component: str = "_T"
 ) -> pd.DataFrame:
     IMF_DATA = sdmx.Client("IMF_DATA")
-    if isinstance(country, list):
-        output = []
-        for c in country:
-            try:
-                data_msg = IMF_DATA.data(
-                    "CPI",
-                    key=f"{c}.CPI.{component}.IX.{frequency}",
-                    params={"startPeriod": start_period},
-                )
-                cpi_df = sdmx.to_pandas(data_msg).dropna()
-                output.append(cpi_df.reset_index())
-            except Exception as e:
-                print(f"Error for {c}: {e}")
-                continue
-        output = pd.concat(output).reset_index(drop=True)
-
-    elif isinstance(country, str):
-        try:
-            data_msg = IMF_DATA.data(
-                "CPI",
-                key=f"{country}.CPI.{component}.IX.{frequency}",
-                params={"startPeriod": start_period},
+    try:
+        data_msg = IMF_DATA.data(
+            "CPI",
+            key=f"{country}.CPI.{component}.IX.{frequency}",
+            params={"startPeriod": start_period},
             )
-            output = sdmx.to_pandas(data_msg).dropna()
-        except Exception as e:
-            print(f"Error for {country}: {e}")
-            return None
-    output['date'] = pd.to_datetime(output['TIME_PERIOD'], format='%Y-M%m')
-    return output
+        output = sdmx.to_pandas(data_msg).dropna().reset_index()
+        output['date'] = pd.to_datetime(output['TIME_PERIOD'], format='%Y-M%m')
+        
+        output.to_csv(DATA_ROOT / f"{country}.cpi.{frequency}.csv", index=False)
+        return output
+    except Exception as e:
+        print(f"Error for {country}: {e}")
+        return None
 
-
-
+def get_cpi_data(
+    country: Union[List, str], frequency: Union["M", "Q", "Y"] = "M", start_period: int = 2012, component: str = "_T"
+) -> pd.DataFrame:
+    output = []
+    if isinstance(country, list):
+        for c in country:
+            csv_path = DATA_ROOT / f"{c}.cpi.{frequency}.csv"
+            if os.path.exists(csv_path):
+                data = pd.read_csv(csv_path)
+                output.append(data)
+            else:
+                data = _get_country_cpi_data(c, frequency, start_period, component)
+                output.append(data)
+    else:
+        csv_path = DATA_ROOT / f"{country}.cpi.{frequency}.csv"
+        if os.path.exists(csv_path):
+            data = pd.read_csv(csv_path)
+            output.append(data)
+        else:
+            data = _get_country_cpi_data(country, frequency, start_period, component)
+            output.append(data)
+    return pd.concat(output).reset_index(drop=True)
 
 def analyze_cpi_by_frequency(countries: List[str]) -> Dict:
     """
