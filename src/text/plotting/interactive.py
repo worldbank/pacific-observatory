@@ -69,6 +69,16 @@ def load_pred(country, data_dir):
     df["date"] = pd.to_datetime(df["date"], format="mixed")
     return df.sort_values("date")
 
+
+def load_oob_pred(country, data_dir):
+    """Load out-of-bag inflation prediction data for a country"""
+    f = data_dir / f"{country}/lasso_preds_oob/predictions_oob.csv"
+    if not f.exists():
+        return None
+    df = pd.read_csv(f)
+    df["date"] = pd.to_datetime(df["date"], format="mixed")
+    return df.sort_values("date")
+
 def df_to_json(df):
     """Convert DataFrame to JSON-serializable list of dictionaries"""
     data = []
@@ -648,6 +658,109 @@ def gen_pred_html(countries, data_dir, out):
         ))
     print(f"Created {out}")
 
+
+def gen_oob_pred_html(countries, data_dir, out):
+    """Generate out-of-bag inflation prediction vs actual visualization"""
+    countries = sorted([c for c in countries if c not in EXCLUDE_PREDS])
+    all_data = {
+        c: df_to_json(load_oob_pred(c, data_dir))
+        for c in countries
+        if load_oob_pred(c, data_dir) is not None
+    }
+    if not all_data:
+        return
+    
+    # JavaScript code for out-of-bag inflation prediction chart rendering
+    script = """
+        // Format date from YYYY-MM-DD to YYYY-MM
+        function formatDate(d) {
+            const date = new Date(d);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        }
+
+        // Render chart for selected country
+        function renderChart(country) {
+            const data = allData[country];
+            if (!data || !data.length) return;
+
+            // Extract date labels and inflation values
+            const labels = data.map(r => formatDate(r.date));
+            const predictedInflation = data.map(r => r.predicted_inflation);
+            const actualInflation = data.map(r => r.actual_inflation);
+
+            // Get canvas context and destroy previous chart if exists
+            const ctx = document.getElementById('chart').getContext('2d');
+            if (currentChart) currentChart.destroy();
+
+            // Create new line chart comparing predicted vs actual inflation
+            currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Predicted Inflation (OOB)',
+                            data: predictedInflation,
+                            borderColor: '#ff6b6b',  // Red
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 0,
+                            pointHoverRadius: 5
+                        },
+                        {
+                            label: 'Actual Inflation',
+                            data: actualInflation,
+                            borderColor: '#43a5e3',  // Blue
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 0,
+                            pointHoverRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { usePointStyle: true, padding: 15 }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12
+                        }
+                    },
+                    scales: {
+                        x: { display: true, title: { display: true, text: 'Date' } },
+                        y: { display: true, title: { display: true, text: 'Inflation Rate' } }
+                    }
+                }
+            });
+        }
+
+        // Event listener: re-render chart when country selection changes
+        document.getElementById('country-select').addEventListener('change', e => renderChart(e.target.value));
+
+        // Initial chart render with first country
+        renderChart(document.getElementById('country-select').value);
+    """
+    
+    with open(out, 'w') as f:
+        f.write(gen_html(
+            "Out-of-Bag Predictions",
+            "Model Predictions on Unseen Countries vs Actual Inflation",
+            "oob-pred-chart",
+            all_data,
+            countries,
+            script
+        ))
+    print(f"Created {out}")
+
 if __name__ == '__main__':
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
     DATA_DIR = PROJECT_ROOT / "testing_outputs" / "text"
@@ -660,4 +773,5 @@ if __name__ == '__main__':
     gen_sentiment_html(countries, DATA_DIR, OUTPUT_DIR / "sentiment_pic.html")
     gen_news_html(countries, DATA_DIR, OUTPUT_DIR / "news_count_pic.html")
     gen_pred_html(countries, DATA_DIR, OUTPUT_DIR / "train_predictions_pic.html")
+    gen_oob_pred_html(countries, DATA_DIR, OUTPUT_DIR / "out_of_bag_predictions_pic.html")
     print("All plots generated successfully!")

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Out-of-Bag Predictions</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 15px;
+            background: #fff;
+        }
+        .controls {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95em;
+        }
+        select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            background: #fff;
+        }
+        select:hover { border-color: #667eea; }
+        select:focus { outline: 0; border-color: #667eea; }
+        .chart-wrapper { position: relative; height: 350px; }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <label for="country-select">Country:</label>
+        <select id="country-select"><option value="vietnam">Vietnam</option></select>
+    </div>
+    <div class="chart-wrapper">
+        <canvas id="chart"></canvas>
+    </div>
+    <script>
+        const allData = {"vietnam": [{"date": "2015-01-01", "actual_inflation": -0.2366666666666367, "predicted_inflation": null}, {"date": "2015-02-01", "actual_inflation": -0.1633333333333362, "predicted_inflation": null}, {"date": "2015-03-01", "actual_inflation": -0.0333333333333535, "predicted_inflation": 0.0055925132467306}, {"date": "2015-04-01", "actual_inflation": 0.0800000000000111, "predicted_inflation": 0.1107425517189459}, {"date": "2015-05-01", "actual_inflation": 0.1500000000000005, "predicted_inflation": 0.1848419449104644}, {"date": "2015-06-01", "actual_inflation": 0.2166666666666398, "predicted_inflation": 0.2217276156171734}, {"date": "2015-07-01", "actual_inflation": 0.2133333333333715, "predicted_inflation": 0.2708895632144029}, {"date": "2015-08-01", "actual_inflation": 0.1366666666665717, "predicted_inflation": 0.2422958852720817}, {"date": "2015-09-01", "actual_inflation": -0.0499999999999556, "predicted_inflation": 0.153478654131951}, {"date": "2015-10-01", "actual_inflation": -0.0566666666666959, "predicted_inflation": -0.0150284876215784}, {"date": "2015-11-01", "actual_inflation": -0.0099333333332427, "predicted_inflation": 0.0452906892295746}, {"date": "2015-12-01", "actual_inflation": 0.0656333333333123, "predicted_inflation": 0.1076983378669822}, {"date": "2016-01-01", "actual_inflation": 0.02836666666663, "predicted_inflation": 0.1524762788558228}, {"date": "2016-02-01", "actual_inflation": 0.1447000000000963, "predicted_inflation": 0.0881395844826046}, {"date": "2016-03-01", "actual_inflation": 0.3289666666668536, "predicted_inflation": 0.2209067248519625}, {"date": "2016-04-01", "actual_inflation": 0.4411666666665828, "predicted_inflation": 0.3913290830302597}, {"date": "2016-05-01", "actual_inflation": 0.481699999999996, "predicted_inflation": 0.4439558758141938}, {"date": "2016-06-01", "actual_inflation": 0.4466999999998864, "predicted_inflation": 0.4432418814531063}, {"date": "2016-07-01", "actual_inflation": 0.3777666666667887, "predicted_inflation": 0.3947375038650209}, {"date": "2016-08-01", "actual_inflation": 0.2316333333333943, "predicted_inflation": 0.3388737599118047}, {"date": "2016-09-01", "actual_inflation": 0.2578333333333649, "predicted_inflation": 0.2115874125065887}, {"date": "2016-10-01", "actual_inflation": 0.4924333333333168, "predicted_inflation": 0.2810481553669288}, {"date": "2016-11-01", "actual_inflation": 0.6185333333332733, "predicted_inflation": 0.5168698599166368}, {"date": "2016-12-01", "actual_inflation": 0.513333333333197, "predicted_inflation": 0.5653754511279542}, {"date": "2017-01-01", "actual_inflation": 0.3882000000000605, "predicted_inflation": 0.4142325368725191}, {"date": "2017-02-01", "actual_inflation": 0.3058999999999239, "predicted_inflation": 0.3211855458805338}, {"date": "2017-03-01", "actual_inflation": 0.2994000000001727, "predicted_inflation": 0.2847767388947845}, {"date": "2017-04-01", "actual_inflation": 0.1483333333332764, "predicted_inflation": 0.3089611584697083}, {"date": "2017-05-01", "actual_inflation": -0.1054143290909497, "predicted_inflation": 0.1457773487203748}, {"date": "2017-06-01", "actual_inflation": -0.231780995757858, "predicted_inflation": -0.0845883567576964}, {"date": "2017-07-01", "actual_inflation": -0.1962809957576547, "predicted_inflation": -0.1357550361941626}, {"date": "2017-08-01", "actual_inflation": 0.2852666666665181, "predicted_inflation": -0.0535976222538222}, {"date": "2017-09-01", "actual_inflation": 0.53966666666666, "predicted_inflation": 0.4581694796909401}, {"date": "2017-10-01", "actual_inflation": 0.640966666666592, "predicted_inflation": 0.5649664537906187}, {"date": "2017-11-01", "actual_inflation": 0.3790666666668534, "predicted_inflation": 0.5764897487545422}, {"date": "2017-12-01", "actual_inflation": 0.2505000000001237, "predicted_inflation": 0.2633659947454013}, {"date": "2018-01-01", "actual_inflation": 0.2820000000001208, "predicted_inflation": 0.2112666760342693}, {"date": "2018-02-01", "actual_inflation": 0.4805666666664714, "predicted_inflation": 0.3011819737720878}, {"date": "2018-03-01", "actual_inflation": 0.3220666666668165, "predicted_inflation": 0.5028017569986112}, {"date": "2018-04-01", "actual_inflation": 0.1805000000000811, "predicted_inflation": 0.2697657718262419}, {"date": "2018-05-01", "actual_inflation": 0.1209333333335689, "predicted_inflation": 0.1679197389650374}, {"date": "2018-06-01", "actual_inflation": 0.4134666666667388, "predicted_inflation": 0.1460871643867656}, {"date": "2018-07-01", "actual_inflation": 0.3554666666667516, "predicted_inflation": 0.4813040940051512}, {"date": "2018-08-01", "actual_inflation": 0.3233333333333696, "predicted_inflation": 0.3282122715335154}, {"date": "2018-09-01", "actual_inflation": 0.3183333333333336, "predicted_inflation": 0.323982915099165}, {"date": "2018-10-01", "actual_inflation": 0.4590666666664802, "predicted_inflation": 0.3348426481023939}, {"date": "2018-11-01", "actual_inflation": 0.2122333333333134, "predicted_inflation": 0.4820634712156184}, {"date": "2018-12-01", "actual_inflation": -0.0701666666666658, "predicted_inflation": 0.1596236272940041}, {"date": "2019-01-01", "actual_inflation": -0.1479666666663857, "predicted_inflation": -0.0673100829038683}, {"date": "2019-02-01", "actual_inflation": 0.2153666666665717, "predicted_inflation": -0.0505396932840991}, {"date": "2019-03-01", "actual_inflation": 0.2300666666666623, "predicted_inflation": 0.3590869722896581}, {"date": "2019-04-01", "actual_inflation": 0.300566666666493, "predicted_inflation": 0.2617694721339972}, {"date": "2019-05-01", "actual_inflation": 0.1976999999999846, "predicted_inflation": 0.3255998040153064}, {"date": "2019-06-01", "actual_inflation": 0.236833333333294, "predicted_inflation": 0.2048729393621522}, {"date": "2019-07-01", "actual_inflation": 0.1941333333334265, "predicted_inflation": 0.2842296527112773}, {"date": "2019-08-01", "actual_inflation": 0.1231666666666602, "predicted_inflation": 0.225912304896414}, {"date": "2019-09-01", "actual_inflation": 0.2589999999998979, "predicted_inflation": 0.1644089759888117}, {"date": "2019-10-01", "actual_inflation": 0.3935000000000106, "predicted_inflation": 0.3252005829544339}, {"date": "2019-11-01", "actual_inflation": 0.6210000000000258, "predicted_inflation": 0.4257108442635343}, {"date": "2019-12-01", "actual_inflation": 0.9822333333332812, "predicted_inflation": 0.6235495107493627}, {"date": "2020-01-01", "actual_inflation": 1.198133333333346, "predicted_inflation": 0.9340190630583556}, {"date": "2020-02-01", "actual_inflation": 0.8216000000000326, "predicted_inflation": 1.0295097686268446}, {"date": "2020-03-01", "actual_inflation": 0.1162000000000437, "predicted_inflation": 0.5457151621905981}, {"date": "2020-04-01", "actual_inflation": -0.8090333333335842, "predicted_inflation": -0.0928979814388532}, {"date": "2020-05-01", "actual_inflation": -0.7634333333332362, "predicted_inflation": -0.8312039139817504}, {"date": "2020-06-01", "actual_inflation": -0.3048999999999329, "predicted_inflation": -0.4740704263960563}, {"date": "2020-07-01", "actual_inflation": 0.3424999999999968, "predicted_inflation": 6.564845434431366e-06}, {"date": "2020-08-01", "actual_inflation": 0.3773333333330932, "predicted_inflation": 0.5366316176818127}, {"date": "2020-09-01", "actual_inflation": 0.1993666666664434, "predicted_inflation": 0.3630601106471631}, {"date": "2020-10-01", "actual_inflation": 0.0948999999999592, "predicted_inflation": 0.1749599411506363}, {"date": "2020-11-01", "actual_inflation": 0.0673333333333257, "predicted_inflation": 0.117166921672927}, {"date": "2020-12-01", "actual_inflation": 0.0601000000000086, "predicted_inflation": 0.1232593289694042}, {"date": "2021-01-01", "actual_inflation": 0.0522666666666587, "predicted_inflation": 0.1239619370692626}, {"date": "2021-02-01", "actual_inflation": 0.5611000000000188, "predicted_inflation": 0.1203275280512416}, {"date": "2021-03-01", "actual_inflation": 0.4376000000000035, "predicted_inflation": 0.6674618375361334}, {"date": "2021-04-01", "actual_inflation": 0.4040333333333339, "predicted_inflation": 0.3588214651966969}, {"date": "2021-05-01", "actual_inflation": -0.0491999999999976, "predicted_inflation": 0.3653567556768616}, {"date": "2021-06-01", "actual_inflation": 0.1024999999999779, "predicted_inflation": -0.1080336998191358}, {"date": "2021-07-01", "actual_inflation": 0.3227333333333457, "predicted_inflation": 0.2074848194232508}, {"date": "2021-08-01", "actual_inflation": 0.3525666666666687, "predicted_inflation": 0.3858778958847706}, {"date": "2021-09-01", "actual_inflation": 0.084933333333339, "predicted_inflation": 0.3231302840632182}, {"date": "2021-10-01", "actual_inflation": -0.190233333333332, "predicted_inflation": 0.0188666773444867}, {"date": "2021-11-01", "actual_inflation": -0.1659000000000074, "predicted_inflation": -0.1791106768382789}, {"date": "2021-12-01", "actual_inflation": -0.02126666666665, "predicted_inflation": -0.052899296551626}, {"date": "2022-01-01", "actual_inflation": 0.1102999999998584, "predicted_inflation": 0.0977740828884571}, {"date": "2022-02-01", "actual_inflation": 0.3374666666666762, "predicted_inflation": 0.1930547673963068}, {"date": "2022-03-01", "actual_inflation": 0.6318999999999799, "predicted_inflation": 0.4010398129891271}, {"date": "2022-04-01", "actual_inflation": 0.629500000000155, "predicted_inflation": 0.6490555510479239}, {"date": "2022-05-01", "actual_inflation": 0.4213333333333014, "predicted_inflation": 0.5369566308897147}, {"date": "2022-06-01", "actual_inflation": 0.4159000000000024, "predicted_inflation": 0.3158539797128251}, {"date": "2022-07-01", "actual_inflation": 0.4861999999999972, "predicted_inflation": 0.3842678363483427}, {"date": "2022-08-01", "actual_inflation": 0.3619000000000265, "predicted_inflation": 0.4622341699550722}, {"date": "2022-09-01", "actual_inflation": 0.2661333333333364, "predicted_inflation": 0.3027133347112214}, {"date": "2022-10-01", "actual_inflation": 0.1827666666666666, "predicted_inflation": 0.2386749038856289}, {"date": "2022-11-01", "actual_inflation": 0.3101666666666795, "predicted_inflation": 0.1827417397085969}, {"date": "2022-12-01", "actual_inflation": 0.1733000000000238, "predicted_inflation": 0.3536644851101738}, {"date": "2023-01-01", "actual_inflation": 0.2966666666666591, "predicted_inflation": 0.1607838584813841}, {"date": "2023-02-01", "actual_inflation": 0.3172333333333304, "predicted_inflation": 0.3461908727403106}, {"date": "2023-03-01", "actual_inflation": 0.2460999999999962, "predicted_inflation": 0.324990269602958}, {"date": "2023-04-01", "actual_inflation": -0.0398333333333311, "predicted_inflation": 0.2463035554235931}, {"date": "2023-05-01", "actual_inflation": -0.1869666666666873, "predicted_inflation": -0.0402999515121194}, {"date": "2023-06-01", "actual_inflation": -0.0225333333333443, "predicted_inflation": -0.1047290155545966}, {"date": "2023-07-01", "actual_inflation": 0.243233333333342, "predicted_inflation": 0.1241090822213531}, {"date": "2023-08-01", "actual_inflation": 0.5344333333333252, "predicted_inflation": 0.3532267848317118}, {"date": "2023-09-01", "actual_inflation": 0.8052666666666727, "predicted_inflation": 0.5714624768503999}, {"date": "2023-10-01", "actual_inflation": 0.6810666666666827, "predicted_inflation": 0.7572947247117505}, {"date": "2023-11-01", "actual_inflation": 0.470200000000013, "predicted_inflation": 0.5264268169022379}, {"date": "2023-12-01", "actual_inflation": 0.1488333333333132, "predicted_inflation": 0.3544189386571389}, {"date": "2024-01-01", "actual_inflation": 0.2252336581238822, "predicted_inflation": 0.0819174072950642}, {"date": "2024-02-01", "actual_inflation": 0.4881669914572261, "predicted_inflation": 0.2832760889365252}, {"date": "2024-03-01", "actual_inflation": 0.3720336581239025, "predicted_inflation": 0.5310617739813424}, {"date": "2024-04-01", "actual_inflation": 0.2925999999999786, "predicted_inflation": 0.3157994765776165}, {"date": "2024-05-01", "actual_inflation": -0.0375333333333431, "predicted_inflation": 0.2655167225969745}, {"date": "2024-06-01", "actual_inflation": 0.0951000000000125, "predicted_inflation": -0.058856905528061}, {"date": "2024-07-01", "actual_inflation": 0.2291666666666925, "predicted_inflation": 0.1895545879453601}, {"date": "2024-08-01", "actual_inflation": 0.2133000000000258, "predicted_inflation": 0.2894676662670863}, {"date": "2024-09-01", "actual_inflation": 0.2532000000000094, "predicted_inflation": 0.2259740762198392}, {"date": "2024-10-01", "actual_inflation": 0.2058333333333191, "predicted_inflation": 0.2677680595771416}, {"date": "2024-11-01", "actual_inflation": 0.2485666666666763, "predicted_inflation": 0.2068022999644171}, {"date": "2024-12-01", "actual_inflation": 0.2492000000000032, "predicted_inflation": 0.2658885480955961}, {"date": "2025-01-01", "actual_inflation": 0.4652000000000081, "predicted_inflation": 0.2672493814477809}, {"date": "2025-02-01", "actual_inflation": 0.5356333333333163, "predicted_inflation": 0.495301625875252}, {"date": "2025-03-01", "actual_inflation": 0.4312999999999908, "predicted_inflation": 0.4976491403466994}, {"date": "2025-04-01", "actual_inflation": null, "predicted_inflation": null}, {"date": "2025-05-01", "actual_inflation": null, "predicted_inflation": null}, {"date": "2025-06-01", "actual_inflation": null, "predicted_inflation": null}, {"date": "2025-07-01", "actual_inflation": null, "predicted_inflation": null}, {"date": "2025-08-01", "actual_inflation": null, "predicted_inflation": null}, {"date": "2025-09-01", "actual_inflation": null, "predicted_inflation": null}]};
+        let currentChart = null;
+        
+        // Format date from YYYY-MM-DD to YYYY-MM
+        function formatDate(d) {
+            const date = new Date(d);
+            return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+        }
+
+        // Render chart for selected country
+        function renderChart(country) {
+            const data = allData[country];
+            if (!data || !data.length) return;
+
+            // Extract date labels and inflation values
+            const labels = data.map(r => formatDate(r.date));
+            const predictedInflation = data.map(r => r.predicted_inflation);
+            const actualInflation = data.map(r => r.actual_inflation);
+
+            // Get canvas context and destroy previous chart if exists
+            const ctx = document.getElementById('chart').getContext('2d');
+            if (currentChart) currentChart.destroy();
+
+            // Create new line chart comparing predicted vs actual inflation
+            currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Predicted Inflation (OOB)',
+                            data: predictedInflation,
+                            borderColor: '#ff6b6b',  // Red
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 0,
+                            pointHoverRadius: 5
+                        },
+                        {
+                            label: 'Actual Inflation',
+                            data: actualInflation,
+                            borderColor: '#43a5e3',  // Blue
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.1,
+                            pointRadius: 0,
+                            pointHoverRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { usePointStyle: true, padding: 15 }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(0,0,0,0.8)',
+                            padding: 12
+                        }
+                    },
+                    scales: {
+                        x: { display: true, title: { display: true, text: 'Date' } },
+                        y: { display: true, title: { display: true, text: 'Inflation Rate' } }
+                    }
+                }
+            });
+        }
+
+        // Event listener: re-render chart when country selection changes
+        document.getElementById('country-select').addEventListener('change', e => renderChart(e.target.value));
+
+        // Initial chart render with first country
+        renderChart(document.getElementById('country-select').value);
+    
+    </script>
+</body>
+</html>

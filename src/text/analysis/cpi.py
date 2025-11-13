@@ -14,7 +14,12 @@ if str(PROJECT_ROOT) not in sys.path:
 
 
 DATA_ROOT = PROJECT_ROOT / "data" / "cpi"
+IMF_ROOT = DATA_ROOT / "imf"
+OUTPUT_ROOT = PROJECT_ROOT / "outputs" / 'cpi' / "imf"
+
 os.makedirs(DATA_ROOT, exist_ok=True)
+os.makedirs(IMF_ROOT, exist_ok=True)
+os.makedirs(OUTPUT_ROOT, exist_ok=True)
 
 def _get_country_cpi_data(
     country: str, frequency: Union["M", "Q", "Y"] = "M", start_period: int = 2012, component: str = "_T"
@@ -27,9 +32,7 @@ def _get_country_cpi_data(
             params={"startPeriod": start_period},
             )
         output = sdmx.to_pandas(data_msg).dropna().reset_index()
-        output['date'] = pd.to_datetime(output['TIME_PERIOD'], format='%Y-M%m')
-        
-        output.to_csv(DATA_ROOT / f"{country}.cpi.{frequency}.csv", index=False)
+        output.to_csv(IMF_ROOT / f"{country}.cpi.{frequency}.csv", index=False)
         return output
     except Exception as e:
         print(f"Error for {country}: {e}")
@@ -41,7 +44,7 @@ def get_cpi_data(
     output = []
     if isinstance(country, list):
         for c in country:
-            csv_path = DATA_ROOT / f"{c}.cpi.{frequency}.csv"
+            csv_path = IMF_ROOT / f"{c}.cpi.{frequency}.csv"
             if os.path.exists(csv_path):
                 data = pd.read_csv(csv_path)
                 output.append(data)
@@ -49,7 +52,7 @@ def get_cpi_data(
                 data = _get_country_cpi_data(c, frequency, start_period, component)
                 output.append(data)
     else:
-        csv_path = DATA_ROOT / f"{country}.cpi.{frequency}.csv"
+        csv_path = IMF_ROOT / f"{country}.cpi.{frequency}.csv"
         if os.path.exists(csv_path):
             data = pd.read_csv(csv_path)
             output.append(data)
@@ -145,7 +148,7 @@ def save_cpi_analysis_report(analysis: Dict, countries_df: pd.DataFrame):
     df = pd.DataFrame(report_data)
     
     # Save to CSV
-    output_path = DATA_ROOT / "imf_freq_lag_report.csv"
+    output_path = OUTPUT_ROOT / "imf_freq_lag_report.csv"
     df.to_csv(output_path, index=False)
     print(f"Report saved to {output_path}\n")
     
@@ -154,7 +157,7 @@ def save_cpi_analysis_report(analysis: Dict, countries_df: pd.DataFrame):
 
 
 if __name__ == '__main__':
-    countries = pd.read_csv(DATA_ROOT / "countries.csv")
+    countries = pd.read_csv(DATA_ROOT / "_countries.csv")
     countries_list = countries["iso3"].tolist()
     
     analysis = analyze_cpi_by_frequency(countries_list)

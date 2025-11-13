@@ -65,30 +65,25 @@ CPI_DATA_ROOT = PROJECT_ROOT / "data" / "cpi"
 EPU_DATA_ROOT = PROJECT_ROOT / "testing_outputs" / "text"
 TOPICS = ["inflation", "job"]
 
-EXCLUDE_COUNTRIES = [
-    'american_samoa', # No Data
-    "guam", # No Data
-    "malaysia", # Not enough news yet
-    'marshall_islands', # No Data
-    "new_zealand", # Quarterly Data
-    "pacific", # No Data
-    "palau", # Quarterly Data
-    "papua_new_guinea", # Quarterly Data
-    "south_korea", # Not enough news yet
-    "singapore", # Not enough news yet
-    "thailand", # Not enough news yet
-    "tuvalu", # No Data
-    "vanuatu", # Quarterly Data
-    ]
-
-PREDICT_COUNTRIES = [
-    "marshall_islands",
-    "new_zealand",
-    "papua_new_guinea",
-    "tuvalu",
-    "vanuatu",
+TRAIN_COUNTRIES = [
+    'china',
+    'fiji',
+    'indonesia',
+    'japan',
+    'lao',
+    'malaysia',
+    'philippines',
+    'samoa',
+    'singapore',
+    'solomon_islands',
+    'south_korea',
+    'thailand',
+    'tonga',
 ]
 
+OUT_OF_BAG_COUNTRIES = [
+    "vietnam"
+]
 # Set random seed for reproducibility
 np.random.seed(123)
 
@@ -122,12 +117,12 @@ def prepare_epu_data(countries):
 
 def prepare_cpi(countries_slugs):
     from cpi import get_cpi_data
-    countries = pd.read_csv(CPI_DATA_ROOT / "countries.csv")
+    countries = pd.read_csv(CPI_DATA_ROOT / "_countries.csv")
     countries = countries[countries["slug"].isin(countries_slugs)]
     countries_list = countries["iso3"].tolist()
     country_map = countries.set_index("iso3")["slug"].to_dict()
     cpi = get_cpi_data(countries_list).rename(columns={"value": "cpi"})
-    cpi['date'] = pd.to_datetime(cpi['date'], format='%Y-%m-%d')
+    cpi["date"] = pd.to_datetime(cpi["TIME_PERIOD"], format='%Y-M%m')
     cpi["country"] = cpi["COUNTRY"].map(country_map)
     cpi['country_id'] = pd.factorize(cpi['country'])[0] + 1
     # Calculate inflation rates
@@ -248,7 +243,7 @@ def calculate_metrics(y_true, y_pred, y_pred_binary=None):
 
 
 if __name__ == '__main__':
-    countries = [c for c in os.listdir(EPU_DATA_ROOT) if c not in EXCLUDE_COUNTRIES]
+    countries = [c for c in os.listdir(EPU_DATA_ROOT) if c in TRAIN_COUNTRIES + OUT_OF_BAG_COUNTRIES]
     df = prepare_epu_data(countries)
     cpi = prepare_cpi(countries)
     df = df.set_index(['country', 'date']).join(
@@ -264,7 +259,7 @@ if __name__ == '__main__':
     print("="*70)
 
     # Prepare data for pooled analysis
-    df_pooled = df.copy()
+    df_pooled = df[df['country'].isin(TRAIN_COUNTRIES)].copy()
 
     # Get list of unique countries
     countries = df_pooled['country'].unique()
@@ -446,3 +441,156 @@ if __name__ == '__main__':
     interaction_coefs_sorted = interaction_coefs.sort_values('Coefficient', key=abs, ascending=False)
     print("\nTop 20 interaction term coefficients:")
     print(interaction_coefs_sorted.head(20).to_string(index=False))
+
+    # ============================================================================
+    # SECTION 5: MODEL WITHOUT COUNTRY INTERACTIONS
+    # ============================================================================
+    print("\n" + "="*70)
+    print("SECTION 5: MODEL WITHOUT COUNTRY INTERACTIONS")
+    print("="*70)
+
+    # Train model WITHOUT country interactions (only base features + lags)
+    print("\nModel: LASSO WITHOUT country interaction terms (MA3)")
+    X_no_interactions = df_pooled[feature_cols_with_lags]
+    y = df_pooled['cpi_inflation_ma3']
+
+    lasso_no_interactions, pred_no_interactions, coef_no_interactions = run_lasso_model(
+        X_no_interactions, y, "LASSO without interactions"
+    )
+
+    if lasso_no_interactions is not None:
+        metrics_no_interactions = calculate_metrics(y, pred_no_interactions, pred_no_interactions)
+        print(f"RMSE (without interactions): {metrics_no_interactions.get('RMSE', np.nan):.6f}")
+        print(f"Accuracy: {metrics_no_interactions.get('Accuracy', np.nan):.4f}")
+        print(f"MAE: {metrics_no_interactions.get('MAE', np.nan):.6f}")
+        
+        # Print top coefficients
+        coef_sorted = coef_no_interactions.sort_values('Coefficient', key=abs, ascending=False)
+        print("\nTop 15 features by absolute coefficient:")
+        print(coef_sorted.head(15).to_string(index=False))
+
+    # ============================================================================
+    # SECTION 6: OUT-OF-BAG PREDICTIONS AND ACCURACY TESTING
+    # ============================================================================
+    print("\n" + "="*70)
+    print("SECTION 6: OUT-OF-BAG PREDICTIONS AND ACCURACY TESTING")
+    print("="*70)
+
+    # Prepare data for out-of-bag countries
+    df_oob = df[df['country'].isin(OUT_OF_BAG_COUNTRIES)].copy()
+
+    # Add lagged inflation for OOB countries
+    for lag in [1, 2]:
+        df_oob[f'cpi_inflation_ma3_lag{lag}'] = df_oob.groupby('country_id')['cpi_inflation_ma3'].shift(lag)
+
+    print(f"\nOut-of-bag countries: {OUT_OF_BAG_COUNTRIES}")
+    print(f"Total OOB samples: {len(df_oob)}")
+
+    # Store OOB results
+    oob_results = []
+
+    for country in OUT_OF_BAG_COUNTRIES:
+        print(f"\n--- Processing OOB country: {country} ---")
+        
+        df_country_oob = df_oob[df_oob['country'] == country].copy()
+        
+        if len(df_country_oob) == 0:
+            print(f"No data for {country}")
+            continue
+        
+        # Get features for OOB country (same features as training)
+        X_oob_country = df_country_oob[feature_cols_with_lags]
+        y_oob_country = df_country_oob['cpi_inflation_ma3']
+        
+        # Make predictions using the model trained WITHOUT interactions
+        # We need to standardize using the same scaler from training
+        valid_idx_oob = ~(X_oob_country.isna().any(axis=1) | y_oob_country.isna())
+        
+        if valid_idx_oob.sum() == 0:
+            print(f"No valid data for {country}")
+            continue
+        
+        X_oob_clean = X_oob_country[valid_idx_oob].copy()
+        y_oob_clean = y_oob_country[valid_idx_oob].copy()
+        
+        # Standardize using the same scaler from training
+        scaler_oob = StandardScaler()
+        # Fit on training data to get proper scaling
+        valid_idx_train = ~(X_no_interactions.isna().any(axis=1) | y.isna())
+        X_train_clean = X_no_interactions[valid_idx_train].copy()
+        scaler_oob.fit(X_train_clean)
+        
+        X_oob_scaled = scaler_oob.transform(X_oob_clean)
+        
+        # Make predictions
+        y_pred_oob_clean = lasso_no_interactions.predict(X_oob_scaled)
+        
+        # Create full-length prediction array with NaN for invalid rows
+        y_pred_oob_full = np.full(len(X_oob_country), np.nan)
+        y_pred_oob_full[valid_idx_oob.values] = y_pred_oob_clean
+        
+        # Calculate metrics for OOB country
+        metrics_oob = calculate_metrics(y_oob_country, y_pred_oob_full, y_pred_oob_full)
+        
+        print(f"  Samples: {len(df_country_oob)} (Valid: {valid_idx_oob.sum()})")
+        print(f"  RMSE: {metrics_oob.get('RMSE', np.nan):.6f}")
+        print(f"  MAE: {metrics_oob.get('MAE', np.nan):.6f}")
+        print(f"  Accuracy: {metrics_oob.get('Accuracy', np.nan):.4f}")
+        
+        # Store results
+        result_row = {
+            'Country': country,
+            'Type': 'Out-of-Bag',
+            'N_Samples': len(df_country_oob),
+            'N_Valid': valid_idx_oob.sum(),
+            'MSE': metrics_oob.get('MSE', np.nan),
+            'RMSE': metrics_oob.get('RMSE', np.nan),
+            'MAE': metrics_oob.get('MAE', np.nan),
+            'Accuracy': metrics_oob.get('Accuracy', np.nan),
+            'Precision': metrics_oob.get('Precision', np.nan),
+            'Recall': metrics_oob.get('Recall', np.nan),
+            'F1-Score': metrics_oob.get('F1-Score', np.nan),
+        }
+        oob_results.append(result_row)
+        
+        # Save OOB predictions
+        predictions_oob_df = pd.DataFrame({
+            'date': df_country_oob['date'].values,
+            'actual_inflation': df_country_oob['cpi_inflation_ma3'].values,
+            'predicted_inflation': y_pred_oob_full
+        })
+        
+        # Create output directory
+        output_dir = PROJECT_ROOT / "testing_outputs" / "text" / country / "lasso_preds_oob"
+        output_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Save predictions
+        output_file = output_dir / "predictions_oob.csv"
+        predictions_oob_df.to_csv(output_file, index=False)
+        print(f"Saved OOB predictions for {country} to {output_file}")
+
+    # Create OOB summary dataframe
+    if oob_results:
+        oob_results_df = pd.DataFrame(oob_results)
+        print("\n" + "="*70)
+        print("OUT-OF-BAG ACCURACY SUMMARY")
+        print("="*70)
+        print(oob_results_df.to_string(index=False))
+
+    # ============================================================================
+    # SECTION 7: COMPARISON OF MODELS
+    # ============================================================================
+    print("\n" + "="*70)
+    print("SECTION 7: MODEL COMPARISON")
+    print("="*70)
+
+    print("\nTraining Set Performance (TRAIN_COUNTRIES):")
+    print(f"  Model WITH interactions - RMSE: {metrics_interactions.get('RMSE', np.nan):.6f}, Accuracy: {metrics_interactions.get('Accuracy', np.nan):.4f}")
+    print(f"  Model WITHOUT interactions - RMSE: {metrics_no_interactions.get('RMSE', np.nan):.6f}, Accuracy: {metrics_no_interactions.get('Accuracy', np.nan):.4f}")
+    
+    print("\nOut-of-Bag Performance (OUT_OF_BAG_COUNTRIES):")
+    if oob_results:
+        for result in oob_results:
+            print(f"  {result['Country']} - RMSE: {result['RMSE']:.6f}, Accuracy: {result['Accuracy']:.4f}")
+    else:
+        print("  No out-of-bag results available")
