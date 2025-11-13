@@ -2,7 +2,7 @@
 # Migrated from monolithic scraper: src/text/scrapers/newspapers/pacific/abc_au.py
 
 name: "ABC AU Solomon Islands"
-country: "phillipines"
+country: "philippines"
 base_url: "https://www.abc.net.au"
 
 # Listing discovery using API strategy with multiple document IDs

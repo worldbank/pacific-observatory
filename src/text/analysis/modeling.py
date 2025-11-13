@@ -71,18 +71,14 @@ TRAIN_COUNTRIES = [
     'indonesia',
     'japan',
     'lao',
-    'malaysia',
-    'philippines',
     'samoa',
-    'singapore',
     'solomon_islands',
-    'south_korea',
-    'thailand',
     'tonga',
 ]
 
 OUT_OF_BAG_COUNTRIES = [
-    "vietnam"
+    "vietnam",
+    'philippines',
 ]
 # Set random seed for reproducibility
 np.random.seed(123)

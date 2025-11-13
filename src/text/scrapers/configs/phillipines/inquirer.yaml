@@ -1,7 +1,7 @@
 # Inquirer Configuration
 
 name: "Inquirer"
-country: "phillipines"
+country: "philippines"
 base_url: "https://newsinfo.inquirer.net/"
 
 # Listing discovery configuration

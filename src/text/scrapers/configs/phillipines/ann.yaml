@@ -1,7 +1,7 @@
 # Asia News Network Configuration
 
 name: "Asia News Network"
-country: "phillipines"
+country: "philippines"
 base_url: "https://asianews.network/"
 
 # Listing discovery configuration

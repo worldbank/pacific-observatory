@@ -1,7 +1,7 @@
 # Phillipine Star Configuration
 
 name: "Philippine Star"
-country: "phillipines"
+country: "philippines"
 base_url: "https://www.philstar.com/"
 
 # Listing discovery configuration
