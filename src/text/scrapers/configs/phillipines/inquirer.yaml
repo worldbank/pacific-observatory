@@ -10,7 +10,7 @@ listing:
   type: "pagination"
   start_url: "https://newsinfo.inquirer.net/category/inquirer-headlines/nation"
   url_template: "https://newsinfo.inquirer.net/category/inquirer-headlines/nation/page/{num}"
-  start_page: 5645
+  start_page: 2
   batch_size: 10
 
 # Client configuration
