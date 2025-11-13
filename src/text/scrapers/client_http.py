@@ -144,8 +144,17 @@ class AsyncHttpClient:
                     
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 301:
-                        if e.response.headers.get("Location"):
-                            return await self.request_url(client, e.response.headers["Location"], retries)
+                        redirect = e.response.headers.get("Location")
+                        if redirect:
+                            # Inquirer (Philippines) will redirect you to the homepage
+                            # if the page doesn't exist
+                            # so we need to check if the redirect is the homepage
+                            # (homepage extracted from original url)
+                            home_domain = urlparse(url).scheme + "://" + urlparse(url).netloc
+                            if redirect == home_domain: 
+                                return None, 301
+                            else:
+                                return await self.request_url(client, redirect, retries)
                     if e.response.status_code == 404:
                         logger.error(f"404 Not Found for {url} - page doesn't exist")
                         return None, 404

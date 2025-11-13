@@ -7,8 +7,8 @@ from pathlib import Path
 
 # Countries to exclude from EPU and sentiment visualizations
 EXCLUDE_COUNTRIES = [
-    'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'palau',
-    'south_korea', 'singapore', 'thailand', 'timor_leste', 'tuvalu', 'vanuatu'
+    # 'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'palau',
+    # 'south_korea', 'singapore', 'thailand', 'timor_leste', 'tuvalu', 'vanuatu'
 ]
 
 # Countries to exclude from prediction visualizations
