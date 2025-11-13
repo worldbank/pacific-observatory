@@ -7,6 +7,7 @@ including logging setup and path management.
 
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Dict
 
@@ -108,3 +109,69 @@ def create_progress_display():
     )
     
     return progress, console
+
+
+def get_scraper_log_path(
+    country: str, newspaper: str, project_root: Optional[Path] = None
+) -> Path:
+    """
+    Generate the log file path for a specific scraper.
+    
+    Args:
+        country: Country code or name
+        newspaper: Newspaper name
+        project_root: Project root directory (defaults to calculated root)
+    
+    Returns:
+        Path object for the log file: logs/text/country/newspaper/YYYYMMDD_HHMMSS.log
+    """
+    from datetime import datetime
+    
+    if project_root is None:
+        project_root = get_project_paths()["project_root"]
+    
+    # Normalize newspaper name: lowercase and replace spaces with underscores
+    normalized_newspaper = newspaper.lower().replace(" ", "_")
+    
+    # Create log directory structure
+    log_dir = project_root / "logs" / "text" / country / normalized_newspaper
+    log_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Generate timestamp for log file
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = log_dir / f"{timestamp}.log"
+    
+    return log_file
+
+
+def add_file_handler_to_logger(
+    log_file: Path, level: str = "INFO", logger_obj: Optional[logging.Logger] = None
+) -> logging.FileHandler:
+    """
+    Add a file handler to the root logger or a specific logger.
+    
+    Args:
+        log_file: Path to the log file
+        level: Logging level for the file handler
+        logger_obj: Specific logger object (defaults to root logger)
+    
+    Returns:
+        The FileHandler object (can be removed later if needed)
+    """
+    # Create file handler
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setLevel(getattr(logging, level.upper()))
+    
+    # Set formatter to match console format
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
+    file_handler.setFormatter(formatter)
+    
+    # Add to logger
+    if logger_obj is None:
+        logger_obj = logging.getLogger()
+    
+    logger_obj.addHandler(file_handler)
+    
+    return file_handler

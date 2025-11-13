@@ -25,6 +25,10 @@ if __name__ == "__main__":
 
 from text.scrapers.factory import create_scraper_from_file, find_config_files
 from text.scrapers.pipelines.storage import CSVStorage
+from text.scrapers.orchestration.utils import (
+    get_scraper_log_path,
+    add_file_handler_to_logger,
+)
 
 
 async def run_single_scraper(
@@ -33,6 +37,7 @@ async def run_single_scraper(
     save_results: bool = True,
     update_mode: bool = False,
     urls_from_scratch: bool = True,
+    project_root: Optional[Path] = None,
 ) -> dict:
     """
     Run a single newspaper scraper.
@@ -43,16 +48,28 @@ async def run_single_scraper(
         save_results: Whether to save results to disk
         update_mode: Whether to run in update mode (skip existing articles)
         urls_from_scratch: Whether to discover URLs from scratch (True) or load from urls.csv (False)
+        project_root: Project root directory for automatic log file generation
 
     Returns:
         Dictionary with scraping results
     """
     logger = logging.getLogger(__name__)
+    file_handler = None
 
     try:
         # Create scraper from config file
         logger.info(f"Loading scraper configuration from: {config_path}")
         scraper = create_scraper_from_file(config_path, urls_from_scratch=urls_from_scratch)
+        
+        # Set up per-scraper log file if project_root is provided
+        if project_root:
+            log_file = get_scraper_log_path(
+                country=scraper.country,
+                newspaper=scraper.name,
+                project_root=project_root,
+            )
+            file_handler = add_file_handler_to_logger(log_file, level="INFO")
+            logger.info(f"Per-scraper log file: {log_file}")
 
         # Initialize storage if needed
         storage = None
@@ -131,6 +148,12 @@ async def run_single_scraper(
                 else "Unknown"
             ),
         }
+    finally:
+        # Clean up file handler if it was created
+        if file_handler:
+            file_handler.flush()  # Flush any buffered logs
+            logger.removeHandler(file_handler)
+            file_handler.close()
 
 
 async def run_scraper_by_name(
@@ -193,6 +216,7 @@ async def run_scraper_by_name(
             save_results=not kwargs.get("no_save", False),
             update_mode=update_mode,
             urls_from_scratch=urls_from_scratch,
+            project_root=project_root,
         )
 
         if results["success"]:

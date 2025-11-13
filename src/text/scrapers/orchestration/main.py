@@ -238,6 +238,15 @@ Examples:
                 no_save=args.no_save,
             )
         )
+        
+        # Print log file location if scraping was successful
+        if success and results:
+            print("\n" + "=" * 50)
+            country = results.get("country", "unknown")
+            newspaper = results.get("newspaper", "unknown")
+            # Normalize newspaper name: lowercase and replace spaces with underscores
+            normalized_newspaper = newspaper.lower().replace(" ", "_")
+            print(f"📝 Log file saved to: logs/text/{country}/{normalized_newspaper}/YYYYMMDD_HHMMSS.log")
 
         if not success:
             sys.exit(1)
