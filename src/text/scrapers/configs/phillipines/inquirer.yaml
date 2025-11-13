@@ -8,8 +8,8 @@ base_url: "https://newsinfo.inquirer.net/"
 # This scraper covers multiple Pacific countries using tag-based pagination
 listing:
   type: "pagination"
-  start_url: "https://newsinfo.inquirer.net/category/latest-stories"
-  url_template: "https://newsinfo.inquirer.net/category/latest-stories/page/{num}"
+  start_url: "https://newsinfo.inquirer.net/category/inquirer-headlines/nation"
+  url_template: "https://newsinfo.inquirer.net/category/inquirer-headlines/nation/page/{num}"
   start_page: 2
   batch_size: 10
 
@@ -21,12 +21,16 @@ retries: 3
 retry_seconds: 2.0
 
 headers:
-  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.129 Safari/537.36"
+  Accept-Language: "en-US,en;q=0.9"
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng;q=0.8"
+  Connection: "keep-alive"
+  Upgrade-Insecure-Requests: "1"
 
 # CSS selectors for data extraction
 selectors:
   thumbnail:
-    container: 'div[id="ch-ls-box"]'
+    container: 'div[id="ch-ls-head"]'
     title: "h2 a::text"
     url: "h2 a::attr(href)"
   article:
