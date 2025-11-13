@@ -11,7 +11,7 @@ listing:
   start_url: "https://newsinfo.inquirer.net/category/inquirer-headlines/nation"
   url_template: "https://newsinfo.inquirer.net/category/inquirer-headlines/nation/page/{num}"
   start_page: 2
-  batch_size: 10
+  batch_size: 50
 
 # Client configuration
 client: "http"
@@ -26,6 +26,7 @@ headers:
   Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng;q=0.8"
   Connection: "keep-alive"
   Upgrade-Insecure-Requests: "1"
+  Referer: "https://newsinfo.inquirer.net/"
 
 # CSS selectors for data extraction
 selectors:
