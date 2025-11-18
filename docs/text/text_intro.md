@@ -76,7 +76,7 @@ The construction of the EPU index follows a systematic approach where a news art
 
 <div>
 <iframe src="../interactive/text/epu_pic.html"
-frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="433"></iframe>
 </div>
 
 ### Topic-based EPU
@@ -85,7 +85,7 @@ The EPU index can also be computed for news sources related to specific policy t
 
 <div>
 <iframe src="../interactive/text/epu_topics_pic.html"
-frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="433"></iframe>
 </div>
 
 ### Economic Policy Sentiment
@@ -94,7 +94,7 @@ We use the EPU to filter news articles that align with the economic and policy c
 
 <div>
 <iframe src="../interactive/text/sentiment_pic.html"
-frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="433"></iframe>
 </div>
 
 ### Consumer Price Index (CPI) and Inflation
@@ -105,27 +105,22 @@ Once we have obtained the EPU index for each country and period, we use the resu
 
 ### Country-Specific Models
 
-#### Training Countries
-
 We use a training set of seven countries to evaluate the performance of the country-specific models. These are China, Fiji, Indonesia, Japan, Lao, Samoa, Solomon Islands, and Tonga. At the country level, Japan achieves the lowest RMSE at 0.11, indicating that the model’s predictions deviate by approximately 0.11 percentage points from the actual inflation values. Countries with the highest accuracy are Lao, Indonesia, and Samoa, achieving accuracies of 0.95, 0.88, and 0.84, respectively. Inflation volatility and the rapid alternation between deflation and inflation amongst countries reduce prediction accuracy. 
 
 <div>
 <iframe src="../interactive/text/train_predictions_pic.html"
-frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="433"></iframe>
 </div>
 
-#### Pooled Model
+### Pooled Model
 
-The pooled model using MA3 performs better than any of the country-level models with an accuracy of approximately 83.1 percent of the time and deviation around 0.83 percentage points from the actual inflation. This means that, based on historical data and the constructed EPU indexes, the models correctly predicted inflationary or deflationary trends more than four out of five times. Smoothing techniques considerably enhance the performance of the pooled model compared to country-specific approaches.
-
-
-#### Validation Countries
+The pooled model using MA3 achieves an accuracy of approximately 83.1 percent of the time and deviation around 0.83 percentage points from the actual inflation. This means that, based on historical data and the constructed EPU indexes, the models correctly predicted inflationary or deflationary trends more than four out of five times.
 
 For out-of-sample validation of the pooled model, we use a set of three countries: Philippines, South Korea, and Vietnam. Philippines achieves a RMSE of 0.14 and an accuracy of 92.91%. South Korea achieves a RMSE of 0.15 and an accuracy of 84.25%, and Vietnam achieves a RMSE of 0.17 and an accuracy of 88.43%.
 
 <div>
 <iframe src="../interactive/text/out_of_bag_predictions_pic.html"
-frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="433"></iframe>
 </div>
 
 ## Future Work
