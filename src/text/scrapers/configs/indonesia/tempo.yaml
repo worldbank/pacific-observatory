@@ -15,8 +15,8 @@ listing:
 # Client configuration
 client: "http"  # Use HTTP client (not browser-based)
 concurrency: 2  # Maximum concurrent requests (conservative for older site)
-rate_limit: 1 # Minimum delay between requests in seconds (5 req/sec max)
-retries: 3       # Number of retry attempts for failed requests
+rate_limit: 3 # Minimum delay between requests in seconds (5 req/sec max)
+retries: 1       # Number of retry attempts for failed requests
 retry_seconds: 2.0  # Wait time in seconds between retry attempts
 
 headers:

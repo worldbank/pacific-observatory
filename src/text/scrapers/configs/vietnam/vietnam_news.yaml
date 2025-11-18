@@ -25,8 +25,8 @@ headers:
 selectors:
   thumbnail:
     container: div.timeline > article[class='story']
-    title: "article[class='story']::text"
-    url: "article[class='story']::attr(href)"
+    title: "article[class='story'] a::text"
+    url: "article[class='story'] a::attr(href)"
   article:
     date: div.detail__meta div.datetime::text
     body: div#abody p

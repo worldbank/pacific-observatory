@@ -8,23 +8,48 @@ The Pacific region hosts a substantial corpus of accessible English-based conten
 
 **Table 1: News Sources by Country**
 
-| Country         | Newspaper/Media Source                       | Number of Articles | From       |
-|----------------|---------------------------------------------|--------------------|------------|
-| Fiji          | Fiji Sun                                    | 46,350            | 2008-05-27 |
-| Pacific       | Pacific Islands News Association (PINA)    | 26,151            | 2011-11-19 |
-|               | Australian Broadcasting Corporation (ABC AU) | 16,297            | 2003-02-19 |
-|               | Radio New Zealand (RNZ)                    | 18,160            | 2015-02-18 |
-| Papua New Guinea | Post Courier                             | 6,278             | 2016-04-08 |
-|               | PNG Business News                          | 2,197             | 2019-05-24 |
-| Samoa        | Samoa Observer                             | 35,489            | 2012-01-01 |
-| Solomon Islands | Solomon Islands Broadcasting Corporation (SIBC) | 9,062     | 2013-12-04 |
-|               | Solomon Times                              | 11,139            | 2007-04-14 |
-|               | Solomon Star                              | 14,484            | 2014-04-10 |
-|               | The Island Sun                            | 9,117             | 2017-09-01 |
-| Tonga        | Matangi Tonga Online                       | 14,071            | N/A        |
-| Vanuatu      | The Daily Post                             | 29,469            | 2014-04-08 |
-|               | Vanuatu Business Review                   | 577               | 2020-04-27 |
-| **Total**    |                                           | **238,941**        |      |
+| Country | Newspaper/Media Source | Number of Articles | From |
+|---------|------------------------|--------------------|----|
+| Cambodia | Khmer Times | 51,791 | 1970-01-01 |
+| China | China Daily | 10,446 | 2014-03-28 |
+| | People's Daily Online | 3,155 | 2024-09-13 |
+| Fiji | Fiji Sun | 18,348 | 2010-03-09 |
+| Indonesia | Antara | 10,702 | 2025-09-23 |
+| | Jakarta Post | 1,601 | 2025-02-24 |
+| | Tempo | 77,615 | 2003-07-21 |
+| Japan | Japan News | 50,189 | 2022-04-29 |
+| | Japan Today | 4,500 | 2012-09-27 |
+| | The Asahi Shimbun | 11,206 | 2020-04-16 |
+| Lao | The Laotian Times | 8,645 | 2016-06-03 |
+| Malaysia | Malay Mail | 223,714 | 2013-06-18 |
+| Marshall Islands | MI Journal | 1,605 | 2015-01-02 |
+| Mongolia | UB Post | 456 | 2016-10-08 |
+| New Zealand | New Zealand Herald | 16,482 | 2025-06-10 |
+| Pacific | Australian Broadcasting Corporation (ABC AU) | 25,418 | 2003-02-19 |
+| | PINA | 33,597 | 2011-11-19 |
+| | Radio New Zealand (RNZ) | 52,666 | 2007-06-17 |
+| Palau | Island Times | 10,019 | 2016-06-03 |
+| Papua New Guinea | PNG Business News | 3,434 | 2019-05-24 |
+| | Post Courier | 52,679 | 2015-12-16 |
+| Philippines | Asia News Network | 2,991 | 2018-04-03 |
+| | Inquirer | 50,676 | 1998-10-07 |
+| | Philippine Star | 220 | 2025-10-11 |
+| Samoa | Samoa Observer | 77,432 | 2012-01-01 |
+| Singapore | The Independent | 1,834 | 2022-10-17 |
+| | The Straits Times | 9,779 | 2024-09-15 |
+| | Today Online | 616 | 2024-04-13 |
+| Solomon Islands | SIBC | 10,846 | 2013-12-14 |
+| | Solomon Star | 34,109 | 2014-04-10 |
+| | Solomon Times | 22,976 | 2007-04-14 |
+| | The Island Sun | 10,296 | 2017-09-01 |
+| South Korea | The Korea Herald | 9,424 | 2025-05-05 |
+| | The Korea Times | 93,767 | 2006-12-07 |
+| Thailand | Nation Thailand | 13,830 | 2024-04-22 |
+| Tonga | Matangi Tonga Online | 40,383 | 1997-11-04 |
+| Vanuatu | Vanuatu Daily Post | 34,927 | 2014-04-08 |
+| | Vanuatu Business Review (VBR) | 577 | 2020-04-27 |
+| Vietnam | Tuoi Tre | 36,464 | 1970-01-01 |
+| **Total** | | **1,175,259** | |
 
 ## Methods
 
