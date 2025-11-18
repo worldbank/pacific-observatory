@@ -117,7 +117,7 @@ def analyze_cpi_by_frequency(countries: List[str]) -> Dict:
 
 def save_cpi_analysis_report(analysis: Dict, countries_df: pd.DataFrame):
     """
-    Save CPI data analysis report as CSV and print as markdown.
+    Print CPI data analysis report as markdown table.
     
     Args:
         analysis: Dict from analyze_cpi_by_frequency with country_data
@@ -144,15 +144,8 @@ def save_cpi_analysis_report(analysis: Dict, countries_df: pd.DataFrame):
             'Last Reported': latest_period
         })
     
-    # Create DataFrame
+    # Create DataFrame and print as markdown
     df = pd.DataFrame(report_data)
-    
-    # Save to CSV
-    output_path = OUTPUT_ROOT / "imf_freq_lag_report.csv"
-    df.to_csv(output_path, index=False)
-    print(f"Report saved to {output_path}\n")
-    
-    # Print as markdown
     print(df.to_markdown(index=False))
 
 

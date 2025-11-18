@@ -1,10 +1,10 @@
 # Economic Analysis with News Sources
 
-New analytical techniques have increased the role of non-traditional data sources for economic analysis, including text-based data. This research explores the use of text-based data from news articles, using natural language processing (NLP), to fill key data gaps on economic sentiments and prices, offering insights into relevant economic trends across the Pacific region.
+New analytical techniques have increased the role of non-traditional data sources for economic analysis, including text-based data. This research explores the use of text-based data from news articles, using natural language processing (NLP), to fill key data gaps on economic sentiments and prices, offering insights into relevant economic trends across the East Asia and Pacific region.
 
 ## Data Sources
 
-The Pacific region hosts a substantial corpus of accessible English-based content from newspapers and international news platforms, providing an opportunity to generate timely, comprehensive indicators of economic and political trends. Specifically, local news outlets from Pacific Island Countries (PICs), complemented by regional sources such as the Pacific Islands News Association (PINA), ABC Australia (ABC AU), and Radio New Zealand (RNZ), were selected due to their robust coverage and reliability. We used web-scraping techniques to extract articles from the selected sources, before organizing the contents into structured datasets.
+The East Asia and Pacific region hosts a substantial corpus of accessible English-based content from newspapers and international news platforms, providing an opportunity to generate timely, comprehensive indicators of economic and political trends. Specifically, local news outlets from East Asia and Pacific countries, complemented by regional sources such as the Pacific Islands News Association (PINA), ABC Australia (ABC AU), and Radio New Zealand (RNZ), were selected due to their robust coverage and reliability. We used web-scraping techniques to extract articles from the selected sources, before organizing the contents into structured datasets.
 
 **Table 1: News Sources by Country**
 
@@ -97,23 +97,53 @@ We use the EPU to filter news articles that align with the economic and policy c
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
 </div>
 
-### CPI and Inflation
+### Consumer Price Index (CPI) and Inflation
 
-Once we have obtained the EPU index for each country and period, we use the result as an input to analyze and predict price movements. To do so, we apply a three-month moving average (MA3) to smooth the volatile directly measured inflation data and introduce an additional policy category (using the same index approach described above) that focuses on inflation-specific terms. Finally, we conduct a regression analysis using variables selected through the cross-validated LASSO method.
+Once we have obtained the EPU index for each country and period, we use the result as an input to analyze and predict price movements. To do so, we obtain the [International Monetary Fund (IMF) Consumer Price Index (CPI) data](https://data.imf.org/en/datasets/IMF.STA:CPI) and apply a three-month moving average (MA3) to smooth the volatile directly measured inflation data. We introduce additional policy categories (using the same index approach described above) that focus on inflation- and job-specific terms. Finally, we conduct a regression analysis using variables selected through the cross-validated LASSO method.
 
 ## Results
 
 ### Country-Specific Models
 
-At the country level, Fiji achieves the lowest RMSE at 0.739, indicating that the model’s predictions deviate by approximately 0.76 percentage points from the actual inflation values. Although Samoa and the Solomon Islands fail to accurately capture the magnitude of inflation, they exhibit stronger directional accuracy, correctly identifying inflationary and deflationary trends in the model evaluation with accuracies of 63.6 percent and 68.5 percent, respectively. Inflation volatility and the rapid alternation between deflation and inflation in PICs reduce prediction accuracy. Smoothing techniques considerably enhance the performance of the pooled model compared to country-specific approaches.
+#### Training Countries
+
+We use a training set of seven countries to evaluate the performance of the country-specific models. These are China, Fiji, Indonesia, Japan, Lao, Samoa, Solomon Islands, and Tonga. At the country level, Japan achieves the lowest RMSE at 0.11, indicating that the model’s predictions deviate by approximately 0.11 percentage points from the actual inflation values. Countries with the highest accuracy are Lao, Indonesia, and Samoa, achieving accuracies of 0.95, 0.88, and 0.84, respectively. Inflation volatility and the rapid alternation between deflation and inflation amongst countries reduce prediction accuracy. 
 
 <div>
 <iframe src="../interactive/text/train_predictions_pic.html"
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
 </div>
 
+#### Validation Countries
+
+For out-of-sample validation, we use a set of three countries: Philippines, South Korea, and Vietnam. Philippines achieves a RMSE of 0.14 and an accuracy of 92.91%. South Korea achieves a RMSE of 0.15 and an accuracy of 84.25%, and Vietnam achieves a RMSE of 0.17 and an accuracy of 88.43%.
+
+<div>
+<iframe src="../interactive/text/out_of_bag_predictions_pic.html"
+frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
+</div>
+
 ### Pooled Model
 
-The pooled model using MA3 performs better than any of the country-level models with an accuracy of approximately 70 percent of the time and deviation around 0.70 percentage points from the actual inflation. This means that, based on historical data and the constructed EPU indexes, the models correctly predicted inflationary or deflationary trends more than two-thirds of the time.
+The pooled model using MA3 performs better than any of the country-level models with an accuracy of approximately 83.1 percent of the time and deviation around 0.83 percentage points from the actual inflation. This means that, based on historical data and the constructed EPU indexes, the models correctly predicted inflationary or deflationary trends more than four out of five times. Smoothing techniques considerably enhance the performance of the pooled model compared to country-specific approaches.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/22209247?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22209247/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+## Future Work
+
+Future work will involve the development of a methodology that can interpolate quarterly CPI data to monthly values, bring lagged CPI data to the same time frequency as the EPU index, and generate inflation predictions on countries with no inflation data.
+
+**Table 3: IMF CPI Data Availability by Country**
+
+
+| Country Name     | ISO3   | Frequency   | Last Reported   |
+|:-----------------|:-------|:------------|:----------------|
+| American Samoa   | ASM    | No Data     | No Data         |
+| Guam             | GUM    | No Data     | No Data         |
+| Marshall Islands | MHL    | No Data     | No Data         |
+| New Zealand      | NZL    | Quarterly   | 2025-Q3         |
+| Palau            | PLW    | Quarterly   | 2025-Q2         |
+| Papua New Guinea | PNG    | Quarterly   | 2025-Q2         |
+| Thailand         | THA    | Monthly     | 2025-M03        |
+| Tonga            | TON    | Monthly     | 2025-M01        |
+| Tuvalu           | TUV    | Quarterly   | 2012-Q2         |
+| Vanuatu          | VUT    | Quarterly   | 2023-Q4         |
+| Vietnam          | VNM    | Monthly     | 2025-M03        |

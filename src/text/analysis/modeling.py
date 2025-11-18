@@ -77,8 +77,9 @@ TRAIN_COUNTRIES = [
 ]
 
 OUT_OF_BAG_COUNTRIES = [
-    "vietnam",
     'philippines',
+    "south_korea",
+    "vietnam",
 ]
 # Set random seed for reproducibility
 np.random.seed(123)

@@ -9,12 +9,13 @@ from pathlib import Path
 EXCLUDE_COUNTRIES = [
     # 'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'palau',
     # 'south_korea', 'singapore', 'thailand', 'timor_leste', 'tuvalu', 'vanuatu'
+    "cambodia", "thailand", "singapore"
 ]
 
 # Countries to exclude from prediction visualizations
 EXCLUDE_PREDS = [
     'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'mongolia',
-    'singapore', 'south_korea', 'thailand', 'timor_leste', 'tuvalu'
+    'singapore', 'thailand', 'timor_leste', 'tuvalu'
 ]
 
 
