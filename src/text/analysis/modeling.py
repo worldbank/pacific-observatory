@@ -62,7 +62,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 
 CPI_DATA_ROOT = PROJECT_ROOT / "data" / "cpi"
-EPU_DATA_ROOT = PROJECT_ROOT / "testing_outputs" / "text"
+EPU_DATA_ROOT = PROJECT_ROOT / "outputs" / "text"
 TOPICS = ["inflation", "job"]
 
 TRAIN_COUNTRIES = [
@@ -390,7 +390,7 @@ if __name__ == '__main__':
         })
         
         # Create output directory
-        output_dir = PROJECT_ROOT / "testing_outputs" / "text" / country / "lasso_preds"
+        output_dir = PROJECT_ROOT / "outputs" / "text" / country / "lasso_preds"
         output_dir.mkdir(parents=True, exist_ok=True)
         
         # Save predictions
@@ -558,7 +558,7 @@ if __name__ == '__main__':
         })
         
         # Create output directory
-        output_dir = PROJECT_ROOT / "testing_outputs" / "text" / country / "lasso_preds_oob"
+        output_dir = PROJECT_ROOT / "outputs" / "text" / country / "lasso_preds_oob"
         output_dir.mkdir(parents=True, exist_ok=True)
         
         # Save predictions

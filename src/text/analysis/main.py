@@ -25,7 +25,7 @@ country_dirs = [
     if entry.is_dir() and entry.name not in EXCLUDED_COUNTRIES
 ]
 
-OUTPUT_DIR = PROJECT_ROOT / "testing_outputs" / "text"
+OUTPUT_DIR = PROJECT_ROOT / "outputs" / "text"
 
 
 def plot_epu(epu_stats, country_name, saved_folder):

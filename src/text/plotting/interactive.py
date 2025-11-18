@@ -764,7 +764,7 @@ def gen_oob_pred_html(countries, data_dir, out):
 
 if __name__ == '__main__':
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
-    DATA_DIR = PROJECT_ROOT / "testing_outputs" / "text"
+    DATA_DIR = PROJECT_ROOT / "outputs" / "text"
     OUTPUT_DIR = PROJECT_ROOT / "docs/images/interactive/text"
     
     countries = [d for d in os.listdir(DATA_DIR) if (DATA_DIR / d).is_dir()]

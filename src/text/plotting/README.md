@@ -42,7 +42,7 @@ Open any HTML file in a web browser. Each plot includes:
 
 The script expects data in this structure:
 ```
-testing_outputs/text/
+outputs/text/
 ├── {country}/
 │   ├── epu/
 │   │   ├── {country}_epu.csv
