@@ -114,7 +114,7 @@ We use a training set of seven countries to evaluate the performance of the coun
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
 </div>
 
-### Pooled Model
+#### Pooled Model
 
 The pooled model using MA3 performs better than any of the country-level models with an accuracy of approximately 83.1 percent of the time and deviation around 0.83 percentage points from the actual inflation. This means that, based on historical data and the constructed EPU indexes, the models correctly predicted inflationary or deflationary trends more than four out of five times. Smoothing techniques considerably enhance the performance of the pooled model compared to country-specific approaches.
 
