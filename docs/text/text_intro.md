@@ -53,7 +53,7 @@ The East Asia and Pacific region hosts a substantial corpus of accessible Englis
 
 ## Methods
 
-### Economic Policy Uncertainty Index (EPU) Index
+### Economic Policy Uncertainty (EPU) Index
 
 One of the most influential applications of exploiting text data in economics is the Economic Policy Uncertainty (EPU) index first developed by {cite:t}`baker2016measuring`. In the initial application, an index of policy uncertainty was constructed based on analyzing the frequency of keywords related to economics, policy, and uncertainty in news articles. The authors found periods of elevated policy uncertainty to be strongly associated with declining in investment and employment, highlighting the negative impact of uncertainty on economic decision-making.
 
