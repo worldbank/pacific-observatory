@@ -114,18 +114,19 @@ We use a training set of seven countries to evaluate the performance of the coun
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
 </div>
 
+### Pooled Model
+
+The pooled model using MA3 performs better than any of the country-level models with an accuracy of approximately 83.1 percent of the time and deviation around 0.83 percentage points from the actual inflation. This means that, based on historical data and the constructed EPU indexes, the models correctly predicted inflationary or deflationary trends more than four out of five times. Smoothing techniques considerably enhance the performance of the pooled model compared to country-specific approaches.
+
+
 #### Validation Countries
 
-For out-of-sample validation, we use a set of three countries: Philippines, South Korea, and Vietnam. Philippines achieves a RMSE of 0.14 and an accuracy of 92.91%. South Korea achieves a RMSE of 0.15 and an accuracy of 84.25%, and Vietnam achieves a RMSE of 0.17 and an accuracy of 88.43%.
+For out-of-sample validation of the pooled model, we use a set of three countries: Philippines, South Korea, and Vietnam. Philippines achieves a RMSE of 0.14 and an accuracy of 92.91%. South Korea achieves a RMSE of 0.15 and an accuracy of 84.25%, and Vietnam achieves a RMSE of 0.17 and an accuracy of 88.43%.
 
 <div>
 <iframe src="../interactive/text/out_of_bag_predictions_pic.html"
 frameborder="0" marginwidth="0" marginheight="0" width="800" height="450"></iframe>
 </div>
-
-### Pooled Model
-
-The pooled model using MA3 performs better than any of the country-level models with an accuracy of approximately 83.1 percent of the time and deviation around 0.83 percentage points from the actual inflation. This means that, based on historical data and the constructed EPU indexes, the models correctly predicted inflationary or deflationary trends more than four out of five times. Smoothing techniques considerably enhance the performance of the pooled model compared to country-specific approaches.
 
 ## Future Work
 
