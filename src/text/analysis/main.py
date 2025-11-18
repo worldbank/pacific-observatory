@@ -149,7 +149,6 @@ if __name__ == "__main__":
     additional_name_inflation = "inflation"
     plot = False
     for country in tqdm(country_dirs):
-        print("Doing", country.name)
         get_epu(
             country,
             cutoff,
