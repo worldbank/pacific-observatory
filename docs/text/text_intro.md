@@ -99,7 +99,7 @@ frameborder="0" marginwidth="0" marginheight="0" width="800" height="433"></ifra
 
 ### Consumer Price Index (CPI) and Inflation
 
-Once we have obtained the EPU index for each country and period, we use the result as an input to analyze and predict price movements. To do so, we obtain the [International Monetary Fund (IMF) Consumer Price Index (CPI) data](https://data.imf.org/en/datasets/IMF.STA:CPI) and apply a three-month moving average (MA3) to smooth the volatile directly measured inflation data. We introduce additional policy categories (using the same index approach described above) that focus on inflation- and job-specific terms. Finally, we conduct a regression analysis using variables selected through the cross-validated LASSO method.
+Once we have obtained the EPU index for each country and period, we use the result as an input to analyze and predict price movements. To do so, we obtain the International Monetary Fund (IMF) Consumer Price Index (CPI) data and apply a three-month moving average (MA3) to smooth the volatile directly measured inflation data. Subsequently, we conduct a regression analysis using variables selected through the cross-validated LASSO method, ensuring the inclusion of relevant variables while minimizing the risk of overfitting. To further prevent overfitting brought by the high-order polynomial, we limit the lag used in the analysis to a maximum of two, meaning for the next prediction, the model can only use past three months’ inflation information.
 
 ## Results
 
