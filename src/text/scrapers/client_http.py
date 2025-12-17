@@ -9,15 +9,16 @@ import asyncio
 import logging
 import time
 from typing import List, Dict, Optional, Union, Any
+from urllib.parse import urlparse
+
 import httpx
-from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 from lxml import etree
 
+from .models import ScrapingResult
+
 # Disable httpx INFO logging to reduce noise
 logging.getLogger("httpx").setLevel(logging.WARNING)
-
-from .models import ScrapingResult, ThumbnailRecord, ArticleRecord
 
 logger = logging.getLogger(__name__)
 
@@ -25,11 +26,11 @@ logger = logging.getLogger(__name__)
 class AsyncHttpClient:
     """
     Asynchronous HTTP client for high-concurrency static scraping.
-    
+
     This client uses httpx with asyncio for efficient concurrent requests
     and supports both BeautifulSoup and XPath parsing.
     """
-    
+
     def __init__(
         self,
         parser: str = "html.parser",
@@ -40,11 +41,11 @@ class AsyncHttpClient:
         max_concurrent: int = 10,
         rate_limit: float = 0.1,  # Minimum delay between requests
         retries: int = 3,  # Number of retry attempts
-        retry_seconds: float = 2.0  # Wait time between retries
+        retry_seconds: float = 2.0,  # Wait time between retries
     ):
         """
         Initialize the AsyncHttpClient.
-        
+
         Args:
             parser: Parser type - "html.parser" or "xpath"
             domain: Domain for cookie management
@@ -58,7 +59,7 @@ class AsyncHttpClient:
         """
         if parser not in ["html.parser", "xpath"]:
             raise ValueError("Invalid parser. Use 'html.parser' or 'xpath'.")
-        
+
         self.parser = parser
         self.domain = domain
         self.timeout = timeout
@@ -67,22 +68,22 @@ class AsyncHttpClient:
         self.retries = retries
         self.retry_seconds = retry_seconds
         self.cookies = cookies
-        
+
         # Default headers - merge with custom headers (custom takes precedence)
         default_headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
         }
         self.headers = {**default_headers, **(headers or {})}
-        
+
         # Cookie management
         self.cookies = cookies or {}
         if domain:
             self.refresh_cookies()
-        
+
         # Semaphore for rate limiting
         self._semaphore = asyncio.Semaphore(max_concurrent)
         self._last_request_time = 0
-    
+
     def refresh_cookies(self):
         """Fetch updated cookies for the domain."""
         if self.domain:
@@ -92,7 +93,7 @@ class AsyncHttpClient:
                 logger.info(f"Refreshed cookies for domain: {self.domain}")
             except Exception as e:
                 logger.warning(f"Failed to refresh cookies for {self.domain}: {e}")
-    
+
     async def _rate_limit_delay(self):
         """Implement rate limiting between requests."""
         if self.rate_limit > 0:
@@ -101,47 +102,42 @@ class AsyncHttpClient:
             if time_since_last < self.rate_limit:
                 await asyncio.sleep(self.rate_limit - time_since_last)
             self._last_request_time = time.time()
-    
+
     async def request_url(
-        self,
-        client: httpx.AsyncClient,
-        url: str,
-        retries: Optional[int] = None
+        self, client: httpx.AsyncClient, url: str, retries: Optional[int] = None
     ) -> tuple[Optional[bytes], Optional[int]]:
         """
         Send an async HTTP GET request to the specified URL.
-        
+
         Args:
             client: httpx AsyncClient instance
             url: URL to request
             retries: Number of retry attempts (uses instance default if None)
-            
+
         Returns:
             Tuple of (response content as bytes or None, status code or None)
         """
         # Use instance retry setting if not provided
         retry_count = retries if retries is not None else self.retries
-        
+
         async with self._semaphore:
             await self._rate_limit_delay()
-            
+
             # Log request details for debugging
             logger.debug(f"Making request to: {url}")
             logger.debug(f"Request headers: {self.headers}")
             logger.debug(f"Request cookies: {self.cookies}")
             logger.debug(f"Request timeout: {self.timeout}")
-            
+
             for attempt in range(retry_count + 1):
                 try:
                     response = await client.get(
-                        url,
-                        headers=self.headers,
-                        timeout=self.timeout
+                        url, headers=self.headers, timeout=self.timeout
                     )
-                    
+
                     response.raise_for_status()
                     return response.content, response.status_code
-                    
+
                 except httpx.HTTPStatusError as e:
                     if e.response.status_code == 301:
                         redirect = e.response.headers.get("Location")
@@ -150,68 +146,74 @@ class AsyncHttpClient:
                             # if the page doesn't exist
                             # so we need to check if the redirect is the homepage
                             # (homepage extracted from original url)
-                            home_domain = urlparse(url).scheme + "://" + urlparse(url).netloc
-                            if redirect == home_domain: 
+                            home_domain = (
+                                urlparse(url).scheme + "://" + urlparse(url).netloc
+                            )
+                            if redirect == home_domain:
                                 return None, 301
                             else:
                                 return await self.request_url(client, redirect, retries)
                     if e.response.status_code == 404:
                         logger.error(f"404 Not Found for {url} - page doesn't exist")
                         return None, 404
-                    
+
                     # Log detailed error information for non-404 errors
                     logger.error(f"HTTP {e.response.status_code} for {url}")
-                    if attempt == retry_count:  # Only log retry exhaustion on final attempt
-                        logger.error(f"Failed after {retry_count + 1} attempts with HTTP {e.response.status_code}")
+                    if (
+                        attempt == retry_count
+                    ):  # Only log retry exhaustion on final attempt
+                        logger.error(
+                            f"Failed after {retry_count + 1} attempts with HTTP {e.response.status_code}"
+                        )
                         # Return the status code even on final failure
                         return None, e.response.status_code
-                    
+
                 except httpx.RequestError as e:
                     if attempt == retry_count:  # Only log on final attempt
                         logger.error(f"Request error for {url}: {e}")
-                    
+
                 except Exception as e:
                     logger.error(f"Unexpected error for {url}: {e}")
-                
+
                 # Retry logic
                 if attempt < retry_count:
-                    logger.debug(f"Retrying {url} in {self.retry_seconds}s (attempt {attempt + 1}/{retry_count})")
+                    logger.debug(
+                        f"Retrying {url} in {self.retry_seconds}s (attempt {attempt + 1}/{retry_count})"
+                    )
                     await asyncio.sleep(self.retry_seconds)
-                    
+
                     # Refresh cookies on retry
                     if self.domain and attempt == 0:
                         self.refresh_cookies()
-            
+
             logger.error(f"Failed to retrieve {url} after {retry_count + 1} attempts")
             return None, None
-    
+
     def parse_content(self, content: bytes) -> Union[BeautifulSoup, etree._Element]:
         """
         Parse HTTP response content using the specified parser.
-        
+
         Args:
             content: Raw HTML content as bytes
-            
+
         Returns:
             Parsed content object (BeautifulSoup or lxml etree)
         """
         if self.parser == "xpath":
-            return etree.HTML(content.decode('utf-8', errors='ignore'))
+            return etree.HTML(content.decode("utf-8", errors="ignore"))
         else:
             return BeautifulSoup(content, "html.parser")
-    
+
     def extract_items(
-        self,
-        parsed_content: Union[BeautifulSoup, etree._Element],
-        expression: str
+        self, parsed_content: Union[BeautifulSoup, etree._Element], expression: str
     ) -> List[Any]:
         """
         Extract items from parsed content using the specified expression.
-        
+
         Args:
             parsed_content: Parsed HTML content
             expression: CSS selector or XPath expression
-            
+
         Returns:
             List of extracted elements
         """
@@ -219,28 +221,25 @@ class AsyncHttpClient:
             return parsed_content.xpath(expression)
         else:
             # For BeautifulSoup, assume CSS selector
-            if expression.startswith('.'):
+            if expression.startswith("."):
                 # Class selector
                 class_name = expression[1:]  # Remove the dot
                 return parsed_content.find_all(class_=class_name)
             else:
                 # Tag selector or other CSS selector
                 return parsed_content.select(expression)
-    
+
     async def scrape_url(
-        self,
-        client: httpx.AsyncClient,
-        url: str,
-        expression: Union[str, List[str]]
+        self, client: httpx.AsyncClient, url: str, expression: Union[str, List[str]]
     ) -> ScrapingResult:
         """
         Scrape a single URL with the given expression(s).
-        
+
         Args:
             client: httpx AsyncClient instance
             url: URL to scrape
             expression: CSS selector/XPath expression or list of expressions
-            
+
         Returns:
             ScrapingResult with extracted data or error information
         """
@@ -251,90 +250,77 @@ class AsyncHttpClient:
                     success=False,
                     error="Failed to retrieve content",
                     status_code=status_code,
-                    url=url
+                    url=url,
                 )
-            
+
             parsed_content = self.parse_content(content)
-            
+
             if isinstance(expression, str):
                 items = self.extract_items(parsed_content, expression)
             elif isinstance(expression, list):
-                items = [self.extract_items(parsed_content, expr) for expr in expression]
+                items = [
+                    self.extract_items(parsed_content, expr) for expr in expression
+                ]
             else:
                 raise ValueError("Expression must be string or list of strings")
-            
+
             return ScrapingResult(
-                success=True,
-                data=items,
-                status_code=status_code,
-                url=url
+                success=True, data=items, status_code=status_code, url=url
             )
-            
+
         except Exception as e:
             logger.error(f"Failed to scrape URL '{url}': {e}")
-            return ScrapingResult(
-                success=False,
-                error=str(e),
-                url=url
-            )
-    
+            return ScrapingResult(success=False, error=str(e), url=url)
+
     async def scrape_urls(
-        self,
-        urls: List[str],
-        expression: Union[str, List[str]]
+        self, urls: List[str], expression: Union[str, List[str]]
     ) -> List[ScrapingResult]:
         """
         Scrape multiple URLs concurrently, respecting the concurrency limit.
-        
+
         Args:
             urls: List of URLs to scrape
             expression: CSS selector/XPath expression or list of expressions
-            
+
         Returns:
             List of ScrapingResult objects
         """
         if not isinstance(urls, list):
             raise TypeError("The 'urls' argument must be a list of URLs.")
-        
+
         async with httpx.AsyncClient() as client:
             # Process URLs in batches to respect concurrency limits
             batch_size = self.max_concurrent * 2  # Process 2x concurrency at a time
             all_results = []
-            
+
             for i in range(0, len(urls), batch_size):
-                batch_urls = urls[i:i + batch_size]
-                
-                tasks = [
-                    self.scrape_url(client, url, expression)
-                    for url in batch_urls
-                ]
-                
+                batch_urls = urls[i : i + batch_size]
+
+                tasks = [self.scrape_url(client, url, expression) for url in batch_urls]
+
                 # Process this batch
                 batch_results = await asyncio.gather(*tasks, return_exceptions=True)
-                
+
                 # Handle any exceptions that occurred in this batch
                 for j, result in enumerate(batch_results):
                     if isinstance(result, Exception):
-                        all_results.append(ScrapingResult(
-                            success=False,
-                            error=str(result),
-                            url=batch_urls[j]
-                        ))
+                        all_results.append(
+                            ScrapingResult(
+                                success=False, error=str(result), url=batch_urls[j]
+                            )
+                        )
                     else:
                         all_results.append(result)
-                
+
             return all_results
-    
-    async def check_urls_batch(
-        self,
-        urls: List[str]
-    ) -> Dict[str, bool]:
+
+    async def check_urls_batch(self, urls: List[str]) -> Dict[str, bool]:
         """
         Check if a batch of URLs are accessible (for pagination detection).
-        
+
         Args:
             urls: List of URLs to check
-            
+
         Returns:
             Dictionary mapping URLs to their accessibility status
         """
@@ -342,18 +328,18 @@ class AsyncHttpClient:
             tasks = []
             for url in urls:
                 tasks.append(self._check_single_url(client, url))
-            
+
             results = await asyncio.gather(*tasks, return_exceptions=True)
-            
+
             url_status = {}
             for i, result in enumerate(results):
                 if isinstance(result, Exception):
                     url_status[urls[i]] = False
                 else:
                     url_status[urls[i]] = result
-            
+
             return url_status
-    
+
     async def _check_single_url(self, client: httpx.AsyncClient, url: str) -> bool:
         """Check if a single URL is accessible."""
         try:
@@ -365,20 +351,23 @@ class AsyncHttpClient:
                     headers=self.headers,
                     cookies=self.cookies,
                     timeout=self.timeout,
-                    follow_redirects=True
+                    follow_redirects=True,
                 )
 
                 if response.status_code == 200:
                     return True
 
                 # Fallback to GET when HEAD is not supported or returns an error status
-                if response.status_code in {301, 302, 303, 307, 308, 403, 404, 405} or response.status_code >= 500:
+                if (
+                    response.status_code in {301, 302, 303, 307, 308, 403, 404, 405}
+                    or response.status_code >= 500
+                ):
                     get_response = await client.get(
                         url,
                         headers=self.headers,
                         cookies=self.cookies,
                         timeout=self.timeout,
-                        follow_redirects=True
+                        follow_redirects=True,
                     )
                     return get_response.status_code == 200
 
@@ -392,7 +381,7 @@ class AsyncHttpClient:
                         headers=self.headers,
                         cookies=self.cookies,
                         timeout=self.timeout,
-                        follow_redirects=True
+                        follow_redirects=True,
                     )
                     return get_response.status_code == 200
             except Exception:

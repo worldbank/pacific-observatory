@@ -5,11 +5,12 @@ try:
     from nltk.sentiment.vader import SentimentIntensityAnalyzer
 except ImportError:
     import nltk
-    nltk.download('vader_lexicon')
+
+    nltk.download("vader_lexicon")
     from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
-def sentiment_analysis(df):
 
+def sentiment_analysis(df):
     sid = SentimentIntensityAnalyzer()
     results = []
     for news in df.body:
@@ -19,7 +20,6 @@ def sentiment_analysis(df):
 
 
 def calculate_sentiment(df):
-
     df = df[(df.econ) & (df.policy)].reset_index(drop=True)
 
     sent_res = sentiment_analysis(df)
@@ -27,7 +27,11 @@ def calculate_sentiment(df):
     df["score"] = [i["compound"] for i in sent_res]
     df["date"] = df["date"].apply(lambda x: parse(str(x)).date())
     df["date"] = pd.to_datetime(df["date"])
-    month_sent = (df.set_index("date").groupby(
-        pd.Grouper(freq="MS"))[["score"]].mean().reset_index())
+    month_sent = (
+        df.set_index("date")
+        .groupby(pd.Grouper(freq="MS"))[["score"]]
+        .mean()
+        .reset_index()
+    )
 
     return month_sent, df.score.mean(), df.score.std()

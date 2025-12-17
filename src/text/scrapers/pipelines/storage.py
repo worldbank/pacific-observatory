@@ -38,10 +38,14 @@ class CSVStorage:
 
         self.base_data_dir = Path(base_data_dir)
         self.ensure_directories()
-        
+
         # Streaming state tracking
-        self._streaming_file_handles: Dict[str, Any] = {}  # Track open file handles by newspaper
-        self._streaming_headers_written: Dict[str, bool] = {}  # Track if headers written
+        self._streaming_file_handles: Dict[
+            str, Any
+        ] = {}  # Track open file handles by newspaper
+        self._streaming_headers_written: Dict[
+            str, bool
+        ] = {}  # Track if headers written
 
     def ensure_directories(self):
         """Ensure the base directory structure exists."""
@@ -106,7 +110,7 @@ class CSVStorage:
             Path to the initialized CSV file
         """
         import csv
-        
+
         if timestamp is None:
             timestamp = datetime.now()
 
@@ -119,7 +123,16 @@ class CSVStorage:
         file_path = newspaper_dir / filename
 
         # Define CSV headers
-        headers = ["url", "title", "date", "body", "tags", "source", "country", "_scraped_at"]
+        headers = [
+            "url",
+            "title",
+            "date",
+            "body",
+            "tags",
+            "source",
+            "country",
+            "_scraped_at",
+        ]
 
         # Write headers to file
         with open(file_path, "w", newline="", encoding="utf-8") as f:
@@ -127,7 +140,7 @@ class CSVStorage:
             writer.writeheader()
 
         logger.info(f"Initialized CSV file: {file_path}")
-        
+
         # Track that headers have been written
         key = self._get_streaming_key(country, newspaper)
         self._streaming_headers_written[key] = True
@@ -154,7 +167,7 @@ class CSVStorage:
             Path to the CSV file
         """
         import csv
-        
+
         if timestamp is None:
             timestamp = datetime.now()
 
@@ -167,21 +180,30 @@ class CSVStorage:
         file_path = newspaper_dir / filename
 
         # Define CSV headers in the correct order
-        headers = ["url", "title", "date", "body", "tags", "source", "country", "_scraped_at"]
+        headers = [
+            "url",
+            "title",
+            "date",
+            "body",
+            "tags",
+            "source",
+            "country",
+            "_scraped_at",
+        ]
 
         # Convert article to dictionary
         article_dict = article.model_dump()
-        
+
         # Convert tags list to comma-separated string
         if isinstance(article_dict.get("tags"), list):
             article_dict["tags"] = ",".join(article_dict["tags"])
-        
+
         # Convert HttpUrl to string
         article_dict["url"] = str(article_dict["url"])
-        
+
         # Add timestamp
         article_dict["_scraped_at"] = timestamp.isoformat()
-        
+
         # Build row with only the fields in headers, in the correct order
         row = {}
         for header in headers:
@@ -189,7 +211,9 @@ class CSVStorage:
 
         # Append to CSV file
         with open(file_path, "a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=headers, restval="", extrasaction="ignore")
+            writer = csv.DictWriter(
+                f, fieldnames=headers, restval="", extrasaction="ignore"
+            )
             writer.writerow(row)
 
         return file_path
@@ -223,16 +247,13 @@ class CSVStorage:
                 # This is likely a Pydantic model
                 model_dict = obj.dict()
                 return self.serialize_for_json(model_dict)
-            except:
+            except Exception:
                 # If dict() fails, convert to string
                 return str(obj)
 
         # Handle collections recursively
         if isinstance(obj, dict):
-            return {
-                key: self.serialize_for_json(value)
-                for key, value in obj.items()
-            }
+            return {key: self.serialize_for_json(value) for key, value in obj.items()}
         elif isinstance(obj, list):
             return [self.serialize_for_json(item) for item in obj]
         elif isinstance(obj, tuple):
@@ -265,7 +286,7 @@ class CSVStorage:
             Path to the saved file
         """
         import pandas as pd
-        
+
         if timestamp is None:
             timestamp = datetime.now()
 
@@ -326,7 +347,9 @@ class CSVStorage:
         metadata_dir.mkdir(parents=True, exist_ok=True)
 
         # Create filename based on metadata type
-        filename = f"{metadata_type}_metadata_{timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+        filename = (
+            f"{metadata_type}_metadata_{timestamp.strftime('%Y%m%d_%H%M%S')}.json"
+        )
         file_path = metadata_dir / filename
 
         # Prepare metadata
@@ -373,7 +396,7 @@ class CSVStorage:
             Path to the saved file, or None if no failed URLs
         """
         import pandas as pd
-        
+
         if not failed_urls:
             return None
 
@@ -393,9 +416,15 @@ class CSVStorage:
         df = pd.DataFrame(failed_urls)
         # Convert any HttpUrl objects to strings
         for col in df.columns:
-            if df[col].dtype == 'object':
-                df[col] = df[col].apply(lambda x: str(x) if hasattr(x, '__class__') and 'HttpUrl' in x.__class__.__name__ else x)
-        
+            if df[col].dtype == "object":
+                df[col] = df[col].apply(
+                    lambda x: (
+                        str(x)
+                        if hasattr(x, "__class__") and "HttpUrl" in x.__class__.__name__
+                        else x
+                    )
+                )
+
         df.to_csv(file_path, index=False, encoding="utf-8")
 
         logger.info(f"Saved {len(failed_urls)} failed URLs to {file_path}")
@@ -421,7 +450,7 @@ class CSVStorage:
             Path to the saved file, or None if no failed news
         """
         import pandas as pd
-        
+
         if not failed_news:
             return None
 
@@ -441,14 +470,18 @@ class CSVStorage:
         df = pd.DataFrame(failed_news)
         # Convert any HttpUrl objects to strings
         for col in df.columns:
-            if df[col].dtype == 'object':
-                df[col] = df[col].apply(lambda x: str(x) if hasattr(x, '__class__') and 'HttpUrl' in x.__class__.__name__ else x)
-        
+            if df[col].dtype == "object":
+                df[col] = df[col].apply(
+                    lambda x: (
+                        str(x)
+                        if hasattr(x, "__class__") and "HttpUrl" in x.__class__.__name__
+                        else x
+                    )
+                )
+
         df.to_csv(file_path, index=False, encoding="utf-8")
 
-        logger.info(
-            f"Saved {len(failed_news)} failed news articles to {file_path}"
-        )
+        logger.info(f"Saved {len(failed_news)} failed news articles to {file_path}")
         return file_path
 
     def save_thumbnails_as_urls(
@@ -471,7 +504,7 @@ class CSVStorage:
             Path to the saved file, or None if no thumbnails
         """
         import pandas as pd
-        
+
         if not thumbnails:
             return None
 
@@ -517,7 +550,7 @@ class CSVStorage:
             List of ArticleRecord objects if file exists, None otherwise
         """
         import pandas as pd
-        
+
         # Get newspaper directory
         newspaper_dir = self.get_newspaper_dir(country, newspaper)
 
@@ -533,29 +566,30 @@ class CSVStorage:
             # Read CSV file
             df = pd.read_csv(file_path, encoding="utf-8")
             articles = []
-            
+
             for _, row in df.iterrows():
                 try:
                     # Convert row to dictionary
                     article_data = row.to_dict()
-                    
+
                     # Remove metadata fields that aren't part of ArticleRecord
                     article_data = {
-                        k: v
-                        for k, v in article_data.items()
-                        if not k.startswith("_")
+                        k: v for k, v in article_data.items() if not k.startswith("_")
                     }
-                    
+
                     # Handle NaN values
                     article_data = {
-                        k: v if pd.notna(v) else None
-                        for k, v in article_data.items()
+                        k: v if pd.notna(v) else None for k, v in article_data.items()
                     }
-                    
+
                     # Parse tags from comma-separated string back to list
                     if "tags" in article_data and isinstance(article_data["tags"], str):
-                        article_data["tags"] = [tag.strip() for tag in article_data["tags"].split(",") if tag.strip()]
-                    
+                        article_data["tags"] = [
+                            tag.strip()
+                            for tag in article_data["tags"].split(",")
+                            if tag.strip()
+                        ]
+
                     article = ArticleRecord(**article_data)
                     articles.append(article)
                 except Exception as row_error:
@@ -564,20 +598,14 @@ class CSVStorage:
                     )
                     continue
 
-            logger.info(
-                f"Loaded {len(articles)} existing articles from {file_path}"
-            )
+            logger.info(f"Loaded {len(articles)} existing articles from {file_path}")
             return articles
 
         except Exception as e:
-            logger.error(
-                f"Failed to load existing articles from {file_path}: {e}"
-            )
+            logger.error(f"Failed to load existing articles from {file_path}: {e}")
             return None
 
-    def get_existing_article_urls(
-        self, country: str, newspaper: str
-    ) -> set:
+    def get_existing_article_urls(self, country: str, newspaper: str) -> set:
         """
         Get set of existing article URLs from news.csv file.
 
@@ -589,7 +617,7 @@ class CSVStorage:
             Set of existing article URLs
         """
         import pandas as pd
-        
+
         # Get newspaper directory
         newspaper_dir = self.get_newspaper_dir(country, newspaper)
 
@@ -609,9 +637,7 @@ class CSVStorage:
             return urls
 
         except Exception as e:
-            logger.error(
-                f"Failed to get existing article URLs from {file_path}: {e}"
-            )
+            logger.error(f"Failed to get existing article URLs from {file_path}: {e}")
             return set()
 
     def load_urls_from_csv(
@@ -628,7 +654,7 @@ class CSVStorage:
             List of ThumbnailRecord objects if file exists, None otherwise
         """
         import pandas as pd
-        
+
         # Get newspaper directory
         newspaper_dir = self.get_newspaper_dir(country, newspaper)
 
@@ -644,18 +670,17 @@ class CSVStorage:
             # Read CSV file
             df = pd.read_csv(file_path, encoding="utf-8")
             thumbnails = []
-            
+
             for _, row in df.iterrows():
                 try:
                     # Convert row to dictionary
                     thumb_data = row.to_dict()
-                    
+
                     # Handle NaN values
                     thumb_data = {
-                        k: v if pd.notna(v) else None
-                        for k, v in thumb_data.items()
+                        k: v if pd.notna(v) else None for k, v in thumb_data.items()
                     }
-                    
+
                     thumbnail = ThumbnailRecord(**thumb_data)
                     thumbnails.append(thumbnail)
                 except Exception as row_error:
@@ -664,13 +689,9 @@ class CSVStorage:
                     )
                     continue
 
-            logger.info(
-                f"Loaded {len(thumbnails)} thumbnails from {file_path}"
-            )
+            logger.info(f"Loaded {len(thumbnails)} thumbnails from {file_path}")
             return thumbnails
 
         except Exception as e:
-            logger.error(
-                f"Failed to load URLs from {file_path}: {e}"
-            )
+            logger.error(f"Failed to load URLs from {file_path}: {e}")
             return None

@@ -7,9 +7,11 @@ from datetime import datetime, timedelta
 
 import requests
 
+
 def load_page(url, timeout=30):
     r = requests.get(url, timeout=timeout)
     return r.content
+
 
 # Wrap the urllib3 downloading functions
 def download_files(url: str, path: str, chunk_size=1024):
@@ -29,12 +31,9 @@ def download_files(url: str, path: str, chunk_size=1024):
     """
 
     http = urllib3.PoolManager()
-    r = http.request(
-        'GET',
-        url,
-        preload_content=False)
+    r = http.request("GET", url, preload_content=False)
 
-    with open(path, 'wb') as out:
+    with open(path, "wb") as out:
         while True:
             data = r.read(chunk_size)
             if not data:
@@ -42,42 +41,39 @@ def download_files(url: str, path: str, chunk_size=1024):
             out.write(data)
     r.release_conn()
 
-def configure_headers():
 
+def configure_headers():
     headers = {
-        "User-Agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Sec-Ch-Ua-Platform":
-        "MacOS",
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Sec-Ch-Ua-Platform": "MacOS",
         "upgrade-insecure-requests": "1",
         "dnt": "1",
-        "Sec-Ch-Ua":
-        '"Google Chrome";v="120", "Not;A=Brand";v="8", "Chromium";v="120"',
-        "Accept":
-        "*/*",
+        "Sec-Ch-Ua": '"Google Chrome";v="120", "Not;A=Brand";v="8", "Chromium";v="120"',
+        "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
         "Accept-Language": "en-US,en;q=0.9",
         "Accpet-Encoding": "gzip, deflate, br",
     }
 
-    return headers 
+    return headers
+
 
 def configure_cookies(host_url: str) -> dict:
-      
     cookies = chrome_cookies(host_url)
     return cookies
+
 
 def check_latest_date(filepath: str):
     df = pd.read_csv(filepath)
     if "date" in df.columns:
         df["date"] = pd.to_datetime(df["date"], format="mixed")
         return df["date"].max()
-    
+
 
 def handle_mixed_dates(date: str, pattern="\d+"):
     try:
         date = parse(date)
-    except:
+    except Exception:
         if "ago" in date:
             now = datetime.now()
             number = int(re.findall(pattern, date)[0])
@@ -87,5 +83,3 @@ def handle_mixed_dates(date: str, pattern="\d+"):
                 date = now - timedelta(hours=number)
     finally:
         return date
-            
-            

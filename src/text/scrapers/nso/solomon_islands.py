@@ -1,7 +1,7 @@
-import os
 import sys
 import re
 from ..config import PROJECT_FOLDER_PATH
+
 sys.path.insert(0, PROJECT_FOLDER_PATH)
 import pandas as pd
 from src.scrapers import SeleniumScraper
@@ -14,53 +14,52 @@ download_xpath = "//a[@class='downloadlink wpfd_downloadlink']"
 chromedriver_path = sys.path[0] + "/scripts/chromedriver"
 SAVED_PATH = sys.path[0] + "/data/official_statistics/solomon_islands/cpi/"
 
-def scrape_sb_nso(url: str,
-                  driver_path: str = chromedriver_path,
-                  download_path: str = SAVED_PATH) -> list:
-    """
-    
-    """
+
+def scrape_sb_nso(
+    url: str, driver_path: str = chromedriver_path, download_path: str = SAVED_PATH
+) -> list:
+    """ """
     urls = []
-    scraper = SeleniumScraper(driver_path=driver_path,
-                              download_path=download_path)
+    scraper = SeleniumScraper(driver_path=driver_path, download_path=download_path)
     scraper.start_driver()
     scraper.driver.get(url)
     while True:
         try:
             download_elems = scraper.perform_search(download_xpath)
-            urls.extend(
-                [elem.get_attribute("href") for elem in download_elems])
+            urls.extend([elem.get_attribute("href") for elem in download_elems])
             next_page_button = scraper.perform_search(
-                "//a[@class='next page-numbers']")[0]
+                "//a[@class='next page-numbers']"
+            )[0]
             next_page_button.click()
-        except:
+        except Exception:
             break
     return urls
 
+
 month_mapping = {
-    'january': '01',
-    'jan': '01',
-    'february': '02',
-    'feb': '02',
-    'march': '03',
-    'mar': '03',
-    'april': '04',
-    'apr': '04',
-    'may': '05',
-    'june': '06',
-    'jun': '06',
-    'july': '07',
-    'jul': '07',
-    'august': '08',
-    'aug': '08',
-    'september': '09',
-    'sep': '09',
-    'october': '10',
-    'oct': '10',
-    'november': '11',
-    'nov': '11',
-    'december': '12',
-    'dec': '12'
+    "january": "01",
+    "jan": "01",
+    "february": "02",
+    "feb": "02",
+    "march": "03",
+    "mar": "03",
+    "april": "04",
+    "apr": "04",
+    "may": "05",
+    "june": "06",
+    "jun": "06",
+    "july": "07",
+    "jul": "07",
+    "august": "08",
+    "aug": "08",
+    "september": "09",
+    "sep": "09",
+    "october": "10",
+    "oct": "10",
+    "november": "11",
+    "nov": "11",
+    "december": "12",
+    "dec": "12",
 }
 
 
@@ -68,8 +67,11 @@ def parse_file_name(file_name):
     """
     The function is to extract yyyymm from a specific filename.
     """
-    regex = r"(?P<month>" + "|".join(
-        month_mapping.keys()) + r")(?=[-_\.])(.*?)(?P<year>\d{4})"
+    regex = (
+        r"(?P<month>"
+        + "|".join(month_mapping.keys())
+        + r")(?=[-_\.])(.*?)(?P<year>\d{4})"
+    )
     match = re.search(regex, file_name, re.IGNORECASE)
     if match:
         month = match.group("month").lower()

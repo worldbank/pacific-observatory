@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 from .pipelines.cleaning import apply_cleaning
 from .models import ThumbnailSelectorConfig, ArticleSelectorConfig
 import unicodedata
+
 logger = logging.getLogger(__name__)
 
 
@@ -19,7 +20,7 @@ def extract_with_selector_fallback(
     selector_config: Optional[Any],
     *,
     first_only: bool = False,
-    strip: bool = True
+    strip: bool = True,
 ) -> Dict[str, Any]:
     """
     Attempt multiple selectors with fallback logic supporting ::text and ::attr(...) syntax.
@@ -45,16 +46,14 @@ def extract_with_selector_fallback(
         "extraction": None,
         "attr_name": None,
         "elements": [],
-        "values": []
+        "values": [],
     }
 
     if not selector_config:
         return result
 
     selectors: List[str] = (
-        selector_config
-        if isinstance(selector_config, list)
-        else [selector_config]
+        selector_config if isinstance(selector_config, list) else [selector_config]
     )
 
     for selector in selectors:
@@ -94,7 +93,11 @@ def extract_with_selector_fallback(
             ]
         elif extraction_mode == "attr" and attr_name:
             values = [
-                attr_value.strip() if isinstance(attr_value, str) and strip else attr_value
+                (
+                    attr_value.strip()
+                    if isinstance(attr_value, str) and strip
+                    else attr_value
+                )
                 for elem in elements
                 if (attr_value := elem.get(attr_name))
             ]
@@ -127,24 +130,24 @@ def extract_thumbnail_data_from_element(
     page_url: str,
     selectors: ThumbnailSelectorConfig,
     base_url: str,
-    cleaning_config: Optional[Dict[str, str]] = None
+    cleaning_config: Optional[Dict[str, str]] = None,
 ) -> Optional[Dict[str, Any]]:
     """
     Extract thumbnail data directly from a thumbnail element.
-    
+
     Args:
         thumbnail_element: Individual thumbnail element (BeautifulSoup element)
         page_url: URL of the page this element came from
         selectors: Dictionary of CSS selectors for data extraction
         base_url: Base URL for making relative URLs absolute
         cleaning_config: Optional cleaning configuration
-        
+
     Returns:
         Dictionary with extracted data or None if extraction failed
     """
     try:
         data = {}
-        
+
         # Extract title using fallback helper
         title_result = extract_with_selector_fallback(
             thumbnail_element,
@@ -179,7 +182,9 @@ def extract_thumbnail_data_from_element(
                 for attr_name in candidate_attrs:
                     attr_val = raw_url.get(attr_name)
                     if attr_val:
-                        href_value = attr_val.strip() if isinstance(attr_val, str) else attr_val
+                        href_value = (
+                            attr_val.strip() if isinstance(attr_val, str) else attr_val
+                        )
                         break
 
             if href_value:
@@ -218,9 +223,8 @@ def extract_thumbnail_data_from_element(
         if cleaning_config:
             data = apply_cleaning(data, cleaning_config, base_url, page_url)
 
-        
         return data
-        
+
     except Exception as e:
         logger.error(f"Error extracting thumbnail data: {e}")
         return None
@@ -231,24 +235,24 @@ def extract_article_data_from_soup(
     article_url: str,
     selectors: ArticleSelectorConfig,
     base_url: str,
-    cleaning_config: Optional[Dict[str, str]] = None
+    cleaning_config: Optional[Dict[str, str]] = None,
 ) -> Dict[str, Any]:
     """
     Extract article body and tags from a BeautifulSoup object.
-    
+
     Args:
         soup: BeautifulSoup object of the article page
         article_url: URL of the article page
         selectors: Dictionary of CSS selectors for data extraction
         base_url: Base URL for making relative URLs absolute
         cleaning_config: Optional cleaning configuration
-        
+
     Returns:
         Dictionary with extracted article data (body, tags)
     """
     try:
         data = {}
-        
+
         # Extract article body with fallback selector support
         body_result = extract_with_selector_fallback(
             soup,
@@ -257,7 +261,11 @@ def extract_article_data_from_soup(
         )
         data["body"] = ""
         if body_result["values"]:
-            text_values = [unicodedata.normalize('NFKD', elem.get_text(separator=' ', strip=True)) for elem in body_result["values"] if elem.get_text(strip=True)]
+            text_values = [
+                unicodedata.normalize("NFKD", elem.get_text(separator=" ", strip=True))
+                for elem in body_result["values"]
+                if elem.get_text(strip=True)
+            ]
             data["body"] = " ".join(text_values)
         # Extract article date if selector is provided
         if selectors.date:
@@ -278,7 +286,7 @@ def extract_article_data_from_soup(
                 logger.warning(
                     f"Article date selector '{selectors.date}' failed on {article_url}"
                 )
-        
+
         # Extract tags if selector is provided
         data["tags"] = []
         if selectors.tags:
@@ -289,21 +297,29 @@ def extract_article_data_from_soup(
             )
             if tags_result["values"]:
                 if tags_result["extraction"] in {"text", "attr"}:
-                    tags = [str(value).strip() for value in tags_result["values"] if str(value).strip()]
+                    tags = [
+                        str(value).strip()
+                        for value in tags_result["values"]
+                        if str(value).strip()
+                    ]
                 else:
-                    tags = [elem.get_text(strip=True) for elem in tags_result["values"] if elem.get_text(strip=True)]
+                    tags = [
+                        elem.get_text(strip=True)
+                        for elem in tags_result["values"]
+                        if elem.get_text(strip=True)
+                    ]
                 data["tags"] = tags
             else:
                 logger.warning(
                     f"Article tags selector '{selectors.tags}' failed on {article_url}"
                 )
-        
+
         # Apply cleaning functions if configured
         if cleaning_config:
             data = apply_cleaning(data, cleaning_config, base_url, article_url)
-        
+
         return data
-        
+
     except Exception as e:
         logger.error(f"Error extracting article data from {article_url}: {e}")
         return {"body": "", "tags": []}

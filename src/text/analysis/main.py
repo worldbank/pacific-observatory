@@ -2,18 +2,16 @@ import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
-import os
-
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
+from tqdm import tqdm
 
 from src.text.analysis.epu import EPU
 from src.text.analysis.sentiment import calculate_sentiment
 from src.text.analysis.utils import generate_continous_df, load_topics_words
-from tqdm import tqdm
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 DATA_ROOT = PROJECT_ROOT / "data" / "text"
 # EXCLUDED_COUNTRIES = {"marshall_islands", "tonga"}
@@ -31,9 +29,7 @@ OUTPUT_DIR = PROJECT_ROOT / "outputs" / "text"
 def plot_epu(epu_stats, country_name, saved_folder):
     fig, ax = plt.subplots(figsize=(8, 6))
     epu_stats.plot(x="date", y="epu_weighted", color="blue", ax=ax)
-    epu_stats.plot(
-        x="date", y="epu_unweighted", color="lightgray", alpha=0.5, ax=ax
-    )
+    epu_stats.plot(x="date", y="epu_unweighted", color="lightgray", alpha=0.5, ax=ax)
 
     title = " ".join(n[0].upper() + n[1:] for n in country_name.split("_"))
     ax.set_title(f"{title}'s EPU Score")
@@ -120,9 +116,7 @@ def get_sentiment(
     max_date = str(sent_df.date.max().date())
 
     sent_df = generate_continous_df(sent_df, min_date, max_date, freq="MS")
-    sent_df["z_score"] = sent_df["score"].apply(
-        lambda x: (x - sent_mean) / sent_std
-    )
+    sent_df["z_score"] = sent_df["score"].apply(lambda x: (x - sent_mean) / sent_std)
 
     saved_folder = OUTPUT_DIR / f"{country_name}/sentiment/"
     saved_folder.mkdir(parents=True, exist_ok=True)
@@ -139,7 +133,7 @@ def get_sentiment(
 if __name__ == "__main__":
     cutoff = "2020-12-31"
     subset_condition = "date >= '2015-01-01' and date < '2025-10-01'"
-    
+
     additional_terms_keys = ["inflation", "job"]
     # Load additional terms from topics_words.json
     additional_terms_job = load_topics_words(additional_name="job")
@@ -168,11 +162,11 @@ if __name__ == "__main__":
                 country,
                 cutoff,
                 subset_condition,
-            plot=plot,
-            additional_terms=additional_terms,
-            additional_name=additional_name,
+                plot=plot,
+                additional_terms=additional_terms,
+                additional_name=additional_name,
             )
-            
+
             get_sentiment(
                 country,
                 cutoff,
