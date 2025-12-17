@@ -1,0 +1,44 @@
+# The Independent Configuration
+
+name: "The Independent"
+country: "singapore"
+base_url: "https://www.theindependent.sg"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: 
+  - "https://theindependent.sg/news/singapore-politics/page/{num}/"
+  - "https://theindependent.sg/news/features/page/{num}/"
+  - "https://theindependent.sg/news/business/sg-economy/page/{num}/"
+
+  start_page: 1
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 20  # Maximum concurrent requests (default: 10)
+rate_limit: 0.1  # Minimum delay between requests in seconds (0.1 = 10 req/sec max)
+retries: 3      # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+
+selectors:
+  thumbnail:
+    container: "div.td-ss-main-content h3[class='entry-title td-module-title']" 
+    title: "a::attr(title)"             
+    url: "a::attr(href)" 
+  article:
+    body: div[class='tdb-block-inner td-fix-index'] p
+    date: "meta[itemprop='datePublished']::attr(content)"
+    tags: "ul.tdb-tags li a::text"
+
+cleaning:
+  date: "handle_mixed_dates"
+  body: clean_the_independent_body
+
+max_pages: null
+max_articles: null

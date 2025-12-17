@@ -1,0 +1,43 @@
+# Post Courier Configuration
+# Migrated from monolithic scraper: src/text/scrapers/newspapers/papua_new_guinea/post_courier.py
+
+name: "Post Courier"
+country: "papua_new_guinea"
+base_url: "https://www.postcourier.com.pg"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.postcourier.com.pg/national-news/page/{num}/"
+  start_url: "https://www.postcourier.com.pg/national-news/"
+  start_page: 2
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 20
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: ".entry-container"
+    title: ".entry-title a::text"
+    url: ".entry-title a::attr(href)"
+    date: ".entry-date.published::text"
+  article:
+    body: ".entry-content p"
+    tags: ".tags-links a"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

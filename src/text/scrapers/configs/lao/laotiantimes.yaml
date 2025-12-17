@@ -1,0 +1,45 @@
+# The Korea Times Configuration
+
+name: "The Laotian Times"
+country: "lao"
+base_url: "https://www.laotiantimes.com/"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  start_url: "https://laotiantimes.com/category/allnews/"
+  url_template: "https://laotiantimes.com/category/allnews/page/{num}/"
+  start_page: 2
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: div#tdi_75 div.td-module-meta-info
+    title: "h3[class='entry-title td-module-title'] a::text"
+    url: "h3[class='entry-title td-module-title'] a::attr(href)"
+    # date: ".views-field-field-first-publication .field-content::text"
+  article:
+    date: meta[property="article:published_time"]::attr(content)
+    body: div.wpb_wrapper p
+    tags: ul.tdb-tags li a::text
+
+# Data cleaning configuration
+cleaning:
+  # url: "clean_matangi_url" # Custom function to resolve the print URL
+  date: "handle_mixed_dates"
+  body: "clean_laotian_times_body"
+
+# Test/debug options
+max_pages: null
+max_articles: null

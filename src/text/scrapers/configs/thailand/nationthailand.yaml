@@ -1,0 +1,48 @@
+# Nation Thailand Configuration
+
+name: "Nation Thailand"
+country: "thailand"
+base_url: "https://www.nationthailand.com"
+
+# Listing discovery configuration using API strategy
+listing:
+  type: "api"
+  url_template: "https://api.nationthailand.com/api/v1.0/categories/news?page={page}"
+  pagination_type: "page"
+  page_start: 1
+  page_step: 1
+  json_paths:
+    collection: "data"  # Array of articles in the JSON response
+    title: "title"
+    date: "published_at"
+    url: "link"
+
+# Client configuration
+client: "http"
+concurrency: 20
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction (for article content)
+selectors:
+  thumbnail:
+    # Not used for API strategy - data comes from JSON
+    container: "filler"
+    title: "filler"
+    url: "filler"
+    date: filler
+  article:
+    body: "div.detail p"
+    tags: ul.tags-wrapper li.list-item a::text
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

@@ -1,0 +1,44 @@
+# PNG Business News Configuration
+# Migrated from monolithic scraper: src/text/scrapers/newspapers/papua_new_guinea/png_business.py
+
+name: "PNG Business News"
+country: "papua_new_guinea"
+base_url: "https://www.pngbusinessnews.com/"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.pngbusinessnews.com/articles?page={num}"
+  start_url: "https://www.pngbusinessnews.com/articles"
+  start_page: 2
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: "div.cell.small-12.medium-6.large-6"
+    title: "h3::text"
+    url: "a::attr(href)"
+    date: ".tag.publish-date::text"
+  article:
+    body: ".grid-x.margin-bottom-1.article-content"
+    tags: "#content_with_sidebar > div:nth-child(1) > div:nth-child(1) > a > div"
+    
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

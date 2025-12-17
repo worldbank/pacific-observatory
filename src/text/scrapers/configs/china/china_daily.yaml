@@ -1,0 +1,43 @@
+# China Daily Configuration
+
+name: "China Daily"
+country: "china"
+base_url: "https://www.chinadaily.com.cn/"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  start_url: "https://www.chinadaily.com.cn/china/governmentandpolicy"
+  url_template: "https://www.chinadaily.com.cn/china/governmentandpolicy/page_{num}.html"
+  start_page: 2 # Starts from page 0 in the old script
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: div#lft-art div[class="mb10 tw3_01_2"]
+    title: "h4 a::text"
+    url: "h4 a::attr(href)"
+    # date: ".views-field-field-first-publication .field-content::text"
+  article:
+    date: meta[name="publishdate"]::attr(content)
+    body: div#Content p
+
+# Data cleaning configuration
+cleaning:
+  # url: "clean_matangi_url" # Custom function to resolve the print URL
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

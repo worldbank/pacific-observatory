@@ -1,0 +1,37 @@
+# Asahi Shimbun (Japan) Configuration
+
+name: "The Asahi Shimbun"
+country: "japan"
+base_url: "https://www.asahi.com"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.asahi.com/ajw/national_report/{num}"
+  start_page: 1
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "div.list li"  # Container for each article preview
+    title: "a p.title::text"  # Article title text from <h2> inside <a> tag with class "titleNews"
+    url: "a::attr(href)" # Article URL from the second "a" tag
+  article:
+    body: "div.ArticleText p"
+    date: head meta[name='RELEASE_DATE']::attr(content)
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+cleaning:
+  date: "handle_mixed_dates"

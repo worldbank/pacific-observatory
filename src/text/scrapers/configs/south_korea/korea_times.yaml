@@ -1,0 +1,50 @@
+# The Korea Times Configuration
+
+name: "The Korea Times"
+country: "south_korea"
+base_url: "https://www.koreatimes.co.kr"
+
+# Listing discovery configuration
+listing:
+  type: "api"
+  url_template: "https://goatway.koreatimes.co.kr/api/home/section/K113/recent-article?sortDir=desc&page={page}&size=10"
+  pagination_type: "page"
+  page_start: 0
+  page_step: 1
+  json_paths:
+    collection: "data.contents"  # Array of articles in the JSON response
+    title: "pcTitle"
+    date: "pubDt"
+    url: slugUrl
+
+# Client configuration
+client: "http"
+concurrency: 20
+rate_limit: 0.05
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: filler
+    title: filler
+    url: filler
+    date: filler
+    # date: ".views-field-field-first-publication .field-content::text"
+  article:
+    body: 
+      - div[data-article-content='true'] p
+      - div[data-testid="article-top-view"] figure figcaption::text
+
+# Data cleaning configuration
+cleaning:
+  # url: "clean_matangi_url" # Custom function to resolve the print URL
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

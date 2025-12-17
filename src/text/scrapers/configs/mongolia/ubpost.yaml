@@ -1,0 +1,42 @@
+# The Korea Times Configuration
+
+name: "UB Post"
+country: "mongolia"
+base_url: "https://www.ubpost.mn/"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.ubpost.mn/as/news/12/?page={num}&size=20"
+  start_page: 1
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: div.row > div.col-lg-6 > div.category
+    title: "h3.module_title a::text"
+    url: "h3.module_title a::attr(href)"
+    # date: ".views-field-field-first-publication .field-content::text"
+  article:
+    date: li.date
+    body: div.article_content p
+
+# Data cleaning configuration
+cleaning:
+  # url: "clean_matangi_url" # Custom function to resolve the print URL
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

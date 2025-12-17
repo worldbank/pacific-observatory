@@ -1,0 +1,47 @@
+# Phillipine Star Configuration
+
+name: "Philippine Star"
+country: "philippines"
+base_url: "https://www.philstar.com/"
+
+# Listing discovery configuration
+# This scraper covers multiple Pacific countries using tag-based pagination
+listing:
+  type: "pagination"
+  url_template: "https://www.philstar.com/lazy_section.php?page={num}&sid=28&pubid=1&last=2482322&last_date=1761321600&last_trend=&exceed=1&article="
+  start_page: 1
+  batch_size: 10
+
+# Client configuration
+client: "http"
+concurrency: 10
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.129 Safari/537.36"
+  Accept-Language: "en-US,en;q=0.9"
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng;q=0.8"
+  Connection: "keep-alive"
+  Upgrade-Insecure-Requests: "1"
+
+# CSS selectors for data extraction
+selectors:
+  thumbnail:
+    container: 'div[class="news_column latest"] div[class="TilesText spec"]'
+    title: "div.news_title a::text"
+    url: "div.news_title a::attr(href)"
+  article:
+    body: "div.article__writeup p"
+    date: "#sports_article_credits > div.article__date-published::text"
+    # tags: ".tag-item::text"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+  body: "clean_philstar_body"
+
+# Test/debug options
+max_pages: null
+max_articles: null

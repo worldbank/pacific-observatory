@@ -1,0 +1,53 @@
+# SIBC (Solomon Islands Broadcasting Corporation) Configuration
+# This config file defines all site-specific details for scraping SIBC news
+
+name: "SIBC"
+country: "solomon_islands"
+base_url: "https://www.sibconline.com.sb"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.sibconline.com.sb/?s&post_type=post&paged={num}"
+  start_page: 1
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: ".item-bot-content"  # Container for each article preview
+    title: ".item-title a::text"    # Article title text
+    url: ".item-title a::attr(href)" # Article URL
+    date: ".item-date-time::text"   # Publication date
+  article:
+    body:
+      - ".entry-body p"
+      - "article div.entry-body div"
+    tags: ".entry-taxonomies a::text"    # Article tags/categories
+
+# Data cleaning configuration
+cleaning:
+  date: "clean_sibc_date"  # Custom function to handle SIBC date format
+  body: "clean_sibc_body"  # Custom function to remove author bylines
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+# Optional authentication (not needed for SIBC)
+# auth: null
+
+# Site-specific notes:
+# - SIBC uses pagination with ?paged={num} parameter
+# - Articles are in .item-bot-content containers
+# - Date format needs cleaning (removes dashes, whitespace)
+# - Tags are in .entry-taxonomies section
+# - No authentication required

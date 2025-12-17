@@ -1,0 +1,48 @@
+# Today Online Configuration
+
+name: "Today"
+country: "singapore"
+base_url: "https://www.todayonline.com"
+
+# Listing discovery configuration using API strategy
+listing:
+  type: "api"
+  url_template: "https://www.todayonline.com/api/v1/infinitelisting/b3a15080-5846-4caa-a9ff-326038dabc39?_format=json&viewMode=infinite_scroll_listing_tdy&page={page}"
+  pagination_type: "page"
+  page_start: 1
+  page_step: 1
+  json_paths:
+    collection: "result"  # Array of articles in the JSON response
+    title: "title"
+    url: "absolute_url"
+    date: "release_date"
+
+# Client configuration
+client: "http"
+concurrency: 20
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction (for article content)
+selectors:
+  thumbnail:
+    # Not used for API strategy - data comes from JSON
+    container: "filler"
+    title: "filler"
+    url: "filler"
+    date: filler
+  article:
+    body: "div.text div.text-long p"
+    tags: section.block a[class='link link--trending']::text
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

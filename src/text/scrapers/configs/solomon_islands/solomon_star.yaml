@@ -1,0 +1,66 @@
+# Solomon Star Configuration
+# This config file defines all site-specific details for scraping Solomon Star news
+# Migrated from monolithic scraper: newspapers/solomon_islands/solomon_star.py
+
+name: "Solomon Star"
+country: "solomon_islands"
+base_url: "https://www.solomonstarnews.com"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  start_url: "https://www.solomonstarnews.com/category/news/news-national/"  # Main category page
+  url_template: "https://www.solomonstarnews.com/category/news/news-national/page/{num}/"
+  start_page: 2
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 20  # Maximum concurrent requests (default: 10)
+rate_limit: 0.1  # Minimum delay between requests in seconds (0.1 = 10 req/sec max)
+retries: 3      # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+  Accept-Language: "en-US,en;q=0.9"
+  Referer: "https://www.solomonstarnews.com/category/news/news-national/"
+  Cache-Control: "no-cache"
+  Pragma: "no-cache"
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: ".blog-content wf-td"  # Container for each article preview
+    title: ".entry-title"             # Article title element
+    url: ".entry-title a::attr(href)" # Article URL from title link
+    date: ".entry-date"               # Publication date
+  article:
+    body:
+      - ".entry-content"
+      - ".wf-container-main"
+    tags: ".category-link"            # Article tags/categories
+
+# Data cleaning configuration
+cleaning:
+  date: "clean_solomon_star_date"     # Custom function for pandas "mixed" format
+  content: "clean_solomon_star_content"  # Custom function for paragraph joining
+  tags: "clean_solomon_star_tags"     # Custom function for tag joining
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+# Optional authentication (not needed for Solomon Star)
+# auth: null
+
+# Site-specific notes:
+# - Solomon Star uses pagination with /page/{page} parameter
+# - Articles are in .blog-content wf-td containers
+# - Original scraper used pandas "mixed" date format parsing
+# - Content extraction joins paragraphs with spaces: " ".join(p.text for p in ...)
+# - Tags extraction joins links with commas: ", ".join(p.text for p in ...)
+# - Original scraper processed 1,450 pages (range 1-1450)
+# - No authentication required

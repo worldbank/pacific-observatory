@@ -1,0 +1,60 @@
+# Samoa Observer Configuration
+# Migrated from monolithic scraper: src/text/scrapers/newspapers/samoa/samoa_observer.py
+
+name: "Samoa Observer"
+country: "samoa"
+base_url: "https://www.samoaobserver.ws"
+
+# Listing discovery configuration using API strategy
+listing:
+  type: "api"
+  url_template: "https://www.samoaobserver.ws/stories/page/{page}.json?&category=samoa&api=true"
+  pagination_type: "page"
+  page_start: 1
+  page_step: 1
+  url_construction_template: "https://www.samoaobserver.ws/category/samoa/{id}"
+  json_paths:
+    collection: "stories"  # Array of articles in the JSON response
+    id: "id"  # Article ID used to construct URL
+    title: "heading"
+    date: "published_date"
+    is_premium: "is_premium"
+
+  exclude:
+    - is_premium: true
+
+# Client configuration
+client: "http"
+concurrency: 20
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction (for article content)
+selectors:
+  thumbnail:
+    # Not used for API strategy - data comes from JSON
+    container: "filler"
+    title: "filler"
+    url: "filler"
+    date: filler
+  article:
+    body: ".article__content p"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+# Site-specific notes:
+# - Uses JSON API for listing discovery (page-based pagination)
+# - Article URLs are constructed from ID: https://www.samoaobserver.ws/category/samoa/{id}
+# - Original scraper filtered out premium articles (is_premium == False)
+# - This filtering should be applied in post-processing or via custom cleaning function
+# - Article content is scraped from HTML pages (not available in API)

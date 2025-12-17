@@ -1,0 +1,53 @@
+# Tempo English Configuration
+
+name: "Tempo"
+country: "indonesia"
+base_url: "https://en.tempo.co"
+
+# Listing discovery configuration - using archive strategy for date-based URLs
+listing:
+  type: "archive"
+  url_template: "https://en.tempo.co/index/{year}-{month}-{day}/news"
+  start_date: "2003-07-21"  # Original scraper: range(2007, 2024)
+  date_format: "daily"    # Generate URLs for each month
+  batch_size: 10
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 2  # Maximum concurrent requests (conservative for older site)
+rate_limit: 3 # Minimum delay between requests in seconds (5 req/sec max)
+retries: 1       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6261.129 Safari/537.36"
+  Accept-Language: "en-US,en;q=0.9"
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng;q=0.8"
+  Connection: "keep-alive"
+  Upgrade-Insecure-Requests: "1"
+  Referer: "https://www.google.com/"
+  Sec-Ch-Ua: '"Chromium";v="122", "Not(A:Brand";v="99"'
+  Sec-Ch-Ua-Mobile: "?0"
+  Sec-Ch-Ua-Platform: "macOS"
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "main.main-left article.text-card"
+    title: "h2.title::text"
+    url: "h2.title a::attr(href)"
+  article:
+    body: "div.detail-in"
+    date:
+      - "meta[property='article:published_time']::attr(content)"
+      - "meta[property='article:published time']::attr(content)"
+      - "meta[property='article:publishedtime']::attr(content)"
+    tags: "div.box-tag-detail a::text"
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

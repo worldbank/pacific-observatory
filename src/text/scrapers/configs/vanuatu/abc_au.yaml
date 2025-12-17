@@ -1,0 +1,53 @@
+# ABC AU (Australia) Pacific Configuration
+# Migrated from monolithic scraper: src/text/scrapers/newspapers/pacific/abc_au.py
+
+name: "ABC AU Vanuatu"
+country: "vanuatu"
+base_url: "https://www.abc.net.au"
+
+# Listing discovery using API strategy with multiple document IDs
+listing:
+  type: "api"
+  pagination_type: "offset"
+  offset_start: 0
+  offset_step: 100  # The original scraper used 1000, but a smaller size is safer
+  url_template: "https://www.abc.net.au/news-web/api/loader/topicstories?name=PaginationArticles&documentId=26874&offset={offset}&size={size}"
+  json_paths:
+    collection: "paginated.collection"
+    total: "paginated.pagination.total"
+    url: "link"
+    title: "title"
+    date: "dates.firstPublished"
+    contentUri: "contentUri" # Needed for filtering
+
+# Client configuration
+client: "http"
+concurrency: 5
+rate_limit: 0.5
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+
+# CSS selectors for article content extraction
+selectors:
+  thumbnail:
+    # Not used for API strategy - data comes from JSON
+    container: "filler"
+    title: "filler"
+    url: "filler"
+    date: filler
+  article:
+    body:
+    - '.ArticleRender_article__7i2EW p'
+    - '#content p'
+    tags: '[data-component="RelatedTopics"] .Tag_container__7_5W6 p'
+
+# Data cleaning and filtering
+cleaning:
+  record_filter: "filter_abc_au_articles"
+  url: "clean_url" # Make relative URLs absolute
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null

@@ -1,0 +1,42 @@
+# Japan Today (Japan) Configuration
+
+name: "Japan Today"
+country: "japan"
+base_url: "https://www.japantoday.com"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://japantoday.com/category/national?page={num}"
+  start_page: 1
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  Referer: https://japantoday.com/
+
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "div[class='col-sm-8 col-md-9'] div.media-body"  # Container for each article preview
+    title: "h3 a::text"  # Article title text from <h2> inside <a> tag with class "titleNews"
+    url: "h3 a::attr(href)" # Article URL from the second "a" tag
+  article:
+    body: "div[itemprop='articleBody'] p"
+    date: time[itemprop='datePublished']::attr(datetime)
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+cleaning:
+  date: "handle_mixed_dates"

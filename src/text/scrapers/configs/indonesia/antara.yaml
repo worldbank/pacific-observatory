@@ -1,0 +1,40 @@
+# Antara (Indonesia) Configuration
+# This config file defines all site-specific details for scraping Antara news
+
+name: "Antara"
+country: "indonesia"
+base_url: "https://en.antaranews.com"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://en.antaranews.com/latest-news/{num}"
+  start_page: 1
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: ".card__post__content"  # Container for each article preview
+    title: ".card__post__title a::text"    # Article title text
+    url: ".card__post__title a::attr(href)" # Article URL
+  article:
+    body: ".wrap__article-detail-content"
+    date: "span.text-secondary::text"   # Publication date
+    tags: ".blog-tags a::text"    # Article tags/categories
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+cleaning:
+  body: "clean_antara_body"
+  date: "handle_mixed_dates"

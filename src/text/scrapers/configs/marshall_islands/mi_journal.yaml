@@ -1,0 +1,42 @@
+# Marshall Islands Journal (Marshall Islands) Configuration
+name: "MI Journal"
+country: "marshall_islands"
+base_url: "https://marshallislandsjournal.com/"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://marshallislandsjournal.com/category/news-archive/page/{num}/"
+  start_url: "https://marshallislandsjournal.com/category/news-archive/"
+  start_page: 2
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+  Content-Encoding: "gzip"
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "article.entry"  # Container for each article preview
+    title: "h2.posttitle a::text"  # Article title text from <h2> inside <a> tag with class "titleNews"
+    url: "h2.posttitle a::attr(href)" # Article URL from the second "a" tag
+  article:
+    body: "div.entry-content p"
+    date: time[class="published updated"]::attr(datetime)
+    tags: "p.posttags a::text"
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+cleaning:
+  date: "handle_mixed_dates"

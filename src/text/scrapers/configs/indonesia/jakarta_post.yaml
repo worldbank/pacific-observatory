@@ -1,0 +1,40 @@
+# Jakarta Post (Indonesia) Configuration
+# This config file defines all site-specific details for scraping Jakarta Post news
+
+name: "Jakarta Post"
+country: "indonesia"
+base_url: "https://www.thejakartapost.com"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  url_template: "https://www.thejakartapost.com/indonesia/latest?page={num}"
+  start_url: "https://www.thejakartapost.com/indonesia/latest"
+  start_page: 2
+  step: 1
+  batch_size: 10  # Process 10 pages at a time for efficiency
+
+# Client configuration
+client: "http"  # Use HTTP client (not browser-based)
+concurrency: 10  # Maximum concurrent requests (default: 10)
+rate_limit: 0.01  # Minimum delay between requests in seconds (0.01 = 100 req/sec max)
+retries: 3       # Number of retry attempts for failed requests
+retry_seconds: 2.0  # Wait time in seconds between retry attempts
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: ".latestDetail"  # Container for each article preview
+    title: "h2::text"  # Article title text from <h2> inside <a> tag with class "titleNews"
+    url: "a:nth-of-type(2)::attr(href)" # Article URL from the second "a" tag
+  article:
+    body: "div.tjp-single__content p:not(div.tjp-newsletter-box)"
+    date: "span.created:nth-of-type(2)::text"   # Publication date
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+cleaning:
+  body: "clean_jakarta_post_body"
+  date: "handle_mixed_dates"

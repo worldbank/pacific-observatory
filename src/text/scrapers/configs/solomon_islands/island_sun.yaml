@@ -1,0 +1,63 @@
+# The Island Sun Configuration
+# This config file defines all site-specific details for scraping The Island Sun news
+# Migrated from monolithic scraper: newspapers/solomon_islands/the_island_sun.py
+
+name: "The Island Sun"
+country: "solomon_islands"
+base_url: "https://theislandsun.com.sb"
+
+# Listing discovery configuration
+listing:
+  type: "pagination"
+  start_url: "https://theislandsun.com.sb/category/news/"
+  url_template: "https://theislandsun.com.sb/category/news/page/{num}/"
+  start_page: 2
+  step: 1
+  batch_size: 10  # Process 10 pages at a time to detect pagination end gracefully
+
+# Client configuration
+client: "http"
+concurrency: 20     # Conservative concurrency to avoid triggering Cloudflare
+rate_limit: 0.5    # Half a second between requests (2 req/sec)
+retries: 3         # Standard retry count
+retry_seconds: 3.0 # Wait time between retry attempts
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+  Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+  Accept-Language: "en-US,en;q=0.9"
+  Cache-Control: "no-cache"
+  Pragma: "no-cache"
+
+# CSS selectors for data extraction (structured)
+selectors:
+  thumbnail:
+    container: "#tdi_96 .td-module-meta-info, .td-container .item-details"
+    title:
+      - ".entry-title.td-module-title a::text"
+      - ".td-container .item-details a::text"
+    url:
+      - ".entry-title.td-module-title a::attr(href)"
+      - ".td-container .item-details a::attr(href)"
+  article:
+    body: ".td-post-content p"
+    date: ".td-post-date::text"
+    tags: ".td-post-category"
+
+# Data cleaning configuration
+cleaning:
+  url: "clean_url"
+  title: "clean_title"
+  date: "handle_mixed_dates"
+  tags: "clean_solomon_star_tags"
+
+# Test/debug options
+max_pages: null
+max_articles: null
+
+# Site-specific notes:
+# - Original scraper paginated across 922 pages using RequestsScraper
+# - Listing elements use the `.item-details` container with title/date/category metadata
+# - Article content lives inside `.td-post-content tagdiv-type` containers
+# - Cloudflare can require cookies; this config assumes access without manual cookie injection for now
+# - Storage, update mode, and output are handled by pipelines/storage.py and NewspaperScraper

@@ -1,0 +1,49 @@
+# The Straits Times Configuration
+
+name: "The Straits Times"
+country: "singapore"
+base_url: "https://www.straitstimes.com"
+
+# Listing discovery configuration using API strategy
+listing:
+  type: "api"
+  url_template: "https://www.straitstimes.com/_plat/api/v1/articlesListing?pageType=section&searchParam=singapore&page={page}"
+  pagination_type: "page"
+  page_start: 1
+  page_step: 1
+  json_paths:
+    total: "total"
+    collection: "cards"  # Array of articles in the JSON response
+    title: "articleCard.title"
+    url: "articleCard.urlPath"
+    date: "articleCard.publishedDate"
+
+# Client configuration
+client: "http"
+concurrency: 20
+rate_limit: 0.2
+retries: 3
+retry_seconds: 2.0
+
+headers:
+  User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# CSS selectors for data extraction (for article content)
+selectors:
+  thumbnail:
+    # Not used for API strategy - data comes from JSON
+    container: "filler"
+    title: "filler"
+    url: "filler"
+    date: filler
+  article:
+    body: "div[class='storyline-wrapper default'] p[class='font-body-baseline-regular text-primary']"
+    tags: div[class="flex w-full flex-wrap gap-16"] button[data-testid="button-test-id"] span::text
+
+# Data cleaning configuration
+cleaning:
+  date: "handle_mixed_dates"
+
+# Test/debug options
+max_pages: null
+max_articles: null
