@@ -10,46 +10,47 @@ The East Asia and Pacific region hosts a substantial corpus of accessible Englis
 
 | Country | Newspaper/Media Source | Number of Articles | From |
 |---------|------------------------|--------------------|----|
-| Cambodia | Khmer Times | 51,791 | 1970-01-01 |
-| China | China Daily | 10,446 | 2014-03-28 |
-| | People's Daily Online | 3,155 | 2024-09-13 |
-| Fiji | Fiji Sun | 18,348 | 2010-03-09 |
-| Indonesia | Antara | 10,702 | 2025-09-23 |
-| | Jakarta Post | 1,601 | 2025-02-24 |
+| Cambodia | Khmer Times | 69,680 | 1970-01-01 |
+| China | China Daily | 10,512 | 2014-03-28 |
+| | People's Daily Online | 3,442 | 2024-09-13 |
+| Fiji | Fiji Sun | 63,880 | 2008-05-27 |
+| Indonesia | Antara | 10,886 | 2025-09-23 |
+| | Jakarta Post | 1,635 | 2025-02-24 |
 | | Tempo | 77,615 | 2003-07-21 |
-| Japan | Japan News | 50,189 | 2022-04-29 |
+| Japan | Japan News | 51,555 | 2022-04-29 |
 | | Japan Today | 4,500 | 2012-09-27 |
-| | The Asahi Shimbun | 11,206 | 2020-04-16 |
-| Lao | The Laotian Times | 8,645 | 2016-06-03 |
-| Malaysia | Malay Mail | 223,714 | 2013-06-18 |
-| Marshall Islands | MI Journal | 1,605 | 2015-01-02 |
-| Mongolia | UB Post | 456 | 2016-10-08 |
-| New Zealand | New Zealand Herald | 16,482 | 2025-06-10 |
-| Pacific | Australian Broadcasting Corporation (ABC AU) | 25,418 | 2003-02-19 |
-| | PINA | 33,597 | 2011-11-19 |
-| | Radio New Zealand (RNZ) | 52,666 | 2007-06-17 |
-| Palau | Island Times | 10,019 | 2016-06-03 |
-| Papua New Guinea | PNG Business News | 3,434 | 2019-05-24 |
-| | Post Courier | 52,679 | 2015-12-16 |
-| Philippines | Asia News Network | 2,991 | 2018-04-03 |
-| | Inquirer | 50,676 | 1998-10-07 |
+| | The Asahi Shimbun | 11,399 | 2020-04-16 |
+| Lao | The Laotian Times | 8,687 | 2016-06-03 |
+| Malaysia | Malay Mail | 225,506 | 2013-06-18 |
+| Marshall Islands | MI Journal | 1,620 | 2015-01-02 |
+| Mongolia | UB Post | 462 | 2016-10-08 |
+| New Zealand | New Zealand Herald | 16,802 | 2025-06-10 |
+| Pacific | Australian Broadcasting Corporation (ABC AU) | 25,468 | 2003-02-19 |
+| | PINA | 39,176 | 2011-11-19 |
+| | Radio New Zealand (RNZ) | 53,118 | 2007-06-17 |
+| Palau | Island Times | 10,094 | 2016-06-03 |
+| Papua New Guinea | PNG Business News | 3,498 | 2019-05-24 |
+| | Post Courier | 52,768 | 2015-12-16 |
+| Philippines | Asia News Network | 3,067 | 2018-04-03 |
+| | Inquirer | 50,685 | 1998-10-07 |
 | | Philippine Star | 220 | 2025-10-11 |
-| Samoa | Samoa Observer | 77,432 | 2012-01-01 |
-| Singapore | The Independent | 1,834 | 2022-10-17 |
-| | The Straits Times | 9,779 | 2024-09-15 |
+| Samoa | Samoa Observer | 77,557 | 2012-01-01 |
+| Singapore | The Independent | 1,885 | 2022-10-17 |
+| | The Straits Times | 9,789 | 2024-09-15 |
 | | Today Online | 616 | 2024-04-13 |
-| Solomon Islands | SIBC | 10,846 | 2013-12-14 |
+| Solomon Islands | SIBC | 10,916 | 2013-12-14 |
 | | Solomon Star | 34,109 | 2014-04-10 |
 | | Solomon Times | 22,976 | 2007-04-14 |
-| | The Island Sun | 10,296 | 2017-09-01 |
-| South Korea | The Korea Herald | 9,424 | 2025-05-05 |
-| | The Korea Times | 93,767 | 2006-12-07 |
-| Thailand | Nation Thailand | 13,830 | 2024-04-22 |
-| Tonga | Matangi Tonga Online | 40,383 | 1997-11-04 |
-| Vanuatu | Vanuatu Daily Post | 34,927 | 2014-04-08 |
+| | The Island Sun | 10,301 | 2017-09-01 |
+| South Korea | The Korea Herald | 12,431 | 2025-05-05 |
+| | The Korea Times | 94,323 | 2006-12-07 |
+| Thailand | Nation Thailand | 13,854 | 2024-04-22 |
+| Tonga | Matangi Tonga Online | 40,481 | 1997-11-04 |
+| Vanuatu | Vanuatu Daily Post | 35,333 | 2014-04-08 |
 | | Vanuatu Business Review (VBR) | 577 | 2020-04-27 |
-| Vietnam | Tuoi Tre | 36,464 | 1970-01-01 |
-| **Total** | | **1,175,259** | |
+| Vietnam | Tuoi Tre | 36,564 | 1970-01-01 |
+| | Vietnam News | 38,577 | 2004-06-21 |
+| **Total** | | **1,292,472** | |
 
 ## Methods
 
