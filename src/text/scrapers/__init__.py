@@ -6,7 +6,7 @@ the config-driven architecture specified in the PRD.
 
 The old monolithic classes have been moved to:
 - client_http.py: AsyncHttpClient (evolved from RequestsScraper)
-- client_browser.py: BrowserClient (evolved from SeleniumScraper)  
+- client_browser.py: BrowserClient (evolved from SeleniumScraper)
 - newspaper_scraper.py: NewspaperScraper (evolved from NewspaperScraper)
 - models.py: Pydantic data models
 - listing_strategies.py: Listing discovery strategies
@@ -30,16 +30,16 @@ RequestsScraper = AsyncHttpClient  # Note: This is now async
 SeleniumScraper = BrowserClient
 
 __all__ = [
-    'AsyncHttpClient',
-    'BrowserClient', 
-    'NewspaperScraper',
-    'ThumbnailRecord',
-    'ArticleRecord',
-    'NewspaperConfig',
-    'create_scraper',
-    'create_scraper_from_file',
-    'CSVStorage',
+    "AsyncHttpClient",
+    "BrowserClient",
+    "NewspaperScraper",
+    "ThumbnailRecord",
+    "ArticleRecord",
+    "NewspaperConfig",
+    "create_scraper",
+    "create_scraper_from_file",
+    "CSVStorage",
     # Legacy aliases
-    'RequestsScraper',
-    'SeleniumScraper'
+    "RequestsScraper",
+    "SeleniumScraper",
 ]

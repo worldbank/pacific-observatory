@@ -4,9 +4,10 @@ The module provides a series of text preprocessing supporting utils.
 Last modified:
     2024-02-05
 """
+
 import re
 import spacy
-from typing import List, Any, Dict, Union
+from typing import List, Dict, Union
 import pandas as pd
 from gensim.utils import simple_preprocess
 import json
@@ -24,7 +25,7 @@ def is_in_word_list(row: str, terms: list) -> bool:
     Returns:
         bool: True if any of the terms are found in the row, False otherwise.
     """
-    pattern = r'\b(' + '|'.join(re.escape(term) for term in terms) + r')\b'
+    pattern = r"\b(" + "|".join(re.escape(term) for term in terms) + r")\b"
     return bool(re.search(pattern, str(row), re.IGNORECASE))
 
 
@@ -39,13 +40,11 @@ def sent_to_words(sentences: List[str]):
         A generator yielding lists of words extracted from each sentence after preprocessing.
     """
     for sentence in sentences:
-        sentence = re.sub(r'\s', ' ', sentence).strip()
+        sentence = re.sub(r"\s", " ", sentence).strip()
         yield (simple_preprocess(str(sentence), deacc=True))
 
 
-def lemmatize_sent(sent,
-                   nlp,
-                   allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV']):
+def lemmatize_sent(sent, nlp, allowed_postags=["NOUN", "ADJ", "VERB", "ADV"]):
     """
     Lemmatizes words in a sentence based on allowed part-of-speech tags.
 
@@ -61,8 +60,7 @@ def lemmatize_sent(sent,
     return [token.lemma_ for token in doc if token.pos_ in allowed_postags]
 
 
-def make_phrases(texts: List[str],
-                 phrases_model):
+def make_phrases(texts: List[str], phrases_model):
     """
     Apply phrase models to texts to detect and join multi-word expressions.
 
@@ -76,11 +74,13 @@ def make_phrases(texts: List[str],
     return [phrases_model[doc] for doc in texts]
 
 
-def preprocess_text(texts: List[str],
-                    stopwords: List[str],
-                    bigram_mod,
-                    trigram_mod,
-                    nlp: spacy.language.Language):
+def preprocess_text(
+    texts: List[str],
+    stopwords: List[str],
+    bigram_mod,
+    trigram_mod,
+    nlp: spacy.language.Language,
+):
     """
     Preprocesses texts by removing stopwords, applying bigram and trigram models, and lemmatizing.
 
@@ -94,10 +94,10 @@ def preprocess_text(texts: List[str],
     Returns:
         A list of preprocessed and lemmatized texts.
     """
-    texts_no_stopwords = [[
-        word for word in simple_preprocess(str(doc))
-        if word not in stopwords
-    ] for doc in texts]
+    texts_no_stopwords = [
+        [word for word in simple_preprocess(str(doc)) if word not in stopwords]
+        for doc in texts
+    ]
     print("Stopwords has been done.")
     texts_bigrams = make_phrases(texts_no_stopwords, bigram_mod)
     texts_trigrams = make_phrases(texts_bigrams, trigram_mod)
@@ -106,8 +106,9 @@ def preprocess_text(texts: List[str],
     return texts_lemmatized
 
 
-def generate_continous_df(checked_df: pd.DataFrame,
-                          min_date: str, max_date: str, freq="MS"):
+def generate_continous_df(
+    checked_df: pd.DataFrame, min_date: str, max_date: str, freq="MS"
+):
     """
     Generates a continuous date range dataframe and merges it with an existing dataframe.
 
@@ -127,12 +128,10 @@ def generate_continous_df(checked_df: pd.DataFrame,
     dates_df = pd.DataFrame(dates_range, columns=["date"])
     if "date" in checked_df.columns:
         checked_df["date"] = pd.to_datetime(checked_df["date"], format="mixed")
-        checked_df = dates_df.merge(
-            checked_df, how="left", on="date").fillna(0)
+        checked_df = dates_df.merge(checked_df, how="left", on="date").fillna(0)
         return checked_df
     else:
-        raise ValueError(
-            "cannot find `date` column in dataframe being checked.")
+        raise ValueError("cannot find `date` column in dataframe being checked.")
 
 
 def load_topics_words(
@@ -157,9 +156,7 @@ def load_topics_words(
     config_path = Path(__file__).parent / "topics_words.json"
 
     if not config_path.exists():
-        raise FileNotFoundError(
-            f"topics_words.json not found at {config_path}"
-        )
+        raise FileNotFoundError(f"topics_words.json not found at {config_path}")
 
     with open(config_path, "r", encoding="utf-8") as f:
         topics_data = json.load(f)
@@ -207,20 +204,20 @@ def generate_news_statistics_table(country_folder: Path) -> str:
     for country_folder_path in country_folder.iterdir():
         if not country_folder_path.is_dir():
             continue
-        
+
         country = country_folder_path.name
-        
+
         # Find all newspaper folders with news.csv files
         for newspaper_folder in country_folder_path.iterdir():
             if not newspaper_folder.is_dir():
                 continue
-            
+
             newspaper = newspaper_folder.name
             news_file = newspaper_folder / "news.csv"
-            
+
             if not news_file.exists():
                 continue
-            
+
             try:
                 # Read the CSV file
                 df = pd.read_csv(news_file, encoding="utf-8")
@@ -236,14 +233,16 @@ def generate_news_statistics_table(country_folder: Path) -> str:
                 if "date" in df.columns:
                     df["date"] = pd.to_datetime(df["date"], errors="coerce")
                     min_date = df["date"].min()
-                    min_date_str = min_date.strftime("%Y-%m-%d") if pd.notna(min_date) else "N/A"
+                    min_date_str = (
+                        min_date.strftime("%Y-%m-%d") if pd.notna(min_date) else "N/A"
+                    )
                 else:
                     min_date_str = "N/A"
 
                 # Determine if this is ABC AU or RNZ based on newspaper folder name
                 is_abc_au = newspaper.startswith("abc_au_")
                 is_rnz = newspaper.startswith("rnz_")
-                
+
                 # If ABC AU or RNZ, add to "pacific" country instead of original country
                 target_country = "pacific" if (is_abc_au or is_rnz) else country
 
@@ -253,7 +252,7 @@ def generate_news_statistics_table(country_folder: Path) -> str:
 
                 data_by_country[target_country][newspaper] = {
                     "count": article_count,
-                    "min_date": min_date_str
+                    "min_date": min_date_str,
                 }
 
             except Exception as e:
@@ -270,9 +269,9 @@ def generate_news_statistics_table(country_folder: Path) -> str:
         "sibc": "SIBC",
         "today": "Today Online",
         "ub_post": "UB Post",
-        "vbr": "Vanuatu Business Review (VBR)"
+        "vbr": "Vanuatu Business Review (VBR)",
     }
-    
+
     # Sort countries and newspapers
     sorted_countries = sorted(data_by_country.keys())
 
@@ -283,17 +282,17 @@ def generate_news_statistics_table(country_folder: Path) -> str:
 
     for country in sorted_countries:
         newspapers = sorted(data_by_country[country].keys())
-        
+
         # Create a list of display items (name, count, min_date)
         display_items = []
         abc_au_total = 0
         abc_au_min_date = None
         rnz_total = 0
         rnz_min_date = None
-        
+
         for newspaper in newspapers:
             info = data_by_country[country][newspaper]
-            
+
             # Group ABC AU newspapers
             if newspaper.startswith("abc_au_"):
                 abc_au_total += info["count"]
@@ -307,28 +306,36 @@ def generate_news_statistics_table(country_folder: Path) -> str:
             # Other newspapers
             else:
                 display_items.append((newspaper, info["count"], info["min_date"]))
-        
+
         # Add grouped ABC AU and RNZ to display items
         if abc_au_total > 0:
-            display_items.append(("Australian Broadcasting Corporation (ABC AU)", abc_au_total, abc_au_min_date))
+            display_items.append(
+                (
+                    "Australian Broadcasting Corporation (ABC AU)",
+                    abc_au_total,
+                    abc_au_min_date,
+                )
+            )
         if rnz_total > 0:
             display_items.append(("Radio New Zealand (RNZ)", rnz_total, rnz_min_date))
-        
+
         # Sort all display items alphabetically
         display_items.sort(key=lambda x: x[0].lower())
-        
+
         # Display all items for this country
         is_first_row = True
         # Format country name: replace underscores with spaces and capitalize
         formatted_country = country.replace("_", " ").title()
-        
+
         for newspaper, count, min_date in display_items:
             count_str = f"{count:,}"
             date_str = min_date if min_date else "N/A"
-            
+
             # Format newspaper name
             # Check if it's a display name (ABC AU or RNZ)
-            if newspaper.startswith("Australian Broadcasting Corporation") or newspaper.startswith("Radio New Zealand"):
+            if newspaper.startswith(
+                "Australian Broadcasting Corporation"
+            ) or newspaper.startswith("Radio New Zealand"):
                 formatted_newspaper = newspaper
             # Check if it has a specific mapping
             elif newspaper in newspaper_display_names:
@@ -336,22 +343,27 @@ def generate_news_statistics_table(country_folder: Path) -> str:
             # Otherwise, replace underscores with spaces and capitalize
             else:
                 formatted_newspaper = newspaper.replace("_", " ").title()
-            
+
             if is_first_row:
-                lines.append(f"| {formatted_country} | {formatted_newspaper} | {count_str} | {date_str} |")
+                lines.append(
+                    f"| {formatted_country} | {formatted_newspaper} | {count_str} | {date_str} |"
+                )
                 is_first_row = False
             else:
                 lines.append(f"| | {formatted_newspaper} | {count_str} | {date_str} |")
-    
+
     # Add total row
     total_str = f"{total_articles:,}"
     lines.append(f"| **Total** | | **{total_str}** | |")
 
     return "\n".join(lines)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     from pathlib import Path
 
-    country_folder = Path("data/text")  # Path to country folders with newspaper subdirectories
+    country_folder = Path(
+        "data/text"
+    )  # Path to country folders with newspaper subdirectories
     table = generate_news_statistics_table(country_folder)
     print(table)

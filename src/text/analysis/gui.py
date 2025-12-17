@@ -1,19 +1,23 @@
 """
-The module provides a network-based Google Trends 
+The module provides a network-based Google Trends
 
 Last modified:
     2024-02-05
 """
-import os
-import sys
+
 import logging
 import pandas as pd
-import bokeh
 import googleapiclient
 import networkx as nx
-from bokeh.plotting import figure, show, from_networkx
-from bokeh.models import (Select, HoverTool, TapTool, BoxSelectTool,
-                          Legend, Range1d, Circle, MultiLine)
+from bokeh.plotting import figure, from_networkx
+from bokeh.models import (
+    HoverTool,
+    TapTool,
+    BoxSelectTool,
+    Range1d,
+    Circle,
+    MultiLine,
+)
 from ..google_trends import GT
 
 
@@ -25,10 +29,11 @@ class DrawTopics:
         words (list): A list of topic keywords.
         restrictions_geo (str): Geographic restrictions for Google Trends queries.
         gt_instance (GT): An instance of the Google Trends API client.
-      
+
     To Use:
 
     """
+
     def __init__(self, words: list, restrictions_geo: str, gt_instance):
         """
         Args:
@@ -38,7 +43,8 @@ class DrawTopics:
         """
         if not isinstance(gt_instance.service, googleapiclient.discovery.Resource):
             raise TypeError(
-                f"{gt_instance} is not a googleapiclient.discovery.Resource instance.")
+                f"{gt_instance} is not a googleapiclient.discovery.Resource instance."
+            )
         self.words = words
         self.restrictions_geo = restrictions_geo
         self.gt_instance = gt_instance
@@ -48,9 +54,7 @@ class DrawTopics:
         self.node_attrs = None
 
     @staticmethod
-    def get_query_results(words: list,
-                          restrictions_geo: str,
-                          gt_instance: GT):
+    def get_query_results(words: list, restrictions_geo: str, gt_instance: GT):
         """
         Get a DataFrame containing query results based on getTopTopics.
 
@@ -64,13 +68,13 @@ class DrawTopics:
         """
         terms = []
         for word in words:
-            topic_dict = gt_instance.get_top_topics(term=word,
-                                                    restrictions_geo=restrictions_geo)
+            topic_dict = gt_instance.get_top_topics(
+                term=word, restrictions_geo=restrictions_geo
+            )
             if len(topic_dict) != 0:
                 for item in topic_dict["item"]:
                     if item["title"].isdigit() is not True:
-                        terms.append(
-                            [word, item["title"].lower(), item["value"]])
+                        terms.append([word, item["title"].lower(), item["value"]])
             else:
                 logging.info("Querying %s returned an empty result.", word)
 
@@ -104,22 +108,24 @@ class DrawTopics:
             nx.Graph: A NetworkX graph representing topic relationships.
         """
         self.result = self.get_query_results(
-            self.words, self.restrictions_geo, self.gt_instance)
+            self.words, self.restrictions_geo, self.gt_instance
+        )
         self.idx_dict = self.get_id_for_each_word(self.result)
         for col in ["source", "target"]:
             self.result[col + "_idx"] = self.result[col].map(self.idx_dict)
 
-        self.G = nx.from_pandas_edgelist(
-            self.result, "source_idx", "target_idx")
+        self.G = nx.from_pandas_edgelist(self.result, "source_idx", "target_idx")
 
         self.node_attrs = {}
         for k, v in self.idx_dict.items():
             if k in self.words:
                 self.node_attrs.update(
-                    {v: {"term": k, "color": "red", "edge_size": 15}})
+                    {v: {"term": k, "color": "red", "edge_size": 15}}
+                )
             else:
                 self.node_attrs.update(
-                    {v: {"term": k, "color": "blue", "edge_size": 6}})
+                    {v: {"term": k, "color": "blue", "edge_size": 6}}
+                )
         nx.set_node_attributes(self.G, self.node_attrs)
 
         return self.G
@@ -132,23 +138,21 @@ class DrawTopics:
             figure: A Bokeh figure representing the network graph.
         """
 
-        plot = figure(width=800,
-                      height=500,
-                      tools="pan,wheel_zoom,save,reset",
-                      active_scroll='wheel_zoom',
-                      x_range=Range1d(-10.1, 10.1),
-                      y_range=Range1d(-10.1, 10.1))
+        plot = figure(
+            width=800,
+            height=500,
+            tools="pan,wheel_zoom,save,reset",
+            active_scroll="wheel_zoom",
+            x_range=Range1d(-10.1, 10.1),
+            y_range=Range1d(-10.1, 10.1),
+        )
         plot.add_tools(
-            HoverTool(tooltips=[("Term", "@term")]),
-            TapTool(),
-            BoxSelectTool())
+            HoverTool(tooltips=[("Term", "@term")]), TapTool(), BoxSelectTool()
+        )
 
-        network_graph = from_networkx(
-            self.G, nx.spring_layout, scale=10, center=(0, 0))
-        network_graph.node_renderer.glyph = Circle(size="edge_size",
-                                                   fill_color='color')
-        network_graph.edge_renderer.glyph = MultiLine(
-            line_alpha=0.5, line_width=1)
+        network_graph = from_networkx(self.G, nx.spring_layout, scale=10, center=(0, 0))
+        network_graph.node_renderer.glyph = Circle(size="edge_size", fill_color="color")
+        network_graph.edge_renderer.glyph = MultiLine(line_alpha=0.5, line_width=1)
 
         # Add network graph to the plot
         plot.renderers.append(network_graph)

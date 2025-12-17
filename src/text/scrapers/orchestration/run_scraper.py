@@ -19,7 +19,7 @@ if __name__ == "__main__":
     scrapers_dir = script_dir.parent  # scrapers/
     text_dir = scrapers_dir.parent  # text/
     src_dir = text_dir.parent  # src/
-    
+
     if str(src_dir) not in sys.path:
         sys.path.insert(0, str(src_dir))
 
@@ -59,8 +59,10 @@ async def run_single_scraper(
     try:
         # Create scraper from config file
         logger.info(f"Loading scraper configuration from: {config_path}")
-        scraper = create_scraper_from_file(config_path, urls_from_scratch=urls_from_scratch)
-        
+        scraper = create_scraper_from_file(
+            config_path, urls_from_scratch=urls_from_scratch
+        )
+
         # Set up per-scraper log file if project_root is provided
         if project_root:
             log_file = get_scraper_log_path(
@@ -82,9 +84,7 @@ async def run_single_scraper(
                 f"Starting UPDATE scrape for {scraper.name} ({scraper.country})"
             )
         elif urls_from_scratch:
-            logger.info(
-                f"Starting FULL scrape for {scraper.name} ({scraper.country})"
-            )
+            logger.info(f"Starting FULL scrape for {scraper.name} ({scraper.country})")
         else:
             logger.info(
                 f"Starting scrape FROM URLS for {scraper.name} ({scraper.country})"
@@ -112,9 +112,7 @@ async def run_single_scraper(
         # Just get the file paths from the scraper
         if save_results and results["success"]:
             saved_files = getattr(scraper, "_saved_files", {})
-            results["saved_files"] = {
-                str(k): str(v) for k, v in saved_files.items()
-            }
+            results["saved_files"] = {str(k): str(v) for k, v in saved_files.items()}
 
         # Clean up resources
         scraper.cleanup()
@@ -126,9 +124,7 @@ async def run_single_scraper(
                 f"Scraping completed successfully in {duration.total_seconds():.1f}s: "
             )
         else:
-            logger.error(
-                f"Scraping failed: {results.get('error', 'Unknown error')}"
-            )
+            logger.error(f"Scraping failed: {results.get('error', 'Unknown error')}")
 
         return results
 
@@ -224,7 +220,7 @@ async def run_scraper_by_name(
             print("✅ Scraping completed successfully!")
 
             stats = results.get("statistics", {})
-            print(f"📊 Statistics:")
+            print("📊 Statistics:")
             print(f"   Articles scraped: {stats.get('articles_scraped', 0)}")
             print(f"   Thumbnails found: {stats.get('thumbnails_found', 0)}")
             print(f"   Failed URLs: {stats.get('failed_urls', 0)}")
@@ -234,7 +230,7 @@ async def run_scraper_by_name(
                 print(f"⏱️  Duration: {duration:.1f} seconds")
 
             if "saved_files" in results and project_root:
-                print(f"💾 Saved files:")
+                print("💾 Saved files:")
                 for file_type, file_path in results["saved_files"].items():
                     # Make path relative to project root for cleaner display
                     try:
@@ -246,7 +242,7 @@ async def run_scraper_by_name(
             return True, results
         else:
             print("\n" + "=" * 50)
-            print(f"❌ Scraping failed!")
+            print("❌ Scraping failed!")
             print(f"Error: {results.get('error', 'Unknown error')}")
             return False, results
 
@@ -262,15 +258,15 @@ def run_sequential_group_cli(
 ):
     """
     CLI entry point for running a multi-country newspaper group sequentially.
-    
+
     This function is designed to be called from a subprocess and runs each
     country's scraper sequentially to avoid rate limiting.
-    
+
     Args:
         group_configs: List of config dictionaries with 'country' and 'newspaper' keys
         project_root: Project root directory
         log_dir: Base log directory
-    
+
     Returns:
         Exit code (0 for success, 1 for any failures)
     """
@@ -279,21 +275,21 @@ def run_sequential_group_cli(
         level=logging.INFO,
         format="%(asctime)s - %(levelname)s - %(message)s",
     )
-    
+
     exit_code = 0
-    
+
     for config in group_configs:
         country = config["country"]
         newspaper = config["newspaper"]
-        
+
         # Create log directory
         log_subdir = log_dir / country / newspaper
         log_subdir.mkdir(parents=True, exist_ok=True)
-        
+
         # Generate timestamp for log file
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         log_file = log_subdir / f"{timestamp}.log"
-        
+
         # Set up file logging for this scraper
         file_handler = logging.FileHandler(log_file)
         file_handler.setLevel(logging.INFO)
@@ -302,10 +298,10 @@ def run_sequential_group_cli(
         )
         logger = logging.getLogger()
         logger.addHandler(file_handler)
-        
+
         try:
             logging.info(f"Starting {country}/{newspaper}...")
-            
+
             # Run the scraper
             success, results = asyncio.run(
                 run_scraper_by_name(
@@ -316,32 +312,32 @@ def run_sequential_group_cli(
                     project_root=project_root,
                 )
             )
-            
+
             if not success:
                 logging.error(f"Failed to run {country}/{newspaper}")
                 exit_code = 1
             else:
                 logging.info(f"Completed {country}/{newspaper}")
-        
+
         except Exception as e:
             logging.error(f"Error running {country}/{newspaper}: {e}")
             exit_code = 1
-        
+
         finally:
             # Remove file handler
             logger.removeHandler(file_handler)
             file_handler.close()
-        
+
         # Small delay between countries in the same group
         time.sleep(1)
-    
+
     return exit_code
 
 
 if __name__ == "__main__":
     """
     CLI entry point for running sequential groups.
-    
+
     Usage:
         python run_scraper.py \
             --group "country1,newspaper1;country2,newspaper2" \
@@ -349,7 +345,7 @@ if __name__ == "__main__":
             --log-dir /path/to/logs
     """
     import argparse
-    
+
     parser = argparse.ArgumentParser(
         description="Run a multi-country newspaper group sequentially"
     )
@@ -370,23 +366,25 @@ if __name__ == "__main__":
         type=Path,
         help="Base log directory",
     )
-    
+
     args = parser.parse_args()
-    
+
     # Parse group configs
     group_configs = []
     for config_str in args.group.split(";"):
         country, newspaper = config_str.split(",")
-        group_configs.append({
-            "country": country,
-            "newspaper": newspaper,
-        })
-    
+        group_configs.append(
+            {
+                "country": country,
+                "newspaper": newspaper,
+            }
+        )
+
     # Run the group
     exit_code = run_sequential_group_cli(
         group_configs=group_configs,
         project_root=args.project_root,
         log_dir=args.log_dir,
     )
-    
+
     sys.exit(exit_code)

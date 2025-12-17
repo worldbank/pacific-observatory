@@ -1,13 +1,10 @@
 import gensim
 from gensim.models import CoherenceModel
 
-def compute_coherence_values(dictionary,
-                             corpus,
-                             texts,
-                             mallet_path,
-                             limit,
-                             start=2,
-                             step=1):
+
+def compute_coherence_values(
+    dictionary, corpus, texts, mallet_path, limit, start=2, step=1
+):
     """
     Compute coherence values for a range of LDA topic models.
 
@@ -25,15 +22,13 @@ def compute_coherence_values(dictionary,
     coherence_values = []
     model_list = []
     for num_topics in range(start, limit, step):
-        model = gensim.models.wrappers.LdaMallet(mallet_path,
-                                                 corpus=corpus,
-                                                 num_topics=num_topics,
-                                                 id2word=dictionary)
+        model = gensim.models.wrappers.LdaMallet(
+            mallet_path, corpus=corpus, num_topics=num_topics, id2word=dictionary
+        )
         model_list.append(model)
-        coherencemodel = CoherenceModel(model=model,
-                                        texts=texts,
-                                        dictionary=dictionary,
-                                        coherence='c_v')
+        coherencemodel = CoherenceModel(
+            model=model, texts=texts, dictionary=dictionary, coherence="c_v"
+        )
         coherence_values.append(coherencemodel.get_coherence())
-        
+
     return model_list, coherence_values

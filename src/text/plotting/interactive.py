@@ -1,6 +1,6 @@
 """Generate standalone HTML plots with dropdown menus"""
+
 import os
-import sys
 import json
 import pandas as pd
 from pathlib import Path
@@ -9,19 +9,29 @@ from pathlib import Path
 EXCLUDE_COUNTRIES = [
     # 'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'palau',
     # 'south_korea', 'singapore', 'thailand', 'timor_leste', 'tuvalu', 'vanuatu'
-    "cambodia", "thailand", "singapore"
+    "cambodia",
+    "thailand",
+    "singapore",
 ]
 
 # Countries to exclude from prediction visualizations
 EXCLUDE_PREDS = [
-    'american_samoa', 'guam', 'malaysia', 'marshall_islands', 'mongolia',
-    'singapore', 'thailand', 'timor_leste', 'tuvalu'
+    "american_samoa",
+    "guam",
+    "malaysia",
+    "marshall_islands",
+    "mongolia",
+    "singapore",
+    "thailand",
+    "timor_leste",
+    "tuvalu",
 ]
 
 
 def fmt_country(c):
     """Format country name from snake_case to Title Case (e.g., 'solomon_islands' -> 'Solomon Islands')"""
     return " ".join(w[0].upper() + w[1:] for w in c.split("_"))
+
 
 def load_epu(country, data_dir):
     """Load EPU data and compute 3-month moving average"""
@@ -80,6 +90,7 @@ def load_oob_pred(country, data_dir):
     df["date"] = pd.to_datetime(df["date"], format="mixed")
     return df.sort_values("date")
 
+
 def df_to_json(df):
     """Convert DataFrame to JSON-serializable list of dictionaries"""
     data = []
@@ -98,6 +109,7 @@ def df_to_json(df):
         data.append(r)
     return data
 
+
 def gen_html(title, subtitle, chart_id, all_data, countries, script_content):
     """Generate standalone HTML page with Chart.js visualization and country dropdown"""
     # Build country options, filtering out excluded countries
@@ -106,7 +118,7 @@ def gen_html(title, subtitle, chart_id, all_data, countries, script_content):
         for c in countries
         if (c in all_data) and (c not in EXCLUDE_COUNTRIES)
     )
-    
+
     # CSS styling for responsive layout
     css_styles = """
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -138,7 +150,7 @@ def gen_html(title, subtitle, chart_id, all_data, countries, script_content):
         select:focus { outline: 0; border-color: #667eea; }
         .chart-wrapper { position: relative; height: 350px; }
     """
-    
+
     return f"""<!DOCTYPE html>
 <html>
 <head>
@@ -163,6 +175,7 @@ def gen_html(title, subtitle, chart_id, all_data, countries, script_content):
 </body>
 </html>"""
 
+
 def gen_epu_html(countries, data_dir, out):
     """Generate EPU visualization with raw and 3-month moving average lines"""
     countries = sorted([c for c in countries if c not in EXCLUDE_COUNTRIES])
@@ -173,7 +186,7 @@ def gen_epu_html(countries, data_dir, out):
     }
     if not all_data:
         return
-    
+
     # JavaScript code for EPU chart rendering
     script = """
         // Format date from YYYY-MM-DD to YYYY-MM
@@ -254,17 +267,20 @@ def gen_epu_html(countries, data_dir, out):
         // Initial chart render with first country
         renderChart(document.getElementById('country-select').value);
     """
-    
-    with open(out, 'w') as f:
-        f.write(gen_html(
-            "Economic Policy Uncertainty Index",
-            "EPU Weighted and 3-Month Moving Average",
-            "epu-chart",
-            all_data,
-            countries,
-            script
-        ))
+
+    with open(out, "w") as f:
+        f.write(
+            gen_html(
+                "Economic Policy Uncertainty Index",
+                "EPU Weighted and 3-Month Moving Average",
+                "epu-chart",
+                all_data,
+                countries,
+                script,
+            )
+        )
     print(f"Created {out}")
+
 
 def gen_epu_topics_html(countries, topics, data_dir, out):
     """Generate topic-specific EPU visualization with multiple datasets"""
@@ -276,16 +292,16 @@ def gen_epu_topics_html(countries, topics, data_dir, out):
     }
     if not all_data:
         return
-    
+
     # Define colors and labels for each topic
-    colors = ['#00a37c', '#d95e10']
+    colors = ["#00a37c", "#d95e10"]
     labels = [" ".join(w.capitalize() for w in t.split("_")) for t in topics]
-    
+
     # Convert to JSON for embedding in JavaScript
     topics_json = json.dumps(topics)
     colors_json = json.dumps(colors)
     labels_json = json.dumps(labels)
-    
+
     # JavaScript code for topic-based EPU chart rendering
     script = f"""
         const topics = {topics_json};
@@ -305,7 +321,7 @@ def gen_epu_topics_html(countries, topics, data_dir, out):
 
             // Extract date labels
             const labels_chart = data.map(r => formatDate(r.date));
-            
+
             // Build datasets dynamically for each topic
             const datasets = [];
             topics.forEach((topic, index) => {{
@@ -361,17 +377,20 @@ def gen_epu_topics_html(countries, topics, data_dir, out):
         // Initial chart render with first country
         renderChart(document.getElementById('country-select').value);
     """
-    
-    with open(out, 'w') as f:
-        f.write(gen_html(
-            "Economic Policy Uncertainty by Topic",
-            "Topic-based EPU Analysis",
-            "epu-topics-chart",
-            all_data,
-            countries,
-            script
-        ))
+
+    with open(out, "w") as f:
+        f.write(
+            gen_html(
+                "Economic Policy Uncertainty by Topic",
+                "Topic-based EPU Analysis",
+                "epu-topics-chart",
+                all_data,
+                countries,
+                script,
+            )
+        )
     print(f"Created {out}")
+
 
 def gen_sentiment_html(countries, data_dir, out):
     """Generate sentiment analysis visualization"""
@@ -383,7 +402,7 @@ def gen_sentiment_html(countries, data_dir, out):
     }
     if not all_data:
         return
-    
+
     # JavaScript code for sentiment chart rendering
     script = """
         // Format date from YYYY-MM-DD to YYYY-MM
@@ -453,17 +472,20 @@ def gen_sentiment_html(countries, data_dir, out):
         // Initial chart render with first country
         renderChart(document.getElementById('country-select').value);
     """
-    
-    with open(out, 'w') as f:
-        f.write(gen_html(
-            "Sentiment Analysis",
-            "News Sentiment Score Over Time",
-            "sentiment-chart",
-            all_data,
-            countries,
-            script
-        ))
+
+    with open(out, "w") as f:
+        f.write(
+            gen_html(
+                "Sentiment Analysis",
+                "News Sentiment Score Over Time",
+                "sentiment-chart",
+                all_data,
+                countries,
+                script,
+            )
+        )
     print(f"Created {out}")
+
 
 def gen_news_html(countries, data_dir, out):
     """Generate news article count visualization"""
@@ -475,7 +497,7 @@ def gen_news_html(countries, data_dir, out):
     }
     if not all_data:
         return
-    
+
     # JavaScript code for news count chart rendering
     script = """
         // Format date from YYYY-MM-DD to YYYY-MM
@@ -545,17 +567,20 @@ def gen_news_html(countries, data_dir, out):
         // Initial chart render with first country
         renderChart(document.getElementById('country-select').value);
     """
-    
-    with open(out, 'w') as f:
-        f.write(gen_html(
-            "News Article Count",
-            "Number of Articles Scraped Per Month",
-            "news-chart",
-            all_data,
-            countries,
-            script
-        ))
+
+    with open(out, "w") as f:
+        f.write(
+            gen_html(
+                "News Article Count",
+                "Number of Articles Scraped Per Month",
+                "news-chart",
+                all_data,
+                countries,
+                script,
+            )
+        )
     print(f"Created {out}")
+
 
 def gen_pred_html(countries, data_dir, out):
     """Generate inflation prediction vs actual visualization"""
@@ -567,7 +592,7 @@ def gen_pred_html(countries, data_dir, out):
     }
     if not all_data:
         return
-    
+
     # JavaScript code for inflation prediction chart rendering
     script = """
         // Format date from YYYY-MM-DD to YYYY-MM
@@ -647,16 +672,18 @@ def gen_pred_html(countries, data_dir, out):
         // Initial chart render with first country
         renderChart(document.getElementById('country-select').value);
     """
-    
-    with open(out, 'w') as f:
-        f.write(gen_html(
-            "Predicted Inflation",
-            "Model Predictions vs Actual Inflation",
-            "pred-chart",
-            all_data,
-            countries,
-            script
-        ))
+
+    with open(out, "w") as f:
+        f.write(
+            gen_html(
+                "Predicted Inflation",
+                "Model Predictions vs Actual Inflation",
+                "pred-chart",
+                all_data,
+                countries,
+                script,
+            )
+        )
     print(f"Created {out}")
 
 
@@ -670,7 +697,7 @@ def gen_oob_pred_html(countries, data_dir, out):
     }
     if not all_data:
         return
-    
+
     # JavaScript code for out-of-bag inflation prediction chart rendering
     script = """
         // Format date from YYYY-MM-DD to YYYY-MM
@@ -750,29 +777,36 @@ def gen_oob_pred_html(countries, data_dir, out):
         // Initial chart render with first country
         renderChart(document.getElementById('country-select').value);
     """
-    
-    with open(out, 'w') as f:
-        f.write(gen_html(
-            "Out-of-Bag Predictions",
-            "Model Predictions on Unseen Countries vs Actual Inflation",
-            "oob-pred-chart",
-            all_data,
-            countries,
-            script
-        ))
+
+    with open(out, "w") as f:
+        f.write(
+            gen_html(
+                "Out-of-Bag Predictions",
+                "Model Predictions on Unseen Countries vs Actual Inflation",
+                "oob-pred-chart",
+                all_data,
+                countries,
+                script,
+            )
+        )
     print(f"Created {out}")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     PROJECT_ROOT = Path(__file__).resolve().parents[3]
     DATA_DIR = PROJECT_ROOT / "outputs" / "text"
     OUTPUT_DIR = PROJECT_ROOT / "docs/images/interactive/text"
-    
+
     countries = [d for d in os.listdir(DATA_DIR) if (DATA_DIR / d).is_dir()]
-    
+
     gen_epu_html(countries, DATA_DIR, OUTPUT_DIR / "epu_pic.html")
-    gen_epu_topics_html(countries, ["inflation", "job"], DATA_DIR, OUTPUT_DIR / "epu_topics_pic.html")
+    gen_epu_topics_html(
+        countries, ["inflation", "job"], DATA_DIR, OUTPUT_DIR / "epu_topics_pic.html"
+    )
     gen_sentiment_html(countries, DATA_DIR, OUTPUT_DIR / "sentiment_pic.html")
     gen_news_html(countries, DATA_DIR, OUTPUT_DIR / "news_count_pic.html")
     gen_pred_html(countries, DATA_DIR, OUTPUT_DIR / "train_predictions_pic.html")
-    gen_oob_pred_html(countries, DATA_DIR, OUTPUT_DIR / "out_of_bag_predictions_pic.html")
+    gen_oob_pred_html(
+        countries, DATA_DIR, OUTPUT_DIR / "out_of_bag_predictions_pic.html"
+    )
     print("All plots generated successfully!")

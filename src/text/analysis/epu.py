@@ -49,7 +49,6 @@ Last modified:
 """
 
 import os
-import re
 from typing import List, Union
 import pandas as pd
 import numpy as np
@@ -99,7 +98,6 @@ class EPU:
         additional_terms: Union[List, None] = None,
         additional_name: Union[str, None] = None,
     ):
-
         if isinstance(filepath, str):
             self.filepath = [filepath]
         elif isinstance(filepath, list):
@@ -197,9 +195,7 @@ class EPU:
             ):
                 if terms is not None:
                     raw[col] = (
-                        raw["body"]
-                        .str.lower()
-                        .apply(is_in_word_list, terms=terms)
+                        raw["body"].str.lower().apply(is_in_word_list, terms=terms)
                     )
                 else:
                     raw[col] = True
@@ -215,17 +211,12 @@ class EPU:
                 )
                 raw["epu"] = (raw.epu) & (raw.additional)
 
-            if (
-                "url" in raw.columns
-                and raw["url"].isin(self.non_epu_urls).sum() > 0
-            ):
+            if "url" in raw.columns and raw["url"].isin(self.non_epu_urls).sum() > 0:
                 raw.loc[raw.url.isin(self.non_epu_urls), "epu"] = False
 
             self.raw_files.append((source, raw.copy()))
 
-    def calculate_news_and_epu_counts(
-        self, file: pd.DataFrame
-    ) -> pd.DataFrame:
+    def calculate_news_and_epu_counts(self, file: pd.DataFrame) -> pd.DataFrame:
         """
         The function
 
@@ -257,15 +248,10 @@ class EPU:
         )
 
     def _calculate_total_news(self):
-
         self.news_cols = [
-            col
-            for col in self.epu_stats.columns
-            if col.endswith("_body_count")
+            col for col in self.epu_stats.columns if col.endswith("_body_count")
         ]
-        self.epu_stats["news_total"] = self.epu_stats[self.news_cols].sum(
-            axis=1
-        )
+        self.epu_stats["news_total"] = self.epu_stats[self.news_cols].sum(axis=1)
 
     def get_count_stats(self):
         """
@@ -280,9 +266,7 @@ class EPU:
             )  # .fillna(0)
 
         # Check for date integrity
-        self.epu_stats["date"] = pd.to_datetime(
-            self.epu_stats["ym"], format="mixed"
-        )
+        self.epu_stats["date"] = pd.to_datetime(self.epu_stats["ym"], format="mixed")
         self.min_date, self.max_date = (
             self.epu_stats.date.min(),
             self.epu_stats.date.max(),
@@ -310,9 +294,7 @@ class EPU:
         for ratio_col in self.ratio_cols:
             col = ratio_col.replace("_ratio", "")
             if self.cutoff is not None:
-                std = self.epu_stats[self.epu_stats.date < self.cutoff][
-                    ratio_col
-                ].std()
+                std = self.epu_stats[self.epu_stats.date < self.cutoff][ratio_col].std()
             else:
                 std = self.epu_stats[ratio_col].std()
             self.stds.append({col: std})
@@ -321,23 +303,19 @@ class EPU:
             if std == 0 or pd.isna(std):
                 self.epu_stats[f"{col}_z_score"] = np.nan
             else:
-                self.epu_stats[f"{col}_z_score"] = (
-                    self.epu_stats[ratio_col] / std
-                )
+                self.epu_stats[f"{col}_z_score"] = self.epu_stats[ratio_col] / std
 
         self.z_score_cols = [
             col for col in self.epu_stats.columns if col.endswith("z_score")
         ]
-        self.epu_stats["z_score_unweighted"] = self.epu_stats[
-            self.z_score_cols
-        ].mean(axis=1, skipna=True)
+        self.epu_stats["z_score_unweighted"] = self.epu_stats[self.z_score_cols].mean(
+            axis=1, skipna=True
+        )
         self.epu_stats["z_score_weighted"] = 0
         for z_score_col in self.z_score_cols:
             weight_col = z_score_col.replace("z_score", "weights")
             self.epu_stats["z_score_weighted"] += (
-                self.epu_stats[weight_col].multiply(
-                    self.epu_stats[z_score_col]
-                )
+                self.epu_stats[weight_col].multiply(self.epu_stats[z_score_col])
                 if not pd.isna(self.epu_stats[z_score_col]).all()
                 else 0
             )
@@ -355,9 +333,7 @@ class EPU:
             scaling_factor = 100 / (
                 self.epu_stats[self.epu_stats.date < self.cutoff][col].mean()
             )
-            self.epu_stats[f"epu_{name}"] = (
-                scaling_factor * self.epu_stats[col]
-            )
+            self.epu_stats[f"epu_{name}"] = scaling_factor * self.epu_stats[col]
 
         # Add additional_name column if provided
         if self.additional_name:

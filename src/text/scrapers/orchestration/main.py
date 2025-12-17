@@ -18,19 +18,6 @@ import os
 import sys
 from pathlib import Path
 
-# Set up the data folder path
-os.environ["DATA_FOLDER_PATH"] = "data/text"
-
-# Add the src directory to Python path for imports
-script_dir = Path(__file__).resolve().parent  # orchestration/
-scrapers_dir = script_dir.parent  # scrapers/
-text_dir = scrapers_dir.parent  # text/
-src_dir = text_dir.parent  # src/
-
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
-
-# Import orchestration modules (after path setup)
 from text.scrapers.orchestration.utils import (
     setup_logging,
     get_project_paths,
@@ -42,6 +29,18 @@ from text.scrapers.orchestration.discovery import (
 )
 from text.scrapers.orchestration.run_scraper import run_scraper_by_name
 from text.scrapers.orchestration.run_multiple import run_all_scrapers
+
+# Set up the data folder path
+os.environ["DATA_FOLDER_PATH"] = "data/text"
+
+# Add the src directory to Python path for imports
+script_dir = Path(__file__).resolve().parent  # orchestration/
+scrapers_dir = script_dir.parent  # scrapers/
+text_dir = scrapers_dir.parent  # text/
+src_dir = text_dir.parent  # src/
+
+if str(src_dir) not in sys.path:
+    sys.path.insert(0, str(src_dir))
 
 # Get project paths
 paths = get_project_paths()
@@ -97,17 +96,17 @@ Examples:
   python src/text/scrapers/orchestration/main.py sibc --update                       # Run SIBC scraper (update mode)
   python src/text/scrapers/orchestration/main.py sibc --urls-from-scratch False      # Use cached URLs from urls.csv
   python src/text/scrapers/orchestration/main.py sibc --no-save                      # Run without saving results
-  
+
   # Multi-scraper runner
   python src/text/scrapers/orchestration/main.py --run-all                           # Run all scrapers in parallel
   python src/text/scrapers/orchestration/main.py --run-all --urls-from-scratch False # Run all with cached URLs
   python src/text/scrapers/orchestration/main.py --run-all --sequential              # Run all scrapers sequentially
   python src/text/scrapers/orchestration/main.py --run-all --dry-run                 # Preview what would run
-  
+
   # List available scrapers
   python src/text/scrapers/orchestration/main.py --list-scrapers                     # List all available scrapers
   python src/text/scrapers/orchestration/main.py --list-countries                    # List all countries
-  
+
   # Automation (for future use)
   # Add to crontab: 0 2 * * * cd /path/to/project && poetry run python src/text/scrapers/orchestration/main.py --run-all
   # Or use systemd timer, Airflow DAG, or GitHub Actions workflow
@@ -115,9 +114,7 @@ Examples:
     )
 
     # Main arguments
-    parser.add_argument(
-        "newspaper", nargs="?", help="Name of the newspaper to scrape"
-    )
+    parser.add_argument("newspaper", nargs="?", help="Name of the newspaper to scrape")
 
     parser.add_argument(
         "--country", help="Country code filter (e.g., SB for Solomon Islands)"
@@ -175,7 +172,7 @@ Examples:
 
     parser.add_argument(
         "--urls-from-scratch",
-        type=lambda x: x.lower() in ('true', '1', 'yes'),
+        type=lambda x: x.lower() in ("true", "1", "yes"),
         default=True,
         help="Discover URLs from scratch (True) or load from urls.csv (False). Default: True",
     )
@@ -238,7 +235,7 @@ Examples:
                 no_save=args.no_save,
             )
         )
-        
+
         # Print log file location if scraping was successful
         if success and results:
             print("\n" + "=" * 50)
@@ -246,7 +243,9 @@ Examples:
             newspaper = results.get("newspaper", "unknown")
             # Normalize newspaper name: lowercase and replace spaces with underscores
             normalized_newspaper = newspaper.lower().replace(" ", "_")
-            print(f"📝 Log file saved to: logs/text/{country}/{normalized_newspaper}/YYYYMMDD_HHMMSS.log")
+            print(
+                f"📝 Log file saved to: logs/text/{country}/{normalized_newspaper}/YYYYMMDD_HHMMSS.log"
+            )
 
         if not success:
             sys.exit(1)
@@ -261,4 +260,3 @@ Examples:
 
 if __name__ == "__main__":
     main()
-
