@@ -6,9 +6,13 @@ The [Global Fishing Watch](https://globalfishingwatch.org/) platform applies a f
 
 ![Map](../images/ais/FishingTimelapse.gif)
 
-## Time Series
-
-<div class="flourish-embed flourish-chart" data-src="visualisation/19840530?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19840530/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/fishing hours stacked area.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%; height: 640px;">
+  </iframe>
+</div>
 
 ## Data Availability
 

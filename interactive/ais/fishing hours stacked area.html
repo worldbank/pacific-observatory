@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fishing Hours by Gear Type</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 2px;
+      padding: 2px;
+      font-family: 'Open Sans', sans-serif;
+      background-color: white;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 2px;
+    }
+    #chart {
+      width: 100%;
+      height: 500px;
+      margin: 0;
+      padding: 0;
+    }
+    label, select {
+      font-size: 14px;
+      margin-right: 10px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    select {
+      border: none;
+      border-bottom: 1px solid #888;
+      background-color: transparent;
+      font-size: 14px;
+      padding: 5px 0;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      cursor: pointer;
+    }
+    #filterContainer {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .time-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .time-btn {
+      background-color: transparent;
+      border: 1px solid #888;
+      padding: 4px 12px;
+      font-size: 14px;
+      font-family: 'Open Sans', sans-serif;
+      cursor: pointer;
+      color: #333;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .time-btn:hover {
+      background-color: #f0f0f0;
+    }
+    .time-btn.active {
+      background-color: #0071bc;
+      color: white;
+      border-color: #0071bc;
+    }
+  </style>
+</head>
+<body>
+
+<div id="titleRow" style="margin-bottom: 10px;">
+  <h2 id="chartTitle" style="font-size: 20px; font-weight: bold; margin: 0; font-family: 'Open Sans', sans-serif;">
+    Fishing Hours by Economic Zone and Gear Type
+  </h2>
+  <p id="chartSubtitle" style="font-size: 16px; color: #666; margin: 4px 0 0; font-family: 'Open Sans', sans-serif;">
+    Hours, Monthly
+  </p>
+</div>
+
+<div id="filterContainer">
+  <div class="filter-row">
+    <select id="countrySelect"></select>
+  </div>
+  <div class="filter-row">
+    <select id="gearSelect"></select>
+  </div>
+  <div class="filter-row">
+    <div class="time-buttons">
+      <button class="time-btn" data-years="1">1Y</button>
+      <button class="time-btn" data-years="3">3Y</button>
+      <button class="time-btn" data-years="5">5Y</button>
+      <button class="time-btn active" data-years="all">All</button>
+    </div>
+  </div>
+</div>
+
+<div id="chart" style="width:100%;position:relative;"></div>
+<div id="footer" style="
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+  ">
+  <div style="margin-bottom:10px;">
+    Source: <a href="https://www.worldbank.org" target="_blank" style="text-decoration: underline; color: #888;">World Bank Group</a>
+  </div>
+  <img src="https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png" style="height: 25px; object-fit: contain; margin-right: 5px; margin-bottom:10px;" alt="Logo">
+</div>
+
+<script>
+  let fullData = [];
+
+  Papa.parse("https://raw.githubusercontent.com/cherrylchico/pacific-observatory-ais-data/main/data/Monthly%20Fishing%20Hours%20by%20Country%20Gear%20Type.csv", {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      fullData = results.data
+        .filter(d => d.Country && d["Gear Type"] && d.year && d.month && !isNaN(parseFloat(d.total_hours)))
+        .map(d => ({
+          year: parseInt(d.year, 10),
+          month: parseInt(d.month, 10),
+          Country: d.Country,
+          gearType: d["Gear Type"],
+          totalHours: parseFloat(d.total_hours)
+        }));
+      populateCountryDropdown();
+    }
+  });
+
+  function populateCountryDropdown() {
+    const countries = [...new Set(fullData.map(d => d.Country))].sort();
+    const countrySelect = document.getElementById("countrySelect");
+    countrySelect.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "__ALL__";
+    allOption.textContent = "All Countries";
+    countrySelect.appendChild(allOption);
+
+    countries.forEach(country => {
+      const option = document.createElement("option");
+      option.value = country;
+      option.textContent = country;
+      countrySelect.appendChild(option);
+    });
+
+    countrySelect.value = "__ALL__";
+    countrySelect.addEventListener("change", populateGearDropdown);
+
+    const timeButtons = document.querySelectorAll(".time-btn");
+    timeButtons.forEach(btn => {
+      btn.addEventListener("click", function() {
+        timeButtons.forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        updateChart();
+      });
+    });
+
+    populateGearDropdown();
+  }
+
+  function populateGearDropdown() {
+    const selectedCountry = document.getElementById("countrySelect").value;
+    const gearSelect = document.getElementById("gearSelect");
+
+    let dataForGear = fullData;
+    if (selectedCountry !== "__ALL__") {
+      dataForGear = fullData.filter(d => d.Country === selectedCountry);
+    }
+
+    const gears = [...new Set(dataForGear.map(d => d.gearType))].sort();
+
+    gearSelect.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "__ALL__";
+    allOption.textContent = "All Gear Types";
+    gearSelect.appendChild(allOption);
+
+    gears.forEach(gear => {
+      const option = document.createElement("option");
+      option.value = gear;
+      option.textContent = gear;
+      gearSelect.appendChild(option);
+    });
+
+    gearSelect.value = "__ALL__";
+    gearSelect.onchange = updateChart;
+    updateChart();
+  }
+
+  function updateChart() {
+    const selectedCountry = document.getElementById("countrySelect").value;
+    const selectedGear = document.getElementById("gearSelect").value;
+    const activeTimeBtn = document.querySelector(".time-btn.active");
+    const selectedYears = activeTimeBtn ? activeTimeBtn.dataset.years : "all";
+
+    let filtered = fullData.slice();
+
+    if (selectedCountry !== "__ALL__") {
+      filtered = filtered.filter(d => d.Country === selectedCountry);
+    }
+
+    if (selectedGear !== "__ALL__") {
+      filtered = filtered.filter(d => d.gearType === selectedGear);
+    }
+
+    if (!filtered.length) {
+      Plotly.newPlot("chart", [], {
+        autosize: true,
+        margin: { l: 40, r: 20, t: 10, b: 0 },
+        xaxis: { showgrid: false, showline: true, linecolor: "#ccc" },
+        yaxis: { showline: true, linecolor: "#ccc", griddash: "dot", gridcolor: "#ccc", zeroline: false },
+        annotations: [{ text: "No data for current filter selection", showarrow: false, x: 0.5, y: 0.5, xref: "paper", yref: "paper", font: { family: "Open Sans, sans-serif", size: 14, color: "#666" } }]
+      }, { responsive: true });
+      return;
+    }
+
+    const allDates = filtered.map(d => new Date(d.year, d.month - 1, 1));
+    let minDate = new Date(Math.min(...allDates));
+    let maxDate = new Date(Math.max(...allDates));
+
+    if (selectedYears !== "all") {
+      const yearsNum = parseInt(selectedYears, 10);
+      minDate = new Date(maxDate.getFullYear() - yearsNum, maxDate.getMonth(), 1);
+      filtered = filtered.filter(d => new Date(d.year, d.month - 1, 1) >= minDate);
+    }
+
+    const timeKeySet = new Set(filtered.map(d => `${d.year}-${String(d.month).padStart(2, "0")}`));
+    const timeKeys = [...timeKeySet].sort();
+
+    const gears = [...new Set(filtered.map(d => d.gearType))].sort();
+
+    const traces = gears.map(gear => {
+      const yByKey = {};
+      filtered
+        .filter(d => d.gearType === gear)
+        .forEach(d => {
+          const key = `${d.year}-${String(d.month).padStart(2, "0")}`;
+          yByKey[key] = (yByKey[key] || 0) + d.totalHours;
+        });
+
+      const x = timeKeys.map(key => new Date(parseInt(key.slice(0, 4), 10), parseInt(key.slice(5, 7), 10) - 1, 1));
+      const y = timeKeys.map(key => yByKey[key] || 0);
+
+      return {
+        x,
+        y,
+        name: gear,
+        type: "scatter",
+        mode: "lines",
+        stackgroup: "one",
+        hovertemplate: "%{x|%b %Y}<br>%{fullData.name}: %{y:,.1f} hours<extra></extra>"
+      };
+    });
+
+    const layout = {
+      autosize: true,
+      margin: {
+        l: 40,
+        r: 20,
+        t: 10,
+        b: 0
+      },
+      yaxis: {
+        showline: true,
+        linecolor: "#ccc",
+        griddash: "dot",
+        gridcolor: "#ccc",
+        ticks: "outside",
+        tickcolor: "#ccc",
+        zeroline: false
+      },
+      xaxis: {
+        rangeslider: { visible: true },
+        title: "",
+        showgrid: false,
+        ticks: "outside",
+        tickcolor: "#ccc",
+        showline: true,
+        linecolor: "#ccc"
+      },
+      legend: {
+        orientation: "h",
+        x: 0,
+        y: 1
+      },
+      hoverlabel: {
+        font: { family: "Open Sans, sans-serif" }
+      }
+    };
+
+    Plotly.newPlot("chart", traces, layout, { responsive: true });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trade Volume Derived from AIS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 2px;
+      padding: 2px;
+      font-family: 'Open Sans', sans-serif;
+      background-color: white;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 2px;
+    }
+    label, select {
+      font-size: 14px;
+      margin-right: 10px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    select {
+      border: none;
+      border-bottom: 1px solid #888;
+      background-color: transparent;
+      font-size: 14px;
+      padding: 5px 0;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      cursor: pointer;
+    }
+    #filterContainer {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .time-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .time-btn {
+      background-color: transparent;
+      border: 1px solid #888;
+      padding: 4px 12px;
+      font-size: 14px;
+      font-family: 'Open Sans', sans-serif;
+      cursor: pointer;
+      color: #333;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .time-btn:hover {
+      background-color: #f0f0f0;
+    }
+    .time-btn.active {
+      background-color: #0071bc;
+      color: white;
+      border-color: #0071bc;
+    }
+    #chartsWrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .chart-block {
+      width: 100%;
+      position: relative;
+    }
+    .chart-label {
+      font-size: 14px;
+      color: #444;
+      margin: 4px 0;
+      font-weight: 600;
+    }
+    .chart {
+      width: 100%;
+      height: 220px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="titleRow" style="margin-bottom: 10px;">
+  <h2 id="chartTitle" style="font-size: 20px; font-weight: bold; margin: 0; font-family: 'Open Sans', sans-serif;">
+    Trade Volume
+  </h2>
+  <p id="chartSubtitle" style="font-size: 16px; color: #666; margin: 4px 0 0; font-family: 'Open Sans', sans-serif;">
+    Tons, Monthly
+  </p>
+</div>
+
+<div id="filterContainer">
+  <div class="filter-row">
+    <select id="countrySelect"></select>
+  </div>
+  <div class="filter-row">
+    <select id="portSelect"></select>
+  </div>
+  <div class="filter-row">
+    <div class="time-buttons">
+      <button class="time-btn" data-years="1">1Y</button>
+      <button class="time-btn" data-years="3">3Y</button>
+      <button class="time-btn" data-years="5">5Y</button>
+      <button class="time-btn active" data-years="all">All</button>
+    </div>
+  </div>
+</div>
+
+<div id="chartsWrapper">
+  <div class="chart-block">
+    <div class="chart-label">Imports</div>
+    <div id="importsChart" class="chart"></div>
+  </div>
+  <div class="chart-block">
+    <div class="chart-label">Exports</div>
+    <div id="exportsChart" class="chart"></div>
+  </div>
+</div>
+
+<div id="footer" style="
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+">
+  <div style="margin-bottom:10px;">
+    Source: <a href="https://www.worldbank.org" target="_blank" style="text-decoration: underline; color: #888;">World Bank Group</a>
+  </div>
+  <img src="https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png" style="height: 25px; object-fit: contain; margin-right: 5px; margin-bottom:10px;" alt="Logo">
+</div>
+
+<script>
+  const vesselCategories = ["Bulk Carrier", "Container", "General Cargo", "Tanker", "Others"];
+  const colors = {
+    "Bulk Carrier": "#8DBCE8",
+    "Container": "#F5A875",
+    "General Cargo": "#95C975",
+    "Tanker": "#DB8499",
+    "Others": "#9D6BBF"
+  };
+
+  let fullData = [];
+
+  Papa.parse("https://raw.githubusercontent.com/cherrylchico/pacific-observatory-ais-data/main/data/Monthly%20Trade%20Volume%20by%20Country%20Vessel%20Type.csv", {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      const tradeFieldName = detectTradeField(results.meta.fields || []);
+
+      fullData = results.data
+        .map(row => ({
+          ...row,
+          year: parseInt(row.year, 10),
+          month: parseInt(row.month, 10),
+          tradeVol: parseFloat(row[tradeFieldName])
+        }))
+        .filter(row =>
+          row.year &&
+          row.month &&
+          row.Country &&
+          row.Port &&
+          row["Vessel Category"] &&
+          row["Trade Flow"] &&
+          !Number.isNaN(row.tradeVol)
+        )
+        .map(row => ({
+          ...row,
+          vesselGroup: vesselCategories.includes(row["Vessel Category"]) ? row["Vessel Category"] : "Others"
+        }));
+
+      populateCountryDropdown();
+    }
+  });
+
+  function detectTradeField(fields) {
+    const found = fields.find(field => field && field.trim().toLowerCase() === "trade vol");
+    return found || "Trade Vol ";
+  }
+
+  function populateCountryDropdown() {
+    const countries = [...new Set(fullData.map(d => d.Country))].sort();
+    const countrySelect = document.getElementById("countrySelect");
+    countrySelect.innerHTML = "";
+
+    const allOption = document.createElement("option");
+    allOption.value = "__ALL__";
+    allOption.textContent = "All Countries";
+    countrySelect.appendChild(allOption);
+
+    countries.forEach(country => {
+      const option = document.createElement("option");
+      option.value = country;
+      option.textContent = country;
+      countrySelect.appendChild(option);
+    });
+
+    countrySelect.addEventListener("change", populatePortDropdown);
+    countrySelect.value = "__ALL__";
+
+    const timeButtons = document.querySelectorAll(".time-btn");
+    timeButtons.forEach(btn => {
+      btn.addEventListener("click", function() {
+        timeButtons.forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        updateCharts();
+      });
+    });
+
+    populatePortDropdown();
+  }
+
+  function populatePortDropdown() {
+    const selectedCountry = document.getElementById("countrySelect").value;
+    const portSelect = document.getElementById("portSelect");
+    portSelect.innerHTML = "";
+
+    const allPortsByCountryOption = document.createElement("option");
+    allPortsByCountryOption.value = "__ALL_PORTS_PER_COUNTRY__";
+    allPortsByCountryOption.textContent = "All Ports";
+    portSelect.appendChild(allPortsByCountryOption);
+
+    if (selectedCountry === "__ALL__") {
+      portSelect.disabled = true;
+    } else {
+      const ports = [...new Set(fullData.filter(d => d.Country === selectedCountry).map(d => d.Port))].sort();
+      ports.forEach(port => {
+        const option = document.createElement("option");
+        option.value = port;
+        option.textContent = port;
+        portSelect.appendChild(option);
+      });
+      portSelect.disabled = false;
+    }
+
+    portSelect.onchange = updateCharts;
+    portSelect.value = "__ALL_PORTS_PER_COUNTRY__";
+    updateCharts();
+  }
+
+  function updateCharts() {
+    const selectedCountry = document.getElementById("countrySelect").value;
+    const selectedPort = document.getElementById("portSelect").value;
+    const activeTimeBtn = document.querySelector(".time-btn.active");
+    const selectedYears = activeTimeBtn ? activeTimeBtn.dataset.years : "all";
+
+    let filtered = [...fullData];
+
+    if (selectedCountry !== "__ALL__") {
+      filtered = filtered.filter(d => d.Country === selectedCountry);
+
+      if (selectedPort !== "__ALL_PORTS_PER_COUNTRY__") {
+        filtered = filtered.filter(d => d.Port === selectedPort);
+      }
+    }
+
+    if (selectedYears !== "all" && filtered.length > 0) {
+      const allDates = filtered.map(d => new Date(d.year, d.month - 1));
+      const maxDate = new Date(Math.max(...allDates));
+      const yearsNum = parseInt(selectedYears, 10);
+      const minDate = new Date(maxDate.getFullYear() - yearsNum, maxDate.getMonth());
+
+      filtered = filtered.filter(d => {
+        const rowDate = new Date(d.year, d.month - 1);
+        return rowDate >= minDate;
+      });
+    }
+
+    const allPeriods = [...new Set(filtered.map(d => `${d.year}-${String(d.month).padStart(2, "0")}`))].sort();
+
+    renderStackedFlowChart("importsChart", "Imports", filtered, allPeriods, true, false);
+    renderStackedFlowChart("exportsChart", "Exports", filtered, allPeriods, false, true);
+  }
+
+  function renderStackedFlowChart(chartId, flowType, dataset, periods, showLegend, showRangeSlider) {
+    const flowRows = dataset.filter(d => (d["Trade Flow"] || "").toLowerCase() === flowType.toLowerCase());
+
+    const traces = vesselCategories.map(category => {
+      const y = periods.map(period => {
+        const [year, month] = period.split("-").map(Number);
+        const monthlyTotal = flowRows
+          .filter(d => d.year === year && d.month === month && d.vesselGroup === category)
+          .reduce((sum, d) => sum + d.tradeVol, 0);
+        return monthlyTotal;
+      });
+
+      return {
+        x: periods,
+        y,
+        name: category,
+        type: "bar",
+        marker: { color: colors[category] || colors.Others },
+        hovertemplate: "%{x}<br>" + category + ": %{y:,.1f}<extra></extra>"
+      };
+    });
+
+    const layout = {
+      barmode: "stack",
+      autosize: true,
+      margin: { l: 48, r: 20, t: 6, b: showRangeSlider ? 32 : 20 },
+      yaxis: {
+        showline: true,
+        linecolor: "#ccc",
+        griddash: "dot",
+        gridcolor: "#ccc",
+        ticks: "outside",
+        tickcolor: "#ccc",
+        zeroline: false
+      },
+      xaxis: {
+        showgrid: false,
+        ticks: "outside",
+        tickson: "boundaries",
+        tickcolor: "#ccc",
+        showline: true,
+        linecolor: "#ccc",
+        rangeslider: { visible: showRangeSlider }
+      },
+      legend: {
+        orientation: "h",
+        x: 0,
+        y: 1.16
+      },
+      showlegend: showLegend,
+      hoverlabel: {
+        font: { family: "Open Sans, sans-serif" }
+      }
+    };
+
+    Plotly.newPlot(chartId, traces, layout, { responsive: true, displayModeBar: false });
+  }
+</script>
+
+</body>
+</html>
