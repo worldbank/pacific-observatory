@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>HHI by Country</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 2px;
+      padding: 2px;
+      font-family: 'Open Sans', sans-serif;
+      background-color: white;
+    }
+    h2 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 2px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .subtitle {
+      font-size: 16px;
+      color: #666;
+      margin: 4px 0 10px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    #chart {
+      width: 100%;
+      height: 500px;
+      margin: 10px 0;
+      padding: 0;
+    }
+    label, select {
+      font-size: 14px;
+      margin-right: 10px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    select {
+      border: none;
+      border-bottom: 1px solid #888;
+      background-color: transparent;
+      font-size: 14px;
+      padding: 5px 0;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="titleRow" style="margin-bottom: 10px;">
+    <h2>HHI by Country</h2>
+    <p class="subtitle" id="subtitle">HHI, Yearly</p>
+  </div>
+
+  <select id="categorySelect">
+    <option value="Cargo">Cargo</option>
+    <option value="Fishing">Fishing</option>
+    <option value="Passenger">Passenger</option>
+    <option value="Tanker">Tanker</option>
+  </select>
+
+
+  <select id="pastSelect"></select>
+
+
+  <select id="currentSelect"></select>
+
+  <div id="chart"></div>
+  
+  <div id="footer" style="
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    color: #888;
+  ">
+    <div style="margin-bottom:10px;">
+      Source: <a href="https://www.worldbank.org" target="_blank" style="text-decoration: underline; color: #888;">World Bank Group</a>
+    </div>
+    <img src="https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png" style="height: 25px; object-fit: contain; margin-right: 5px; margin-bottom:10px;" alt="Logo">
+  </div>
+
+  <script>
+    let allData = [];
+    let availableYears = []; // Store all year columns
+    let selectedPast = '';
+    let selectedCurrent = '';
+    
+    // Load and parse the CSV, then render chart
+    fetch('https://raw.githubusercontent.com/cherrylchico/pacific-observatory-ais-data/main/data/hhi%20compare.csv')
+      .then(function(response) {
+        if (!response.ok) throw new Error('Failed to load CSV');
+        return response.text();
+      })
+      .then(function(csvText) {
+        var parsed = parseCSV(csvText);
+        availableYears = parsed.yearColumns;
+        allData = parsed.rows;
+        
+        // Set default values
+        selectedPast = availableYears[0] || '';  // First year (2009)
+        selectedCurrent = availableYears[availableYears.length - 1] || '';  // Last year (2025 Ave)
+        
+        // Populate dropdowns
+        populateDropdowns();
+        
+        // Render initial chart
+        renderChart();
+        
+        // Attach dropdown listeners
+        document.getElementById('categorySelect').addEventListener('change', renderChart);
+        document.getElementById('pastSelect').addEventListener('change', function(e) {
+          selectedPast = e.target.value;
+          renderChart();
+        });
+        document.getElementById('currentSelect').addEventListener('change', function(e) {
+          selectedCurrent = e.target.value;
+          renderChart();
+        });
+      })
+      .catch(function(err) {
+        console.error('Error loading CSV:', err);
+        document.getElementById('subtitle').innerHTML = '<span style="color: red;">Error loading data: ' + err.message + '</span>';
+      });
+
+    function parseCSV(text) {
+      var lines = text.split('\n').filter(function(line) { return line.trim(); });
+      if (lines.length < 2) return { rows: [], yearColumns: [] };
+      
+      // Parse headers as strings
+      var headers = lines[0].split(',').map(function(h) { 
+        return String(h.trim().replace(/^"|"$/g, '')); 
+      });
+      
+      // Extract year columns (all columns except "Vessel Category" and "Country")
+      var yearColumns = headers.filter(function(h) {
+        return h !== 'Vessel Category' && h !== 'Country';
+      });
+      
+      // Parse rows
+      var rows = [];
+      for (var i = 1; i < lines.length; i++) {
+        var values = lines[i].split(',').map(function(v) { return v.trim(); });
+        var obj = {};
+        headers.forEach(function(h, idx) {
+          obj[h] = values[idx] || '';
+        });
+        rows.push(obj);
+      }
+      
+      return { rows: rows, yearColumns: yearColumns };
+    }
+
+    function populateDropdowns() {
+      var pastSelect = document.getElementById('pastSelect');
+      var currentSelect = document.getElementById('currentSelect');
+      
+      // Clear existing options
+      pastSelect.innerHTML = '';
+      currentSelect.innerHTML = '';
+      
+      // Populate both dropdowns with year options
+      availableYears.forEach(function(year) {
+        var option1 = document.createElement('option');
+        option1.value = year;
+        option1.text = year;
+        if (year === selectedPast) option1.selected = true;
+        pastSelect.appendChild(option1);
+        
+        var option2 = document.createElement('option');
+        option2.value = year;
+        option2.text = year;
+        if (year === selectedCurrent) option2.selected = true;
+        currentSelect.appendChild(option2);
+      });
+    }
+
+    function stripQuotes(s) {
+      return s.replace(/^\s*"|"\s*$/g, '');
+    }
+    function toStr(v) {
+      if (v === undefined || v === null) return '';
+      var s = String(v).trim();
+      if (!s) return '';
+      return stripQuotes(s);
+    }
+    function toNum(v) {
+      if (v === undefined || v === null) return NaN;
+      var s = String(v).trim();
+      if (!s) return NaN;
+      s = stripQuotes(s);
+      var n = parseFloat(s);
+      return isNaN(n) ? NaN : n;
+    }
+
+    function renderChart() {
+      var selectedCategory = document.getElementById('categorySelect').value;
+      
+      // Filter and normalize data based on current selections
+      var subset = allData
+        .filter(function(r) {
+          return toStr(r['Vessel Category']).toLowerCase() === selectedCategory.toLowerCase();
+        })
+        .map(function(r) {
+          return {
+            country: toStr(r.Country),
+            past: toNum(r[selectedPast]),
+            current: toNum(r[selectedCurrent])
+          };
+        });
+
+      // Update subtitle
+      // document.getElementById('subtitle').textContent = 'Yearly HHI: '+selectedPast + ' vs ' + selectedCurrent;
+
+      // Sort by current value descending (highest to lowest), handle NaN values
+      subset.sort(function(a, b) { 
+        var valA = isNaN(a.current) ? -Infinity : a.current;
+        var valB = isNaN(b.current) ? -Infinity : b.current;
+        return valB - valA; 
+      });
+
+      var colors = { past: '#BFE8FA', current: '#1F4E79' }; // light cyan and navy blue
+
+      // Build lollipop traces with arrows
+      var traces = [];
+      var legendAdded = { past: false, current: false };
+      
+      // Calculate size scale based on all values
+      var allValues = [];
+      subset.forEach(function(d) {
+        if (!isNaN(d.past)) allValues.push(d.past);
+        if (!isNaN(d.current)) allValues.push(d.current);
+      });
+      var minVal = Math.min.apply(null, allValues);
+      var maxVal = Math.max.apply(null, allValues);
+      var sizeRange = [6, 16]; // min and max marker sizes
+      
+      function getMarkerSize(value) {
+        if (isNaN(value) || allValues.length === 0) return 6;
+        if (maxVal === minVal) return (sizeRange[0] + sizeRange[1]) / 2;
+        return sizeRange[0] + (value - minVal) / (maxVal - minVal) * (sizeRange[1] - sizeRange[0]);
+      }
+      
+      subset.forEach(function(d) {
+        var hasPast = !isNaN(d.past);
+        var hasCurrent = !isNaN(d.current);
+        
+        // Line connecting past to current (only if both exist)
+        if (hasPast && hasCurrent) {
+          traces.push({
+            type: 'scatter',
+            mode: 'lines',
+            x: [d.past, d.current],
+            y: [d.country, d.country],
+            line: { color: '#cccccc', width: 2 },
+            showlegend: false,
+            hoverinfo: 'skip'
+          });
+        }
+        
+        // Past marker
+        if (hasPast) {
+          traces.push({
+            type: 'scatter',
+            mode: 'markers',
+            x: [d.past],
+            y: [d.country],
+            marker: { size: getMarkerSize(d.past)*1.5, color: colors.past, symbol: 'circle', opacity: 0.8 },
+            name: selectedPast,
+            showlegend: !legendAdded.past,
+            legendgroup: selectedPast,
+            hovertemplate: '<b>%{y}</b><br>' + selectedPast + ': %{x:.2f}<extra></extra>'
+          });
+          legendAdded.past = true;
+        }
+        
+        // Current marker
+        if (hasCurrent) {
+          traces.push({
+            type: 'scatter',
+            mode: 'markers',
+            x: [d.current],
+            y: [d.country],
+            marker: { size: getMarkerSize(d.current)*1.5, color: colors.current, symbol: 'circle', opacity: 0.8 },
+            name: selectedCurrent,
+            showlegend: !legendAdded.current,
+            legendgroup: selectedCurrent,
+            hovertemplate: '<b>%{y}</b><br>' + selectedCurrent + ': %{x:.2f}<extra></extra>'
+          });
+          legendAdded.current = true;
+        }
+      });
+
+      // Add arrow annotations (only where both values exist)
+      var annotations = subset.filter(function(d) {
+        return !isNaN(d.past) && !isNaN(d.current);
+      }).map(function(d) {
+        return {
+          x: d.current,
+          y: d.country,
+          ax: d.past,
+          ay: d.country,
+          xref: 'x',
+          yref: 'y',
+          axref: 'x',
+          ayref: 'y',
+          showarrow: true,
+          arrowhead: 2,
+          arrowsize: 1,
+          arrowwidth: 1.5,
+          arrowcolor: colors.current
+        };
+      });
+
+      // Determine x range dynamically (include all values, even if some are missing)
+      var maxVal = 1;
+      if (allValues.length > 0) {
+        maxVal = Math.max.apply(null, allValues);
+        if (!isFinite(maxVal) || isNaN(maxVal)) maxVal = 1;
+      }
+
+      var layout = {
+        margin: { l: 150, r: 30, t: 20, b: 50 },
+        xaxis: { 
+          title: 'HHI', 
+          zeroline: true, 
+          range: [0, Math.max(1, maxVal * 1.05)],
+          dtick: 0.1,
+          showgrid: true,
+          gridcolor: '#ccc',
+          showline: true,
+          linecolor: '#ccc',
+          ticks: 'outside',
+          tickcolor: '#ccc'
+        },
+        yaxis: { 
+          title: '', 
+          type: 'category', 
+          autorange: 'reversed',
+          showgrid: false,
+          showline: true,
+          linecolor: '#ccc',
+          ticks: 'outside',
+          tickcolor: '#ccc'
+        },
+        showlegend: true,
+        legend: {
+          orientation: 'h',
+          x: 0,
+          y: 1.02,
+          xanchor: 'left',
+          yanchor: 'bottom'
+        },
+        hovermode: 'closest',
+        annotations: annotations,
+        plot_bgcolor: 'white',
+        paper_bgcolor: 'white'
+      };
+
+      Plotly.newPlot('chart', traces, layout, { responsive: true });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Monthly CO2 Emissions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 2px;
+      padding: 2px;
+      font-family: 'Open Sans', sans-serif;
+      background-color: white;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 2px;
+    }
+    #chart {
+      width: 100%;
+      height: 400px;
+      margin: 0;
+      padding: 0;
+    }
+    label, select {
+      font-size: 14px;
+      margin-right: 10px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    select {
+      border: none;
+      border-bottom: 1px solid #888;
+      background-color: transparent;
+      font-size: 14px;
+      padding: 5px 0;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      cursor: pointer;
+    }
+    #titleRow {
+      margin-bottom: 10px;
+    }
+    #filterContainer {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .time-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .time-btn {
+      background-color: transparent;
+      border: 1px solid #888;
+      padding: 4px 12px;
+      font-size: 14px;
+      font-family: 'Open Sans', sans-serif;
+      cursor: pointer;
+      color: #333;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .time-btn:hover {
+      background-color: #f0f0f0;
+    }
+    .time-btn.active {
+      background-color: #0071bc;
+      color: white;
+      border-color: #0071bc;
+    }
+  </style>
+</head>
+<body>
+
+<div id="titleRow">
+  <h2 id="chartTitle" style="
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  ">
+    CO2 Emissions by Vessel Type
+  </h2>
+  <p id="chartSubtitle" style="
+    font-size: 16px;
+    color: #666;
+    margin: 4px 0 0;
+    font-family: 'Open Sans', sans-serif;
+  ">
+   CO2 Equivalent (in tons), Monthly
+   </p>
+</div>
+
+<div id="filterContainer">
+  <div class="filter-row">
+    <select id="countrySelect"></select>
+  </div>
+  <div class="filter-row">
+    <div class="time-buttons">
+      <button class="time-btn" data-years="1">1Y</button>
+      <button class="time-btn" data-years="3">3Y</button>
+      <button class="time-btn" data-years="5">5Y</button>
+      <button class="time-btn active" data-years="all">All</button>
+    </div>
+  </div>
+</div>
+
+  <div id="chart" style="width:100%;position:relative;"></div>
+  <div id="footer" style="
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+  ">
+    <div style="margin-bottom:10px;">
+      Source: <a href="https://www.worldbank.org" target="_blank" style="text-decoration: underline; color: #888;">World Bank Group</a>
+    </div>
+    <img src="https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png" style="height: 25px; object-fit: contain; margin-right: 5px; margin-bottom:10px;" alt="Logo">
+  </div>
+
+  <script>
+    let fullData = [];
+
+    Papa.parse("https://raw.githubusercontent.com/cherrylchico/pacific-observatory-ais-data/main/data/Monthly%20CO2%20by%20Country%20Vessel%20Type.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        console.log("Data loaded:", results.data.length, "rows");
+        fullData = results.data.filter(d =>
+          d["Vessel Type"] &&
+          d.Country &&
+          d.CO2eq &&
+          !isNaN(parseFloat(d.CO2eq))
+        );
+        console.log("Filtered data:", fullData.length, "rows");
+        populateCountryDropdown();
+      },
+      error: function(error) {
+        console.error("Error loading data:", error);
+      }
+    });
+
+    function populateCountryDropdown() {
+      const countries = [...new Set(fullData.map(d => d.Country))].sort();
+      const countrySelect = document.getElementById("countrySelect");
+      countrySelect.innerHTML = "";
+
+      const allOption = document.createElement("option");
+      allOption.value = "__ALL__";
+      allOption.textContent = "All Countries";
+      countrySelect.appendChild(allOption);
+
+      countries.forEach(c => {
+        const option = document.createElement("option");
+        option.value = c;
+        option.textContent = c;
+        countrySelect.appendChild(option);
+      });
+
+      countrySelect.addEventListener("change", updateChart);
+      countrySelect.value = "__ALL__";
+      
+      // Add event listeners for time buttons
+      const timeButtons = document.querySelectorAll(".time-btn");
+      timeButtons.forEach(btn => {
+        btn.addEventListener("click", function() {
+          timeButtons.forEach(b => b.classList.remove("active"));
+          this.classList.add("active");
+          updateChart();
+        });
+      });
+      
+      updateChart();
+    }
+
+    function updateChart() {
+      const selectedCountry = document.getElementById("countrySelect").value;
+      const activeTimeBtn = document.querySelector(".time-btn.active");
+      const selectedYears = activeTimeBtn ? activeTimeBtn.dataset.years : "all";
+
+      let filtered = fullData;
+
+      if (selectedCountry !== "__ALL__") {
+        filtered = filtered.filter(d => d.Country === selectedCountry);
+      }
+
+      // Apply time range filter
+      if (selectedYears !== "all" && filtered.length > 0) {
+        const allDates = filtered.map(d => {
+          const year = parseInt(d.year);
+          const month = parseInt(d.month);
+          return new Date(year, month - 1);
+        });
+        const maxDate = new Date(Math.max(...allDates));
+        const yearsNum = parseInt(selectedYears);
+        const minDate = new Date(maxDate.getFullYear() - yearsNum, maxDate.getMonth());
+        
+        filtered = filtered.filter(d => {
+          const year = parseInt(d.year);
+          const month = parseInt(d.month);
+          const rowDate = new Date(year, month - 1);
+          return rowDate >= minDate;
+        });
+      }
+
+      // Get all unique year-month combinations
+      const yearMonthSet = new Set();
+      filtered.forEach(d => {
+        if (d.year && d.month) {
+          yearMonthSet.add(`${d.year}-${String(d.month).padStart(2, '0')}`);
+        }
+      });
+      const yearMonths = Array.from(yearMonthSet).sort();
+
+      // Get all unique vessel types in the filtered data
+      const availableVesselTypes = [...new Set(filtered.map(d => d["Vessel Type"]))].sort();
+      
+      console.log("Available vessel types:", availableVesselTypes);
+      console.log("Year-months:", yearMonths.length);
+      
+      // Create a trace for each vessel type
+      const traces = availableVesselTypes.map(vesselType => {
+        const x = [];
+        const y = [];
+
+        yearMonths.forEach(yearMonth => {
+          const [year, month] = yearMonth.split('-');
+          const entries = filtered.filter(d =>
+            d.year == year &&
+            parseInt(d.month) == parseInt(month) &&
+            d["Vessel Type"] === vesselType
+          );
+          const total = entries.reduce((sum, d) => sum + parseFloat(d.CO2eq), 0);
+          
+          x.push(yearMonth);
+          y.push(total);
+        });
+
+        return {
+          x: x,
+          y: y,
+          name: vesselType,
+          type: 'bar',
+          marker: {
+            line: {
+              width: 0
+            }
+          }
+        };
+      });
+
+      // Add a line trace showing the total
+      const totalTrace = {
+        x: [],
+        y: [],
+        name: 'Total',
+        type: 'scatter',
+        mode: 'lines',
+        line: {
+          color: '#888',
+          width: 2
+        },
+        yaxis: 'y'
+      };
+
+      yearMonths.forEach(yearMonth => {
+        const [year, month] = yearMonth.split('-');
+        const entries = filtered.filter(d =>
+          d.year == year &&
+          parseInt(d.month) == parseInt(month)
+        );
+        const total = entries.reduce((sum, d) => sum + parseFloat(d.CO2eq), 0);
+        
+        totalTrace.x.push(yearMonth);
+        totalTrace.y.push(total);
+      });
+
+      traces.push(totalTrace);
+
+      const layout = {
+        autosize: true,
+        barmode: 'stack',
+        margin: {
+          l: 40,
+          r: 20,
+          t: 10,
+          b: 0
+        },
+        yaxis: {
+          title: '',
+          showline: true,
+          linecolor: '#ccc',
+          griddash: 'dot',
+          gridcolor: '#ccc',
+          ticks: 'outside',
+          tickcolor: '#ccc',
+          zeroline: false
+        },
+        xaxis: {
+          rangeslider: { visible: true },
+          title: '',
+          showgrid: false,
+          ticks: 'outside',
+          tickson: 'boundaries',
+          tickcolor: '#ccc',
+          showline: true,
+          linecolor: '#ccc'
+        },
+        legend: {
+          orientation: 'h',
+          x: 0,
+          y: 1,
+        },
+        hoverlabel: {
+          font: { family: 'Open Sans, sans-serif' }
+        },
+      };
+
+      Plotly.newPlot('chart', traces, layout, { responsive: true });
+    }
+  </script>
+</body>
+</html>

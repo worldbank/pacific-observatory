@@ -1,21 +1,28 @@
 # Market concentration of vessel operators
 Market concentration among vessel operators in Pacific Island countries can be analyzed using the Herfindahl-Hirschman Index (HHI):
-$$
-HHI =  \sum s_i^2 
-$$
+
+```{math}
+HHI = \sum s_i^2
+```
 
 Where $s_i$ is the  market share of operator $i$. HHI value close to 0 indicates near perfect competition, while HHI value close to 1 indicates monopoly. 
 
 Here, the market share is defined by the share of port calls from an operator. We use the [port calls data](ais_trade.md) derived from AIS, and the operator information from ship register data. Note that this excludes all vessels not registered with the IMO which is ~12% of port calls from cargo, tanker, and passenger vessels. 
 
-## HHI ranked by country/vessel category 2024
+The following interactive graph displays yearly HHI values for each country by vessel category. To use this graph:
 
-The following graph displays the latest HHI values for each country and vessel category in 2024. The countries are ranked from highest (most concentrated) to lowest (most competitive) HHI.
+1. **Compare two years**: Select different years in both fields to see how market concentration changed between them.
+2. **View a single year**: Select the same year in both fields to see a snapshot of that year's data.
+3. **Change vessel category**: Use the category selector to view HHI values for different vessel types.
 
-<div class="flourish-embed flourish-scatter" data-src="visualisation/22163650?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22163650/thumbnail" width="100%" alt="scatter visualization" /></noscript></div>
+Note: Countries are sorted according to the latest year selected.
 
-## Change in HHI by country/vessel category, 2009 to 2024
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/hhi-compare.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%; height: 660px;">
+  </iframe>
+</div>
 
-This second graph shows the changes in HHI values for each country and vessel category from 2009 to 2024.
 
-<div class="flourish-embed flourish-scatter" data-src="visualisation/22102411?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/22102411/thumbnail" width="100%" alt="scatter visualization" /></noscript></div>

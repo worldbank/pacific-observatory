@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CO2 Emissions Tree Map</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 2px;
+      padding: 2px;
+      font-family: 'Open Sans', sans-serif;
+      background-color: white;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 2px;
+    }
+    #chart {
+      width: 100%;
+      height: 500px;
+      margin: 0;
+      padding: 0;
+    }
+    label, select {
+      font-size: 14px;
+      margin-right: 10px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    select {
+      border: none;
+      border-bottom: 1px solid #888;
+      background-color: transparent;
+      font-size: 14px;
+      padding: 5px 0;
+      outline: none;
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="titleRow" style="
+  margin-bottom: 10px;
+">
+  <h2 id="chartTitle" style="
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  ">
+    CO2 Emissions by Country and Vessel Type
+  </h2>
+  <p id="chartSubtitle" style="
+    font-size: 16px;
+    color: #666;
+    margin: 4px 0 0;
+    font-family: 'Open Sans', sans-serif;
+  ">
+   CO2 Equivalent (in tons), Annual
+   </p>
+</div>
+
+  <select id="yearSelect"></select>
+
+  <div id="chart" style="width:100%;position:relative;"></div>
+  <div id="footer" style="
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+  ">
+    <div style="margin-bottom:10px;">
+      Source: <a href="https://www.worldbank.org" target="_blank" style="text-decoration: underline; color: #888;">World Bank Group</a>
+    </div>
+    <img src="https://public.flourish.studio/uploads/71a85b0c-7f8c-453b-bc80-22b945333d58.png" style="height: 25px; object-fit: contain; margin-right: 5px; margin-bottom:10px;" alt="Logo">
+  </div>
+
+  <script>
+    let fullData = [];
+
+    Papa.parse("https://raw.githubusercontent.com/cherrylchico/pacific-observatory-ais-data/main/data/Yearly%20CO2%20Country%20Vessel%20Type.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        fullData = results.data.filter(d =>
+          d.year &&
+          d.Country &&
+          d["Vessel Type"] &&
+          d["CO2eq"] &&
+          d["CO2eq"].trim() !== "" &&
+          !isNaN(parseFloat(d["CO2eq"]))
+        );
+        console.log("Loaded data:", fullData.length, "records");
+        populateYearDropdown();
+      }
+    });
+
+    function populateYearDropdown() {
+      const years = [...new Set(fullData.map(d => d.year))].sort();
+      const yearSelect = document.getElementById("yearSelect");
+      yearSelect.innerHTML = "";
+
+      years.forEach(y => {
+        const option = document.createElement("option");
+        option.value = y;
+        option.textContent = y;
+        yearSelect.appendChild(option);
+      });
+
+      yearSelect.addEventListener("change", updateChart);
+      yearSelect.value = years[years.length - 1];
+      updateChart();
+    }
+
+    function updateChart() {
+      const selectedYear = document.getElementById("yearSelect").value;
+
+      const filtered = fullData.filter(d => d.year === selectedYear);
+
+      // Get unique countries and create a color mapping
+      const countries = [...new Set(filtered.map(d => d.Country))].sort();
+      const colorPalette = [
+        '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
+        '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
+        '#aec7e8', '#ffbb78', '#98df8a', '#ff9896', '#c5b0d5'
+      ];
+      
+      const countryColorMap = {};
+      countries.forEach((country, idx) => {
+        countryColorMap[country] = colorPalette[idx % colorPalette.length];
+      });
+
+      // Prepare data for treemap
+      const labels = [];
+      const parents = [];
+      const values = [];
+      const colors = [];
+      const customdata = [];
+
+      // Add root
+      labels.push("Total");
+      parents.push("");
+      values.push(0);
+      colors.push("#fff");
+      customdata.push({ country: "", vesselType: "", value: 0 });
+
+      // Group by country
+      const countryData = {};
+      filtered.forEach(d => {
+        if (!countryData[d.Country]) {
+          countryData[d.Country] = 0;
+        }
+        countryData[d.Country] += parseFloat(d["CO2eq"]);
+      });
+
+      // Calculate total for percentage
+      const totalCO2 = Object.values(countryData).reduce((sum, val) => sum + val, 0);
+
+      // Add country level
+      Object.keys(countryData).forEach(country => {
+        const percentage = (countryData[country] / totalCO2 * 100).toFixed(1);
+        labels.push(country);
+        parents.push("Total");
+        values.push(0);
+        colors.push(countryColorMap[country]);
+        customdata.push({ country: country, vesselType: "", value: countryData[country], percentage: null });
+      });
+
+      // Add vessel type level
+      filtered.forEach(d => {
+        const co2Value = parseFloat(d["CO2eq"]);
+        const countryTotal = countryData[d.Country];
+        const percentage = (co2Value / countryTotal * 100).toFixed(1);
+        const label = d["Vessel Type"];
+        labels.push(label);
+        parents.push(d.Country);
+        values.push(co2Value);
+        colors.push(countryColorMap[d.Country]);
+        customdata.push({ 
+          country: d.Country, 
+          vesselType: d["Vessel Type"], 
+          value: co2Value,
+          percentage: percentage
+        });
+      });
+
+      // Create hover text for each node
+      const hovertext = customdata.map(d => {
+        if (d.percentage === null) {
+          return `<b>${d.country}</b><br>CO2eq: ${d.value.toLocaleString()}`;
+        } else {
+          return `<b>${d.vesselType}</b><br>CO2eq: ${d.value.toLocaleString()}<br>Share: ${d.percentage}%`;
+        }
+      });
+
+      const data = [{
+        type: "treemap",
+        labels: labels,
+        parents: parents,
+        values: values,
+        customdata: customdata,
+        hovertext: hovertext,
+        hoverinfo: 'text',
+        textposition: "middle center",
+        marker: {
+          colors: colors,
+          line: { width: 2, color: '#fff' }
+        },
+        textfont: {
+          family: 'Open Sans, sans-serif',
+          size: 12,
+          color: '#fff'
+        },
+        pathbar: {
+          visible: true,
+          thickness: 20,
+          textfont: {
+            family: 'Open Sans, sans-serif',
+            size: 12
+          }
+        }
+      }];
+
+      const layout = {
+        autosize: true,
+        margin: {
+          l: 0,
+          r: 0,
+          t: 0,
+          b: 0
+        },
+        hoverlabel: {
+          font: { family: 'Open Sans, sans-serif' }
+        }
+      };
+
+      const config = {
+        responsive: true,
+        displayModeBar: true,
+        displaylogo: false
+      };
+
+      Plotly.newPlot('chart', data, layout, config);
+    }
+  </script>
+</body>
+</html>

@@ -71,25 +71,57 @@ Where
 
 ## Data Exploration
 
-AIS data is extracted by Exclusive Economic Zones (EEZ) from 2019 to May 2024. The charts below show the number of unique vessels per month for each economic zone.
+AIS data is extracted by Exclusive Economic Zones (EEZ) from 2009 to latest available data. The charts below show the number of unique vessels per month for each economic zone.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/19738193?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19738193/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/co2 stacked bars unique vessels.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%; height: 910px;">
+  </iframe>
+</div>
+
 
 For each vessel journey, we calculate the total emissions of various GHG components. The below summarizes monthly CO2 emissions by type of vessel (Cargo, Tanker, Fishing, Passenger, or Other). Toggle the area of interest to explore emissions by country.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/19744172?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19744172/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/co2 country vessel type.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%; height: 550px;">
+  </iframe>
+</div>
 
 The following grid expresses the same data as a stacked bar chart to explore the share of emissions produced by each vessel type.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/19757891?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19757891/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/co2 stacked bars.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%;height: 910px">
+  </iframe>
+</div>
 
 Similarly, the tree map below shows the annual composition of CO2 emissions across areas and vessel types.
 
-<div class="flourish-embed flourish-hierarchy" data-src="visualisation/19770754?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19770754/thumbnail" width="100%" alt="hierarchy visualization" /></noscript></div>
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/co2 treemap.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%; height: 640px;">
+  </iframe>
+</div>
 
 We also calculate emissions for other GHG and pollutants, including Particulate Matter and Methane. Each line in this chart represents total monthly emissions for a specific pollutant.
 
-<div class="flourish-embed flourish-chart" data-src="visualisation/19771256?2274258"><script src="https://public.flourish.studio/resources/embed.js"></script><noscript><img src="https://public.flourish.studio/visualisation/19771256/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<div style="width: 100%; max-width: 800px; margin: 0 auto;">
+  <iframe src="../interactive/ais/ghg by country.html"
+          frameborder="0"
+          scrolling="no"
+          style="width: 100%; height: 650px;">
+  </iframe>
+</div>
+
 
 ## Data Availability
 
@@ -101,7 +133,7 @@ The dataset contains the following fields.
 
 | Field                   | Definition                                                                                              |
 |-------------------------|---------------------------------------------------------------------------------------------------------|
-| Country                 | Indonesia                                                                                               |
+| Country                 | Exclusive Economic Zone                                                                                              |
 | year                    | year                                                                                                    |
 | month                   | month                                                                                                   |
 | type                    | Type 1&2 - with Ship Register data, Type 3 - without Ship Register data                                 |
